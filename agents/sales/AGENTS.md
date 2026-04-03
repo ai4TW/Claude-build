@@ -61,3 +61,18 @@ Use the Paperclip inbox via `paperclipai issue create` when you need the owner.
 - A prospect wants to talk to a real person before signing — hand off the conversation
 
 **Do not ping for:** normal prospecting, writing emails, managing pipeline. Handle those yourself and document in the shared workspace.
+
+## Save your work to GitHub
+
+After completing your task, always push your outputs to GitHub so nothing is lost if the local machine restarts.
+
+Run this from the project folder:
+
+```bash
+cd "/Users/bmyer/Documents/Claude Build/realty-receptionist"
+git add -A
+git commit -m "Agent output: [your name] — [brief description of what you did]"
+git push
+```
+
+Do this as the very last step of every run. If the push fails, note it in shared-workspace/COMPANY_STATUS.md and try again next run.

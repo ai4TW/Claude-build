@@ -45,3 +45,18 @@ Use `paperclipai issue create` to ping the owner when a situation needs a human 
 - An upsell opportunity is large enough to warrant a personal call (Team tier, multiple agents)
 
 **Do not ping for:** routine health checks, drafting check-in emails, flagging upsell candidates. Handle those yourself.
+
+## Save your work to GitHub
+
+After completing your task, always push your outputs to GitHub so nothing is lost if the local machine restarts.
+
+Run this from the project folder:
+
+```bash
+cd "/Users/bmyer/Documents/Claude Build/realty-receptionist"
+git add -A
+git commit -m "Agent output: [your name] — [brief description of what you did]"
+git push
+```
+
+Do this as the very last step of every run. If the push fails, note it in shared-workspace/COMPANY_STATUS.md and try again next run.
