@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const plans = [
   { id: "starter", name: "Starter", price: "$149", period: "/mo", desc: "Solo agents getting started", popular: false },
-  { id: "pro", name: "Pro", price: "$249", period: "/mo", desc: "Active agents with high call volume", popular: true },
-  { id: "team", name: "Team", price: "$399", period: "/mo", desc: "Small teams of 2–5 agents", popular: false },
+  { id: "pro",     name: "Pro",     price: "$249", period: "/mo", desc: "Active agents with high call volume", popular: true },
+  { id: "team",    name: "Team",    price: "$399", period: "/mo", desc: "Small teams of 2–5 agents", popular: false },
 ];
 
 const planFeatures = [
@@ -19,35 +19,14 @@ const planFeatures = [
 ];
 
 export default function PricingSection() {
-  const [loading, setLoading] = useState<string | null>(null);
-
-  async function handleCheckout(planId: string) {
-    setLoading(planId);
-    try {
-      const res = await fetch("/api/checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ plan: planId }),
-      });
-      const data = await res.json();
-      if (data.url) {
-        window.location.href = data.url;
-      } else {
-        alert(data.error || "Something went wrong. Please try again.");
-      }
-    } catch {
-      alert("Something went wrong. Please try again.");
-    } finally {
-      setLoading(null);
-    }
-  }
+  const router = useRouter();
 
   return (
     <section id="pricing" className="bg-white py-24 px-4">
       <div className="max-w-5xl mx-auto text-center">
         <h2 className="text-3xl sm:text-4xl font-bold mb-3">Simple Pricing. Serious ROI.</h2>
         <p className="text-gray-500 text-lg mb-2">One commission pays for years of All The Calls.</p>
-        <p className="text-brand-600 font-semibold mb-12">14-day free trial. No credit card required.</p>
+        <p className="text-brand-600 font-semibold mb-12">14-day free trial. No credit card required upfront.</p>
         <div className="grid md:grid-cols-3 gap-6 mb-14">
           {plans.map((plan) => (
             <div
@@ -76,15 +55,14 @@ export default function PricingSection() {
                 ))}
               </ul>
               <button
-                onClick={() => handleCheckout(plan.id)}
-                disabled={loading !== null}
-                className={`block w-full text-center py-3 rounded-xl font-bold transition-colors cursor-pointer disabled:opacity-50 ${
+                onClick={() => router.push(`/checkout?plan=${plan.id}`)}
+                className={`block w-full text-center py-3 rounded-xl font-bold transition-colors cursor-pointer ${
                   plan.popular
                     ? "bg-brand-600 hover:bg-brand-700 text-white"
                     : "bg-gray-100 hover:bg-gray-200 text-gray-900"
                 }`}
               >
-                {loading === plan.id ? "Loading..." : "Start Free Trial"}
+                Start Free Trial
               </button>
             </div>
           ))}
