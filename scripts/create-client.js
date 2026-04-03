@@ -6,7 +6,7 @@
  * Add --dry-run to preview without making API calls.
  */
 
-require("dotenv").config({ path: "../.env" });
+require("dotenv").config({ path: require("path").resolve(__dirname, "../.env") });
 const { onboardClient } = require("../integrations/trillet");
 const { generatePersona } = require("../integrations/claude-personas");
 
@@ -20,7 +20,7 @@ const args = Object.fromEntries(
 const DRY_RUN = process.argv.includes("--dry-run");
 
 async function main() {
-  const required = ["name", "brokerage", "email"];
+  const required = ["name", "phone"];
   const missing = required.filter((k) => !args[k]);
   if (missing.length) {
     console.error(`Missing required args: ${missing.map((k) => `--${k}`).join(", ")}`);
@@ -29,9 +29,9 @@ async function main() {
 
   const client = {
     name: args.name,
-    brokerage: args.brokerage,
-    email: args.email,
-    phone: args.phone || null,
+    brokerage: args.brokerage || null,
+    email: args.email || null,
+    phone: args.phone,
     websiteUrl: args.website || null,
     specialty: args.specialty || "residential real estate",
     markets: args.markets || null,
@@ -66,12 +66,12 @@ async function main() {
     persona,
     trillet: result,
   };
-  const logPath = `../shared-workspace/logs/client-${Date.now()}.json`;
-  fs.mkdirSync("../shared-workspace/logs", { recursive: true });
+  const logsDir = require("path").resolve(__dirname, "../shared-workspace/logs");
+  const logPath = require("path").join(logsDir, `client-${Date.now()}.json`);
+  fs.mkdirSync(logsDir, { recursive: true });
   fs.writeFileSync(logPath, JSON.stringify(log, null, 2));
 
   console.log("\n=== ONBOARDING COMPLETE ===");
-  console.log(`Sub-account ID: ${result.subAccountId}`);
   console.log(`Agent ID:       ${result.agentId}`);
   console.log(`Phone Number:   ${result.phoneNumber}`);
   console.log(`\nGive client this number to forward their calls to: ${result.phoneNumber}`);

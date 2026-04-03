@@ -1,7 +1,7 @@
 # RealtyVoice AI — Client Onboarding Email Sequence
 
-> **Goal:** Get new clients activated, confident, and seeing value within their first 14 days.
-> Each email is under 200 words with one clear action step.
+> **Goal:** Get new clients activated, confident, and seeing real value within their first 14 days.
+> Four emails, one clear action each. Warm, human tone throughout.
 
 ---
 
@@ -21,9 +21,9 @@ Here's how to get fully set up in the next 10 minutes:
 2. **Add your business details** — your name, brokerage, and the neighborhoods you serve
 3. **Forward your calls** to your RealtyVoice number (instructions inside the app)
 
-Once those three steps are done, your AI receptionist will start answering calls, qualifying leads, and logging everything automatically.
+Once those three steps are done, your AI receptionist starts answering calls, qualifying leads, and logging everything automatically — even when you're showing homes.
 
-Questions? Reply to this email — a real person reads every message.
+Questions? Reply to this email. A real person reads every message.
 
 **Your action today:** Complete your profile setup → [Get Started]
 
@@ -33,27 +33,28 @@ Client Success, RealtyVoice AI
 
 ---
 
-## Email 2 — Customize Your AI Receptionist Persona
-**Send:** Day 1
-**Subject:** Make your AI sound like *you*
+## Email 2 — Customize Your AI Script
+**Send:** Day 2
+**Subject:** One quick tip to get better leads from every call
 
 ---
 
 Hi [First Name],
 
-Your AI receptionist is live — now let's make it feel like a natural extension of your brand.
+Two days in — great start. Here's the single biggest thing you can do to improve your results right now: **customize your AI's script.**
 
-In your dashboard, you can customize:
+In your Script Settings, add the qualification questions you'd ask a lead yourself:
 
-- **Name** — Give your receptionist a name ("This is Jordan with [Your Brokerage]")
-- **Tone** — Warm and friendly, professional and direct, or somewhere in between
-- **Key talking points** — What makes your services unique? Your AI will weave these in naturally
+- Are they buying, selling, or both?
+- What's their timeline?
+- Are they working with another agent?
+- What's their price range?
 
-Agents who personalize their persona see 2x higher caller engagement in the first week.
+When your AI captures this upfront, you walk into every callback already knowing whether it's a hot lead — no more wasted 20-minute calls to discover they're 18 months out.
 
-It takes about 5 minutes, and you only have to do it once.
+Takes about 5 minutes. Worth way more.
 
-**Your action today:** Customize your AI persona → [Open Persona Settings]
+**Your action today:** Update your lead script → [Open Script Settings]
 
 Talk soon,
 [Your Name]
@@ -61,28 +62,31 @@ Client Success, RealtyVoice AI
 
 ---
 
-## Email 3 — Maximize Your Lead Capture
-**Send:** Day 3
-**Subject:** The #1 thing top agents tell their AI
+## Email 3 — How to Read Your Call Data
+**Send:** Day 5
+**Subject:** Your call data is in — here's how to read it
 
 ---
 
 Hi [First Name],
 
-Here's a tip that separates agents who get great results from those who don't: **tell your AI what to ask for.**
+By now your dashboard has real data in it. Here's how to get the most out of what you're seeing.
 
-In your script settings, add these qualification questions:
+**Three numbers to check every morning:**
 
-- Are they buying, selling, or both?
-- What's their timeline?
-- Are they working with another agent?
-- What's their price range?
+1. **Calls Handled** — Total calls your AI answered while you were busy
+2. **Leads Captured** — Callers who provided contact info and answered qualification questions
+3. **Lead Score** — Hot, warm, or cold based on timeline, intent, and motivation
 
-When your AI captures this upfront, you walk into every callback already knowing whether it's a hot lead — no more wasted calls.
+**What to do with that info:**
 
-You can also add a custom CTA: "I'll have [Your Name] call you back within the hour" builds massive trust.
+- Hot leads: call back within the hour
+- Warm leads: add to your drip sequence
+- Cold leads: let the AI handle follow-up automatically
 
-**Your action today:** Update your lead capture questions → [Open Script Settings]
+Most agents are surprised to see 3–5 calls they would have missed. Those used to go to voicemail. Now they're in your pipeline.
+
+**Your action today:** Review your call data → [Open Dashboard]
 
 Making you money,
 [Your Name]
@@ -90,59 +94,29 @@ Client Success, RealtyVoice AI
 
 ---
 
-## Email 4 — Week 1 Check-In + Results
-**Send:** Day 7
-**Subject:** How's your first week going?
-
----
-
-Hi [First Name],
-
-You've been live for a week — let's look at your numbers.
-
-Log into your dashboard to see:
-
-- **Total calls handled** by your AI
-- **Leads captured** and qualified
-- **Response rate** vs. your previous missed-call baseline
-
-Most agents are surprised by how many calls came in while they were showing homes or in meetings. Those calls used to go to voicemail. Now they're leads.
-
-**Ready to do more?** Upgrade to Pro to unlock unlimited call minutes, multi-line support, and automated follow-up texts. Most agents recoup the upgrade cost from a single additional closing.
-
-**Your action today:** Review your Week 1 report → [View Dashboard]
-
-And if you want to talk through your results, book a 15-minute call with me here: [Calendly link]
-
-Here for you,
-[Your Name]
-Client Success, RealtyVoice AI
-
----
-
-## Email 5 — Day 14 Success Milestone + Upsell
+## Email 4 — Trial Ending + Upgrade to Team Plan
 **Send:** Day 14
-**Subject:** You've handled [X] calls — here's what's next
+**Subject:** Your trial ends soon — here's what agents do next
 
 ---
 
 Hi [First Name],
 
-Two weeks in and your AI receptionist has already handled [X] calls and captured [Y] qualified leads.
+Two weeks in, and your AI receptionist has handled [X] calls and captured [Y] qualified leads.
 
-Here's what that means in real dollars: if even one of those leads converts, you're looking at a $10,000–$30,000 commission from a $149/month tool. That's an ROI most agents dream about.
+Quick math: if even one of those leads converts, you're looking at a $10,000–$30,000 commission from a tool that costs $149/month. Most agents make that back before the trial ends.
 
-A few things you can do right now to squeeze even more value out of RealtyVoice AI:
+**Your trial ends on [date].** Here's what happens next:
 
-- **Connect your CRM** — sync leads directly to Follow Up Boss, KvCORE, or HubSpot
-- **Enable SMS follow-up** — auto-text every caller within 2 minutes
-- **Set up after-hours routing** — send urgent calls to your cell, everything else to AI
+- **Stay on Starter ($149/mo)** — unlimited calls, lead capture, call summaries
+- **Upgrade to Pro ($249/mo)** — adds CRM sync, automated SMS follow-up, and multi-line support
+- **Go Team ($499/mo)** — everything in Pro, plus up to 5 agent lines, team dashboard, and white-label branding
 
-Want all of this plus unlimited minutes and multi-line support? **Pro plan** covers it for $249/month — and most agents make that back from one lead.
+Most solo agents who are handling more than 30 calls/month find Pro pays for itself within the first closing. Teams with 2+ agents almost always need Team to avoid dropped calls.
 
-**Your action today:** Explore Pro features → [Upgrade to Pro]
+**Your action today:** Choose your plan → [Select a Plan]
 
-Or reply and I'll personally walk you through which upgrades make sense for your volume.
+Or reply here and I'll personally recommend the right tier for your volume.
 
 Rooting for you,
 [Your Name]
