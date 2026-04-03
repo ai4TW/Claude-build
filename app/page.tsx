@@ -1,7 +1,7 @@
 import Link from "next/link";
 import PricingSection from "@/components/PricingSection";
 
-const NAV_CTA = "#pricing";
+const NAV_CTA = "/demo";
 
 const testimonials = [
   {
@@ -103,11 +103,11 @@ export default function LandingPage() {
             <a href="#faq" className="hover:text-brand-600 transition-colors">FAQ</a>
           </div>
           <div className="flex items-center gap-3">
-            <Link href={NAV_CTA} className="hidden sm:block text-sm text-gray-600 hover:text-brand-600 transition-colors">
+            <Link href="/login" className="hidden sm:block text-sm text-gray-600 hover:text-brand-600 transition-colors">
               Log in
             </Link>
             <Link
-              href={NAV_CTA}
+              href="#pricing"
               className="bg-brand-600 text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-brand-700 transition-colors"
             >
               Start Free Trial
@@ -130,17 +130,17 @@ export default function LandingPage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
             <Link
-              href={NAV_CTA}
+              href="#pricing"
               className="bg-brand-500 hover:bg-brand-400 text-white text-lg font-bold px-8 py-4 rounded-xl transition-colors shadow-lg shadow-brand-900/30"
             >
               Start Free Trial →
             </Link>
-            <a
-              href="#demo"
+            <Link
+              href="/demo"
               className="border border-white/30 hover:border-white/60 text-white text-lg font-semibold px-8 py-4 rounded-xl transition-colors"
             >
               Book a 15-Min Demo
-            </a>
+            </Link>
           </div>
           <p className="text-brand-300 text-sm">
             No contracts. Set up in 5 minutes. Cancel anytime.
@@ -307,17 +307,17 @@ export default function LandingPage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
             <Link
-              href={NAV_CTA}
+              href="#pricing"
               className="bg-white text-brand-700 text-lg font-bold px-8 py-4 rounded-xl hover:bg-brand-50 transition-colors shadow-lg"
             >
               Start Free Trial — It&apos;s Free for 14 Days →
             </Link>
-            <a
-              href="#"
+            <Link
+              href="/demo"
               className="border-2 border-white/50 hover:border-white text-white text-lg font-semibold px-8 py-4 rounded-xl transition-colors"
             >
               Book a Demo
-            </a>
+            </Link>
           </div>
           <p className="text-brand-200 text-sm">
             No contracts. No tech skills needed. Cancel anytime.<br />
@@ -337,9 +337,9 @@ export default function LandingPage() {
               <p className="text-sm">AI Receptionist for Real Estate Agents</p>
             </div>
             <div className="flex gap-6 text-sm">
-              <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
-              <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
-              <a href="#" className="hover:text-white transition-colors">Contact Us</a>
+              <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
+              <Link href="/terms" className="hover:text-white transition-colors">Terms of Service</Link>
+              <Link href="/contact" className="hover:text-white transition-colors">Contact Us</Link>
             </div>
           </div>
           <div className="border-t border-gray-800 mt-8 pt-8 text-center text-sm">
