@@ -1,5 +1,33 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getStripe, PLANS, PlanId } from "@/lib/stripe";
+import { PLANS, PlanId } from "@/lib/stripe";
+
+async function createCheckoutSession(priceId: string, trialDays: number, returnUrl: string, email?: string) {
+  const key = process.env.STRIPE_SECRET_KEY;
+  if (!key) throw new Error("STRIPE_SECRET_KEY is not set");
+
+  const params = new URLSearchParams({
+    mode: "subscription",
+    ui_mode: "embedded",
+    "line_items[0][price]": priceId,
+    "line_items[0][quantity]": "1",
+    "subscription_data[trial_period_days]": String(trialDays),
+    return_url: returnUrl,
+  });
+  if (email) params.set("customer_email", email);
+
+  const res = await fetch("https://api.stripe.com/v1/checkout/sessions", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${key}`,
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: params.toString(),
+  });
+
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error?.message || "Stripe error");
+  return data;
+}
 
 export async function POST(request: NextRequest) {
   const body = await request.json().catch(() => ({}));
@@ -16,20 +44,12 @@ export async function POST(request: NextRequest) {
   const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://realty-receptionist.vercel.app";
 
   try {
-    const stripe = getStripe();
-    const session = await stripe.checkout.sessions.create({
-      mode: "subscription",
-      ui_mode: "embedded",
-      customer_email: email || undefined,
-      line_items: [{ price: selectedPlan.priceId, quantity: 1 }],
-      subscription_data: {
-        trial_period_days: 14,
-        metadata: { plan },
-      },
-      return_url: `${appUrl}/welcome?session_id={CHECKOUT_SESSION_ID}`,
-      metadata: { plan },
-    });
-
+    const session = await createCheckoutSession(
+      selectedPlan.priceId,
+      14,
+      `${appUrl}/welcome?session_id={CHECKOUT_SESSION_ID}`,
+      email
+    );
     return NextResponse.json({ clientSecret: session.client_secret });
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err);
