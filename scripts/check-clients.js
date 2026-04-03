@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * RealtyVoice AI — Churn Monitoring Script
+ * All The Calls — Churn Monitoring Script
  * Flags active clients with 0 calls in the last 7 days.
  *
  * Usage: node scripts/check-clients.js
@@ -146,7 +146,7 @@ async function main() {
   const startDateStr = formatDate(startDate);
   const endDateStr = formatDate(now);
 
-  console.log(`\n=== RealtyVoice AI — Churn Monitor ===`);
+  console.log(`\n=== All The Calls — Churn Monitor ===`);
   console.log(`Lookback: ${LOOKBACK_DAYS} days (${startDateStr} → ${endDateStr})`);
 
   const allClients = parseClientsFile(CLIENTS_FILE);

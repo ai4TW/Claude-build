@@ -14,7 +14,7 @@ After your last showing ended, how many leads tried calling?
 
 Most agents miss 300+ calls a year — the majority after hours. Buyers browse Zillow at 9pm. They call when the mood strikes. When you're not there, they move to the next agent on the list.
 
-RealtyVoice AI answers every call in your name, 24/7. It qualifies the lead, answers their questions, and books the showing — while you sleep.
+All The Calls answers every call in your name, 24/7. It qualifies the lead, answers their questions, and books the showing — while you sleep.
 
 No staff. No setup headache. Live in 10 minutes.
 
@@ -35,7 +35,7 @@ Your competition just started using an AI receptionist that answers every call, 
 
 You're still sending callers to voicemail.
 
-RealtyVoice AI answers every incoming call in your name, around the clock. It's trained on your listings and handles the questions buyers and sellers ask every day.
+All The Calls answers every incoming call in your name, around the clock. It's trained on your listings and handles the questions buyers and sellers ask every day.
 
 First agent in a market to solve this gets a compounding advantage. The ones who wait wonder where their leads went.
 
@@ -56,7 +56,7 @@ They call. You're in a showing. It goes to voicemail. 80% of callers hang up wit
 
 What if that call got answered, the lead got qualified, and a showing got booked — without you picking up?
 
-That's what RealtyVoice AI does. It answers in your name, handles the conversation, and puts the booking on your calendar.
+That's what All The Calls does. It answers in your name, handles the conversation, and puts the booking on your calendar.
 
 10 minutes to set up. No contracts.
 

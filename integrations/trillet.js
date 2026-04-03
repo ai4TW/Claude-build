@@ -1,22 +1,24 @@
 /**
  * Trillet AI API Integration
- * RealtyVoice AI — White-label reseller layer
+ * All The Calls — White-label reseller layer
  *
- * Docs: https://docs.trillet.ai/documentation/introduction
+ * Docs: https://docs.trillet.ai/v1/api-reference/introduction
  *
- * NOTE: Endpoint paths below are based on available documentation.
- * Verify against your Trillet dashboard before running in production.
- * Auth uses x-api-key header (not Authorization: Bearer).
+ * Base URL: https://api.trillet.ai
+ * Auth: x-api-key + x-workspace-id headers on every request.
  */
 
 const BASE_URL = "https://api.trillet.ai";
 
 function getHeaders() {
   const key = process.env.TRILLET_API_KEY;
+  const workspaceId = process.env.TRILLET_WORKSPACE_ID;
   if (!key) throw new Error("TRILLET_API_KEY environment variable not set");
+  if (!workspaceId) throw new Error("TRILLET_WORKSPACE_ID environment variable not set");
   return {
     "Content-Type": "application/json",
     "x-api-key": key,
+    "x-workspace-id": workspaceId,
   };
 }
 
@@ -35,65 +37,56 @@ async function apiRequest(method, path, body = null) {
 
 /**
  * Create an AI receptionist (call agent) for a client.
- * @param {object} agentConfig - { name, greeting, specialty }
+ * POST /v1/api/agents
  */
 async function createAgent(agentConfig) {
-  return apiRequest("POST", "/agents/call", {
+  return apiRequest("POST", "/v1/api/agents", {
     name: agentConfig.name,
-    greeting: agentConfig.greeting,
-    language: "en-US",
-    voice: "professional-female",
-    metadata: {
-      specialty: agentConfig.specialty,
-      reseller: "realtyvoice-ai",
+    llmModel: agentConfig.llmModel || "gpt-4o-mini",
+    ttsModel: agentConfig.ttsModel || {
+      provider: "elevenlabs",
+      voiceId: "default",
+      language: "en-US",
+    },
+    settings: {
+      speed: 1.0,
+      volume: 1.0,
+      temperature: 0.7,
+    },
+    variables: {
+      greeting: agentConfig.greeting,
+      specialty: agentConfig.specialty || "real estate",
+      reseller: "allthecalls",
     },
   });
 }
 
 /**
  * List all call agents in this workspace.
+ * GET /v1/api/agents
  */
 async function listAgents() {
-  return apiRequest("GET", "/agents/call");
+  return apiRequest("GET", "/v1/api/agents");
 }
 
 /**
- * Add a URL knowledge source to an agent.
- * @param {string} knowledgeBaseId
- * @param {string} websiteUrl
+ * Get call history.
+ * GET /v2/api/call-history
  */
-async function trainFromWebsite(knowledgeBaseId, websiteUrl) {
-  return apiRequest("POST", "/knowledge-base", {
-    knowledge_base_id: knowledgeBaseId,
-    source_type: "url",
-    url: websiteUrl,
-  });
-}
-
-/**
- * Get call history/logs.
- * @param {object} options - { limit, startDate, endDate }
- */
-async function getCallLogs(options = {}) {
-  const params = new URLSearchParams({
-    limit: options.limit || 50,
-    ...(options.startDate && { start_date: options.startDate }),
-    ...(options.endDate && { end_date: options.endDate }),
-  });
-  return apiRequest("GET", `/calls/history?${params}`);
+async function getCallHistory() {
+  return apiRequest("GET", "/v2/api/call-history");
 }
 
 /**
  * Get workspace info (useful for verifying API key works).
  */
 async function getWorkspace() {
-  return apiRequest("GET", "/workspace");
+  return apiRequest("GET", "/v1/api/workspace");
 }
 
 /**
- * Full onboarding flow: create agent + train from website.
- * NOTE: Trillet uses a single workspace model (no sub-accounts).
- * Each client gets their own agent within this workspace.
+ * Full onboarding flow: create agent for a new client.
+ * Trillet uses a single workspace model — each client gets their own agent.
  * @param {object} client - { name, brokerage, websiteUrl, specialty }
  * @returns {object} { agentId }
  */
@@ -110,23 +103,16 @@ async function onboardClient(client) {
     specialty: client.specialty || "real estate",
   });
 
-  if (client.websiteUrl && agent.knowledge_base_id) {
-    console.log(`[Trillet] Training AI from ${client.websiteUrl}...`);
-    await trainFromWebsite(agent.knowledge_base_id, client.websiteUrl);
-  }
-
   console.log(`[Trillet] Onboarding complete for ${client.name}`);
   return {
-    agentId: agent.id,
-    phoneNumber: agent.phone_number,
+    agentId: agent._id || agent.id,
   };
 }
 
 module.exports = {
   createAgent,
   listAgents,
-  trainFromWebsite,
-  getCallLogs,
+  getCallHistory,
   getWorkspace,
   onboardClient,
 };

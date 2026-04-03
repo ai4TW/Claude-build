@@ -1,7 +1,7 @@
 # Buffer Scheduling Plan — Founder LinkedIn (10 Posts)
 
 **Cadence:** 2 posts/day, Mon–Fri, starting week of April 6, 2026  
-**Account:** Founder personal brand (not RealtyVoice company page)  
+**Account:** Founder personal brand (not All The Calls company page)  
 **Platform:** Buffer free tier → LinkedIn personal profile  
 **Suggested posting times:** 8:00 AM and 12:00 PM local time
 
@@ -30,7 +30,7 @@
 >
 > The worst part? She knew it was happening. She just didn't know how to fix it without hiring someone full-time.
 >
-> That's why we built RealtyVoice AI.
+> That's why we built All The Calls.
 >
 > Every call answered. Every lead qualified. Every appointment booked — even while you're standing in someone's kitchen talking about crown molding.
 >
@@ -56,7 +56,7 @@
 >
 > An AI that picks up in 1 second — every time, 24/7 — solves the response time problem permanently. Not "better." Solved.
 >
-> That's what RealtyVoice does.
+> That's what All The Calls does.
 >
 > #RealEstate #LeadResponse
 
@@ -80,7 +80,7 @@
 >
 > What if a call was never "missed" — just instantly answered, qualified, and handed back to you when you were ready?
 >
-> That question became RealtyVoice AI.
+> That question became All The Calls.
 >
 > #Founder #RealEstateTech
 
@@ -112,7 +112,7 @@
 >
 > Heard this from an agent last week. She was right — generic call centers don't work for real estate.
 >
-> The difference with RealtyVoice AI:
+> The difference with All The Calls:
 >
 > — Trained specifically on real estate conversations
 > — Knows what pre-approval means and why it matters
@@ -139,7 +139,7 @@
 >
 > This happens every single weekend to agents across the country. It's not laziness. It's the impossible trade-off between having a life and having a business.
 >
-> RealtyVoice AI doesn't take weekends off.
+> All The Calls doesn't take weekends off.
 >
 > Neither do your leads.
 >
@@ -151,9 +151,9 @@
 
 **8:00 AM — Post 7: Social Proof — 30 Days Results**
 
-> An agent told me what happened in her first 30 days with RealtyVoice:
+> An agent told me what happened in her first 30 days with All The Calls:
 >
-> "I was in a listing presentation. My phone rang 3 times. RealtyVoice handled all of it. By the time I got back to my car, I had a summary of each call — two qualified buyers and one seller who wanted a CMA.
+> "I was in a listing presentation. My phone rang 3 times. All The Calls handled all of it. By the time I got back to my car, I had a summary of each call — two qualified buyers and one seller who wanted a CMA.
 >
 > I called them back in 10 minutes with full context. Booked two showings and one listing appointment. None of that would have happened before."
 >
@@ -189,7 +189,7 @@
 
 > The math on AI call answering for real estate:
 >
-> Cost of RealtyVoice AI: ~$200–300/month
+> Cost of All The Calls: ~$200–300/month
 > Average commission: $12,000
 > Deals needed to recover annual cost: 0.25
 > Deals most agents recover in month one: 1–3
@@ -210,7 +210,7 @@
 >
 > Either way, the fix takes about 15 minutes to set up.
 >
-> RealtyVoice AI:
+> All The Calls:
 > ✓ Answers every call instantly
 > ✓ Qualifies leads with real estate-specific questions
 > ✓ Books appointments to your calendar

@@ -1,4 +1,4 @@
-# RealtyVoice AI — Frequently Asked Questions
+# All The Calls — Frequently Asked Questions
 
 > **Top 10 questions from real estate agents**
 > Use this document for onboarding, support, and website FAQ section.
@@ -29,7 +29,7 @@ It never makes up answers or provides inaccurate information. When in doubt, it 
 
 1. Create your account (2 min)
 2. Add your business details and call forwarding number (3 min)
-3. Forward your calls to your RealtyVoice number (2 min)
+3. Forward your calls to your All The Calls number (2 min)
 4. Customize your greeting (3 min)
 
 Our onboarding team can also set everything up for you on a 15-minute Zoom call if you prefer.
@@ -38,7 +38,7 @@ Our onboarding team can also set everything up for you on a 15-minute Zoom call 
 
 ## 4. What if I'm already in a showing or a meeting?
 
-That's exactly what RealtyVoice AI is for. Every call that comes in while you're unavailable gets answered professionally, the lead gets qualified, and all details are logged in your dashboard. You'll get an email summary so you can follow up the moment you're free.
+That's exactly what All The Calls is for. Every call that comes in while you're unavailable gets answered professionally, the lead gets qualified, and all details are logged in your dashboard. You'll get an email summary so you can follow up the moment you're free.
 
 You never miss a lead, even when you're face-to-face with a client.
 
@@ -46,7 +46,7 @@ You never miss a lead, even when you're face-to-face with a client.
 
 ## 5. Does it integrate with my CRM?
 
-Yes. RealtyVoice AI integrates with:
+Yes. All The Calls integrates with:
 
 - **Follow Up Boss**
 - **KvCORE**
@@ -106,9 +106,9 @@ We'll always try to work with you before you cancel — reply to any of our emai
 
 ---
 
-## 10. How is RealtyVoice AI different from a virtual assistant service?
+## 10. How is All The Calls different from a virtual assistant service?
 
-| | RealtyVoice AI | Human VA |
+| | All The Calls | Human VA |
 |---|---|---|
 | Available 24/7 | Yes | Rarely |
 | Cost | $149–$399/mo | $1,500–$5,000/mo |
@@ -117,14 +117,14 @@ We'll always try to work with you before you cancel — reply to any of our emai
 | CRM integration | Automatic | Manual |
 | Consistent quality | Every call | Varies by person |
 
-Human VAs have a place — but for call answering and lead qualification, AI handles it faster, cheaper, and more consistently. Most agents use RealtyVoice AI for first-touch calls and their VA for complex follow-up tasks.
+Human VAs have a place — but for call answering and lead qualification, AI handles it faster, cheaper, and more consistently. Most agents use All The Calls for first-touch calls and their VA for complex follow-up tasks.
 
 ---
 
 ## Still have questions?
 
-Reply to any email from our team or email **support@realtyvoice.ai** — we respond within one business hour.
+Reply to any email from our team or email **support@allthecalls.ai** — we respond within one business hour.
 
 ---
 
-*RealtyVoice AI · Updated April 2026*
+*All The Calls · Updated April 2026*

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * RealtyVoice AI — Client Onboarding Script
+ * All The Calls — Client Onboarding Script
  * Usage: node scripts/create-client.js --name "Sarah Johnson" --brokerage "Compass" --email "sarah@example.com" --website "https://sarahjohnson.com"
  *
  * Add --dry-run to preview without making API calls.
@@ -38,7 +38,7 @@ async function main() {
     personality: args.personality || "professional and friendly",
   };
 
-  console.log("\n=== RealtyVoice AI — New Client Onboarding ===");
+  console.log("\n=== All The Calls — New Client Onboarding ===");
   console.log(JSON.stringify(client, null, 2));
 
   if (DRY_RUN) {

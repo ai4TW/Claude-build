@@ -1,4 +1,4 @@
-# RealtyVoice AI — 60-Second Explainer Video Script
+# All The Calls — 60-Second Explainer Video Script
 
 **Format:** Voiceover with screen/animation visuals
 **Tone:** Confident, direct, empathetic
@@ -41,14 +41,14 @@ Your phone rings. You silence it.
 
 **[VISUAL: Split screen — agent in listing presentation vs. phone ringing unanswered on a desk]**
 
-But RealtyVoice AI can answer for you.
+But All The Calls can answer for you.
 
 ---
 
 **[0:35–0:46]**
-**VO:** RealtyVoice answers every call in one second — 24/7. It qualifies your leads, answers common questions, and books appointments right to your calendar.
+**VO:** All The Calls answers every call in one second — 24/7. It qualifies your leads, answers common questions, and books appointments right to your calendar.
 
-**[VISUAL: Phone rings → RealtyVoice UI answers → Lead qualification questions appear → Calendar appointment created → Agent receives summary notification]**
+**[VISUAL: Phone rings → All The Calls UI answers → Lead qualification questions appear → Calendar appointment created → Agent receives summary notification]**
 
 ---
 
@@ -64,7 +64,7 @@ But RealtyVoice AI can answer for you.
 
 **[VISUAL: Logo lockup + URL]**
 
-RealtyVoice AI. Try it free for 14 days.
+All The Calls. Try it free for 14 days.
 
 ---
 
@@ -85,10 +85,10 @@ RealtyVoice AI. Try it free for 14 days.
 
 **[0:06–0:11]** By the time you call back, they've already moved on.
 
-**[0:12–0:20]** RealtyVoice AI answers every call instantly — qualifies leads, books appointments, and sends you a summary.
+**[0:12–0:20]** All The Calls answers every call instantly — qualifies leads, books appointments, and sends you a summary.
 
 **[0:21–0:27]** 24/7. Even on weekends. Even during your best showing.
 
-**[0:28–0:30]** Try it free. RealtyVoice.ai
+**[0:28–0:30]** Try it free. All The Calls.ai
 
 ---

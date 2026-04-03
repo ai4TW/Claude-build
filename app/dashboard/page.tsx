@@ -1,14 +1,17 @@
 import { getSession } from "@/lib/session";
 
-async function fetchStats(subAccountId: string) {
-  // Server-side fetch of call data for analytics card
+async function fetchStats() {
   const key = process.env.TRILLET_API_KEY;
-  if (!key) return null;
+  const workspaceId = process.env.TRILLET_WORKSPACE_ID;
+  if (!key || !workspaceId) return null;
 
   try {
-    const params = new URLSearchParams({ sub_account_id: subAccountId, limit: "200" });
-    const res = await fetch(`https://api.trillet.ai/api/v1/calls?${params}`, {
-      headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
+    const res = await fetch(`https://api.trillet.ai/v2/api/call-history`, {
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": key,
+        "x-workspace-id": workspaceId,
+      },
       next: { revalidate: 60 },
     });
     if (!res.ok) return null;
@@ -26,7 +29,7 @@ export default async function DashboardPage() {
   const session = await getSession();
   if (!session) return null;
 
-  const calls = await fetchStats(session.subAccountId);
+  const calls = await fetchStats();
 
   let stats = DEMO_STATS;
   if (calls) {

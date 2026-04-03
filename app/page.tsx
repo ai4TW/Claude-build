@@ -1,11 +1,12 @@
 import Link from "next/link";
+import PricingSection from "@/components/PricingSection";
 
-const NAV_CTA = "/dashboard";
+const NAV_CTA = "#pricing";
 
 const testimonials = [
   {
     quote:
-      "I used to miss 3–4 calls a day during showings. Last month, RealtyVoice booked two new listings from calls I never would have answered. It's paid for itself 10 times over.",
+      "I used to miss 3–4 calls a day during showings. Last month, All The Calls booked two new listings from calls I never would have answered. It's paid for itself 10 times over.",
     name: "Sarah M.",
     brokerage: "RE/MAX",
     location: "Austin, TX",
@@ -66,7 +67,7 @@ const faqs = [
   },
   {
     q: "How does call forwarding work?",
-    a: "You simply forward your business number to your RealtyVoice number. It takes about 30 seconds. We provide step-by-step instructions for every carrier.",
+    a: "You simply forward your business number to your All The Calls number. It takes about 30 seconds. We provide step-by-step instructions for every carrier.",
   },
   {
     q: "What if I want to take calls myself?",
@@ -74,7 +75,7 @@ const faqs = [
   },
   {
     q: "Does it work with my CRM?",
-    a: "Yes. RealtyVoice AI integrates with Follow Up Boss, KvCORE, HubSpot, Go High Level, and more. Every call is automatically logged with full lead details.",
+    a: "Yes. All The Calls integrates with Follow Up Boss, KvCORE, HubSpot, Go High Level, and more. Every call is automatically logged with full lead details.",
   },
   {
     q: "What if I want to cancel?",
@@ -86,39 +87,6 @@ const faqs = [
   },
 ];
 
-const plans = [
-  {
-    name: "Starter",
-    price: "$149",
-    period: "/mo",
-    desc: "Solo agents getting started",
-    popular: false,
-  },
-  {
-    name: "Pro",
-    price: "$249",
-    period: "/mo",
-    desc: "Active agents with high call volume",
-    popular: true,
-  },
-  {
-    name: "Team",
-    price: "$399",
-    period: "/mo",
-    desc: "Small teams of 2–5 agents",
-    popular: false,
-  },
-];
-
-const planFeatures = [
-  "24/7 AI receptionist in your name",
-  "Lead qualification on every call",
-  "Calendar integration",
-  "SMS follow-up automation",
-  "CRM sync",
-  "5-minute setup",
-  "Cancel anytime",
-];
 
 export default function LandingPage() {
   return (
@@ -127,7 +95,7 @@ export default function LandingPage() {
       <nav className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur border-b border-gray-100">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
           <span className="text-xl font-bold text-brand-900">
-            RealtyVoice <span className="text-brand-500">AI</span>
+            All The Calls
           </span>
           <div className="hidden md:flex items-center gap-8 text-sm text-gray-600">
             <a href="#features" className="hover:text-brand-600 transition-colors">Features</a>
@@ -158,7 +126,7 @@ export default function LandingPage() {
             Never Miss a Lead.<br />Never Lose a Commission.
           </h1>
           <p className="text-xl sm:text-2xl text-brand-100 max-w-2xl mx-auto mb-10">
-            RealtyVoice AI answers every call in your name — 24/7 — qualifying leads, booking showings, and following up automatically. So you can close deals without being glued to your phone.
+            All The Calls answers every call in your name — 24/7 — qualifying leads, booking showings, and following up automatically. So you can close deals without being glued to your phone.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
             <Link
@@ -241,13 +209,13 @@ export default function LandingPage() {
             <span className="text-brand-600"> — Starting at $149/Month</span>
           </h2>
           <p className="text-gray-600 text-xl mb-12">
-            RealtyVoice AI gives you a professional, always-on receptionist that answers in your name, qualifies every lead, and books showings directly to your calendar.
+            All The Calls gives you a professional, always-on receptionist that answers in your name, qualifies every lead, and books showings directly to your calendar.
           </p>
           <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-6 mb-12">
             {[
               { step: "1", title: "Sign up", desc: "Takes 5 minutes, no tech skills needed" },
               { step: "2", title: "We configure your AI", desc: "Custom greeting with your name and brokerage" },
-              { step: "3", title: "Forward your number", desc: "Point your business line to your RealtyVoice number" },
+              { step: "3", title: "Forward your number", desc: "Point your business line to your All The Calls number" },
               { step: "4", title: "Never miss a lead", desc: "Your AI handles every call from day one" },
             ].map((item) => (
               <div key={item.step} className="flex flex-col items-center text-center">
@@ -292,7 +260,7 @@ export default function LandingPage() {
       <section className="bg-brand-900 text-white py-24 px-4">
         <div className="max-w-5xl mx-auto">
           <h2 className="text-3xl sm:text-4xl font-bold text-center mb-14">
-            Real Estate Agents Love RealtyVoice AI
+            Real Estate Agents Love All The Calls
           </h2>
           <div className="grid md:grid-cols-3 gap-6">
             {testimonials.map((t) => (
@@ -309,53 +277,7 @@ export default function LandingPage() {
       </section>
 
       {/* PRICING */}
-      <section id="pricing" className="bg-white py-24 px-4">
-        <div className="max-w-5xl mx-auto text-center">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-3">Simple Pricing. Serious ROI.</h2>
-          <p className="text-gray-500 text-lg mb-2">One commission pays for years of RealtyVoice AI.</p>
-          <p className="text-brand-600 font-semibold mb-12">14-day free trial. No credit card required.</p>
-          <div className="grid md:grid-cols-3 gap-6 mb-14">
-            {plans.map((plan) => (
-              <div
-                key={plan.name}
-                className={`rounded-2xl p-8 border-2 relative ${
-                  plan.popular ? "border-brand-500 shadow-xl shadow-brand-100" : "border-gray-200"
-                }`}
-              >
-                {plan.popular && (
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-brand-500 text-white text-xs font-bold px-4 py-1.5 rounded-full">
-                    MOST POPULAR
-                  </div>
-                )}
-                <h3 className="text-2xl font-bold mb-1">{plan.name}</h3>
-                <p className="text-gray-500 text-sm mb-6">{plan.desc}</p>
-                <div className="flex items-baseline justify-center mb-8">
-                  <span className="text-5xl font-extrabold text-gray-900">{plan.price}</span>
-                  <span className="text-gray-400 ml-1">{plan.period}</span>
-                </div>
-                <ul className="text-left space-y-3 mb-8">
-                  {planFeatures.map((feature) => (
-                    <li key={feature} className="flex items-center gap-2 text-sm text-gray-700">
-                      <span className="text-brand-500 font-bold">✓</span>
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-                <Link
-                  href={NAV_CTA}
-                  className={`block text-center py-3 rounded-xl font-bold transition-colors ${
-                    plan.popular
-                      ? "bg-brand-600 hover:bg-brand-700 text-white"
-                      : "bg-gray-100 hover:bg-gray-200 text-gray-900"
-                  }`}
-                >
-                  Start Free Trial
-                </Link>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <PricingSection />
 
       {/* FAQ */}
       <section id="faq" className="bg-gray-50 py-24 px-4">
@@ -381,7 +303,7 @@ export default function LandingPage() {
             One Missed Call Could Cost You $20,000.
           </h2>
           <p className="text-xl text-brand-100 mb-10">
-            Stop sending leads to voicemail. Start with RealtyVoice AI today — free for 14 days.
+            Stop sending leads to voicemail. Start with All The Calls today — free for 14 days.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
             <Link
@@ -410,9 +332,9 @@ export default function LandingPage() {
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div>
               <p className="text-white font-bold text-lg mb-1">
-                RealtyVoice <span className="text-brand-500">AI</span>
+                All The Calls
               </p>
-              <p className="text-sm">The AI Receptionist Built for Real Estate Agents</p>
+              <p className="text-sm">AI Receptionist for Real Estate Agents</p>
             </div>
             <div className="flex gap-6 text-sm">
               <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
@@ -421,9 +343,9 @@ export default function LandingPage() {
             </div>
           </div>
           <div className="border-t border-gray-800 mt-8 pt-8 text-center text-sm">
-            <p>© 2026 RealtyVoice AI. All rights reserved.</p>
+            <p>© 2026 All The Calls. All rights reserved.</p>
             <p className="mt-1 text-xs text-gray-600">
-              RealtyVoice AI is an AI-powered receptionist service. Results may vary by market and usage.
+              All The Calls is an AI-powered receptionist service. Results may vary by market and usage.
             </p>
           </div>
         </div>

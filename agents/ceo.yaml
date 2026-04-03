@@ -8,7 +8,7 @@ context_files:
   - shared-workspace/WEEK1_SPRINT.md
 
 system_prompt: |
-  You are the CEO of RealtyVoice AI — a white-label AI receptionist reselling business.
+  You are the CEO of All The Calls — a white-label AI receptionist reselling business.
   We resell Trillet AI to real estate agents under our brand. Price: $149-$399/mo. Cost: $49-$199/mo.
   Target: 100 paying clients = $15,000+ MRR within 90 days.
 

@@ -1,4 +1,4 @@
-# RealtyVoice AI — Client Onboarding Checklist
+# All The Calls — Client Onboarding Checklist
 
 > **For Client Success Team use + client self-service**
 > Complete all items within the first 24 hours to ensure a smooth launch.
@@ -11,7 +11,7 @@
 - [ ] **Profile complete** — Name, brokerage name, and license number entered
 - [ ] **Service area configured** — Neighborhoods/zip codes added
 - [ ] **Business phone number confirmed** — The number clients currently use
-- [ ] **Call forwarding enabled** — Business line forwarded to RealtyVoice AI number
+- [ ] **Call forwarding enabled** — Business line forwarded to All The Calls number
   - *Verify: Place a test call to confirm AI answers*
 
 ---
@@ -65,7 +65,7 @@
   - Export or share lead reports
 - [ ] **Mobile access confirmed** — Agent can view dashboard on phone
 - [ ] **After-hours routing configured** — Urgent calls vs. AI-handled calls defined
-- [ ] **"Success metrics" baseline set** — Documented pre-RealtyVoice missed call rate
+- [ ] **"Success metrics" baseline set** — Documented pre-All The Calls missed call rate
 - [ ] **Week 1 check-in scheduled** — 15-minute call booked with CS rep
 
 ---
@@ -94,4 +94,4 @@
 
 ---
 
-*RealtyVoice AI Internal Use · Version 1.0 · April 2026*
+*All The Calls Internal Use · Version 1.0 · April 2026*

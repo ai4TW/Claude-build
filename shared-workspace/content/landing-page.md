@@ -1,6 +1,6 @@
-# RealtyVoice AI — Landing Page Copy
+# All The Calls — Landing Page Copy
 
-**URL:** realtyvoiceai.com  
+**URL:** allthecallsai.com  
 **Target Audience:** Solo real estate agents  
 **Primary CTA:** Start Free Trial / Book a Demo
 
@@ -12,7 +12,7 @@
 **Never Miss a Lead. Never Lose a Commission.**
 
 ### Subheadline
-RealtyVoice AI answers every call in your name — 24/7 — qualifying leads, booking showings, and following up automatically. So you can close deals without being glued to your phone.
+All The Calls answers every call in your name — 24/7 — qualifying leads, booking showings, and following up automatically. So you can close deals without being glued to your phone.
 
 ### CTA Buttons
 - **[Start Free Trial →]**
@@ -48,12 +48,12 @@ There's a better way.
 ### Section Header
 **Your AI Receptionist That Works 24/7 — Starting at $149/Month**
 
-RealtyVoice AI gives you a professional, always-on receptionist that answers in your name, qualifies every lead, and books showings directly to your calendar.
+All The Calls gives you a professional, always-on receptionist that answers in your name, qualifies every lead, and books showings directly to your calendar.
 
 **How it works:**
 1. **Sign up** — takes 5 minutes, no tech skills needed
 2. **We configure your AI** — custom greeting with your name and brokerage
-3. **Forward your number** — point your business line to your RealtyVoice number
+3. **Forward your number** — point your business line to your All The Calls number
 4. **Never miss a lead again** — your AI handles every call from day one
 
 *"Thank you for calling Sarah Johnson with Compass. I'm her AI assistant — how can I help you today?"*
@@ -85,9 +85,9 @@ Every call syncs to your CRM (Follow Up Boss, KvCORE, HubSpot, GHL). Your AI als
 ## SOCIAL PROOF SECTION
 
 ### Section Header
-**Real Estate Agents Love RealtyVoice AI**
+**Real Estate Agents Love All The Calls**
 
-> "I used to miss 3–4 calls a day during showings. Last month, RealtyVoice booked two new listings from calls I never would have answered. It's paid for itself 10 times over."
+> "I used to miss 3–4 calls a day during showings. Last month, All The Calls booked two new listings from calls I never would have answered. It's paid for itself 10 times over."
 > **— [Agent Name], RE/MAX, [City, State]**
 
 > "Setup took literally five minutes. Now I feel like I have a full-time receptionist without the $4,000/month price tag."
@@ -105,7 +105,7 @@ Every call syncs to your CRM (Follow Up Boss, KvCORE, HubSpot, GHL). Your AI als
 ### Section Header
 **Simple Pricing. Serious ROI.**
 
-*One commission pays for years of RealtyVoice AI.*
+*One commission pays for years of All The Calls.*
 
 | Plan | Price | Best For |
 |------|-------|----------|
@@ -135,13 +135,13 @@ Every call syncs to your CRM (Follow Up Boss, KvCORE, HubSpot, GHL). Your AI als
 Yes. Your AI uses advanced conversational voice technology and is trained to sound professional, warm, and helpful — not robotic. Your clients will be impressed.
 
 **How does call forwarding work?**
-You simply forward your business number to your RealtyVoice number. It takes about 30 seconds. We provide step-by-step instructions for every carrier.
+You simply forward your business number to your All The Calls number. It takes about 30 seconds. We provide step-by-step instructions for every carrier.
 
 **What if I want to take calls myself?**
 No problem. You control when your AI is active. Use it for after-hours, overflow, or full-time coverage — your choice.
 
 **Does it work with my CRM?**
-Yes. RealtyVoice AI integrates with Follow Up Boss, KvCORE, HubSpot, Go High Level, and more. Every call is automatically logged with full lead details.
+Yes. All The Calls integrates with Follow Up Boss, KvCORE, HubSpot, Go High Level, and more. Every call is automatically logged with full lead details.
 
 **What if I want to cancel?**
 No long-term contracts. Cancel anytime with one click from your dashboard.
@@ -157,7 +157,7 @@ Most agents are live in under 5 minutes. We walk you through every step.
 **One Missed Call Could Cost You $20,000.**
 
 ### Subheadline
-Stop sending leads to voicemail. Start with RealtyVoice AI today — free for 14 days.
+Stop sending leads to voicemail. Start with All The Calls today — free for 14 days.
 
 ### CTA Buttons
 - **[Start Free Trial — It's Free for 14 Days →]**
@@ -171,11 +171,11 @@ Stop sending leads to voicemail. Start with RealtyVoice AI today — free for 14
 
 ## FOOTER COPY
 
-**RealtyVoice AI** — The AI Receptionist Built for Real Estate Agents  
-© 2026 RealtyVoice AI. All rights reserved.  
+**All The Calls** — The AI Receptionist Built for Real Estate Agents  
+© 2026 All The Calls. All rights reserved.  
 [Privacy Policy] | [Terms of Service] | [Contact Us]
 
-*RealtyVoice AI is an AI-powered receptionist service. Results may vary by market and usage.*
+*All The Calls is an AI-powered receptionist service. Results may vary by market and usage.*
 
 ---
 

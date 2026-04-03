@@ -1,4 +1,4 @@
-# RealtyVoice AI — Monthly Wins Email Template
+# All The Calls — Monthly Wins Email Template
 
 > **Send:** 1st–3rd of each month, to all active clients
 > **Goal:** Reinforce value, celebrate results, and create stickiness / reduce churn
@@ -13,7 +13,7 @@
 
 Hi [First Name],
 
-Here's what your RealtyVoice AI receptionist did for you in [Month]:
+Here's what your All The Calls receptionist did for you in [Month]:
 
 ---
 
@@ -34,7 +34,7 @@ Here's what your RealtyVoice AI receptionist did for you in [Month]:
 
 You didn't miss a single call last month — even during showings, open houses, and client meetings.
 
-At an average commission of $15,000 per closed deal, even **one converted lead** from this month more than pays for a full year of RealtyVoice AI.
+At an average commission of $15,000 per closed deal, even **one converted lead** from this month more than pays for a full year of All The Calls.
 
 ---
 
@@ -81,12 +81,12 @@ As always, I'm here if you have questions or want to talk through your results.
 
 Here for you,
 [CS Rep Name]
-Client Success, RealtyVoice AI
+Client Success, All The Calls
 [Calendly link]
 
 ---
 
-*RealtyVoice AI · [Unsubscribe] · [Company Address]*
+*All The Calls · [Unsubscribe] · [Company Address]*
 
 ---
 

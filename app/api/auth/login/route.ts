@@ -25,7 +25,7 @@ function getClientRegistry(): Record<
   // Fallback demo client (only active when DEMO_MODE=true or no registry configured)
   if (process.env.DEMO_MODE === "true" || !raw) {
     return {
-      "demo@realtyvoiceai.com": {
+      "demo@allthecalls.com": {
         password: process.env.DEMO_PASSWORD || "demo1234",
         clientId: "demo-client-001",
         clientName: "Demo Agent",

@@ -1,7 +1,7 @@
-# Instagram Caption Templates — RealtyVoice AI
+# Instagram Caption Templates — All The Calls
 
 3 reusable caption templates for organic Instagram content.
-Designed for the RealtyVoice brand account or founder personal brand.
+Designed for the All The Calls brand account or founder personal brand.
 
 ---
 
@@ -15,7 +15,7 @@ The average real estate agent misses 4–5 deals per year from missed calls alon
 
 That's $50,000+ in commissions — gone. Not from bad leads. Not from a slow market. From a ringing phone nobody answered.
 
-RealtyVoice AI picks up every call in under a second, 24/7 — qualifies the lead, books the appointment, and sends you a summary before you even leave your showing.
+All The Calls picks up every call in under a second, 24/7 — qualifies the lead, books the appointment, and sends you a summary before you even leave your showing.
 
 Stop losing deals you already won. 📲
 
@@ -31,13 +31,13 @@ Stop losing deals you already won. 📲
 
 ---
 
-BEFORE RealtyVoice:
+BEFORE All The Calls:
 📵 Miss a call during a showing
 ⏰ Return it 3 hours later
 🚶 Lead has already moved on
 😤 Leave another voicemail
 
-AFTER RealtyVoice:
+AFTER All The Calls:
 ✅ Every call answered in 1 second
 📋 Lead qualified automatically
 📅 Appointment booked to your calendar
@@ -65,7 +65,7 @@ Not because of bad strategy. Not because of bad listings.
 
 Because the most motivated buyers call when you're at your busiest — and your voicemail doesn't close deals.
 
-I built RealtyVoice AI because I watched great agents lose business they deserved to keep.
+I built All The Calls because I watched great agents lose business they deserved to keep.
 
 Now they don't have to choose between being present and being available.
 

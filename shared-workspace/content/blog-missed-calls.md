@@ -110,7 +110,7 @@ The solution is an AI-powered receptionist that:
 - **Sends you real-time summaries** so you know what every call was about before you dial back
 - **Follows up automatically** with leads who wanted a callback
 
-Modern AI receptionists like RealtyVoice are trained specifically for real estate conversations. They don't sound like a phone tree. They sound like a knowledgeable, professional front desk that knows your listings, understands buyer and seller intent, and can handle the most common questions without you lifting a finger.
+Modern AI receptionists like All The Calls are trained specifically for real estate conversations. They don't sound like a phone tree. They sound like a knowledgeable, professional front desk that knows your listings, understands buyer and seller intent, and can handle the most common questions without you lifting a finger.
 
 ---
 
@@ -147,4 +147,4 @@ Stop letting it walk out the door.
 
 ---
 
-*RealtyVoice AI is an intelligent call-answering system built for real estate agents. It answers every call, qualifies every lead, and keeps you in the deal — even when you're in one. [Start your free trial today.]*
+*All The Calls is an intelligent call-answering system built for real estate agents. It answers every call, qualifies every lead, and keeps you in the deal — even when you're in one. [Start your free trial today.]*

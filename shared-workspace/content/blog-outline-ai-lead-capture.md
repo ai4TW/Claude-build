@@ -11,7 +11,7 @@
 ## Meta
 
 - **Title tag:** How Real Estate Agents Use AI to Capture More Leads in 2025
-- **Meta description:** Top agents are using AI answering services to respond to leads in seconds, not hours. See how RealtyVoice AI works and why speed-to-lead decides who wins.
+- **Meta description:** Top agents are using AI answering services to respond to leads in seconds, not hours. See how All The Calls works and why speed-to-lead decides who wins.
 - **URL slug:** `/blog/ai-answering-service-real-estate-leads`
 
 ---
@@ -125,7 +125,7 @@
 **Soft close:** You don't need to overhaul your business. You need one system that makes sure no call goes unanswered.
 
 **CTA:**
-- Primary: "Try RealtyVoice free for 14 days — no credit card required" [button/link]
+- Primary: "Try All The Calls free for 14 days — no credit card required" [button/link]
 - Secondary: "See how it works in 60 seconds" [link to explainer video]
 
 ---
@@ -136,7 +136,7 @@
 |-------------|---------|
 | "real estate agents lose $50,000 a year to missed calls" | `/blog/real-estate-agents-missed-calls` |
 | "speed-to-lead" | Homepage or How It Works page |
-| "how RealtyVoice works" | `/how-it-works` |
+| "how All The Calls works" | `/how-it-works` |
 
 ---
 
@@ -147,4 +147,4 @@
 - Use short paragraphs (2–4 sentences max)
 - Bold the key stat or takeaway in each section
 - Do not use AI jargon — readers are not technical
-- First mention of "RealtyVoice AI" should be natural, not forced — intro it as the product in Section 2
+- First mention of "All The Calls" should be natural, not forced — intro it as the product in Section 2

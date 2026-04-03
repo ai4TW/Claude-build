@@ -1,4 +1,4 @@
-# RealtyVoice AI — Landing Page Copy
+# All The Calls — Landing Page Copy
 **Version:** 1.0 | **Date:** 2026-04-03
 
 ---
@@ -9,10 +9,10 @@
 **Never Miss a Lead Again.**
 
 ### Subheadline
-RealtyVoice AI answers every call in your name — 24/7 — so you can focus on closings, not callbacks.
+All The Calls answers every call in your name — 24/7 — so you can focus on closings, not callbacks.
 
 ### Body (2 lines)
-Every missed call is a buyer or seller moving on to the next agent. RealtyVoice AI picks up, qualifies the lead, and books appointments to your calendar — while you're in a showing, on the road, or off the clock.
+Every missed call is a buyer or seller moving on to the next agent. All The Calls picks up, qualifies the lead, and books appointments to your calendar — while you're in a showing, on the road, or off the clock.
 
 ### Primary CTA Button
 **Book a Free 15-Minute Demo**
@@ -37,11 +37,11 @@ Set Up in 10 Minutes. Then Forget About Missed Calls.
 
 ### Step 1
 **Forward your calls (or get a new number)**
-RealtyVoice AI gets a local number that matches your market — or you can forward your existing business line. Either way, every call is covered.
+All The Calls gets a local number that matches your market — or you can forward your existing business line. Either way, every call is covered.
 
 ### Step 2
 **We train it on your business**
-Tell us your name, brokerage, the areas you serve, and how you like to work. RealtyVoice AI introduces itself as your professional receptionist — not a robot.
+Tell us your name, brokerage, the areas you serve, and how you like to work. All The Calls introduces itself as your professional receptionist — not a robot.
 
 ### Step 3
 **Leads get qualified. Appointments get booked.**
@@ -60,7 +60,7 @@ Everything You'd Want From a Receptionist. Without the Hiring Headache.
 
 ### Feature 1: 24/7 Live Answer
 **Always On, Even When You're Not**
-RealtyVoice AI answers every call — 7am to midnight, weekends, holidays, and everything in between. No more apologizing for missed calls on a Sunday afternoon.
+All The Calls answers every call — 7am to midnight, weekends, holidays, and everything in between. No more apologizing for missed calls on a Sunday afternoon.
 
 ### Feature 2: Lead Qualification
 **Know Who's Worth a Callback Before You Call**
@@ -68,7 +68,7 @@ Every caller is asked the right questions: Are they buying or selling? What's th
 
 ### Feature 3: Automatic Appointment Booking
 **Showings Booked While You're in a Showing**
-RealtyVoice AI syncs with your calendar (Google Calendar, Calendly, and more) and books appointments automatically. No phone tag. No back-and-forth.
+All The Calls syncs with your calendar (Google Calendar, Calendly, and more) and books appointments automatically. No phone tag. No back-and-forth.
 
 ### Feature 4: Instant SMS Summaries
 **Know What You Missed in Seconds**
@@ -84,7 +84,7 @@ Every call is logged, transcribed, and searchable. See your lead pipeline at a g
 
 ### Feature 7: Spam & Robocall Filtering
 **Only Real Calls Get Through**
-RealtyVoice AI screens spam calls so you're not wasting time on garbage — only real leads get qualified and logged.
+All The Calls screens spam calls so you're not wasting time on garbage — only real leads get qualified and logged.
 
 ### Feature 8: Easy Setup, No Tech Skills Required
 **Live in 10 Minutes or Less**
@@ -98,7 +98,7 @@ No IT department needed. If you can fill out a form and forward a phone call, yo
 Solo Agents Are Closing More Deals. Here's What They're Saying.
 
 ### Testimonial 1
-*"I was losing 3–4 leads a week to voicemail. In my first month with RealtyVoice AI, I booked 7 extra showings from calls I would have missed. That's not a small thing — one of those was a $650,000 listing."*
+*"I was losing 3–4 leads a week to voicemail. In my first month with All The Calls, I booked 7 extra showings from calls I would have missed. That's not a small thing — one of those was a $650,000 listing."*
 — **Jennifer R.**, Solo Agent, Dallas TX
 
 ### Testimonial 2
@@ -106,7 +106,7 @@ Solo Agents Are Closing More Deals. Here's What They're Saying.
 — **Marcus T.**, Solo Agent, Austin TX
 
 ### Testimonial 3
-*"I used to dread Sunday afternoon calls because I'd be at my kid's soccer game. Now my phone's on silent and RealtyVoice handles everything. No guilt. No missed leads."*
+*"I used to dread Sunday afternoon calls because I'd be at my kid's soccer game. Now my phone's on silent and All The Calls handles everything. No guilt. No missed leads."*
 — **Diana L.**, Independent Agent, Atlanta GA
 
 ### Testimonial 4
@@ -114,7 +114,7 @@ Solo Agents Are Closing More Deals. Here's What They're Saying.
 — **Carlos M.**, Solo Agent, Miami FL
 
 ### Stats Bar
-- **400+** agents trust RealtyVoice AI
+- **400+** agents trust All The Calls
 - **94%** of calls answered in under 2 seconds
 - **3.2x** more leads captured vs. voicemail
 - **10 min** average setup time
@@ -127,7 +127,7 @@ Solo Agents Are Closing More Deals. Here's What They're Saying.
 Less Than One Lost Commission. Every Month.
 
 ### Pricing Philosophy Intro
-The average real estate commission is $12,000. Missing one call because you were in a showing costs you more than a year of RealtyVoice AI. This isn't an expense — it's insurance for your pipeline.
+The average real estate commission is $12,000. Missing one call because you were in a showing costs you more than a year of All The Calls. This isn't an expense — it's insurance for your pipeline.
 
 ---
 
@@ -199,7 +199,7 @@ Yes. Forward your current number, or we'll provision a new local number for you.
 Questions We Get All the Time
 
 **Q: Will my clients know they're talking to AI?**
-A: Most won't. RealtyVoice AI sounds natural and professional. It introduces itself as your receptionist — not as "AI." That said, we're happy to add a disclosure if you prefer.
+A: Most won't. All The Calls sounds natural and professional. It introduces itself as your receptionist — not as "AI." That said, we're happy to add a disclosure if you prefer.
 
 **Q: What happens after it qualifies a lead?**
 A: Depending on your settings, it will book an appointment to your calendar, send the lead your contact info, and text you a summary — all automatically.
@@ -211,7 +211,7 @@ A: Yes. You choose your greeting, the questions it asks, how it handles differen
 A: You can export leads to any CRM via CSV or Zapier. Native integrations with Follow Up Boss, kvCORE, and Chime are on the roadmap.
 
 **Q: What if someone wants to speak with a real person?**
-A: RealtyVoice AI can transfer calls to your cell, take a detailed message, or book a callback — your choice.
+A: All The Calls can transfer calls to your cell, take a detailed message, or book a callback — your choice.
 
 **Q: Does it work for buyer leads AND seller leads?**
 A: Yes. The qualification flow adapts based on whether they're buying, selling, or both.
@@ -234,7 +234,7 @@ Voicemail doesn't qualify leads. It doesn't book appointments. It doesn't answer
 
 The average caller waits 5 seconds before hanging up if they hit voicemail. Your best leads aren't leaving messages — they're calling the next agent.
 
-RealtyVoice AI picks up every time. Every lead gets a response. Every appointment gets booked.
+All The Calls picks up every time. Every lead gets a response. Every appointment gets booked.
 
 **[See How It Works →]**
 
@@ -249,7 +249,7 @@ Your Next Listing Could Be Calling Right Now.
 Don't let it go to voicemail.
 
 ### Body
-Set up RealtyVoice AI in 10 minutes. Try it free for 14 days. Cancel anytime.
+Set up All The Calls in 10 minutes. Try it free for 14 days. Cancel anytime.
 No credit card. No contracts. No missed leads.
 
 ### CTA Buttons
@@ -266,11 +266,11 @@ or
 
 ## FOOTER COPY
 
-**RealtyVoice AI**
+**All The Calls**
 The 24/7 AI voice receptionist built for real estate agents.
 
 **Links:** How It Works | Pricing | Demo | Login | Affiliate Program | Privacy Policy | Terms of Service
 
 **Tagline:** *Your clients deserve to be answered. So do your leads.*
 
-© 2026 RealtyVoice AI. All rights reserved.
+© 2026 All The Calls. All rights reserved.

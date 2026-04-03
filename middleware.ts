@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { jwtVerify } from "jose";
 
 const SESSION_COOKIE = "rv_session";
-const PUBLIC_PATHS = ["/login", "/api/auth/login"];
+const PUBLIC_PATHS = ["/", "/login", "/api/auth/login"];
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -18,7 +18,7 @@ export async function middleware(request: NextRequest) {
   }
 
   const secret = new TextEncoder().encode(
-    process.env.SESSION_SECRET || "realtyvoice-change-this-in-production"
+    process.env.SESSION_SECRET || "allthecalls-change-this-in-production"
   );
 
   try {

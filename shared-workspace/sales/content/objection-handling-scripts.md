@@ -1,4 +1,4 @@
-# RealtyVoice AI — Objection Handling Scripts
+# All The Calls — Objection Handling Scripts
 **Version:** 1.0 | **Date:** 2026-04-03
 **Use for:** Phone calls, DMs, email replies, in-person demos
 
@@ -29,7 +29,7 @@ Read the intent. Use the script as a guide.
 ### Script: Short Version (DM / email reply)
 > "Totally fair — and I'd push back gently on one thing.
 >
-> The average commission in your market is around $9,000–$14,000. RealtyVoice AI at $149/month costs you less than 1% of one deal.
+> The average commission in your market is around $9,000–$14,000. All The Calls at $149/month costs you less than 1% of one deal.
 >
 > The question isn't really 'can I afford $149?' — it's 'how many calls did I miss this month while I was in showings?' If it's even one, it paid for itself 6 times over.
 >
@@ -59,13 +59,13 @@ Here's what I'd suggest: try it free for 14 days. No credit card, no commitment.
 
 ### Script: Email Reply Version
 
-Subject: Re: RealtyVoice AI — quick thought on price
+Subject: Re: All The Calls — quick thought on price
 
 > Hi {{first_name}},
 >
 > Fair point on price — I hear it often and it's worth addressing directly.
 >
-> At $149/month, here's the math that matters: the average buyer's agent commission in most markets is $8,000–$14,000. If RealtyVoice AI captures just one lead per month that you would have missed to voicemail, it pays for itself roughly 50–90x over.
+> At $149/month, here's the math that matters: the average buyer's agent commission in most markets is $8,000–$14,000. If All The Calls captures just one lead per month that you would have missed to voicemail, it pays for itself roughly 50–90x over.
 >
 > The harder question is: how many calls do you currently miss each week while you're in a showing, at lunch, or just living your life?
 >
@@ -95,13 +95,13 @@ Subject: Re: RealtyVoice AI — quick thought on price
 
 ### Script: Short Version (DM / email reply)
 
-> "Voicemail and RealtyVoice AI do fundamentally different things.
+> "Voicemail and All The Calls do fundamentally different things.
 >
-> Voicemail records a message. RealtyVoice AI qualifies the lead, books the appointment, and sends you a summary — while you're still in the showing.
+> Voicemail records a message. All The Calls qualifies the lead, books the appointment, and sends you a summary — while you're still in the showing.
 >
 > Here's the key stat: 80% of callers who reach voicemail don't leave a message. They hang up and call the next agent.
 >
-> Voicemail requires your lead to wait. RealtyVoice AI acts immediately — for them and for you."
+> Voicemail requires your lead to wait. All The Calls acts immediately — for them and for you."
 
 ---
 
@@ -115,29 +115,29 @@ Here's the issue — and this is real data, not a sales pitch: about 80% of call
 
 When they hang up, they don't wait for you. They search for the next agent and try again. By the time you see a missed call with no voicemail, that person has already booked a showing with someone else.
 
-RealtyVoice AI is different because it actually picks up. It asks the right questions. It knows your calendar. And it books the appointment — in real time, while you're still with your other client.
+All The Calls is different because it actually picks up. It asks the right questions. It knows your calendar. And it books the appointment — in real time, while you're still with your other client.
 
 Can I ask — have you ever come out of a showing with 2 or 3 missed calls and no messages?"
 
 **[Wait — almost everyone says yes]**
 
-**You:** "Those were your best leads. They already moved on. That's what RealtyVoice AI fixes."
+**You:** "Those were your best leads. They already moved on. That's what All The Calls fixes."
 
 ---
 
 ### Script: Email Reply Version
 
-Subject: Re: RealtyVoice AI — voicemail vs. AI receptionist
+Subject: Re: All The Calls — voicemail vs. AI receptionist
 
 > Hi {{first_name}},
 >
-> Good news: voicemail and RealtyVoice AI can coexist — but they're not solving the same problem.
+> Good news: voicemail and All The Calls can coexist — but they're not solving the same problem.
 >
-> Voicemail captures the 20% of callers who are patient enough to leave a message. RealtyVoice AI captures the other 80% who hang up when they hear a beep.
+> Voicemail captures the 20% of callers who are patient enough to leave a message. All The Calls captures the other 80% who hang up when they hear a beep.
 >
 > The difference is what happens in the first 5 seconds of a call. A prospect who hits voicemail hears "leave a message" and faces a decision — wait, or call someone else. In a competitive market, they call someone else.
 >
-> RealtyVoice AI picks up immediately, greets them professionally, and starts qualifying them. No message required. No waiting. No opportunity for them to reconsider.
+> All The Calls picks up immediately, greets them professionally, and starts qualifying them. No message required. No waiting. No opportunity for them to reconsider.
 >
 > If you'd like, I can show you exactly how it would sound for your brokerage — takes about 5 minutes. Want to pick a time?
 >
@@ -147,7 +147,7 @@ Subject: Re: RealtyVoice AI — voicemail vs. AI receptionist
 
 ### If They Push Back Further ("My clients are used to my voicemail")
 
-> "Absolutely — existing clients are already in your world. RealtyVoice AI is really about new leads: first-time callers who don't know you yet and have no loyalty to your voicemail.
+> "Absolutely — existing clients are already in your world. All The Calls is really about new leads: first-time callers who don't know you yet and have no loyalty to your voicemail.
 >
 > For your regulars, you can set it to transfer certain numbers directly to your cell. Best of both worlds."
 
@@ -198,7 +198,7 @@ Before you go — can I ask what the main thing is you'd want to think through? 
 
 ### Script: Email Reply Version (after a demo or call)
 
-Subject: Re: RealtyVoice AI — before you decide
+Subject: Re: All The Calls — before you decide
 
 > Hi {{first_name}},
 >
@@ -244,7 +244,7 @@ Subject: Still thinking? (here's a shortcut)
 >
 > Two things worth knowing: First, callers hear your name and brokerage — not 'AI.' It's introduced as your receptionist. Second, most of the calls it handles are first contacts — people who found your number online and are calling cold. They don't have a relationship with you yet, so the first-impression experience is actually improved, not compromised.
 >
-> Your regulars can be routed straight to your cell. RealtyVoice AI is really about capturing the strangers who would otherwise go to voicemail."
+> Your regulars can be routed straight to your cell. All The Calls is really about capturing the strangers who would otherwise go to voicemail."
 
 ---
 

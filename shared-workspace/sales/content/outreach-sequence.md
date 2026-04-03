@@ -1,4 +1,4 @@
-# RealtyVoice AI — Cold Outreach Email Sequence
+# All The Calls — Cold Outreach Email Sequence
 ## Target: Solo Real Estate Agents
 ## Goal: 30%+ open rate | Drive demo bookings
 
@@ -18,7 +18,7 @@ Quick question: how many calls did you miss this week while you were in a showin
 
 For most solo agents, the answer is more than they'd like to admit. And every one of those calls could be a buyer or seller who just moved on to the next agent in their search results.
 
-RealtyVoice AI is a 24/7 AI voice receptionist built specifically for real estate agents. It answers every call in your name, qualifies the lead, and schedules appointments directly to your calendar — while you focus on closing deals.
+All The Calls is a 24/7 AI voice receptionist built specifically for real estate agents. It answers every call in your name, qualifies the lead, and schedules appointments directly to your calendar — while you focus on closing deals.
 
 No hiring. No training. No missed opportunities.
 
@@ -28,7 +28,7 @@ Takes 10 minutes to set up. Costs less than one lost commission.
 
 Talk soon,
 {{sender_name}}
-RealtyVoice AI
+All The Calls
 
 *P.S. — It answers nights and weekends too. When was the last time your voicemail booked you an appointment?*
 
@@ -48,13 +48,13 @@ Sarah Chen is a solo agent in Phoenix. Last year, she was losing an average of 4
 
 She tried hiring a part-time assistant. Too expensive. Too unreliable. Still missed calls on weekends.
 
-Then she set up RealtyVoice AI.
+Then she set up All The Calls.
 
 Within the first week, it answered 23 calls she would have missed. It screened out tire-kickers, collected buyer criteria from 11 qualified leads, and booked 3 consultations automatically.
 
 She didn't change her schedule. She didn't hire anyone. She just stopped losing leads to voicemail.
 
-**What RealtyVoice AI does on every call:**
+**What All The Calls does on every call:**
 - Greets callers in your name with your custom greeting
 - Qualifies the lead (buying timeline, budget, area)
 - Answers basic questions about listings
@@ -88,7 +88,7 @@ Pretty high.
 
 You work too hard to lose deals to a voicemail box. The problem isn't that you're not dedicated — it's that you're one person and the phone doesn't care when you're busy.
 
-RealtyVoice AI fixes that. Not by adding more to your plate, but by handling the phone for you — 24 hours a day, 7 days a week, in your voice, with your brand.
+All The Calls fixes that. Not by adding more to your plate, but by handling the phone for you — 24 hours a day, 7 days a week, in your voice, with your brand.
 
 **It handles:**
 - Inbound buyer and seller inquiries
@@ -111,7 +111,7 @@ One agent. Unlimited coverage.
 
 **Subject:** "I already have a voicemail for that"
 
-**Preview text:** Voicemail doesn't qualify leads. RealtyVoice does.
+**Preview text:** Voicemail doesn't qualify leads. All The Calls does.
 
 ---
 
@@ -123,13 +123,13 @@ Fair enough. But here's the difference:
 
 **Voicemail** waits for callers to leave a message, hopes they do, and makes you call back hours later — often to a number that doesn't answer.
 
-**RealtyVoice AI** has a real conversation. It asks questions, qualifies the lead, captures contact info, books an appointment, and sends you a full summary while you're still in your showing.
+**All The Calls** has a real conversation. It asks questions, qualifies the lead, captures contact info, books an appointment, and sends you a full summary while you're still in your showing.
 
 Your voicemail doesn't tell a caller what neighborhoods you specialize in.
 Your voicemail doesn't ask about their buying timeline or budget.
 Your voicemail doesn't book a consultation on your behalf.
 
-RealtyVoice does all of that — in under 3 minutes per call — and every lead lands in your inbox pre-qualified and ready to go.
+All The Calls does all of that — in under 3 minutes per call — and every lead lands in your inbox pre-qualified and ready to go.
 
 **Common questions:**
 
@@ -137,7 +137,7 @@ RealtyVoice does all of that — in under 3 minutes per call — and every lead 
 No — they're used to AI assistants now. Most don't even ask. The ones who do are fine when told it's a scheduling assistant.
 
 *"What if they want to talk to a real person?"*
-RealtyVoice tells them you're with a client and offers to schedule a callback — just like a professional assistant would.
+All The Calls tells them you're with a client and offers to schedule a callback — just like a professional assistant would.
 
 *"How much does it cost?"*
 Less than one hour of a human assistant's time per month. And it works 24/7.
@@ -164,7 +164,7 @@ But before I go, one last thought:
 
 The solo agents who are winning right now aren't necessarily better at real estate than you. They just have systems that make them look bigger than they are — systems that answer every call, follow up instantly, and never sleep.
 
-RealtyVoice AI is one of those systems. It's designed specifically for solo agents who want to compete with teams and brokerages without the overhead.
+All The Calls is one of those systems. It's designed specifically for solo agents who want to compete with teams and brokerages without the overhead.
 
 If now isn't the right time, I get it. Feel free to reply with "not now" and I'll follow up in a few months.
 
@@ -173,7 +173,7 @@ If you're curious — even a little — **[grab 15 minutes with me here →]** a
 Either way, thanks for your time. Good luck out there.
 
 {{sender_name}}
-RealtyVoice AI
+All The Calls
 
 *P.S. — We offer a 14-day free trial. No credit card. No commitment. If it doesn't save you at least 3 hours in the first two weeks, it's not for you.*
 

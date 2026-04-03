@@ -15,7 +15,7 @@
 
 Hi [First Name],
 
-You looked at RealtyVoice a few days ago, but I noticed you didn't get set up.
+You looked at All The Calls a few days ago, but I noticed you didn't get set up.
 
 No pressure — I just wanted to make sure you didn't hit a wall or have a question that stopped you.
 
@@ -23,7 +23,7 @@ A lot of agents tell me the same thing when they first land on us:
 
 *"This sounds great, but I don't have time to figure out something new right now."*
 
-Which is exactly backward — the whole point of RealtyVoice is to save you time. Setup takes about 15 minutes, and it starts working immediately.
+Which is exactly backward — the whole point of All The Calls is to save you time. Setup takes about 15 minutes, and it starts working immediately.
 
 If there's something I can answer or a concern I can address, just reply here. I read every one.
 
@@ -33,7 +33,7 @@ Otherwise, your free trial is still waiting. No credit card, no commitment.
 
 Best,
 [Founder Name]
-RealtyVoice AI
+All The Calls
 
 ---
 
@@ -73,23 +73,23 @@ If you're not — completely fine. I'll check in once more, and then I'll leave 
 
 Hi [First Name],
 
-After talking with hundreds of real estate agents, I've noticed two things that usually stop someone from trying RealtyVoice:
+After talking with hundreds of real estate agents, I've noticed two things that usually stop someone from trying All The Calls:
 
 **1. "I'm worried it'll sound robotic to my clients."**
 
-Fair concern. We've spent a lot of time on this. RealtyVoice is trained on real estate conversations — it understands buyer timelines, pre-approval status, listing questions, and seller intent. It doesn't sound like a phone tree. It sounds like a professional front desk.
+Fair concern. We've spent a lot of time on this. All The Calls is trained on real estate conversations — it understands buyer timelines, pre-approval status, listing questions, and seller intent. It doesn't sound like a phone tree. It sounds like a professional front desk.
 
 You can even record a custom greeting in your own voice for the intro.
 
 **2. "I already have a VA / answering service / team member."**
 
-That's great — and RealtyVoice doesn't replace them. It handles the overflow: evenings, weekends, the 30 minutes you're unavailable during a showing. Think of it as the layer that ensures nothing slips through.
+That's great — and All The Calls doesn't replace them. It handles the overflow: evenings, weekends, the 30 minutes you're unavailable during a showing. Think of it as the layer that ensures nothing slips through.
 
 If neither of those was your concern and it's something else — just reply and tell me. Seriously. I want to know.
 
 Otherwise:
 
-[→ Try RealtyVoice free for 14 days]
+[→ Try All The Calls free for 14 days]
 
 [Founder Name]
 
@@ -105,13 +105,13 @@ P.S. Setup takes 15 minutes. You can test it on your own cell before it ever tou
 
 Hi [First Name],
 
-[Agent Name] had been in real estate for 11 years when she signed up for RealtyVoice.
+[Agent Name] had been in real estate for 11 years when she signed up for All The Calls.
 
 She wasn't struggling. She was doing well. But she had a nagging feeling she was leaving deals on the table — specifically during her listing appointments, which she protected fiercely.
 
 In her first month:
 
-- RealtyVoice handled **23 calls** while she was unavailable
+- All The Calls handled **23 calls** while she was unavailable
 - **8 of those were qualified leads**
 - **3 converted to booked appointments**
 - **2 closed within 60 days**
@@ -138,7 +138,7 @@ That's the thing about missed calls — by definition, you don't see them.
 
 Hi [First Name],
 
-This is my last email to you about RealtyVoice unless you want to hear more.
+This is my last email to you about All The Calls unless you want to hear more.
 
 I know inboxes are loud and you're running a real business. I respect your time.
 
@@ -148,7 +148,7 @@ The agents who are going to dominate the next five years in real estate aren't t
 
 Speed-to-lead and consistent availability compound over time. The agent who answers first, qualifies well, and books fast builds a reputation for it. That reputation generates referrals. Those referrals generate more calls. Those calls get answered.
 
-RealtyVoice is that system.
+All The Calls is that system.
 
 If you want to try it:
 
@@ -159,7 +159,7 @@ And if the timing is just off right now, I get it. You can come back whenever it
 Good luck out there.
 
 [Founder Name]
-RealtyVoice AI
+All The Calls
 
 P.S. If you ever want to just talk through whether it makes sense for your specific setup, I'm happy to jump on a 15-minute call. Just reply "call" and I'll send you a link.
 

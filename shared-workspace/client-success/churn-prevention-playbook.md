@@ -1,4 +1,4 @@
-# RealtyVoice AI — Churn Prevention Playbook
+# All The Calls — Churn Prevention Playbook
 
 > **Primary trigger:** Client has 0 calls in the last 7 days
 > **Goal:** Re-engage at-risk clients before they cancel
@@ -38,7 +38,7 @@ Either way, I want to make sure you're set up to capture every lead when calls p
 If you want me to verify your setup personally, just reply and I'll take a look right now.
 
 [Your Name]
-Client Success, RealtyVoice AI
+Client Success, All The Calls
 
 ---
 
@@ -59,7 +59,7 @@ Client Success, RealtyVoice AI
 
 Hi [First Name],
 
-I wanted to reach out personally because I noticed your RealtyVoice AI hasn't received calls in two weeks.
+I wanted to reach out personally because I noticed your All The Calls hasn't received calls in two weeks.
 
 I don't want you to miss a single lead — especially in today's market.
 
@@ -70,7 +70,7 @@ Here's my calendar: [Calendly link]
 Or if you'd rather I just walk you through it via email, reply and I'll send you the step-by-step.
 
 [CS Rep Name]
-Client Success, RealtyVoice AI
+Client Success, All The Calls
 [Direct phone number]
 
 ---
@@ -89,7 +89,7 @@ Client Success, RealtyVoice AI
 ### CS Rep Phone Call Script
 
 **Opening:**
-> "Hi [First Name], this is [Name] from RealtyVoice AI. I'm calling because I want to make sure your AI receptionist is working for you — I noticed you haven't had any calls come through in a few weeks and I wanted to check in personally."
+> "Hi [First Name], this is [Name] from All The Calls. I'm calling because I want to make sure your AI receptionist is working for you — I noticed you haven't had any calls come through in a few weeks and I wanted to check in personally."
 
 **Discovery questions:**
 1. "Has anything changed with how you're handling incoming calls?"
@@ -176,7 +176,7 @@ Every Monday, CS team reviews:
 | Reason | Fix |
 |--------|-----|
 | Call forwarding disabled or broken | Re-enable forwarding in phone carrier settings |
-| Wrong forwarding number entered | Update in RealtyVoice AI dashboard |
+| Wrong forwarding number entered | Update in All The Calls dashboard |
 | Agent changed phone numbers | Update business number in account settings |
 | Agent on vacation / inactive | Verify — no action needed, note in CRM |
 | Genuine market slowdown | Reassure, keep active, note seasonal pattern |
@@ -185,4 +185,4 @@ Every Monday, CS team reviews:
 
 ---
 
-*RealtyVoice AI · Client Success Internal Document · Version 1.0 · April 2026*
+*All The Calls · Client Success Internal Document · Version 1.0 · April 2026*

@@ -1,4 +1,4 @@
-# RealtyVoice AI — Client Onboarding Email Sequence
+# All The Calls — Client Onboarding Email Sequence
 
 > **Goal:** Get new clients activated, confident, and seeing real value within their first 14 days.
 > Five emails, one clear action each. Warm, human tone throughout.
@@ -7,19 +7,19 @@
 
 ## Email 1 — Welcome + Setup Steps
 **Send:** Day 0 — Immediately after signup
-**Subject:** Welcome to RealtyVoice AI — You're live in 3 steps
+**Subject:** Welcome to All The Calls — You're live in 3 steps
 
 ---
 
 Hi [First Name],
 
-Welcome to RealtyVoice AI! Your AI receptionist is ready — and so are we.
+Welcome to All The Calls! Your AI receptionist is ready — and so are we.
 
 Here's how to get fully set up in the next 10 minutes:
 
 1. **Log in** to your dashboard at [app link]
 2. **Add your business details** — your name, brokerage, and the neighborhoods you serve
-3. **Forward your calls** to your RealtyVoice number (instructions inside the app)
+3. **Forward your calls** to your All The Calls number (instructions inside the app)
 
 Once those three steps are done, your AI receptionist starts answering calls, qualifying leads, and logging everything automatically — even when you're showing homes.
 
@@ -29,7 +29,7 @@ Questions? Reply to this email. A real person reads every message.
 
 To your success,
 [Your Name]
-Client Success, RealtyVoice AI
+Client Success, All The Calls
 
 ---
 
@@ -55,7 +55,7 @@ Most agents who aren't seeing calls yet just haven't completed call forwarding. 
 
 Talk soon,
 [Your Name]
-Client Success, RealtyVoice AI
+Client Success, All The Calls
 
 ---
 
@@ -84,7 +84,7 @@ Takes about 5 minutes. Worth way more.
 
 Talk soon,
 [Your Name]
-Client Success, RealtyVoice AI
+Client Success, All The Calls
 
 ---
 
@@ -116,7 +116,7 @@ Most agents are surprised to see 3–5 calls they would have missed in week one 
 
 Making you money,
 [Your Name]
-Client Success, RealtyVoice AI
+Client Success, All The Calls
 
 ---
 
@@ -146,8 +146,8 @@ Or reply here and I'll personally recommend the right tier for your volume.
 
 Rooting for you,
 [Your Name]
-Client Success, RealtyVoice AI
+Client Success, All The Calls
 
 ---
 
-*RealtyVoice AI · Unsubscribe · [Company Address]*
+*All The Calls · Unsubscribe · [Company Address]*

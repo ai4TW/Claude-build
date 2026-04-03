@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 /**
- * Publish blog-missed-calls.md to Hashnode under the RealtyVoice AI brand.
+ * Publish blog-missed-calls.md to Hashnode under the All The Calls brand.
  *
  * SETUP (one-time, owner action required):
- *   1. Go to https://hashnode.com and create a free account for "RealtyVoice AI"
- *      Use a brand email like hello@allthecalls.com (or a dedicated RealtyVoice AI email)
+ *   1. Go to https://hashnode.com and create a free account for "All The Calls"
+ *      Use a brand email like hello@allthecalls.com (or a dedicated All The Calls email)
  *   2. Set up a Hashnode blog at: https://hashnode.com (create publication)
- *      Publication name: "RealtyVoice AI"  |  slug: realthvoiceai (or similar)
+ *      Publication name: "All The Calls"  |  slug: realthvoiceai (or similar)
  *   3. Get your Personal Access Token:
  *      https://hashnode.com/settings/developer  → Generate Token
  *   4. Get your Publication ID:

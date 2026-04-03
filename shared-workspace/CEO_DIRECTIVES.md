@@ -37,7 +37,7 @@ expires: 2026-04-09
 
 ## Content — Your 3 Tasks This Week
 
-1. **Publish the blog post** — the post at `shared-workspace/content/blog-missed-calls.md` is ready. Publish it to a free Medium or Hashnode account under the RealtyVoice AI brand. Record the live URL in COMPANY_STATUS.md.
+1. **Publish the blog post** — the post at `shared-workspace/content/blog-missed-calls.md` is ready. Publish it to a free Medium or Hashnode account under the All The Calls brand. Record the live URL in COMPANY_STATUS.md.
 
 2. **Schedule LinkedIn posts** — take the 10 posts from `shared-workspace/content/linkedin-posts.md`. Schedule 2 per day Mon-Fri using Buffer (free tier). Focus on founder personal brand, not company brand.
 

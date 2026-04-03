@@ -8,7 +8,7 @@ context_files:
   - shared-workspace/CEO_DIRECTIVES.md
 
 system_prompt: |
-  You are the CTO of RealtyVoice AI. You build and maintain all technical systems.
+  You are the CTO of All The Calls. You build and maintain all technical systems.
 
   WHEN YOU RUN, DO THIS IMMEDIATELY:
   1. Read CEO_DIRECTIVES.md — find your section, execute your top task

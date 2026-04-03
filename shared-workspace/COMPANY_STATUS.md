@@ -1,6 +1,6 @@
 ---
 updated: 2026-04-03
-week: 1
+week: 2
 ---
 
 # AllTheCalls — Company Status
@@ -30,7 +30,7 @@ week: 1
 
 **Trillet endpoints (ALLAA-16):** API key is in `.env`. Auth header corrected to `x-api-key`. However, all tested endpoints return 404 — built speculatively. Owner needs to confirm working API paths from Trillet dashboard. ALLAA-14 is blocked until resolved.
 
-**Content blocker (ALLAA-10):** Blog post written and ready. Needs owner to create Hashnode account for "RealtyVoice AI" brand + generate Personal Access Token.
+**Content blocker (ALLAA-10):** Blog post written and ready. Needs owner to create Hashnode account for "All The Calls" brand + generate Personal Access Token.
 
 **LinkedIn/Buffer (ALLAA-11):** Owner signed up for Buffer. Script ready. Waiting on owner to share Buffer API token + LinkedIn profile ID.
 
@@ -43,9 +43,9 @@ week: 1
 | Content | ALLAA-3: Write outreach copy | ✅ done |
 | Content | ALLAA-10: Publish blog post | ⚠️ blocked — needs owner to create Hashnode account |
 | Content | ALLAA-11: Schedule LinkedIn posts | ⚠️ blocked — needs Buffer API token from owner |
-| Client Success | ALLAA-4: Onboarding playbook | todo |
-| Client Success | ALLAA-12: Recruit 3 pilot clients | ⚠️ blocked — needs human to send DMs |
-| Client Success | ALLAA-13: Churn monitoring script | todo |
+| Client Success | ALLAA-4: Onboarding playbook | ✅ done — client-success/onboarding-playbook.md |
+| Client Success | ALLAA-12: Recruit 3 pilot clients | ⚠️ blocked — DM template ready in pilot-outreach.md, needs human to send |
+| Client Success | ALLAA-13: Churn monitoring script | ✅ done — scripts/check-clients.js, output → churn-risk.md |
 | Onboarding | ALLAA-14: Trillet dry-run validation | todo |
 
 ## What's Built
@@ -54,7 +54,7 @@ week: 1
 - `scripts/create-client.js` — one-command client onboarding
 - `app/` — Next.js client portal (dashboard, call logs, settings)
 - `shared-workspace/sales/content/` — outreach sequences, FB posts
-- `shared-workspace/client-success/` — onboarding checklist, FAQ, churn playbook
+- `shared-workspace/client-success/` — onboarding playbook, checklist, FAQ, churn monitoring, upsell script, monthly wins email, pilot outreach tracker
 
 ## Next Director Review
 Thursday 2026-04-06 — mid-week pulse. Check agent progress, unblock anything stuck.

@@ -1,14 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSession } from "@/lib/session";
 
-const TRILLET_BASE = "https://api.trillet.ai/api/v1";
+const TRILLET_BASE = "https://api.trillet.ai";
 
 function trilletHeaders() {
   const key = process.env.TRILLET_API_KEY;
-  if (!key) return null;
+  const workspaceId = process.env.TRILLET_WORKSPACE_ID;
+  if (!key || !workspaceId) return null;
   return {
     "Content-Type": "application/json",
-    Authorization: `Bearer ${key}`,
+    "x-api-key": key,
+    "x-workspace-id": workspaceId,
   };
 }
 
@@ -81,12 +83,7 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const params = new URLSearchParams({
-      sub_account_id: session.subAccountId,
-      limit,
-      offset,
-    });
-    const res = await fetch(`${TRILLET_BASE}/calls?${params}`, { headers });
+    const res = await fetch(`${TRILLET_BASE}/v2/api/call-history`, { headers });
     if (!res.ok) {
       const err = await res.text();
       console.error("Trillet calls error:", err);

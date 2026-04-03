@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "RealtyVoice AI — Never Miss a Lead. Never Lose a Commission.",
+  title: "All The Calls — Never Miss a Lead. Never Lose a Commission.",
   description:
-    "RealtyVoice AI answers every call in your name — 24/7 — qualifying leads, booking showings, and following up automatically. Starting at $149/mo.",
+    "All The Calls answers every call in your name — 24/7 — qualifying leads, booking showings, and following up automatically. Starting at $149/mo.",
 };
 
 export default function RootLayout({
@@ -14,7 +15,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }

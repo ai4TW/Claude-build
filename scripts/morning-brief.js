@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * RealtyVoice AI — Morning Brief (Autonomy Engine)
+ * All The Calls — Morning Brief (Autonomy Engine)
  *
  * Runs the CEO agent: reads all company context, generates fresh directives,
  * and fans out task assignments to each department agent.
@@ -73,7 +73,7 @@ async function runCEO(ctx) {
 
   const today = new Date().toISOString().slice(0, 10);
 
-  const systemPrompt = `You are the CEO of RealtyVoice AI — a white-label AI receptionist reselling business.
+  const systemPrompt = `You are the CEO of All The Calls — a white-label AI receptionist reselling business.
 We resell Trillet AI to real estate agents. Price: $149-$399/mo. Cost: $49-$199/mo.
 Goal: 100 paying clients = $15,000+ MRR within 90 days of launch.
 
@@ -237,7 +237,7 @@ ${config.focus}`,
 // ── Main ──────────────────────────────────────────────────────────────────────
 
 async function main() {
-  log("=== RealtyVoice AI Morning Brief ===");
+  log("=== All The Calls Morning Brief ===");
   if (DRY_RUN) log("DRY RUN — no files will be written");
 
   const ctx = loadContext();

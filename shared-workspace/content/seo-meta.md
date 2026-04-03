@@ -1,4 +1,4 @@
-# RealtyVoice AI — SEO Meta Copy
+# All The Calls — SEO Meta Copy
 
 ---
 
@@ -8,24 +8,24 @@
 
 ### Title Tag
 ```
-AI Answering Service for Real Estate Agents | RealtyVoice
+AI Answering Service for Real Estate Agents | All The Calls
 ```
 *(57 characters — within 60-char limit)*
 
 ### Meta Description
 ```
-Never miss a real estate lead again. RealtyVoice AI answers every call instantly, qualifies buyers and sellers, and books appointments 24/7 — even during showings.
+Never miss a real estate lead again. All The Calls answers every call instantly, qualifies buyers and sellers, and books appointments 24/7 — even during showings.
 ```
 *(163 characters — within 160-char limit)*
 
 ### Open Graph Title
 ```
-RealtyVoice AI — The AI Receptionist Built for Real Estate
+All The Calls — The AI Receptionist Built for Real Estate
 ```
 
 ### Open Graph Description
 ```
-Real estate agents lose $50,000/year to missed calls. RealtyVoice AI answers every call, qualifies leads, and books appointments around the clock. Start free.
+Real estate agents lose $50,000/year to missed calls. All The Calls answers every call, qualifies leads, and books appointments around the clock. Start free.
 ```
 
 ---
@@ -36,7 +36,7 @@ Real estate agents lose $50,000/year to missed calls. RealtyVoice AI answers eve
 
 ### Title Tag
 ```
-Real Estate Lead Capture Tips & AI Tools | RealtyVoice Blog
+Real Estate Lead Capture Tips & AI Tools | All The Calls Blog
 ```
 *(59 characters)*
 
@@ -78,7 +78,7 @@ How Real Estate Agents Use AI to Capture More Leads in 2025
 
 ### Meta Description
 ```
-Top agents are using AI answering services to respond to leads in seconds, not hours. See how RealtyVoice AI works and why speed-to-lead decides who wins.
+Top agents are using AI answering services to respond to leads in seconds, not hours. See how All The Calls works and why speed-to-lead decides who wins.
 ```
 *(154 characters)*
 
@@ -91,7 +91,7 @@ Top agents are using AI answering services to respond to leads in seconds, not h
 {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  "name": "RealtyVoice AI",
+  "name": "All The Calls",
   "applicationCategory": "BusinessApplication",
   "operatingSystem": "Web",
   "description": "AI-powered answering service for real estate agents. Answers calls, qualifies leads, and books appointments 24/7.",
@@ -113,11 +113,11 @@ Top agents are using AI answering services to respond to leads in seconds, not h
   "description": "[Meta Description]",
   "author": {
     "@type": "Organization",
-    "name": "RealtyVoice AI"
+    "name": "All The Calls"
   },
   "publisher": {
     "@type": "Organization",
-    "name": "RealtyVoice AI"
+    "name": "All The Calls"
   }
 }
 ```

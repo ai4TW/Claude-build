@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 
 const SESSION_COOKIE = "rv_session";
 const secret = new TextEncoder().encode(
-  process.env.SESSION_SECRET || "realtyvoice-change-this-in-production"
+  process.env.SESSION_SECRET || "allthecalls-change-this-in-production"
 );
 
 export interface SessionPayload {

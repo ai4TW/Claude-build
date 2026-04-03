@@ -56,7 +56,7 @@ At $12,000 average commission, that's $48,000 gone. Not from bad marketing. Not 
 
 The worst part? She knew it was happening. She just didn't know how to fix it without hiring someone full-time.
 
-That's why we built RealtyVoice AI.
+That's why we built All The Calls.
 
 Every call answered. Every lead qualified. Every appointment booked — even while you're standing in someone's kitchen talking about crown molding.
 
@@ -79,7 +79,7 @@ Unless you have a system that does it for you.
 
 An AI that picks up in 1 second — every time, 24/7 — solves the response time problem permanently. Not "better." Solved.
 
-That's what RealtyVoice does.
+That's what All The Calls does.
 
 #RealEstate #LeadResponse`,
 
@@ -98,7 +98,7 @@ So I asked: what if you never had to choose between being present with one clien
 
 What if a call was never "missed" — just instantly answered, qualified, and handed back to you when you were ready?
 
-That question became RealtyVoice AI.
+That question became All The Calls.
 
 #Founder #RealEstateTech`,
 
@@ -122,7 +122,7 @@ The opportunity cost of voicemail is invisible. But it's massive.
 
 Heard this from an agent last week. She was right — generic call centers don't work for real estate.
 
-The difference with RealtyVoice AI:
+The difference with All The Calls:
 
 — Trained specifically on real estate conversations
 — Knows what pre-approval means and why it matters
@@ -146,16 +146,16 @@ By Monday morning, they've toured two homes with another agent.
 
 This happens every single weekend to agents across the country. It's not laziness. It's the impossible trade-off between having a life and having a business.
 
-RealtyVoice AI doesn't take weekends off.
+All The Calls doesn't take weekends off.
 
 Neither do your leads.
 
 #RealEstateLife #WorkLifeBalance`,
 
   // Post 7 — Social Proof
-  `An agent told me what happened in her first 30 days with RealtyVoice:
+  `An agent told me what happened in her first 30 days with All The Calls:
 
-"I was in a listing presentation. My phone rang 3 times. RealtyVoice handled all of it. By the time I got back to my car, I had a summary of each call — two qualified buyers and one seller who wanted a CMA.
+"I was in a listing presentation. My phone rang 3 times. All The Calls handled all of it. By the time I got back to my car, I had a summary of each call — two qualified buyers and one seller who wanted a CMA.
 
 I called them back in 10 minutes with full context. Booked two showings and one listing appointment. None of that would have happened before."
 
@@ -183,7 +183,7 @@ Build that system before your competition does.
   // Post 9 — ROI Math
   `The math on AI call answering for real estate:
 
-Cost of RealtyVoice AI: ~$200-300/month
+Cost of All The Calls: ~$200-300/month
 Average commission: $12,000
 Deals needed to recover annual cost: 0.25
 Deals most agents recover in month one: 1-3
@@ -201,7 +201,7 @@ Maybe it's costing you one deal a year. Maybe five.
 
 Either way, the fix takes about 15 minutes to set up.
 
-RealtyVoice AI:
+All The Calls:
 ✓ Answers every call instantly
 ✓ Qualifies leads with real estate-specific questions
 ✓ Books appointments to your calendar
