@@ -1,30 +1,35 @@
 /**
  * schedule-buffer.js
- * Schedules 10 founder LinkedIn posts via Buffer API (2/day Mon-Fri).
+ * Schedules 10 founder LinkedIn posts via Buffer GraphQL API (2/day Mon-Fri).
  *
  * Usage:
- *   BUFFER_ACCESS_TOKEN=<token> BUFFER_PROFILE_ID=<profile_id> node scripts/schedule-buffer.js
+ *   1. Get your API key from: https://publish.buffer.com/settings/api
+ *   2. Add to .env:  BUFFER_API_KEY=<your-key>
+ *      Or export:    export BUFFER_API_KEY=<your-key>
  *
- * How to get credentials:
- *   1. Go to https://buffer.com/developers/apps → Create an app (or use personal access token)
- *   2. Complete OAuth to get an access token
- *   3. Run: node scripts/schedule-buffer.js --list-profiles
- *      to print your connected LinkedIn profile IDs, then pick the right one
+ *   List your connected channels first:
+ *     node scripts/schedule-buffer.js --list-channels
+ *
+ *   Then schedule all posts:
+ *     BUFFER_CHANNEL_ID=<linkedin-channel-id> node scripts/schedule-buffer.js
  */
 
 require('dotenv').config();
 
-const BUFFER_ACCESS_TOKEN = process.env.BUFFER_ACCESS_TOKEN;
-const BUFFER_PROFILE_ID = process.env.BUFFER_PROFILE_ID;
+const BUFFER_API_KEY    = process.env.BUFFER_API_KEY;
+const BUFFER_CHANNEL_ID = process.env.BUFFER_CHANNEL_ID;
+const BUFFER_ENDPOINT   = 'https://api.buffer.com';
 
 // ── Schedule ──────────────────────────────────────────────────────────────────
-// Week of April 6, 2026 — 2 posts/day at 8 AM and 12 PM local (UTC-5 CDT shown)
-// Adjust UTC offset to match your timezone.
-const UTC_OFFSET_HOURS = -5; // Change to your UTC offset (e.g. -7 for PDT)
+// Week of April 6, 2026 — 2 posts/day at 8 AM and 12 PM
+// Adjust UTC_OFFSET_HOURS to match your timezone (e.g. -5 for CDT, -7 for PDT)
+const UTC_OFFSET_HOURS = -5;
 
 function toUTC(dateStr, hour) {
-  const local = new Date(`${dateStr}T${String(hour).padStart(2, '0')}:00:00`);
-  return new Date(local.getTime() - UTC_OFFSET_HOURS * 60 * 60 * 1000);
+  const utcHour = hour - UTC_OFFSET_HOURS;
+  const d = new Date(`${dateStr}T00:00:00Z`);
+  d.setUTCHours(utcHour, 0, 0, 0);
+  return d.toISOString();
 }
 
 const SCHEDULE = [
@@ -210,90 +215,116 @@ Link in bio
 #RealEstate #AIReceptionist`,
 ];
 
-// ── Helpers ───────────────────────────────────────────────────────────────────
-async function bufferRequest(path, method = 'GET', body = null) {
-  const url = `https://api.bufferapp.com/1${path}`;
-  const opts = {
-    method,
+// ── GraphQL helpers ───────────────────────────────────────────────────────────
+async function gql(query, variables = {}) {
+  const res = await fetch(BUFFER_ENDPOINT, {
+    method: 'POST',
     headers: {
-      Authorization: `Bearer ${BUFFER_ACCESS_TOKEN}`,
-      'Content-Type': 'application/x-www-form-urlencoded',
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${BUFFER_API_KEY}`,
     },
-  };
-  if (body) {
-    opts.body = new URLSearchParams(body).toString();
-  }
-  const res = await fetch(url, opts);
-  const json = await res.json();
-  if (!res.ok) throw new Error(`Buffer API error ${res.status}: ${JSON.stringify(json)}`);
-  return json;
-}
-
-async function listProfiles() {
-  const profiles = await bufferRequest('/profiles.json');
-  console.log('\nConnected profiles:');
-  for (const p of profiles) {
-    console.log(`  id: ${p.id}  service: ${p.service}  username: ${p.service_username}`);
-  }
-}
-
-async function schedulePost(text, scheduledAt) {
-  const timestamp = Math.floor(scheduledAt.getTime() / 1000);
-  return bufferRequest('/updates/create.json', 'POST', {
-    profile_ids: BUFFER_PROFILE_ID,
-    text,
-    scheduled_at: timestamp,
-    now: 'false',
-    top: 'false',
+    body: JSON.stringify({ query, variables }),
   });
+  const json = await res.json();
+  if (json.errors) throw new Error(json.errors.map(e => e.message).join('; '));
+  return json.data;
+}
+
+async function getOrgId() {
+  const data = await gql(`
+    query {
+      account {
+        organizations { id name }
+      }
+    }
+  `);
+  const orgs = data.account.organizations;
+  if (!orgs.length) throw new Error('No organizations found on this Buffer account.');
+  return orgs[0].id;
+}
+
+async function listChannels() {
+  const orgId = await getOrgId();
+  const data = await gql(`
+    query GetChannels($orgId: String!) {
+      channels(input: { organizationId: $orgId }) {
+        id name service
+      }
+    }
+  `, { orgId });
+  return data.channels;
+}
+
+async function schedulePost(text, dueAt) {
+  const data = await gql(`
+    mutation CreatePost($text: String!, $channelId: String!, $dueAt: String!) {
+      createPost(input: {
+        text: $text,
+        channelId: $channelId,
+        schedulingType: automatic,
+        mode: customScheduled,
+        dueAt: $dueAt
+      }) {
+        ... on PostActionSuccess {
+          post { id text dueAt }
+        }
+        ... on MutationError {
+          message
+        }
+      }
+    }
+  `, { text, channelId: BUFFER_CHANNEL_ID, dueAt });
+
+  const result = data.createPost;
+  if (result.message) throw new Error(result.message);
+  return result.post;
 }
 
 // ── Main ──────────────────────────────────────────────────────────────────────
 async function main() {
-  if (process.argv.includes('--list-profiles')) {
-    if (!BUFFER_ACCESS_TOKEN) {
-      console.error('Set BUFFER_ACCESS_TOKEN first.');
-      process.exit(1);
+  if (!BUFFER_API_KEY) {
+    console.error('Missing BUFFER_API_KEY.');
+    console.error('Get it from: https://publish.buffer.com/settings/api');
+    console.error('Then set: export BUFFER_API_KEY=<your-key>  (or add to .env)');
+    process.exit(1);
+  }
+
+  if (process.argv.includes('--list-channels')) {
+    console.log('Fetching connected channels...\n');
+    const channels = await listChannels();
+    for (const ch of channels) {
+      console.log(`  id: ${ch.id}  service: ${ch.service}  name: ${ch.name}`);
     }
-    await listProfiles();
+    console.log('\nCopy the id of your LinkedIn channel, then run:');
+    console.log('  BUFFER_CHANNEL_ID=<id> node scripts/schedule-buffer.js');
     return;
   }
 
-  if (!BUFFER_ACCESS_TOKEN) {
-    console.error('Missing BUFFER_ACCESS_TOKEN.');
-    console.error('Set it via: export BUFFER_ACCESS_TOKEN=<your-token>');
-    console.error('Or add BUFFER_ACCESS_TOKEN=<token> to your .env file.');
-    process.exit(1);
-  }
-  if (!BUFFER_PROFILE_ID) {
-    console.error('Missing BUFFER_PROFILE_ID.');
-    console.error('Run: node scripts/schedule-buffer.js --list-profiles');
-    console.error('Then set: export BUFFER_PROFILE_ID=<your-linkedin-profile-id>');
+  if (!BUFFER_CHANNEL_ID) {
+    console.error('Missing BUFFER_CHANNEL_ID.');
+    console.error('Run: node scripts/schedule-buffer.js --list-channels');
+    console.error('Then set: export BUFFER_CHANNEL_ID=<linkedin-channel-id>');
     process.exit(1);
   }
 
-  console.log(`Scheduling ${POSTS.length} posts to Buffer profile ${BUFFER_PROFILE_ID}...\n`);
+  console.log(`Scheduling ${POSTS.length} posts to channel ${BUFFER_CHANNEL_ID}...\n`);
 
   let successCount = 0;
   for (let i = 0; i < POSTS.length; i++) {
     const slot = SCHEDULE[i];
-    const scheduledAt = toUTC(slot.date, slot.hour);
+    const dueAt = toUTC(slot.date, slot.hour);
     try {
-      const result = await schedulePost(POSTS[i], scheduledAt);
-      const update = result.updates?.[0] ?? result;
-      console.log(`✓ Post ${i + 1}/10 — ${slot.date} ${slot.hour}:00 → id: ${update.id}`);
+      const post = await schedulePost(POSTS[i], dueAt);
+      console.log(`✓ Post ${i + 1}/10 — ${slot.date} ${slot.hour}:00 local → id: ${post.id}`);
       successCount++;
     } catch (err) {
       console.error(`✗ Post ${i + 1}/10 — ${slot.date} ${slot.hour}:00 → FAILED: ${err.message}`);
     }
-    // Small delay to avoid rate limiting
     await new Promise(r => setTimeout(r, 300));
   }
 
   console.log(`\nDone. ${successCount}/${POSTS.length} posts scheduled.`);
-  if (successCount >= 5) {
-    console.log('Success criteria met (5+ posts scheduled).');
-  }
+  if (successCount >= 5) console.log('Success criteria met (5+ posts scheduled).');
 }
 
 main().catch(err => {
