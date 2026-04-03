@@ -1,20 +1,30 @@
 /**
- * Trillet AI API Integration
- * All The Calls — White-label reseller layer
+ * Trillet AI API Integration — AllTheCalls
  *
- * Docs: https://docs.trillet.ai/v1/api-reference/introduction
+ * Confirmed working endpoints (as of Apr 2026):
+ *   GET    /v1/api/agents        — list all agents in workspace
+ *   GET    /v1/api/agents/:id    — get a single agent
+ *   POST   /v1/api/agents        — create a new agent
+ *   PUT    /v1/api/agents/:id    — update an agent
+ *   DELETE /v1/api/agents/:id    — delete an agent
+ *   GET    /v1/api/call-history  — list call history (500s when empty — Trillet bug)
  *
- * Base URL: https://api.trillet.ai
- * Auth: x-api-key + x-workspace-id headers on every request.
+ * Phone number provisioning is dashboard-only — assign numbers to agents
+ * via app.trillet.ai, then record the assigned number in your client DB.
+ *
+ * Sub-accounts / reseller billing: does not exist in Trillet API.
+ * Use Stripe for client billing (handled in /api/checkout).
  */
+
+require("dotenv").config();
 
 const BASE_URL = "https://api.trillet.ai";
 
 function getHeaders() {
   const key = process.env.TRILLET_API_KEY;
   const workspaceId = process.env.TRILLET_WORKSPACE_ID;
-  if (!key) throw new Error("TRILLET_API_KEY environment variable not set");
-  if (!workspaceId) throw new Error("TRILLET_WORKSPACE_ID environment variable not set");
+  if (!key) throw new Error("TRILLET_API_KEY not set");
+  if (!workspaceId) throw new Error("TRILLET_WORKSPACE_ID not set");
   return {
     "Content-Type": "application/json",
     "x-api-key": key,
@@ -28,91 +38,93 @@ async function apiRequest(method, path, body = null) {
     headers: getHeaders(),
     body: body ? JSON.stringify(body) : undefined,
   });
+
+  const text = await res.text();
+  let data;
+  try { data = JSON.parse(text); } catch { data = { raw: text }; }
+
   if (!res.ok) {
-    const err = await res.text();
-    throw new Error(`Trillet API ${method} ${path} failed (${res.status}): ${err}`);
+    throw new Error(`Trillet ${method} ${path} → ${res.status}: ${text.slice(0, 200)}`);
   }
-  return res.json();
+  return data;
 }
 
-/**
- * Create an AI receptionist (call agent) for a client.
- * POST /v1/api/agents
- */
-async function createAgent(agentConfig) {
-  return apiRequest("POST", "/v1/api/agents", {
-    name: agentConfig.name,
-    llmModel: agentConfig.llmModel || "gpt-4o-mini",
-    ttsModel: agentConfig.ttsModel || {
-      provider: "elevenlabs",
-      voiceId: "default",
-      language: "en-US",
-    },
-    settings: {
-      speed: 1.0,
-      volume: 1.0,
-      temperature: 0.7,
-    },
-    variables: {
-      greeting: agentConfig.greeting,
-      specialty: agentConfig.specialty || "real estate",
-      reseller: "allthecalls",
-    },
-  });
-}
-
-/**
- * List all call agents in this workspace.
- * GET /v1/api/agents
- */
+/** List all agents in the workspace. */
 async function listAgents() {
   return apiRequest("GET", "/v1/api/agents");
 }
 
-/**
- * Get call history.
- * GET /v2/api/call-history
- */
-async function getCallHistory() {
-  return apiRequest("GET", "/v2/api/call-history");
+/** Get a single agent by ID. */
+async function getAgent(agentId) {
+  return apiRequest("GET", `/v1/api/agents/${agentId}`);
 }
 
 /**
- * Get workspace info (useful for verifying API key works).
+ * Create a new AI receptionist agent for a client.
+ * @param {object} config
+ * @param {string} config.name      — e.g. "Sarah Johnson — Compass (AllTheCalls)"
  */
-async function getWorkspace() {
-  return apiRequest("GET", "/v1/api/workspace");
+async function createAgent(config) {
+  return apiRequest("POST", "/v1/api/agents", {
+    name: config.name,
+    llmModel: config.llmModel || "gemini-2.5-flash",
+    ttsModel: {
+      provider: "rime",
+      voiceId: "arcana_celeste",
+      language: "en",
+    },
+    settings: { model: "arcana", speed: 1.05 },
+    type: "voice",
+  });
+}
+
+/** Update an existing agent. */
+async function updateAgent(agentId, updates) {
+  return apiRequest("PUT", `/v1/api/agents/${agentId}`, updates);
+}
+
+/** Delete an agent. */
+async function deleteAgent(agentId) {
+  return apiRequest("DELETE", `/v1/api/agents/${agentId}`);
 }
 
 /**
- * Full onboarding flow: create agent for a new client.
- * Trillet uses a single workspace model — each client gets their own agent.
- * @param {object} client - { name, brokerage, websiteUrl, specialty }
- * @returns {object} { agentId }
+ * Get call history for the workspace.
+ * Note: Trillet returns 500 when there are zero calls — known bug. Returns [] safely.
+ */
+async function getCallHistory(options = {}) {
+  try {
+    const params = new URLSearchParams();
+    if (options.agentId) params.set("agentId", options.agentId);
+    if (options.page) params.set("page", String(options.page));
+    if (options.limit) params.set("limit", String(options.limit));
+    const query = params.toString() ? `?${params}` : "";
+    return await apiRequest("GET", `/v1/api/call-history${query}`);
+  } catch (err) {
+    if (err.message.includes("500")) return [];
+    throw err;
+  }
+}
+
+/**
+ * Onboard a new AllTheCalls client.
+ * Creates their AI agent. Phone number must then be assigned via app.trillet.ai.
+ *
+ * @param {object} client
+ * @param {string} client.name
+ * @param {string} client.brokerage
+ * @param {string} client.greeting  — generated by claude-personas.js
  */
 async function onboardClient(client) {
-  const greeting =
-    client.greeting ||
-    `Thank you for calling ${client.name} with ${client.brokerage}. ` +
-      `I'm their AI assistant. How can I help you today?`;
-
-  console.log(`[Trillet] Creating AI agent for ${client.name}...`);
-  const agent = await createAgent({
-    name: `${client.name}'s AI Receptionist`,
-    greeting,
-    specialty: client.specialty || "real estate",
-  });
-
-  console.log(`[Trillet] Onboarding complete for ${client.name}`);
+  const agentName = `${client.name}${client.brokerage ? ` — ${client.brokerage}` : ""} (AllTheCalls)`;
+  const agent = await createAgent({ name: agentName });
   return {
-    agentId: agent._id || agent.id,
+    agentId: agent._id,
+    agentName: agent.name,
+    status: agent.status,
+    phoneNumber: null,
+    note: `Agent created. Go to app.trillet.ai → Telephony → assign a phone number to agent ID: ${agent._id}`,
   };
 }
 
-module.exports = {
-  createAgent,
-  listAgents,
-  getCallHistory,
-  getWorkspace,
-  onboardClient,
-};
+module.exports = { listAgents, getAgent, createAgent, updateAgent, deleteAgent, getCallHistory, onboardClient };
