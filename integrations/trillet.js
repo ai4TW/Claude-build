@@ -3,16 +3,20 @@
  * RealtyVoice AI — White-label reseller layer
  *
  * Docs: https://docs.trillet.ai/documentation/introduction
+ *
+ * NOTE: Endpoint paths below are based on available documentation.
+ * Verify against your Trillet dashboard before running in production.
+ * Auth uses x-api-key header (not Authorization: Bearer).
  */
 
-const BASE_URL = "https://api.trillet.ai/api/v1";
+const BASE_URL = "https://api.trillet.ai";
 
 function getHeaders() {
   const key = process.env.TRILLET_API_KEY;
   if (!key) throw new Error("TRILLET_API_KEY environment variable not set");
   return {
     "Content-Type": "application/json",
-    Authorization: `Bearer ${key}`,
+    "x-api-key": key,
   };
 }
 
@@ -30,26 +34,11 @@ async function apiRequest(method, path, body = null) {
 }
 
 /**
- * Create a sub-account for a new real estate agent client.
- * @param {object} client - { name, email, phone, brokerage }
+ * Create an AI receptionist (call agent) for a client.
+ * @param {object} agentConfig - { name, greeting, specialty }
  */
-async function createSubAccount(client) {
-  return apiRequest("POST", "/accounts/sub", {
-    name: client.name,
-    email: client.email,
-    phone: client.phone,
-    metadata: { brokerage: client.brokerage, reseller: "realtyvoice-ai" },
-  });
-}
-
-/**
- * Create an AI receptionist agent for a client sub-account.
- * @param {string} subAccountId
- * @param {object} agentConfig - { name, greeting, websiteUrl, specialty }
- */
-async function createAgent(subAccountId, agentConfig) {
-  return apiRequest("POST", "/agents", {
-    sub_account_id: subAccountId,
+async function createAgent(agentConfig) {
+  return apiRequest("POST", "/agents/call", {
     name: agentConfig.name,
     greeting: agentConfig.greeting,
     language: "en-US",
@@ -62,73 +51,82 @@ async function createAgent(subAccountId, agentConfig) {
 }
 
 /**
- * Train the AI agent from the client's website URL.
- * @param {string} agentId
+ * List all call agents in this workspace.
+ */
+async function listAgents() {
+  return apiRequest("GET", "/agents/call");
+}
+
+/**
+ * Add a URL knowledge source to an agent.
+ * @param {string} knowledgeBaseId
  * @param {string} websiteUrl
  */
-async function trainFromWebsite(agentId, websiteUrl) {
-  return apiRequest("POST", "/knowledge", {
-    agent_id: agentId,
+async function trainFromWebsite(knowledgeBaseId, websiteUrl) {
+  return apiRequest("POST", "/knowledge-base", {
+    knowledge_base_id: knowledgeBaseId,
     source_type: "url",
     url: websiteUrl,
   });
 }
 
 /**
- * Get all call logs for a sub-account.
- * @param {string} subAccountId
- * @param {object} options - { limit, offset, startDate, endDate }
+ * Get call history/logs.
+ * @param {object} options - { limit, startDate, endDate }
  */
-async function getCallLogs(subAccountId, options = {}) {
+async function getCallLogs(options = {}) {
   const params = new URLSearchParams({
-    sub_account_id: subAccountId,
     limit: options.limit || 50,
-    offset: options.offset || 0,
     ...(options.startDate && { start_date: options.startDate }),
     ...(options.endDate && { end_date: options.endDate }),
   });
-  return apiRequest("GET", `/calls?${params}`);
+  return apiRequest("GET", `/calls/history?${params}`);
 }
 
 /**
- * Full onboarding flow: create sub-account + agent + train from website.
- * @param {object} client - { name, email, phone, brokerage, websiteUrl, specialty }
- * @returns {object} { subAccountId, agentId, phoneNumber }
+ * Get workspace info (useful for verifying API key works).
+ */
+async function getWorkspace() {
+  return apiRequest("GET", "/workspace");
+}
+
+/**
+ * Full onboarding flow: create agent + train from website.
+ * NOTE: Trillet uses a single workspace model (no sub-accounts).
+ * Each client gets their own agent within this workspace.
+ * @param {object} client - { name, brokerage, websiteUrl, specialty }
+ * @returns {object} { agentId }
  */
 async function onboardClient(client) {
-  console.log(`[Trillet] Creating sub-account for ${client.name}...`);
-  const account = await createSubAccount(client);
-
   const greeting =
     client.greeting ||
     `Thank you for calling ${client.name} with ${client.brokerage}. ` +
       `I'm their AI assistant. How can I help you today?`;
 
-  console.log(`[Trillet] Creating AI agent...`);
-  const agent = await createAgent(account.id, {
+  console.log(`[Trillet] Creating AI agent for ${client.name}...`);
+  const agent = await createAgent({
     name: `${client.name}'s AI Receptionist`,
     greeting,
-    websiteUrl: client.websiteUrl,
     specialty: client.specialty || "real estate",
   });
 
-  if (client.websiteUrl) {
+  if (client.websiteUrl && agent.knowledge_base_id) {
     console.log(`[Trillet] Training AI from ${client.websiteUrl}...`);
-    await trainFromWebsite(agent.id, client.websiteUrl);
+    await trainFromWebsite(agent.knowledge_base_id, client.websiteUrl);
   }
 
   console.log(`[Trillet] Onboarding complete for ${client.name}`);
   return {
-    subAccountId: account.id,
     agentId: agent.id,
-    phoneNumber: account.phone_number || agent.phone_number,
+    phoneNumber: agent.phone_number,
   };
 }
 
 module.exports = {
-  createSubAccount,
   createAgent,
+  listAgents,
   trainFromWebsite,
   getCallLogs,
+  getWorkspace,
   onboardClient,
 };

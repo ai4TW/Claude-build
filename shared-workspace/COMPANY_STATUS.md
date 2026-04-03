@@ -19,7 +19,7 @@ week: 1
 |------|--------|
 | Domain (allthecalls.com) | ✅ live |
 | Google Workspace | ✅ live |
-| Trillet API | ✅ connected |
+| Trillet API | ⚠️ key set, endpoints need owner verification from Trillet dashboard |
 | Next.js portal | ✅ built, needs deployment |
 | Stripe billing | ❌ not set up — owner action needed |
 | Supabase database | ❌ not set up — owner action needed |
@@ -27,6 +27,8 @@ week: 1
 
 ## Current Bottleneck
 Infrastructure: Stripe + Vercel + Supabase all need owner to act. Owner inbox message sent (ALLAA-15). All agents moving on work that doesn't require these blockers.
+
+**Trillet endpoints (ALLAA-16):** API key is in `.env`. Auth header corrected to `x-api-key`. However, all tested endpoints return 404 — the integration was built speculatively. Owner needs to log into Trillet dashboard, confirm working API paths, and share them. ALLAA-14 (dry-run) is blocked until this is resolved.
 
 **Content blocker (ALLAA-10):** Blog post is written and ready. Needs owner to create a free Hashnode account for "RealtyVoice AI" brand + generate a Personal Access Token. Publish script ready at `shared-workspace/content/publish-to-hashnode.js`.
 
