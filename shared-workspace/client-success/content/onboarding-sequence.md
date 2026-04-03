@@ -1,7 +1,7 @@
 # RealtyVoice AI — Client Onboarding Email Sequence
 
 > **Goal:** Get new clients activated, confident, and seeing real value within their first 14 days.
-> Four emails, one clear action each. Warm, human tone throughout.
+> Five emails, one clear action each. Warm, human tone throughout.
 
 ---
 
@@ -33,15 +33,41 @@ Client Success, RealtyVoice AI
 
 ---
 
-## Email 2 — Customize Your AI Script
-**Send:** Day 2
+## Email 2 — First Impression Check
+**Send:** Day 1 — 24 hours after signup
+**Subject:** How did your first call go?
+
+---
+
+Hi [First Name],
+
+It's been 24 hours — your AI receptionist has been on the job.
+
+A few things worth checking in your dashboard right now:
+
+- **Did any calls come in?** Even if you had zero calls, that's useful — it tells us call forwarding is set up correctly (or needs a tweak).
+- **Is your greeting sounding right?** Hit Preview in your Script Settings to hear exactly what callers hear.
+- **Is your number forwarded?** If you haven't done this yet, it takes 2 minutes — and until it's done, calls aren't reaching your AI.
+
+Most agents who aren't seeing calls yet just haven't completed call forwarding. Takes 2 minutes with your carrier — I can walk you through it if you reply here.
+
+**Your action today:** Confirm call forwarding is active → [Check Setup Status]
+
+Talk soon,
+[Your Name]
+Client Success, RealtyVoice AI
+
+---
+
+## Email 3 — Customize Your AI Script
+**Send:** Day 3
 **Subject:** One quick tip to get better leads from every call
 
 ---
 
 Hi [First Name],
 
-Two days in — great start. Here's the single biggest thing you can do to improve your results right now: **customize your AI's script.**
+Three days in — great start. Here's the single biggest thing you can do to improve your results right now: **customize your AI's script.**
 
 In your Script Settings, add the qualification questions you'd ask a lead yourself:
 
@@ -62,15 +88,15 @@ Client Success, RealtyVoice AI
 
 ---
 
-## Email 3 — How to Read Your Call Data
-**Send:** Day 5
-**Subject:** Your call data is in — here's how to read it
+## Email 4 — How to Read Your Call Data
+**Send:** Day 7
+**Subject:** Your first week of call data — here's what it means
 
 ---
 
 Hi [First Name],
 
-By now your dashboard has real data in it. Here's how to get the most out of what you're seeing.
+One week in. Your dashboard has real data now — here's how to make the most of what you're seeing.
 
 **Three numbers to check every morning:**
 
@@ -84,9 +110,9 @@ By now your dashboard has real data in it. Here's how to get the most out of wha
 - Warm leads: add to your drip sequence
 - Cold leads: let the AI handle follow-up automatically
 
-Most agents are surprised to see 3–5 calls they would have missed. Those used to go to voicemail. Now they're in your pipeline.
+Most agents are surprised to see 3–5 calls they would have missed in week one alone. Those used to go to voicemail. Now they're in your pipeline.
 
-**Your action today:** Review your call data → [Open Dashboard]
+**Your action today:** Review your week-one call data → [Open Dashboard]
 
 Making you money,
 [Your Name]
@@ -94,7 +120,7 @@ Client Success, RealtyVoice AI
 
 ---
 
-## Email 4 — Trial Ending + Upgrade to Team Plan
+## Email 5 — Trial Ending + Upgrade
 **Send:** Day 14
 **Subject:** Your trial ends soon — here's what agents do next
 
@@ -112,7 +138,7 @@ Quick math: if even one of those leads converts, you're looking at a $10,000–$
 - **Upgrade to Pro ($249/mo)** — adds CRM sync, automated SMS follow-up, and multi-line support
 - **Go Team ($499/mo)** — everything in Pro, plus up to 5 agent lines, team dashboard, and white-label branding
 
-Most solo agents who are handling more than 30 calls/month find Pro pays for itself within the first closing. Teams with 2+ agents almost always need Team to avoid dropped calls.
+Most solo agents handling more than 30 calls/month find Pro pays for itself within the first closing. Teams with 2+ agents almost always need Team to avoid dropped calls.
 
 **Your action today:** Choose your plan → [Select a Plan]
 

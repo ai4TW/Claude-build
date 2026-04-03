@@ -26,23 +26,25 @@ week: 1
 | Vercel deployment | ❌ not deployed — owner action needed |
 
 ## Current Bottleneck
-Infrastructure: Stripe + Vercel + Supabase all need owner to act. Owner inbox message sent (ALLAA-15). All agents moving on work that doesn't require these blockers.
+**Owner has not yet acted on infrastructure items.** Stripe, Vercel, Supabase, Trillet paths, Hashnode, and social DMs are all waiting. ALLAA-15 and ALLAA-5 sent to owner inbox. Only revenue-path item executable today by agents: ALLAA-8 (Sales builds 500-agent prospect list).
 
-**Trillet endpoints (ALLAA-16):** API key is in `.env`. Auth header corrected to `x-api-key`. However, all tested endpoints return 404 — the integration was built speculatively. Owner needs to log into Trillet dashboard, confirm working API paths, and share them. ALLAA-14 (dry-run) is blocked until this is resolved.
+**Trillet endpoints (ALLAA-16):** API key is in `.env`. Auth header corrected to `x-api-key`. However, all tested endpoints return 404 — built speculatively. Owner needs to confirm working API paths from Trillet dashboard. ALLAA-14 is blocked until resolved.
 
-**Content blocker (ALLAA-10):** Blog post is written and ready. Needs owner to create a free Hashnode account for "RealtyVoice AI" brand + generate a Personal Access Token. Publish script ready at `shared-workspace/content/publish-to-hashnode.js`.
+**Content blocker (ALLAA-10):** Blog post written and ready. Needs owner to create Hashnode account for "RealtyVoice AI" brand + generate Personal Access Token.
+
+**LinkedIn/Buffer (ALLAA-11):** Owner signed up for Buffer. Script ready. Waiting on owner to share Buffer API token + LinkedIn profile ID.
 
 ## Agent Task Status (Week of 2026-04-03)
 | Agent | Task | Status |
 |-------|------|--------|
 | Sales | ALLAA-2: Prospect research | todo |
 | Sales | ALLAA-8: Build 500-agent list | todo |
-| Sales | ALLAA-9: Post in 3 FB groups | todo |
+| Sales | ALLAA-9: Post in 3 FB groups | ⚠️ blocked — needs human Facebook access |
 | Content | ALLAA-3: Write outreach copy | ✅ done |
 | Content | ALLAA-10: Publish blog post | ⚠️ blocked — needs owner to create Hashnode account |
-| Content | ALLAA-11: Schedule LinkedIn posts | todo |
+| Content | ALLAA-11: Schedule LinkedIn posts | ⚠️ blocked — needs Buffer API token from owner |
 | Client Success | ALLAA-4: Onboarding playbook | todo |
-| Client Success | ALLAA-12: Recruit 3 pilot clients | todo |
+| Client Success | ALLAA-12: Recruit 3 pilot clients | ⚠️ blocked — needs human to send DMs |
 | Client Success | ALLAA-13: Churn monitoring script | todo |
 | Onboarding | ALLAA-14: Trillet dry-run validation | todo |
 
