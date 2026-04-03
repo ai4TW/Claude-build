@@ -28,14 +28,16 @@ week: 1
 ## Current Bottleneck
 Infrastructure: Stripe + Vercel + Supabase all need owner to act. Owner inbox message sent (ALLAA-15). All agents moving on work that doesn't require these blockers.
 
+**Content blocker (ALLAA-10):** Blog post is written and ready. Needs owner to create a free Hashnode account for "RealtyVoice AI" brand + generate a Personal Access Token. Publish script ready at `shared-workspace/content/publish-to-hashnode.js`.
+
 ## Agent Task Status (Week of 2026-04-03)
 | Agent | Task | Status |
 |-------|------|--------|
 | Sales | ALLAA-2: Prospect research | todo |
 | Sales | ALLAA-8: Build 500-agent list | todo |
 | Sales | ALLAA-9: Post in 3 FB groups | todo |
-| Content | ALLAA-3: Write outreach copy | todo |
-| Content | ALLAA-10: Publish blog post | todo |
+| Content | ALLAA-3: Write outreach copy | ✅ done |
+| Content | ALLAA-10: Publish blog post | ⚠️ blocked — needs owner to create Hashnode account |
 | Content | ALLAA-11: Schedule LinkedIn posts | todo |
 | Client Success | ALLAA-4: Onboarding playbook | todo |
 | Client Success | ALLAA-12: Recruit 3 pilot clients | todo |
