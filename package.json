@@ -1,0 +1,36 @@
+{
+  "name": "realtyvoice-ai",
+  "version": "0.1.0",
+  "description": "White-label AI receptionist reseller for real estate agents (powered by Trillet AI)",
+  "private": true,
+  "scripts": {
+    "onboard": "npx paperclipai onboard --yes",
+    "brief": "node scripts/morning-brief.js",
+    "brief:dry": "node scripts/morning-brief.js --dry-run",
+    "create-client": "node scripts/create-client.js",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.54.0",
+    "@tailwindcss/postcss": "^4.2.2",
+    "dotenv": "^16.0.0",
+    "jose": "^6.2.2"
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.0",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "autoprefixer": "^10.4.27",
+    "next": "^15.0.0",
+    "postcss": "^8.5.8",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "tailwindcss": "^4.2.2",
+    "typescript": "^6.0.2"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
