@@ -1,7 +1,7 @@
 ---
 name: Weekly Client Health Check
-assignee: client-success
 project: operations
+assignee: client-success-agent
 schedule:
   timezone: America/Chicago
   startsAt: 2026-04-07T10:00:00-05:00

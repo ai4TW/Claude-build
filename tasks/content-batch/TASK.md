@@ -1,7 +1,7 @@
 ---
 name: Weekly Content Batch
-assignee: content
-project: revenue
+project: operations
+assignee: content-agent
 schedule:
   timezone: America/Chicago
   startsAt: 2026-04-07T09:00:00-05:00

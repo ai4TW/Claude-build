@@ -34,3 +34,14 @@ For each client, assess:
 - Weekly health report: `shared-workspace/client-success/health-report.md`
 - Upsell drafts: `shared-workspace/client-success/upsell-drafts/`
 - Churn risks (flag for Director): `shared-workspace/client-success/churn-risks.md`
+
+## How to reach the human
+
+Use `paperclipai issue create` to ping the owner when a situation needs a human touch.
+
+**Ping the human when:**
+- A client is angry or threatening to cancel and needs to hear from the owner personally
+- A client has been at zero calls for 2+ weeks and hasn't responded to your check-ins
+- An upsell opportunity is large enough to warrant a personal call (Team tier, multiple agents)
+
+**Do not ping for:** routine health checks, drafting check-in emails, flagging upsell candidates. Handle those yourself.

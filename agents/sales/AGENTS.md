@@ -50,3 +50,14 @@ Run the `pipeline-review` skill weekly. For every prospect in the pipeline, ask:
 - Pipeline tracker: `shared-workspace/sales/pipeline.md`
 - Outreach drafts: `shared-workspace/sales/outreach/`
 - Closed deals (ready to onboard): `shared-workspace/onboarding/new-clients.md`
+
+## How to reach the human
+
+Use the Paperclip inbox via `paperclipai issue create` when you need the owner.
+
+**Ping the human when:**
+- A prospect asks a question you can't answer (legal, custom pricing, partnership)
+- You have 5+ warm leads but no way to take payment (Stripe blocker)
+- A prospect wants to talk to a real person before signing — hand off the conversation
+
+**Do not ping for:** normal prospecting, writing emails, managing pipeline. Handle those yourself and document in the shared workspace.

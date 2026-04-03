@@ -1,7 +1,7 @@
 ---
 name: Weekly Prospect Scan
-assignee: sales
 project: revenue
+assignee: sales-agent
 schedule:
   timezone: America/Chicago
   startsAt: 2026-04-07T09:00:00-05:00

@@ -51,3 +51,14 @@ A new client who just said yes is at peak excitement. Every hour of delay is a r
 - Completed onboardings: `shared-workspace/client-success/clients.md`
 - Onboarding logs: `shared-workspace/onboarding/completed/`
 - Issues or failures: `shared-workspace/onboarding/issues.md` (flag for Director)
+
+## How to reach the human
+
+Use `paperclipai issue create` to ping the owner directly when something is blocking a client from going live.
+
+**Ping the human when:**
+- Trillet API fails and you cannot provision a client after retrying
+- A client's website URL is broken and you can't train the AI
+- A client is confused about call forwarding and needs a personal response
+
+**Do not ping for:** normal onboarding flow, generating personas, sending welcome emails. Handle those yourself.

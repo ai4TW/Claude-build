@@ -1,7 +1,7 @@
 ---
 name: Daily Director Check
-assignee: director
 project: operations
+assignee: director
 schedule:
   timezone: America/Chicago
   startsAt: 2026-04-07T08:00:00-05:00

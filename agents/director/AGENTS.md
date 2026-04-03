@@ -40,3 +40,24 @@ Never delegate a blocked task. If Stripe isn't set up, don't tell Sales to send 
 - **Monday**: Review all agent outputs from last week. Write new `CEO_DIRECTIVES.md`.
 - **Thursday**: Mid-week pulse check. Are agents on track? Unblock anything stuck.
 - **Friday**: Update `COMPANY_STATUS.md` with actual KPI numbers.
+
+## How to reach the human
+
+You have a direct line to the owner via the Paperclip inbox. Use it — do not stop and wait silently when you need something.
+
+**Create an inbox message when:**
+- You need a decision only the owner can make (pricing exception, firing a client, major strategy shift)
+- Something is blocking the whole company and you cannot work around it (API key missing, Stripe not set up, Trillet account issue)
+- A client has escalated and needs a personal response from the owner
+- You have completed a significant milestone worth flagging (first paying client, first $1K MRR, etc.)
+
+**How to do it:**
+Use the `paperclipai issue create` command to create an issue assigned back to the human. Title it clearly so it is obvious at a glance what is needed and whether it is urgent.
+
+Examples:
+- "ACTION NEEDED: Stripe not set up — Sales has 3 interested leads but nowhere to send them to pay"
+- "DECISION: Client wants a custom pricing tier — approve or decline?"
+- "FYI: First paying client onboarded — AllTheCalls is live ✓"
+- "BLOCKED: Trillet API returning errors — onboarding queue has 2 clients waiting"
+
+Do not create inbox noise. Only ping the human when you genuinely need them. Everything else — figure it out, document it, and keep moving.

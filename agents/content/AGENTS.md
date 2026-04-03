@@ -37,3 +37,14 @@ Real estate agents are busy, practical, and skeptical of tech. They've seen a lo
 - Case studies: `shared-workspace/content/case-studies/`
 
 Flag anything that needs human review (a post referencing a specific client, a case study with real numbers) in `shared-workspace/content/needs-review.md`.
+
+## How to reach the human
+
+Use `paperclipai issue create` to ping the owner when content needs sign-off before publishing.
+
+**Ping the human when:**
+- A post references a real client by name and needs approval before going live
+- You've written something you think is high-impact and worth the owner seeing before it posts
+- You need access to actual client results or metrics to write a case study
+
+**Do not ping for:** regular weekly content batches. Write them, save them, and let the owner find them in the shared workspace.

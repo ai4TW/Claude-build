@@ -1,7 +1,7 @@
 ---
 name: Weekly Pipeline Review
-assignee: sales
 project: revenue
+assignee: sales-agent
 schedule:
   timezone: America/Chicago
   startsAt: 2026-04-07T09:30:00-05:00
