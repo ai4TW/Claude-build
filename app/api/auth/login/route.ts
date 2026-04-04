@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
 
   if (clientError || !client) {
     return NextResponse.json(
-      { error: "Account setup incomplete. Please contact support at hello@allthecalls.com" },
+      { error: "Account setup incomplete. Please contact support at hello@allthecalls.ai" },
       { status: 403 }
     );
   }

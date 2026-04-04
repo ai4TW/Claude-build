@@ -40,8 +40,8 @@ export default function WelcomePage() {
           <Link href="/dashboard" className="btn-glow" style={{ color: "white", fontWeight: 700, fontSize: "16px", padding: "14px 32px", borderRadius: "12px", textDecoration: "none", textAlign: "center" }}>
             Go to Dashboard →
           </Link>
-          <a href="mailto:hello@allthecalls.com" style={{ color: "rgba(255,255,255,0.5)", fontSize: "14px", textDecoration: "none", padding: "12px" }}>
-            Questions? Email hello@allthecalls.com
+          <a href="mailto:hello@allthecalls.ai" style={{ color: "rgba(255,255,255,0.5)", fontSize: "14px", textDecoration: "none", padding: "12px" }}>
+            Questions? Email hello@allthecalls.ai
           </a>
         </div>
       </div>

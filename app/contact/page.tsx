@@ -26,7 +26,7 @@ export default function ContactPage() {
 
           <div className="space-y-4 mb-10">
             {[
-              { label: "Email", value: "hello@allthecalls.com", href: "mailto:hello@allthecalls.com" },
+              { label: "Email", value: "hello@allthecalls.ai", href: "mailto:hello@allthecalls.ai" },
               { label: "Book a Demo", value: "Schedule a free 15-min call", href: "/demo" },
             ].map((item) => (
               <a

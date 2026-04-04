@@ -114,7 +114,7 @@ export default function LoginPage() {
 
         <p style={{ textAlign: "center", fontSize: "13px", color: "rgba(255,255,255,0.25)", marginTop: "20px" }}>
           Need access?{" "}
-          <a href="mailto:hello@allthecalls.com" style={{ color: "#a78bfa", textDecoration: "none" }}>
+          <a href="mailto:hello@allthecalls.ai" style={{ color: "#a78bfa", textDecoration: "none" }}>
             Contact your account manager
           </a>
         </p>

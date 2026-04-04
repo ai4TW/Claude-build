@@ -68,7 +68,7 @@ const structuredData = {
       contactPoint: {
         "@type": "ContactPoint",
         contactType: "customer service",
-        email: "hello@allthecalls.com",
+        email: "hello@allthecalls.ai",
       },
     },
     {

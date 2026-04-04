@@ -151,7 +151,7 @@ async function sendWelcomeEmail(client: OnboardInput, agentId: string, password?
       "Authorization": `Bearer ${resendKey}`,
     },
     body: JSON.stringify({
-      from: "AllTheCalls <hello@allthecalls.com>",
+      from: "AllTheCalls <hello@allthecalls.ai>",
       to: client.email,
       subject: `Your AI receptionist is being set up, ${client.name.split(" ")[0]}!`,
       html: `
@@ -181,7 +181,7 @@ async function sendWelcomeEmail(client: OnboardInput, agentId: string, password?
             Log In to Your Dashboard →
           </a>
           <p style="color: rgba(255,255,255,0.3); font-size: 12px; margin-top: 32px;">
-            Questions? Reply to this email or reach us at hello@allthecalls.com
+            Questions? Reply to this email or reach us at hello@allthecalls.ai
           </p>
         </div>
       `,

@@ -50,7 +50,7 @@ export default function PrivacyPage() {
 
             <section>
               <h2 className="text-xl font-bold text-gray-900 mb-3">Contact</h2>
-              <p>Questions about this policy? Email us at <a href="mailto:hello@allthecalls.com" className="text-brand-600 hover:underline">hello@allthecalls.com</a>.</p>
+              <p>Questions about this policy? Email us at <a href="mailto:hello@allthecalls.ai" className="text-brand-600 hover:underline">hello@allthecalls.ai</a>.</p>
             </section>
           </div>
 

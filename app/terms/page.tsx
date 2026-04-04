@@ -55,7 +55,7 @@ export default function TermsPage() {
 
             <section>
               <h2 className="text-xl font-bold text-gray-900 mb-3">Contact</h2>
-              <p>Questions? Email <a href="mailto:hello@allthecalls.com" className="text-brand-600 hover:underline">hello@allthecalls.com</a>.</p>
+              <p>Questions? Email <a href="mailto:hello@allthecalls.ai" className="text-brand-600 hover:underline">hello@allthecalls.ai</a>.</p>
             </section>
           </div>
 
