@@ -1,16 +1,103 @@
 @import "tailwindcss";
 
+/* ============================================================
+   AllTheCalls.ai — Dark Premium Tech Design System
+   Design Philosophy: Midnight Intelligence
+   - Near-black base (#08090f) with violet-to-cyan gradient accents
+   - Space Grotesk display + DM Sans body
+   - Glassmorphism cards, glowing CTAs, scroll-triggered animations
+   ============================================================ */
+
 @theme {
-  --color-brand-50: #f0f9ff;
-  --color-brand-100: #e0f2fe;
-  --color-brand-500: #0ea5e9;
-  --color-brand-600: #0284c7;
-  --color-brand-700: #0369a1;
-  --color-brand-900: #0c4a6e;
+  --color-brand-50: #f5f3ff;
+  --color-brand-100: #ede9fe;
+  --color-brand-200: #ddd6fe;
+  --color-brand-300: #c4b5fd;
+  --color-brand-400: #a78bfa;
+  --color-brand-500: #8b5cf6;
+  --color-brand-600: #7c3aed;
+  --color-brand-700: #6d28d9;
+  --color-brand-800: #5b21b6;
+  --color-brand-900: #4c1d95;
+  --color-cyan-400: #22d3ee;
+  --color-cyan-500: #06b6d4;
+  --color-cyan-600: #0891b2;
 }
 
 @layer base {
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
   body {
-    @apply bg-gray-50 text-gray-900;
+    background-color: #08090f;
+    color: #e2e8f0;
+    font-family: 'DM Sans', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+}
+
+@layer components {
+  .gradient-text {
+    background: linear-gradient(135deg, #a78bfa 0%, #22d3ee 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .glass-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+  .btn-glow {
+    background: linear-gradient(135deg, #7c3aed, #06b6d4);
+    box-shadow: 0 0 30px rgba(124,58,237,0.4), 0 0 60px rgba(6,182,212,0.15);
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
+  }
+  .btn-glow:hover {
+    box-shadow: 0 0 40px rgba(124,58,237,0.6), 0 0 80px rgba(6,182,212,0.25);
+    transform: translateY(-1px);
+  }
+  .btn-ghost {
+    border: 1px solid rgba(255,255,255,0.15);
+    color: rgba(255,255,255,0.85);
+    transition: border-color 0.2s ease, background 0.2s ease;
+  }
+  .btn-ghost:hover {
+    border-color: rgba(167,139,250,0.5);
+    background: rgba(124,58,237,0.08);
+  }
+  .wave-bar {
+    display: inline-block;
+    width: 3px;
+    border-radius: 2px;
+    background: linear-gradient(to top, #7c3aed, #22d3ee);
+    animation: wave 1.2s ease-in-out infinite;
+  }
+  @keyframes wave {
+    0%, 100% { transform: scaleY(0.3); }
+    50% { transform: scaleY(1); }
+  }
+  .fade-in {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .pricing-popular {
+    border: 1px solid rgba(124,58,237,0.5);
+    box-shadow: 0 0 40px rgba(124,58,237,0.15), inset 0 0 40px rgba(124,58,237,0.03);
+  }
+  .icon-glow {
+    background: linear-gradient(135deg, rgba(124,58,237,0.2), rgba(6,182,212,0.2));
+    border: 1px solid rgba(124,58,237,0.3);
   }
 }

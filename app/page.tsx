@@ -1,255 +1,226 @@
+"use client";
+
+/**
+ * AllTheCalls.ai — Main Landing Page
+ * Design: Midnight Intelligence — Dark Premium Tech
+ * Colors: Near-black (#08090f) + Violet (#7c3aed) + Cyan (#06b6d4)
+ * Fonts: Space Grotesk (headings) + DM Sans (body)
+ */
+
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import PricingSection from "@/components/PricingSection";
 
-const NAV_CTA = "/demo";
+const HERO_BG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663500027049/hApYubRRcrnE9zFXtM2xoS/hero_dark_bg-fkt9hQFvTLbJjo3Xfqo2GA.webp";
+const FEATURES_BG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663500027049/hApYubRRcrnE9zFXtM2xoS/features_bg-Du87iwMHbT3Kn67LivhhPN.webp";
 
-const testimonials = [
-  {
-    quote:
-      "I used to miss 3–4 calls a day during showings. Last month, All The Calls booked two new listings from calls I never would have answered. It's paid for itself 10 times over.",
-    name: "Sarah M.",
-    brokerage: "RE/MAX",
-    location: "Austin, TX",
-  },
-  {
-    quote:
-      "Setup took literally five minutes. Now I feel like I have a full-time receptionist without the $4,000/month price tag.",
-    name: "David K.",
-    brokerage: "Keller Williams",
-    location: "Phoenix, AZ",
-  },
-  {
-    quote:
-      "My leads used to go cold if I didn't call back within an hour. Now my AI follows up instantly and keeps them warm until I can connect. My conversion rate has never been higher.",
-    name: "Maria R.",
-    brokerage: "Coldwell Banker",
-    location: "Miami, FL",
-  },
+const stats = [
+  { value: "500+", label: "Active Agents" },
+  { value: "2.4M", label: "Calls Handled" },
+  { value: "99.9%", label: "Answer Rate" },
+  { value: "$47K", label: "Avg Annual Value" },
+];
+
+const steps = [
+  { num: "01", title: "5-Minute Setup", desc: "Connect your phone number. Tell us your name, brokerage, and how you work. We handle everything else.", icon: "⚡" },
+  { num: "02", title: "AI Answers Every Call", desc: "Your AI receptionist picks up in your name, handles objections, qualifies buyers and sellers, and books appointments directly to your calendar.", icon: "🎙️" },
+  { num: "03", title: "You Close the Deal", desc: "Get a real-time transcript, lead score, and next steps. Walk into every conversation already knowing exactly who you're talking to.", icon: "🏆" },
 ];
 
 const features = [
-  {
-    icon: "🎙️",
-    title: "Answers in Your Name",
-    desc: "Your AI greets every caller with your name and brokerage. Professional, personalized, and on-brand — every single time.",
-  },
-  {
-    icon: "🎯",
-    title: "Qualifies Leads Automatically",
-    desc: "Your AI asks the right questions: buyer or seller? Timeline? Pre-approved? You get a full lead summary before you ever call back.",
-  },
-  {
-    icon: "📅",
-    title: "Books Showings to Your Calendar",
-    desc: "Callers can schedule showings directly through your AI receptionist. No back-and-forth. Syncs with Google Calendar and more.",
-  },
-  {
-    icon: "🌙",
-    title: "24/7 After-Hours Coverage",
-    desc: "Calls at 11pm? Calls on Sunday morning? Your AI answers every time. You'll never send a lead to voicemail again.",
-  },
-  {
-    icon: "💬",
-    title: "CRM & SMS Follow-Up",
-    desc: "Every call syncs to Follow Up Boss, KvCORE, HubSpot, GHL, and more. Auto SMS follow-ups keep leads warm while you close deals.",
-  },
-  {
-    icon: "⚡",
-    title: "5-Minute Setup",
-    desc: "No tech skills needed. Sign up, get your AI configured, forward your number, and you're live. Most agents are up in under 5 minutes.",
-  },
+  { icon: "🎙️", title: "Answers in Your Name", desc: '"Hi, this is Sarah with Keller Williams" — callers think they reached you directly.' },
+  { icon: "🎯", title: "Lead Qualification", desc: "Asks the right questions: timeline, budget, pre-approved, motivation. Delivers a full lead profile to you." },
+  { icon: "📅", title: "Calendar Booking", desc: "Syncs with your Google or Outlook calendar to book showings and consultations in real time." },
+  { icon: "💬", title: "SMS Follow-Up", desc: "Automatically texts leads after the call with your contact info and next steps. Keeps them warm." },
+  { icon: "🔄", title: "CRM Sync", desc: "Pushes call summaries and lead data straight to your CRM. No manual entry." },
+  { icon: "🌙", title: "After-Hours Coverage", desc: "3 AM call about a listing? Handled. Saturday open house inquiry? Handled. Every call, every time." },
+  { icon: "📋", title: "Live Call Transcripts", desc: "Get the full conversation transcript and AI summary via text or email within seconds of the call ending." },
+  { icon: "✏️", title: "Custom Scripts", desc: "Set exactly how you want to be introduced, what to say for different inquiry types, and your specific service areas." },
+];
+
+const testimonials = [
+  { quote: "I was losing deals because I couldn't answer calls during showings. All The Calls fixed that overnight. I closed an extra $380K deal last month from a lead that called at 11 PM.", name: "Marcus T.", role: "RE/MAX Agent", location: "Dallas, TX", initials: "MT" },
+  { quote: "My AI receptionist sounds so natural that clients think they talked to me directly. The transcripts are incredibly detailed — I know exactly what the client wants before I ever call back.", name: "Jennifer L.", role: "Coldwell Banker", location: "Miami, FL", initials: "JL" },
+  { quote: "I run a team of 4 agents and we use the Team plan. It's like having a full-time receptionist for less than I spend on coffee. The calendar sync alone saves us 3 hours a week.", name: "David R.", role: "Century 21", location: "Phoenix, AZ", initials: "DR" },
 ];
 
 const faqs = [
-  {
-    q: "Does the AI really sound natural?",
-    a: "Yes. Your AI uses advanced conversational voice technology and is trained to sound professional, warm, and helpful — not robotic. Your clients will be impressed.",
-  },
-  {
-    q: "How does call forwarding work?",
-    a: "You simply forward your business number to your All The Calls number. It takes about 30 seconds. We provide step-by-step instructions for every carrier.",
-  },
-  {
-    q: "What if I want to take calls myself?",
-    a: "No problem. You control when your AI is active. Use it for after-hours, overflow, or full-time coverage — your choice.",
-  },
-  {
-    q: "Does it work with my CRM?",
-    a: "Yes. All The Calls integrates with Follow Up Boss, KvCORE, HubSpot, Go High Level, and more. Every call is automatically logged with full lead details.",
-  },
-  {
-    q: "What if I want to cancel?",
-    a: "No long-term contracts. Cancel anytime with one click from your dashboard.",
-  },
-  {
-    q: "How fast can I get set up?",
-    a: "Most agents are live in under 5 minutes. We walk you through every step.",
-  },
+  { q: "Does it really sound like me?", a: "Yes. You provide your name, brokerage, and preferred greeting. The AI introduces itself exactly as you specify — callers hear your name and brokerage, not a generic bot. Most clients never realize they didn't speak to you directly." },
+  { q: "What happens when I want to take a call myself?", a: "Simply don't forward your calls during the hours you want to handle them personally. You control when All The Calls is active — turn it on for after-hours, weekends, or whenever you're unavailable." },
+  { q: "Will it work with my current phone number?", a: "Yes. We provision a new number that forwards from your existing line, or you can forward directly. Your clients always call your same number — nothing changes on their end." },
+  { q: "What CRMs does it sync with?", a: "We currently support Follow Up Boss, KVCore, Salesforce, HubSpot, and Zapier (which connects to 5,000+ apps). More integrations are added monthly." },
+  { q: "What happens after the 14-day trial?", a: "You'll be charged for the plan you selected. No surprises — you can cancel anytime before the trial ends with no charge. We'll remind you 3 days before billing starts." },
+  { q: "Can my AI book showings directly?", a: "Yes. Connect your Google or Outlook calendar and the AI checks your real-time availability, offers open slots, and books the appointment — sending confirmation to both you and the caller." },
 ];
 
+function useScrollFadeIn() {
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => { entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add("visible"); }); },
+      { threshold: 0.1 }
+    );
+    document.querySelectorAll(".fade-in").forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+}
 
-export default function LandingPage() {
+function WaveformBars() {
+  const heights = [20, 35, 55, 40, 60, 45, 70, 50, 65, 35, 55, 40, 30, 50, 45];
   return (
-    <div className="min-h-screen bg-white text-gray-900 font-sans">
+    <div style={{ display: "flex", alignItems: "center", gap: "3px", height: "40px" }}>
+      {heights.map((h, i) => (
+        <div
+          key={i}
+          className="wave-bar"
+          style={{ height: `${h}%`, animationDelay: `${i * 0.08}s` }}
+        />
+      ))}
+    </div>
+  );
+}
+
+function FAQItem({ q, a }: { q: string; a: string }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="glass-card" style={{ borderRadius: "16px", overflow: "hidden" }}>
+      <button
+        onClick={() => setOpen(!open)}
+        style={{ width: "100%", textAlign: "left", padding: "20px 24px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "16px", cursor: "pointer", background: "none", border: "none", color: "inherit" }}
+      >
+        <span style={{ fontWeight: 600, color: "rgba(255,255,255,0.9)" }}>{q}</span>
+        <span style={{ color: "rgba(255,255,255,0.4)", fontSize: "1.25rem", flexShrink: 0, transition: "transform 0.3s", transform: open ? "rotate(45deg)" : "rotate(0deg)", display: "inline-block" }}>+</span>
+      </button>
+      {open && (
+        <div style={{ padding: "0 24px 20px", color: "rgba(255,255,255,0.6)", lineHeight: 1.7, fontSize: "14px", borderTop: "1px solid rgba(255,255,255,0.05)", paddingTop: "16px" }}>
+          {a}
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default function Home() {
+  useScrollFadeIn();
+
+  return (
+    <div style={{ minHeight: "100vh", background: "#08090f", color: "#e2e8f0", fontFamily: "'DM Sans', system-ui, sans-serif" }}>
+
       {/* NAV */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur border-b border-gray-100">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
-          <span className="text-xl font-bold text-brand-900">
-            All The Calls
-          </span>
-          <div className="hidden md:flex items-center gap-8 text-sm text-gray-600">
-            <a href="#features" className="hover:text-brand-600 transition-colors">Features</a>
-            <a href="#pricing" className="hover:text-brand-600 transition-colors">Pricing</a>
-            <a href="#faq" className="hover:text-brand-600 transition-colors">FAQ</a>
+      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, background: "rgba(8,9,15,0.85)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)", borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
+        <div style={{ maxWidth: "1152px", margin: "0 auto", padding: "0 1rem", height: "64px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <Link href="/" style={{ display: "flex", alignItems: "center", gap: "8px", textDecoration: "none" }}>
+            <div style={{ width: "32px", height: "32px", borderRadius: "8px", background: "linear-gradient(135deg, #7c3aed, #06b6d4)", display: "flex", alignItems: "center", justifyContent: "center", color: "white", fontSize: "14px", fontWeight: "bold" }}>A</div>
+            <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, color: "white", fontSize: "18px" }}>AllTheCalls<span style={{ color: "#a78bfa" }}>.ai</span></span>
+          </Link>
+          <div style={{ display: "flex", alignItems: "center", gap: "32px", fontSize: "14px" }}>
+            <a href="#how-it-works" style={{ color: "rgba(255,255,255,0.6)", textDecoration: "none" }}>How It Works</a>
+            <a href="#features" style={{ color: "rgba(255,255,255,0.6)", textDecoration: "none" }}>Features</a>
+            <a href="#pricing" style={{ color: "rgba(255,255,255,0.6)", textDecoration: "none" }}>Pricing</a>
+            <Link href="/demo" style={{ color: "rgba(255,255,255,0.6)", textDecoration: "none" }}>Demo</Link>
           </div>
-          <div className="flex items-center gap-3">
-            <Link href="/login" className="hidden sm:block text-sm text-gray-600 hover:text-brand-600 transition-colors">
-              Log in
-            </Link>
-            <Link
-              href="#pricing"
-              className="bg-brand-600 text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-brand-700 transition-colors"
-            >
-              Start Free Trial
-            </Link>
+          <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+            <Link href="/demo" style={{ fontSize: "14px", color: "rgba(255,255,255,0.6)", textDecoration: "none", padding: "8px 16px" }}>See Demo</Link>
+            <Link href="#pricing" className="btn-glow" style={{ color: "white", fontSize: "14px", fontWeight: 600, padding: "10px 20px", borderRadius: "12px", textDecoration: "none" }}>Start Free Trial</Link>
           </div>
         </div>
       </nav>
 
       {/* HERO */}
-      <section className="bg-brand-900 text-white pt-32 pb-24 px-4">
-        <div className="max-w-4xl mx-auto text-center">
-          <div className="inline-block bg-brand-500/20 text-brand-100 text-sm font-medium px-4 py-1.5 rounded-full mb-6">
-            The AI Receptionist Built for Real Estate Agents
-          </div>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight mb-6">
-            Never Miss a Lead.<br />Never Lose a Commission.
-          </h1>
-          <p className="text-xl sm:text-2xl text-brand-100 max-w-2xl mx-auto mb-10">
-            All The Calls answers every call in your name — 24/7 — qualifying leads, booking showings, and following up automatically. So you can close deals without being glued to your phone.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
-            <Link
-              href="#pricing"
-              className="bg-brand-500 hover:bg-brand-400 text-white text-lg font-bold px-8 py-4 rounded-xl transition-colors shadow-lg shadow-brand-900/30"
-            >
-              Start Free Trial →
-            </Link>
-            <Link
-              href="/demo"
-              className="border border-white/30 hover:border-white/60 text-white text-lg font-semibold px-8 py-4 rounded-xl transition-colors"
-            >
-              Book a 15-Min Demo
-            </Link>
-          </div>
-          <p className="text-brand-300 text-sm">
-            No contracts. Set up in 5 minutes. Cancel anytime.
-          </p>
-        </div>
-      </section>
-
-      {/* PAIN */}
-      <section className="bg-gray-900 text-white py-24 px-4">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-3xl sm:text-4xl font-bold text-center mb-16">
-            You&apos;re Losing Money Every Time<br className="hidden sm:block" /> Your Phone Goes to Voicemail
-          </h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                icon: "📵",
-                title: "Missed Calls = Missed Commissions",
-                body: "You're in a showing, an open house, or finally getting some sleep. Your phone rings. You miss it. That caller moves on to the next agent.",
-                highlight: "One missed call can cost you $10,000–$30,000.",
-              },
-              {
-                icon: "⏱️",
-                title: "Leads Don't Wait",
-                body: null,
-                highlight: null,
-                custom: (
-                  <p className="text-gray-400 leading-relaxed">
-                    Today&apos;s buyers and sellers expect an instant response.{" "}
-                    <span className="text-white font-semibold">
-                      78% of leads go with the first agent who responds.
-                    </span>{" "}
-                    If you&apos;re not picking up, your competitor is.
-                  </p>
-                ),
-              },
-              {
-                icon: "💸",
-                title: "You Can't Hire a Human Receptionist",
-                body: "A full-time receptionist costs $3,000–$5,000 per month. And they still take lunch breaks, sick days, and vacations.",
-                highlight: "There's a better way.",
-              },
-            ].map((item) => (
-              <div key={item.title} className="bg-gray-800 rounded-2xl p-8">
-                <div className="text-4xl mb-4">{item.icon}</div>
-                <h3 className="text-xl font-bold mb-3">{item.title}</h3>
-                {item.custom ?? (
-                  <>
-                    <p className="text-gray-400 leading-relaxed">{item.body}</p>
-                    {item.highlight && (
-                      <p className="text-brand-400 font-semibold mt-4">{item.highlight}</p>
-                    )}
-                  </>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* SOLUTION */}
-      <section className="bg-white py-24 px-4">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-            Your AI Receptionist That Works 24/7
-            <span className="text-brand-600"> — Starting at $149/Month</span>
-          </h2>
-          <p className="text-gray-600 text-xl mb-12">
-            All The Calls gives you a professional, always-on receptionist that answers in your name, qualifies every lead, and books showings directly to your calendar.
-          </p>
-          <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-6 mb-12">
-            {[
-              { step: "1", title: "Sign up", desc: "Takes 5 minutes, no tech skills needed" },
-              { step: "2", title: "We configure your AI", desc: "Custom greeting with your name and brokerage" },
-              { step: "3", title: "Forward your number", desc: "Point your business line to your All The Calls number" },
-              { step: "4", title: "Never miss a lead", desc: "Your AI handles every call from day one" },
-            ].map((item) => (
-              <div key={item.step} className="flex flex-col items-center text-center">
-                <div className="w-12 h-12 bg-brand-600 text-white rounded-full flex items-center justify-center text-xl font-bold mb-3">
-                  {item.step}
-                </div>
-                <h3 className="font-bold text-gray-900 mb-1">{item.title}</h3>
-                <p className="text-gray-500 text-sm">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-          <div className="bg-brand-50 border border-brand-100 rounded-2xl p-6 max-w-lg mx-auto text-left">
-            <p className="text-brand-900 text-lg italic">
-              &ldquo;Thank you for calling Sarah Johnson with Compass. I&apos;m her AI assistant — how can I help you today?&rdquo;
+      <section style={{ position: "relative", minHeight: "100vh", display: "flex", alignItems: "center", overflow: "hidden", paddingTop: "64px" }}>
+        <div style={{ position: "absolute", inset: 0, backgroundImage: `url(${HERO_BG})`, backgroundSize: "cover", backgroundPosition: "center", opacity: 0.55 }} />
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, rgba(8,9,15,0.97) 35%, rgba(8,9,15,0.5) 100%)" }} />
+        <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "128px", background: "linear-gradient(to bottom, transparent, #08090f)" }} />
+        <div style={{ position: "relative", zIndex: 10, maxWidth: "1152px", margin: "0 auto", padding: "6rem 1rem", width: "100%" }}>
+          <div style={{ maxWidth: "640px" }}>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: "8px", padding: "8px 16px", borderRadius: "999px", fontSize: "12px", fontWeight: 600, marginBottom: "32px", border: "1px solid rgba(124,58,237,0.3)", background: "rgba(124,58,237,0.1)", color: "#c4b5fd" }}>
+              <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#4ade80" }} />
+              AI Receptionist — Built for Real Estate
+            </div>
+            <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(2.5rem, 6vw, 4.5rem)", fontWeight: 700, color: "white", marginBottom: "24px", lineHeight: 1.05, letterSpacing: "-0.03em" }}>
+              Never Miss a Lead{" "}
+              <span className="gradient-text">Again.</span>
+            </h1>
+            <p style={{ fontSize: "clamp(1rem, 2vw, 1.2rem)", color: "rgba(255,255,255,0.6)", marginBottom: "40px", lineHeight: 1.7, maxWidth: "520px" }}>
+              Your AI receptionist answers every call in your name, qualifies leads, books appointments, and sends SMS follow-ups — 24/7, even when you&apos;re showing homes.
             </p>
+            <div className="glass-card" style={{ borderRadius: "16px", padding: "16px", marginBottom: "32px", maxWidth: "340px" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "12px" }}>
+                <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#4ade80" }} />
+                <span style={{ fontSize: "12px", color: "rgba(255,255,255,0.5)", fontWeight: 500 }}>Live Call</span>
+                <span style={{ marginLeft: "auto", fontSize: "12px", color: "rgba(255,255,255,0.3)" }}>AI Receptionist</span>
+              </div>
+              <WaveformBars />
+              <p style={{ fontSize: "12px", color: "rgba(255,255,255,0.4)", marginTop: "8px", fontStyle: "italic" }}>&ldquo;Hi, this is Sarah with Keller Williams...&rdquo;</p>
+            </div>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "16px", marginBottom: "24px" }}>
+              <Link href="#pricing" className="btn-glow" style={{ color: "white", fontWeight: 700, fontSize: "16px", padding: "16px 32px", borderRadius: "12px", textDecoration: "none" }}>
+                Start 14-Day Free Trial
+              </Link>
+              <Link href="/demo" className="btn-ghost" style={{ fontWeight: 600, fontSize: "16px", padding: "16px 32px", borderRadius: "12px", textDecoration: "none" }}>
+                See Live Demo →
+              </Link>
+            </div>
+            <p style={{ fontSize: "12px", color: "rgba(255,255,255,0.3)" }}>No credit card required · Cancel anytime</p>
+          </div>
+        </div>
+      </section>
+
+      {/* STATS */}
+      <div style={{ borderTop: "1px solid rgba(255,255,255,0.05)", borderBottom: "1px solid rgba(255,255,255,0.05)", background: "rgba(255,255,255,0.02)", padding: "40px 1rem" }}>
+        <div style={{ maxWidth: "1024px", margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "32px" }}>
+          {stats.map((s) => (
+            <div key={s.label} style={{ textAlign: "center" }}>
+              <div className="gradient-text" style={{ fontSize: "clamp(1.75rem, 4vw, 2.25rem)", fontWeight: 700, marginBottom: "4px", fontFamily: "'Space Grotesk', sans-serif" }}>{s.value}</div>
+              <div style={{ fontSize: "14px", color: "rgba(255,255,255,0.5)", fontWeight: 500 }}>{s.label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* HOW IT WORKS */}
+      <section id="how-it-works" style={{ padding: "7rem 1rem" }}>
+        <div style={{ maxWidth: "1024px", margin: "0 auto" }}>
+          <div className="fade-in" style={{ textAlign: "center", marginBottom: "64px" }}>
+            <p style={{ color: "#a78bfa", fontSize: "13px", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "12px" }}>How It Works</p>
+            <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 700, color: "white", marginBottom: "16px" }}>
+              Up and running in <span className="gradient-text">5 minutes</span>
+            </h2>
+            <p style={{ color: "rgba(255,255,255,0.5)", fontSize: "18px", maxWidth: "480px", margin: "0 auto" }}>
+              No complex integrations. No training required. Just flip the switch and your AI receptionist goes live.
+            </p>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "24px" }}>
+            {steps.map((step, i) => (
+              <div key={step.num} className="glass-card fade-in" style={{ borderRadius: "20px", padding: "32px", position: "relative", overflow: "hidden", transitionDelay: `${i * 0.15}s` }}>
+                <div style={{ position: "absolute", top: 0, left: 0, width: "128px", height: "128px", borderRadius: "50%", background: "radial-gradient(circle, rgba(124,58,237,0.15), transparent)", transform: "translate(-50%, -50%)" }} />
+                <div style={{ fontSize: "2.5rem", marginBottom: "16px" }}>{step.icon}</div>
+                <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "3rem", fontWeight: 700, opacity: 0.08, marginBottom: "8px", lineHeight: 1, color: "white" }}>{step.num}</div>
+                <h3 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "20px", fontWeight: 700, color: "white", marginBottom: "12px" }}>{step.title}</h3>
+                <p style={{ color: "rgba(255,255,255,0.5)", lineHeight: 1.7, fontSize: "14px" }}>{step.desc}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* FEATURES */}
-      <section id="features" className="bg-gray-50 py-24 px-4">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-3xl sm:text-4xl font-bold text-center mb-4">
-            Everything You Need. Nothing You Don&apos;t.
-          </h2>
-          <p className="text-gray-600 text-center text-lg mb-14">
-            Built specifically for real estate agents, not generic businesses.
-          </p>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {features.map((f) => (
-              <div key={f.title} className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-                <div className="text-3xl mb-3">{f.icon}</div>
-                <h3 className="text-lg font-bold mb-2">{f.title}</h3>
-                <p className="text-gray-600 text-sm leading-relaxed">{f.desc}</p>
+      <section id="features" style={{ padding: "7rem 1rem", position: "relative", overflow: "hidden", backgroundImage: `url(${FEATURES_BG})`, backgroundSize: "cover", backgroundPosition: "center" }}>
+        <div style={{ position: "absolute", inset: 0, background: "rgba(8,9,15,0.88)" }} />
+        <div style={{ position: "relative", zIndex: 10, maxWidth: "1024px", margin: "0 auto" }}>
+          <div className="fade-in" style={{ textAlign: "center", marginBottom: "64px" }}>
+            <p style={{ color: "#22d3ee", fontSize: "13px", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "12px" }}>Features</p>
+            <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 700, color: "white", marginBottom: "16px" }}>
+              Everything a top-tier receptionist does,{" "}
+              <span className="gradient-text">at a fraction of the cost.</span>
+            </h2>
+            <p style={{ color: "rgba(255,255,255,0.5)", fontSize: "18px" }}>One commission covers years of service. And your AI never calls in sick.</p>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "16px" }}>
+            {features.map((f, i) => (
+              <div key={f.title} className="glass-card fade-in" style={{ borderRadius: "16px", padding: "24px", transitionDelay: `${i * 0.07}s` }}>
+                <div className="icon-glow" style={{ width: "48px", height: "48px", borderRadius: "12px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "24px", marginBottom: "16px" }}>{f.icon}</div>
+                <h3 style={{ fontWeight: 700, color: "white", marginBottom: "8px", fontSize: "14px" }}>{f.title}</h3>
+                <p style={{ color: "rgba(255,255,255,0.45)", fontSize: "13px", lineHeight: 1.6 }}>{f.desc}</p>
               </div>
             ))}
           </div>
@@ -257,18 +228,27 @@ export default function LandingPage() {
       </section>
 
       {/* TESTIMONIALS */}
-      <section className="bg-brand-900 text-white py-24 px-4">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-3xl sm:text-4xl font-bold text-center mb-14">
-            Real Estate Agents Love All The Calls
-          </h2>
-          <div className="grid md:grid-cols-3 gap-6">
-            {testimonials.map((t) => (
-              <div key={t.name} className="bg-brand-800/50 border border-brand-700/50 rounded-2xl p-6">
-                <p className="text-brand-100 leading-relaxed mb-6 italic">&ldquo;{t.quote}&rdquo;</p>
-                <div>
-                  <p className="font-bold">{t.name}</p>
-                  <p className="text-brand-300 text-sm">{t.brokerage}, {t.location}</p>
+      <section style={{ padding: "7rem 1rem" }}>
+        <div style={{ maxWidth: "1024px", margin: "0 auto" }}>
+          <div className="fade-in" style={{ textAlign: "center", marginBottom: "64px" }}>
+            <p style={{ color: "#a78bfa", fontSize: "13px", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "12px" }}>Testimonials</p>
+            <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 700, color: "white" }}>
+              Real agents. <span className="gradient-text">Real results.</span>
+            </h2>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "24px" }}>
+            {testimonials.map((t, i) => (
+              <div key={t.name} className="glass-card fade-in" style={{ borderRadius: "20px", padding: "32px", transitionDelay: `${i * 0.15}s` }}>
+                <div style={{ display: "flex", gap: "4px", marginBottom: "16px" }}>
+                  {[...Array(5)].map((_, j) => <span key={j} style={{ color: "#facc15", fontSize: "14px" }}>★</span>)}
+                </div>
+                <p style={{ color: "rgba(255,255,255,0.7)", lineHeight: 1.7, marginBottom: "24px", fontStyle: "italic", fontSize: "14px" }}>&ldquo;{t.quote}&rdquo;</p>
+                <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                  <div style={{ width: "40px", height: "40px", borderRadius: "50%", background: "linear-gradient(135deg, #7c3aed, #06b6d4)", display: "flex", alignItems: "center", justifyContent: "center", color: "white", fontSize: "12px", fontWeight: 700, flexShrink: 0 }}>{t.initials}</div>
+                  <div>
+                    <p style={{ fontWeight: 700, color: "white", fontSize: "14px" }}>{t.name}</p>
+                    <p style={{ color: "rgba(255,255,255,0.4)", fontSize: "12px" }}>{t.role} · {t.location}</p>
+                  </div>
                 </div>
               </div>
             ))}
@@ -280,73 +260,73 @@ export default function LandingPage() {
       <PricingSection />
 
       {/* FAQ */}
-      <section id="faq" className="bg-gray-50 py-24 px-4">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="text-3xl sm:text-4xl font-bold text-center mb-14">
-            Frequently Asked Questions
-          </h2>
-          <div className="space-y-6">
-            {faqs.map((faq) => (
-              <div key={faq.q} className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
-                <h3 className="font-bold text-gray-900 mb-2">{faq.q}</h3>
-                <p className="text-gray-600 leading-relaxed">{faq.a}</p>
-              </div>
-            ))}
+      <section id="faq" style={{ padding: "7rem 1rem" }}>
+        <div style={{ maxWidth: "768px", margin: "0 auto" }}>
+          <div className="fade-in" style={{ textAlign: "center", marginBottom: "64px" }}>
+            <p style={{ color: "#22d3ee", fontSize: "13px", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "12px" }}>FAQ</p>
+            <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 700, color: "white" }}>
+              Frequently asked <span className="gradient-text">questions</span>
+            </h2>
+          </div>
+          <div className="fade-in" style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+            {faqs.map((faq) => <FAQItem key={faq.q} q={faq.q} a={faq.a} />)}
           </div>
         </div>
       </section>
 
       {/* FINAL CTA */}
-      <section id="demo" className="bg-brand-600 text-white py-24 px-4">
-        <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4">
-            One Missed Call Could Cost You $20,000.
+      <section id="demo" style={{ padding: "7rem 1rem", position: "relative", overflow: "hidden" }}>
+        <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", width: "600px", height: "300px", borderRadius: "50%", background: "linear-gradient(135deg, #7c3aed, #06b6d4)", opacity: 0.12, filter: "blur(80px)", pointerEvents: "none" }} />
+        <div className="fade-in" style={{ position: "relative", zIndex: 10, maxWidth: "768px", margin: "0 auto", textAlign: "center" }}>
+          <p style={{ color: "#a78bfa", fontSize: "13px", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "16px" }}>Get Started</p>
+          <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(2rem, 5vw, 3.75rem)", fontWeight: 700, color: "white", marginBottom: "24px", lineHeight: 1.1 }}>
+            One missed call could cost you <span className="gradient-text">$20,000.</span>
           </h2>
-          <p className="text-xl text-brand-100 mb-10">
+          <p style={{ color: "rgba(255,255,255,0.5)", fontSize: "18px", marginBottom: "40px", maxWidth: "480px", margin: "0 auto 40px" }}>
             Stop sending leads to voicemail. Start with All The Calls today — free for 14 days.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
-            <Link
-              href="#pricing"
-              className="bg-white text-brand-700 text-lg font-bold px-8 py-4 rounded-xl hover:bg-brand-50 transition-colors shadow-lg"
-            >
-              Start Free Trial — It&apos;s Free for 14 Days →
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "16px", justifyContent: "center", marginBottom: "24px" }}>
+            <Link href="#pricing" className="btn-glow" style={{ color: "white", fontWeight: 700, fontSize: "18px", padding: "16px 40px", borderRadius: "12px", textDecoration: "none" }}>
+              Start Free Trial — No Card Needed
             </Link>
-            <Link
-              href="/demo"
-              className="border-2 border-white/50 hover:border-white text-white text-lg font-semibold px-8 py-4 rounded-xl transition-colors"
-            >
-              Book a Demo
+            <Link href="/demo" className="btn-ghost" style={{ fontWeight: 600, fontSize: "18px", padding: "16px 40px", borderRadius: "12px", textDecoration: "none" }}>
+              Hear a demo call first →
             </Link>
           </div>
-          <p className="text-brand-200 text-sm">
-            No contracts. No tech skills needed. Cancel anytime.<br />
-            Join hundreds of agents who never miss a lead.
-          </p>
+          <p style={{ color: "rgba(255,255,255,0.3)", fontSize: "14px" }}>No contracts. No tech skills needed. Cancel anytime.</p>
         </div>
       </section>
 
       {/* FOOTER */}
-      <footer className="bg-gray-900 text-gray-400 py-12 px-4">
-        <div className="max-w-5xl mx-auto">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+      <footer style={{ borderTop: "1px solid rgba(255,255,255,0.05)", padding: "64px 1rem" }}>
+        <div style={{ maxWidth: "1024px", margin: "0 auto" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr", gap: "40px", marginBottom: "48px" }}>
             <div>
-              <p className="text-white font-bold text-lg mb-1">
-                All The Calls
-              </p>
-              <p className="text-sm">AI Receptionist for Real Estate Agents</p>
+              <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "16px" }}>
+                <div style={{ width: "32px", height: "32px", borderRadius: "8px", background: "linear-gradient(135deg, #7c3aed, #06b6d4)", display: "flex", alignItems: "center", justifyContent: "center", color: "white", fontSize: "14px", fontWeight: "bold" }}>A</div>
+                <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, color: "white", fontSize: "18px" }}>AllTheCalls<span style={{ color: "#a78bfa" }}>.ai</span></span>
+              </div>
+              <p style={{ color: "rgba(255,255,255,0.4)", fontSize: "14px", lineHeight: 1.7, maxWidth: "280px" }}>The AI receptionist built for real estate agents who refuse to miss a lead.</p>
+              <p style={{ color: "rgba(255,255,255,0.2)", fontSize: "12px", marginTop: "16px" }}>Secured by Stripe · 256-bit SSL</p>
             </div>
-            <div className="flex gap-6 text-sm">
-              <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
-              <Link href="/terms" className="hover:text-white transition-colors">Terms of Service</Link>
-              <Link href="/contact" className="hover:text-white transition-colors">Contact Us</Link>
+            <div>
+              <p style={{ color: "rgba(255,255,255,0.7)", fontWeight: 600, fontSize: "14px", marginBottom: "16px" }}>Product</p>
+              {[["#features", "Features"], ["#pricing", "Pricing"], ["#how-it-works", "How It Works"], ["/demo", "Demo"]].map(([href, label]) => (
+                <a key={label} href={href} style={{ display: "block", color: "rgba(255,255,255,0.4)", fontSize: "14px", textDecoration: "none", marginBottom: "12px" }}>{label}</a>
+              ))}
+            </div>
+            <div>
+              <p style={{ color: "rgba(255,255,255,0.7)", fontWeight: 600, fontSize: "14px", marginBottom: "16px" }}>Company</p>
+              {[["/contact", "Contact"], ["/privacy", "Privacy Policy"], ["/terms", "Terms of Service"]].map(([href, label]) => (
+                <Link key={label} href={href} style={{ display: "block", color: "rgba(255,255,255,0.4)", fontSize: "14px", textDecoration: "none", marginBottom: "12px" }}>{label}</Link>
+              ))}
+              <Link href="#pricing" className="btn-glow" style={{ display: "inline-block", color: "white", fontSize: "14px", fontWeight: 600, padding: "10px 20px", borderRadius: "12px", textDecoration: "none", marginTop: "8px" }}>Start Free Trial →</Link>
+              <p style={{ color: "rgba(255,255,255,0.2)", fontSize: "12px", marginTop: "8px" }}>14 days free. No card required.</p>
             </div>
           </div>
-          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-sm">
-            <p>© 2026 All The Calls. All rights reserved.</p>
-            <p className="mt-1 text-xs text-gray-600">
-              All The Calls is an AI-powered receptionist service. Results may vary by market and usage.
-            </p>
+          <div style={{ borderTop: "1px solid rgba(255,255,255,0.05)", paddingTop: "32px", display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: "16px" }}>
+            <p style={{ color: "rgba(255,255,255,0.25)", fontSize: "14px" }}>© 2026 All The Calls. All rights reserved.</p>
+            <p style={{ color: "rgba(255,255,255,0.15)", fontSize: "12px" }}>All The Calls is an AI-powered receptionist service. Results may vary by market and usage.</p>
           </div>
         </div>
       </footer>

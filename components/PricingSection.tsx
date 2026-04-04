@@ -1,71 +1,280 @@
 "use client";
 
+/**
+ * PricingSection — Dark Premium Design
+ * Matches Midnight Intelligence theme: #08090f + violet/cyan gradients
+ */
+
 import { useRouter } from "next/navigation";
 
 const plans = [
-  { id: "starter", name: "Starter", price: "$149", period: "/mo", desc: "Solo agents getting started", popular: false },
-  { id: "pro",     name: "Pro",     price: "$249", period: "/mo", desc: "Active agents with high call volume", popular: true },
-  { id: "team",    name: "Team",    price: "$399", period: "/mo", desc: "Small teams of 2–5 agents", popular: false },
+  {
+    id: "starter",
+    name: "Starter",
+    price: "$149",
+    period: "/mo",
+    desc: "Solo agents getting started",
+    popular: false,
+  },
+  {
+    id: "pro",
+    name: "Pro",
+    price: "$249",
+    period: "/mo",
+    desc: "Active agents with high call volume",
+    popular: true,
+  },
+  {
+    id: "team",
+    name: "Team",
+    price: "$399",
+    period: "/mo",
+    desc: "Small teams of 2–5 agents",
+    popular: false,
+  },
 ];
 
-const planFeatures = [
-  "24/7 AI receptionist in your name",
-  "Lead qualification on every call",
-  "Calendar integration",
-  "SMS follow-up automation",
-  "CRM sync",
-  "5-minute setup",
-  "Cancel anytime",
-];
+const planFeatures: Record<string, string[]> = {
+  starter: [
+    "Up to 200 calls/month",
+    "24/7 AI receptionist in your name",
+    "Lead qualification on every call",
+    "Calendar integration",
+    "SMS follow-up automation",
+    "Call transcripts & summaries",
+    "5-minute setup",
+    "Cancel anytime",
+  ],
+  pro: [
+    "Unlimited calls",
+    "24/7 AI receptionist in your name",
+    "Advanced lead qualification",
+    "Calendar integration",
+    "SMS follow-up automation",
+    "CRM sync (FUB, KVCore, HubSpot)",
+    "Custom call scripts",
+    "Priority support",
+    "Cancel anytime",
+  ],
+  team: [
+    "Up to 5 agents",
+    "Unlimited calls across team",
+    "Individual AI personas per agent",
+    "Team dashboard & analytics",
+    "Advanced CRM sync",
+    "Custom call scripts per agent",
+    "Dedicated onboarding call",
+    "Priority support",
+    "Cancel anytime",
+  ],
+};
 
 export default function PricingSection() {
   const router = useRouter();
 
   return (
-    <section id="pricing" className="bg-white py-24 px-4">
-      <div className="max-w-5xl mx-auto text-center">
-        <h2 className="text-3xl sm:text-4xl font-bold mb-3">Simple Pricing. Serious ROI.</h2>
-        <p className="text-gray-500 text-lg mb-2">One commission pays for years of All The Calls.</p>
-        <p className="text-brand-600 font-semibold mb-12">14-day free trial. No credit card required upfront.</p>
-        <div className="grid md:grid-cols-3 gap-6 mb-14">
+    <section
+      id="pricing"
+      style={{
+        padding: "7rem 1rem",
+        background: "rgba(255,255,255,0.01)",
+        borderTop: "1px solid rgba(255,255,255,0.05)",
+        borderBottom: "1px solid rgba(255,255,255,0.05)",
+      }}
+    >
+      <div style={{ maxWidth: "1024px", margin: "0 auto" }}>
+        {/* Header */}
+        <div className="fade-in" style={{ textAlign: "center", marginBottom: "64px" }}>
+          <p
+            style={{
+              color: "#a78bfa",
+              fontSize: "13px",
+              fontWeight: 600,
+              textTransform: "uppercase",
+              letterSpacing: "0.1em",
+              marginBottom: "12px",
+            }}
+          >
+            Pricing
+          </p>
+          <h2
+            style={{
+              fontFamily: "'Space Grotesk', sans-serif",
+              fontSize: "clamp(2rem, 4vw, 3rem)",
+              fontWeight: 700,
+              color: "white",
+              marginBottom: "16px",
+            }}
+          >
+            Simple pricing.{" "}
+            <span className="gradient-text">Serious ROI.</span>
+          </h2>
+          <p style={{ color: "rgba(255,255,255,0.5)", fontSize: "18px", marginBottom: "8px" }}>
+            One commission pays for years of All The Calls.
+          </p>
+          <p style={{ color: "#a78bfa", fontWeight: 600, fontSize: "15px" }}>
+            14-day free trial · No credit card required
+          </p>
+        </div>
+
+        {/* Plans Grid */}
+        <div
+          className="fade-in"
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+            gap: "24px",
+            marginBottom: "48px",
+          }}
+        >
           {plans.map((plan) => (
             <div
-              key={plan.name}
-              className={`rounded-2xl p-8 border-2 relative ${
-                plan.popular ? "border-brand-500 shadow-xl shadow-brand-100" : "border-gray-200"
-              }`}
+              key={plan.id}
+              style={{
+                position: "relative",
+                borderRadius: "20px",
+                padding: "32px",
+                background: plan.popular ? "rgba(124,58,237,0.12)" : "rgba(255,255,255,0.03)",
+                border: `1px solid ${plan.popular ? "rgba(124,58,237,0.5)" : "rgba(255,255,255,0.08)"}`,
+                backdropFilter: "blur(20px)",
+                WebkitBackdropFilter: "blur(20px)",
+                boxShadow: plan.popular
+                  ? "0 0 40px rgba(124,58,237,0.2), 0 0 80px rgba(6,182,212,0.05)"
+                  : "none",
+                transition: "transform 0.2s ease",
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLDivElement).style.transform = "translateY(-4px)";
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLDivElement).style.transform = "translateY(0)";
+              }}
             >
               {plan.popular && (
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-brand-500 text-white text-xs font-bold px-4 py-1.5 rounded-full">
+                <div
+                  style={{
+                    position: "absolute",
+                    top: "-14px",
+                    left: "50%",
+                    transform: "translateX(-50%)",
+                    background: "linear-gradient(135deg, #7c3aed, #06b6d4)",
+                    color: "white",
+                    fontSize: "11px",
+                    fontWeight: 700,
+                    padding: "6px 16px",
+                    borderRadius: "999px",
+                    letterSpacing: "0.08em",
+                    whiteSpace: "nowrap",
+                  }}
+                >
                   MOST POPULAR
                 </div>
               )}
-              <h3 className="text-2xl font-bold mb-1">{plan.name}</h3>
-              <p className="text-gray-500 text-sm mb-6">{plan.desc}</p>
-              <div className="flex items-baseline justify-center mb-8">
-                <span className="text-5xl font-extrabold text-gray-900">{plan.price}</span>
-                <span className="text-gray-400 ml-1">{plan.period}</span>
+
+              <h3
+                style={{
+                  fontFamily: "'Space Grotesk', sans-serif",
+                  fontSize: "22px",
+                  fontWeight: 700,
+                  color: "white",
+                  marginBottom: "4px",
+                }}
+              >
+                {plan.name}
+              </h3>
+              <p style={{ color: "rgba(255,255,255,0.45)", fontSize: "13px", marginBottom: "24px" }}>
+                {plan.desc}
+              </p>
+
+              <div style={{ display: "flex", alignItems: "baseline", gap: "4px", marginBottom: "28px" }}>
+                <span
+                  style={{
+                    fontFamily: "'Space Grotesk', sans-serif",
+                    fontSize: "3.5rem",
+                    fontWeight: 700,
+                    color: plan.popular ? "transparent" : "white",
+                    background: plan.popular ? "linear-gradient(135deg, #a78bfa, #22d3ee)" : "none",
+                    WebkitBackgroundClip: plan.popular ? "text" : "unset",
+                    backgroundClip: plan.popular ? "text" : "unset",
+                    lineHeight: 1,
+                  }}
+                >
+                  {plan.price}
+                </span>
+                <span style={{ color: "rgba(255,255,255,0.4)", fontSize: "15px" }}>{plan.period}</span>
               </div>
-              <ul className="text-left space-y-3 mb-8">
-                {planFeatures.map((feature) => (
-                  <li key={feature} className="flex items-center gap-2 text-sm text-gray-700">
-                    <span className="text-brand-500 font-bold">✓</span>
+
+              <ul style={{ listStyle: "none", padding: 0, margin: "0 0 28px", display: "flex", flexDirection: "column", gap: "10px" }}>
+                {planFeatures[plan.id].map((feature) => (
+                  <li
+                    key={feature}
+                    style={{ display: "flex", alignItems: "flex-start", gap: "10px", fontSize: "13px", color: "rgba(255,255,255,0.65)" }}
+                  >
+                    <span
+                      style={{
+                        color: plan.popular ? "#a78bfa" : "#22d3ee",
+                        fontWeight: 700,
+                        fontSize: "14px",
+                        flexShrink: 0,
+                        marginTop: "1px",
+                      }}
+                    >
+                      ✓
+                    </span>
                     {feature}
                   </li>
                 ))}
               </ul>
+
               <button
                 onClick={() => router.push(`/checkout?plan=${plan.id}`)}
-                className={`block w-full text-center py-3 rounded-xl font-bold transition-colors cursor-pointer ${
-                  plan.popular
-                    ? "bg-brand-600 hover:bg-brand-700 text-white"
-                    : "bg-gray-100 hover:bg-gray-200 text-gray-900"
-                }`}
+                style={{
+                  width: "100%",
+                  padding: "14px",
+                  borderRadius: "12px",
+                  fontWeight: 700,
+                  fontSize: "15px",
+                  color: "white",
+                  cursor: "pointer",
+                  border: plan.popular ? "none" : "1px solid rgba(255,255,255,0.15)",
+                  background: plan.popular
+                    ? "linear-gradient(135deg, #7c3aed, #06b6d4)"
+                    : "rgba(255,255,255,0.05)",
+                  boxShadow: plan.popular ? "0 0 30px rgba(124,58,237,0.4)" : "none",
+                  fontFamily: "'DM Sans', sans-serif",
+                  transition: "opacity 0.2s ease, transform 0.2s ease",
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLButtonElement).style.opacity = "0.9";
+                  (e.currentTarget as HTMLButtonElement).style.transform = "translateY(-1px)";
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLButtonElement).style.opacity = "1";
+                  (e.currentTarget as HTMLButtonElement).style.transform = "translateY(0)";
+                }}
               >
                 Start Free Trial
               </button>
             </div>
           ))}
+        </div>
+
+        {/* Value note */}
+        <div
+          className="fade-in"
+          style={{
+            textAlign: "center",
+            padding: "24px",
+            borderRadius: "16px",
+            background: "rgba(255,255,255,0.02)",
+            border: "1px solid rgba(255,255,255,0.05)",
+          }}
+        >
+          <p style={{ color: "rgba(255,255,255,0.4)", fontSize: "14px" }}>
+            💡 The average real estate commission in the US is{" "}
+            <span style={{ color: "rgba(255,255,255,0.7)", fontWeight: 600 }}>$9,000+</span>. One call answered by your AI pays for{" "}
+            <span style={{ color: "#a78bfa", fontWeight: 600 }}>5 years</span> of the Starter plan.
+          </p>
         </div>
       </div>
     </section>
