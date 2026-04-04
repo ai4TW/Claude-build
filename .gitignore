@@ -1,9 +1,20 @@
+# Environment files — NEVER commit these
 .env
-node_modules/
+.env.local
+.env.production
+.env.development
+.env.*.local
+
+# Build outputs
 .next/
-shared-workspace/logs/
-*.log
+dist/
+node_modules/
+
+# Secrets
+*.key
+secrets.json
 .vercel
 
-# macOS
+# OS
 .DS_Store
+Thumbs.db

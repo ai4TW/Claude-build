@@ -59,8 +59,8 @@ The `/demo`, `/checkout`, and `/welcome` pages currently use the old white desig
 These are already set in Vercel. Reference them with `process.env.*`:
 
 ```
-TRILLET_API_KEY=GcEdqKYSCmYlS05kkfIaL5jqcg6z37FX
-TRILLET_WORKSPACE_ID=69cf4b468d2a8a6a8e39b684
+TRILLET_API_KEY=<rotate-immediately — stored in Vercel only>
+TRILLET_WORKSPACE_ID=<stored in Vercel only>
 STRIPE_SECRET_KEY=<set in Vercel — sk_live_... or sk_test_...>
 NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=<set in Vercel — pk_...>
 STRIPE_WEBHOOK_SECRET=<set in Vercel — whsec_...>
@@ -108,8 +108,8 @@ export const PLANS = {
 
 **Required headers on every request:**
 ```
-x-api-key: GcEdqKYSCmYlS05kkfIaL5jqcg6z37FX
-x-workspace-id: 69cf4b468d2a8a6a8e39b684
+x-api-key: $TRILLET_API_KEY  ← from Vercel env
+x-workspace-id: $TRILLET_WORKSPACE_ID  ← from Vercel env
 Content-Type: application/json
 ```
 
