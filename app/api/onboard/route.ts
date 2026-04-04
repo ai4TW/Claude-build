@@ -15,7 +15,12 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { buildTrilletAgentPayload } from "@/lib/generateSystemPrompt";
-import { supabase } from "@/lib/supabase";
+import { supabase, supabaseAdmin } from "@/lib/supabase";
+
+function generatePassword(): string {
+  const chars = "ABCDEFGHJKMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789";
+  return Array.from({ length: 12 }, () => chars[Math.floor(Math.random() * chars.length)]).join("");
+}
 
 const TRILLET_BASE = "https://api.trillet.ai";
 
@@ -83,7 +88,24 @@ async function createTrilletAgent(config: OnboardInput): Promise<TrilletAgent> {
   return data;
 }
 
-async function saveToSupabase(client: OnboardInput, agentId: string, agentName: string) {
+async function createSupabaseAuthUser(email: string, password: string): Promise<string | null> {
+  if (!supabaseAdmin) {
+    console.warn("[onboard] supabaseAdmin not configured — skipping auth user creation.");
+    return null;
+  }
+  const { data, error } = await supabaseAdmin.auth.admin.createUser({
+    email,
+    password,
+    email_confirm: true,
+  });
+  if (error) {
+    console.error("[onboard] Supabase auth user creation failed:", error.message);
+    return null;
+  }
+  return data.user?.id ?? null;
+}
+
+async function saveToSupabase(client: OnboardInput, agentId: string, agentName: string, authUserId: string | null) {
   if (!supabase) {
     console.warn("[onboard] Supabase not configured — skipping DB save. Set SUPABASE_URL and SUPABASE_ANON_KEY.");
     return null;
@@ -101,6 +123,7 @@ async function saveToSupabase(client: OnboardInput, agentId: string, agentName: 
       trillet_agent_id: agentId,
       trillet_agent_name: agentName,
       status: "pending_phone",
+      ...(authUserId ? { user_id: authUserId } : {}),
     })
     .select()
     .single();
@@ -113,7 +136,7 @@ async function saveToSupabase(client: OnboardInput, agentId: string, agentName: 
   return data;
 }
 
-async function sendWelcomeEmail(client: OnboardInput, agentId: string) {
+async function sendWelcomeEmail(client: OnboardInput, agentId: string, password?: string) {
   const resendKey = process.env.RESEND_API_KEY;
 
   if (!resendKey) {
@@ -148,11 +171,16 @@ async function sendWelcomeEmail(client: OnboardInput, agentId: string) {
               <li>⏳ You'll receive a text when your AI is live</li>
             </ul>
           </div>
-          <p style="color: rgba(255,255,255,0.5); font-size: 14px;">
-            Agent ID (for your records): <code style="color: #22d3ee;">${agentId}</code>
-          </p>
-          <a href="${appUrl}/dashboard" style="display: inline-block; background: linear-gradient(135deg, #7c3aed, #06b6d4); color: white; text-decoration: none; padding: 14px 28px; border-radius: 10px; font-weight: 600; margin-top: 16px;">
-            View Your Dashboard →
+          ${password ? `
+          <div style="background: rgba(124,58,237,0.1); border: 1px solid rgba(124,58,237,0.3); border-radius: 12px; padding: 24px; margin: 24px 0;">
+            <p style="margin: 0 0 12px; color: rgba(255,255,255,0.5); font-size: 13px; text-transform: uppercase; letter-spacing: 0.1em;">Your Login Credentials</p>
+            <p style="margin: 0 0 6px; color: rgba(255,255,255,0.7); font-size: 14px;">Email: <strong style="color: white;">${client.email}</strong></p>
+            <p style="margin: 0; color: rgba(255,255,255,0.7); font-size: 14px;">Password: <strong style="color: #22d3ee; font-size: 18px; letter-spacing: 0.05em;">${password}</strong></p>
+            <p style="margin: 12px 0 0; color: rgba(255,255,255,0.4); font-size: 12px;">You can change your password after logging in.</p>
+          </div>
+          ` : ""}
+          <a href="${appUrl}/login" style="display: inline-block; background: linear-gradient(135deg, #7c3aed, #06b6d4); color: white; text-decoration: none; padding: 14px 28px; border-radius: 10px; font-weight: 600; margin-top: 8px;">
+            Log In to Your Dashboard →
           </a>
           <p style="color: rgba(255,255,255,0.3); font-size: 12px; margin-top: 32px;">
             Questions? Reply to this email or reach us at hello@allthecalls.com
@@ -199,13 +227,20 @@ export async function POST(request: NextRequest) {
     const agent = await createTrilletAgent(body);
     console.log(`[onboard] Trillet agent created: ${agent._id} for ${email}`);
 
-    // Step 2: Save to Supabase (non-blocking — don't fail if DB is down)
-    await saveToSupabase(body, agent._id, agent.name).catch((err) => {
+    // Step 2: Create Supabase Auth user so client can log in
+    const password = generatePassword();
+    const authUserId = await createSupabaseAuthUser(email, password).catch((err) => {
+      console.error("[onboard] Auth user creation error (non-fatal):", err);
+      return null;
+    });
+
+    // Step 3: Save to Supabase (non-blocking — don't fail if DB is down)
+    await saveToSupabase(body, agent._id, agent.name, authUserId).catch((err) => {
       console.error("[onboard] Supabase save error (non-fatal):", err);
     });
 
-    // Step 3: Send welcome email (non-blocking)
-    await sendWelcomeEmail(body, agent._id).catch((err) => {
+    // Step 4: Send welcome email with login credentials (non-blocking)
+    await sendWelcomeEmail(body, agent._id, password).catch((err) => {
       console.error("[onboard] Welcome email error (non-fatal):", err);
     });
 
