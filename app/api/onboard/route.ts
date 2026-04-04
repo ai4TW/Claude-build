@@ -164,9 +164,9 @@ async function sendWelcomeEmail(client: OnboardInput, agentId: string, password?
             <p style="margin: 0 0 8px; color: rgba(255,255,255,0.5); font-size: 13px; text-transform: uppercase; letter-spacing: 0.1em;">What's happening now</p>
             <ul style="color: rgba(255,255,255,0.8); line-height: 2; padding-left: 20px;">
               <li>✅ Your account is active (${client.plan} plan)</li>
-              <li>✅ AI agent created: "${client.name} — ${client.brokerage}"</li>
-              <li>⏳ Phone number being assigned (1–2 hours)</li>
-              <li>⏳ You'll receive a text when your AI is live</li>
+              <li>✅ AI agent created and trained for you</li>
+              <li>⏳ We are assigning your dedicated phone number (within 2 hours)</li>
+              <li>📧 You'll receive a follow-up email with your number and forwarding instructions</li>
             </ul>
           </div>
           ${password ? `

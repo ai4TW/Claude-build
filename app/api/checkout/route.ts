@@ -42,7 +42,7 @@ async function createCheckoutSession(
 
 export async function POST(request: NextRequest) {
   const body = await request.json().catch(() => ({}));
-  const { plan, email, name, brokerage } = body as { plan?: string; email?: string; name?: string; brokerage?: string };
+  const { plan, email, name, brokerage, phone } = body as { plan?: string; email?: string; name?: string; brokerage?: string; phone?: string };
 
   if (!plan || !(plan in PLANS)) {
     return NextResponse.json(
@@ -60,7 +60,7 @@ export async function POST(request: NextRequest) {
       14,
       `${appUrl}/welcome?session_id={CHECKOUT_SESSION_ID}`,
       email,
-      { plan, name: name || "", brokerage: brokerage || "" }
+      { plan, name: name || "", brokerage: brokerage || "", phone: phone || "" }
     );
     return NextResponse.json({ clientSecret: session.client_secret });
   } catch (err) {

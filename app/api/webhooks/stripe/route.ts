@@ -78,6 +78,7 @@ async function handleCheckoutCompleted(session: Record<string, unknown>) {
   const customerEmail = (session.customer_email as string) || metadata.email || "";
   const name = metadata.name || customerEmail.split("@")[0] || "New Agent";
   const brokerage = metadata.brokerage || "";
+  const phone = metadata.phone || "";
   const plan = metadata.plan || "starter";
   const stripeCustomerId = (session.customer as string) || "";
   const stripeSubscriptionId = (session.subscription as string) || "";
@@ -99,6 +100,7 @@ async function handleCheckoutCompleted(session: Record<string, unknown>) {
       name,
       brokerage,
       email: customerEmail,
+      phone,
       plan,
       stripeCustomerId,
       stripeSubscriptionId,
