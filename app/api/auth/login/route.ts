@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  // Look up client record in Supabase to get their agent info
+  // Look up client record via service role to bypass RLS
   const { data: client, error: clientError } = await supabaseAdmin
     .from("clients")
     .select("id, name, email, trillet_agent_id")

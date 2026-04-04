@@ -105,25 +105,23 @@ async function createSupabaseAuthUser(email: string, password: string): Promise<
   return data.user?.id ?? null;
 }
 
-async function saveToSupabase(client: OnboardInput, agentId: string, agentName: string, authUserId: string | null) {
-  if (!supabase) {
-    console.warn("[onboard] Supabase not configured — skipping DB save. Set SUPABASE_URL and SUPABASE_ANON_KEY.");
+async function saveToSupabase(client: OnboardInput, agentId: string, authUserId: string) {
+  if (!supabaseAdmin) {
+    console.warn("[onboard] supabaseAdmin not configured — skipping DB save.");
     return null;
   }
 
-  const { data, error } = await supabase
+  const { data, error } = await supabaseAdmin
     .from("clients")
     .insert({
+      user_id: authUserId,
       name: client.name,
       email: client.email,
-      brokerage: client.brokerage,
+      brokerage: client.brokerage || null,
+      phone: client.phone || null,
       plan: client.plan,
-      stripe_customer_id: client.stripeCustomerId || null,
-      stripe_subscription_id: client.stripeSubscriptionId || null,
       trillet_agent_id: agentId,
-      trillet_agent_name: agentName,
-      status: "pending_phone",
-      ...(authUserId ? { user_id: authUserId } : {}),
+      onboarding_completed: false,
     })
     .select()
     .single();
@@ -229,15 +227,17 @@ export async function POST(request: NextRequest) {
 
     // Step 2: Create Supabase Auth user so client can log in
     const password = generatePassword();
-    const authUserId = await createSupabaseAuthUser(email, password).catch((err) => {
-      console.error("[onboard] Auth user creation error (non-fatal):", err);
-      return null;
-    });
+    const authUserId = await createSupabaseAuthUser(email, password);
+    if (!authUserId) {
+      console.error("[onboard] Could not create auth user — DB save skipped");
+    }
 
-    // Step 3: Save to Supabase (non-blocking — don't fail if DB is down)
-    await saveToSupabase(body, agent._id, agent.name, authUserId).catch((err) => {
-      console.error("[onboard] Supabase save error (non-fatal):", err);
-    });
+    // Step 3: Save to Supabase (requires authUserId for user_id NOT NULL constraint)
+    if (authUserId) {
+      await saveToSupabase(body, agent._id, authUserId).catch((err) => {
+        console.error("[onboard] Supabase save error (non-fatal):", err);
+      });
+    }
 
     // Step 4: Send welcome email with login credentials (non-blocking)
     await sendWelcomeEmail(body, agent._id, password).catch((err) => {
