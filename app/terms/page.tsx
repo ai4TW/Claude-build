@@ -4,7 +4,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "Terms of Service",
   description: "All The Calls terms of service — the agreement governing your use of our AI receptionist service.",
-  alternates: { canonical: "https://realty-receptionist.vercel.app/terms" },
+  alternates: { canonical: "https://allthecalls.ai/terms" },
   robots: { index: false },
 };
 

@@ -4,7 +4,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "Privacy Policy",
   description: "All The Calls privacy policy — how we collect, use, and protect your data.",
-  alternates: { canonical: "https://realty-receptionist.vercel.app/privacy" },
+  alternates: { canonical: "https://allthecalls.ai/privacy" },
   robots: { index: false },
 };
 

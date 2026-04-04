@@ -4,7 +4,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "Contact Us",
   description: "Get in touch with the All The Calls team. We respond within 1 business hour.",
-  alternates: { canonical: "https://realty-receptionist.vercel.app/contact" },
+  alternates: { canonical: "https://allthecalls.ai/contact" },
 };
 
 export default function ContactPage() {
