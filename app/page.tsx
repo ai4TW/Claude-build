@@ -101,6 +101,7 @@ function FAQItem({ q, a }: { q: string; a: string }) {
 
 export default function Home() {
   useScrollFadeIn();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <div style={{ minHeight: "100vh", background: "#08090f", color: "#e2e8f0", fontFamily: "'DM Sans', system-ui, sans-serif" }}>
@@ -112,17 +113,43 @@ export default function Home() {
             <div style={{ width: "32px", height: "32px", borderRadius: "8px", background: "linear-gradient(135deg, #7c3aed, #06b6d4)", display: "flex", alignItems: "center", justifyContent: "center", color: "white", fontSize: "14px", fontWeight: "bold" }}>A</div>
             <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, color: "white", fontSize: "18px" }}>AllTheCalls<span style={{ color: "#a78bfa" }}>.ai</span></span>
           </Link>
-          <div style={{ display: "flex", alignItems: "center", gap: "32px", fontSize: "14px" }}>
+          {/* Desktop nav links */}
+          <div className="hidden md:flex items-center gap-8 text-sm">
             <a href="#how-it-works" style={{ color: "rgba(255,255,255,0.6)", textDecoration: "none" }}>How It Works</a>
             <a href="#features" style={{ color: "rgba(255,255,255,0.6)", textDecoration: "none" }}>Features</a>
             <a href="#pricing" style={{ color: "rgba(255,255,255,0.6)", textDecoration: "none" }}>Pricing</a>
             <Link href="/demo" style={{ color: "rgba(255,255,255,0.6)", textDecoration: "none" }}>Demo</Link>
           </div>
-          <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+          {/* Desktop CTA */}
+          <div className="hidden md:flex items-center gap-3">
             <Link href="/demo" style={{ fontSize: "14px", color: "rgba(255,255,255,0.6)", textDecoration: "none", padding: "8px 16px" }}>See Demo</Link>
             <Link href="#pricing" className="btn-glow" style={{ color: "white", fontSize: "14px", fontWeight: 600, padding: "10px 20px", borderRadius: "12px", textDecoration: "none" }}>Start Free Trial</Link>
           </div>
+          {/* Mobile hamburger */}
+          <button
+            className="md:hidden flex flex-col justify-center items-center w-10 h-10 gap-1.5"
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Toggle menu"
+            style={{ background: "none", border: "none", cursor: "pointer", padding: "4px" }}
+          >
+            <span style={{ display: "block", width: "22px", height: "2px", background: "rgba(255,255,255,0.7)", borderRadius: "2px", transition: "all 0.3s", transform: menuOpen ? "translateY(6px) rotate(45deg)" : "none" }} />
+            <span style={{ display: "block", width: "22px", height: "2px", background: "rgba(255,255,255,0.7)", borderRadius: "2px", transition: "all 0.3s", opacity: menuOpen ? 0 : 1 }} />
+            <span style={{ display: "block", width: "22px", height: "2px", background: "rgba(255,255,255,0.7)", borderRadius: "2px", transition: "all 0.3s", transform: menuOpen ? "translateY(-6px) rotate(-45deg)" : "none" }} />
+          </button>
         </div>
+        {/* Mobile dropdown */}
+        {menuOpen && (
+          <div style={{ background: "rgba(8,9,15,0.95)", backdropFilter: "blur(20px)", borderTop: "1px solid rgba(255,255,255,0.06)", padding: "16px 1rem 24px" }} className="md:hidden">
+            <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+              {[["#how-it-works", "How It Works"], ["#features", "Features"], ["#pricing", "Pricing"], ["/demo", "Demo"]].map(([href, label]) => (
+                <a key={label} href={href} onClick={() => setMenuOpen(false)} style={{ color: "rgba(255,255,255,0.7)", textDecoration: "none", fontSize: "16px", fontWeight: 500, padding: "12px 8px", borderBottom: "1px solid rgba(255,255,255,0.05)" }}>{label}</a>
+              ))}
+              <Link href="#pricing" className="btn-glow" onClick={() => setMenuOpen(false)} style={{ color: "white", fontWeight: 700, fontSize: "15px", padding: "14px 20px", borderRadius: "12px", textDecoration: "none", textAlign: "center", marginTop: "16px", display: "block" }}>
+                Start Free Trial — 14 Days Free
+              </Link>
+            </div>
+          </div>
+        )}
       </nav>
 
       {/* HERO */}
@@ -152,11 +179,11 @@ export default function Home() {
               <WaveformBars />
               <p style={{ fontSize: "12px", color: "rgba(255,255,255,0.4)", marginTop: "8px", fontStyle: "italic" }}>&ldquo;Hi, this is Sarah with Keller Williams...&rdquo;</p>
             </div>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "16px", marginBottom: "24px" }}>
-              <Link href="#pricing" className="btn-glow" style={{ color: "white", fontWeight: 700, fontSize: "16px", padding: "16px 32px", borderRadius: "12px", textDecoration: "none" }}>
+            <div className="flex flex-col sm:flex-row gap-4 mb-6">
+              <Link href="#pricing" className="btn-glow w-full sm:w-auto" style={{ color: "white", fontWeight: 700, fontSize: "16px", padding: "16px 32px", borderRadius: "12px", textDecoration: "none", textAlign: "center" }}>
                 Start 14-Day Free Trial
               </Link>
-              <Link href="/demo" className="btn-ghost" style={{ fontWeight: 600, fontSize: "16px", padding: "16px 32px", borderRadius: "12px", textDecoration: "none" }}>
+              <Link href="/demo" className="btn-ghost w-full sm:w-auto" style={{ fontWeight: 600, fontSize: "16px", padding: "16px 32px", borderRadius: "12px", textDecoration: "none", textAlign: "center" }}>
                 See Live Demo →
               </Link>
             </div>
@@ -167,7 +194,7 @@ export default function Home() {
 
       {/* STATS */}
       <div style={{ borderTop: "1px solid rgba(255,255,255,0.05)", borderBottom: "1px solid rgba(255,255,255,0.05)", background: "rgba(255,255,255,0.02)", padding: "40px 1rem" }}>
-        <div style={{ maxWidth: "1024px", margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "32px" }}>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8" style={{ maxWidth: "1024px", margin: "0 auto" }}>
           {stats.map((s) => (
             <div key={s.label} style={{ textAlign: "center" }}>
               <div className="gradient-text" style={{ fontSize: "clamp(1.75rem, 4vw, 2.25rem)", fontWeight: 700, marginBottom: "4px", fontFamily: "'Space Grotesk', sans-serif" }}>{s.value}</div>
@@ -189,7 +216,7 @@ export default function Home() {
               No complex integrations. No training required. Just flip the switch and your AI receptionist goes live.
             </p>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "24px" }}>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {steps.map((step, i) => (
               <div key={step.num} className="glass-card fade-in" style={{ borderRadius: "20px", padding: "32px", position: "relative", overflow: "hidden", transitionDelay: `${i * 0.15}s` }}>
                 <div style={{ position: "absolute", top: 0, left: 0, width: "128px", height: "128px", borderRadius: "50%", background: "radial-gradient(circle, rgba(124,58,237,0.15), transparent)", transform: "translate(-50%, -50%)" }} />
@@ -215,7 +242,7 @@ export default function Home() {
             </h2>
             <p style={{ color: "rgba(255,255,255,0.5)", fontSize: "18px" }}>One commission covers years of service. And your AI never calls in sick.</p>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "16px" }}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {features.map((f, i) => (
               <div key={f.title} className="glass-card fade-in" style={{ borderRadius: "16px", padding: "24px", transitionDelay: `${i * 0.07}s` }}>
                 <div className="icon-glow" style={{ width: "48px", height: "48px", borderRadius: "12px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "24px", marginBottom: "16px" }}>{f.icon}</div>
@@ -236,7 +263,7 @@ export default function Home() {
               Real agents. <span className="gradient-text">Real results.</span>
             </h2>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "24px" }}>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {testimonials.map((t, i) => (
               <div key={t.name} className="glass-card fade-in" style={{ borderRadius: "20px", padding: "32px", transitionDelay: `${i * 0.15}s` }}>
                 <div style={{ display: "flex", gap: "4px", marginBottom: "16px" }}>
@@ -285,11 +312,11 @@ export default function Home() {
           <p style={{ color: "rgba(255,255,255,0.5)", fontSize: "18px", marginBottom: "40px", maxWidth: "480px", margin: "0 auto 40px" }}>
             Stop sending leads to voicemail. Start with All The Calls today — free for 14 days.
           </p>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: "16px", justifyContent: "center", marginBottom: "24px" }}>
-            <Link href="#pricing" className="btn-glow" style={{ color: "white", fontWeight: 700, fontSize: "18px", padding: "16px 40px", borderRadius: "12px", textDecoration: "none" }}>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
+            <Link href="#pricing" className="btn-glow w-full sm:w-auto" style={{ color: "white", fontWeight: 700, fontSize: "18px", padding: "16px 40px", borderRadius: "12px", textDecoration: "none", textAlign: "center" }}>
               Start Free Trial — No Card Needed
             </Link>
-            <Link href="/demo" className="btn-ghost" style={{ fontWeight: 600, fontSize: "18px", padding: "16px 40px", borderRadius: "12px", textDecoration: "none" }}>
+            <Link href="/demo" className="btn-ghost w-full sm:w-auto" style={{ fontWeight: 600, fontSize: "18px", padding: "16px 40px", borderRadius: "12px", textDecoration: "none", textAlign: "center" }}>
               Hear a demo call first →
             </Link>
           </div>
@@ -300,7 +327,7 @@ export default function Home() {
       {/* FOOTER */}
       <footer style={{ borderTop: "1px solid rgba(255,255,255,0.05)", padding: "64px 1rem" }}>
         <div style={{ maxWidth: "1024px", margin: "0 auto" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr", gap: "40px", marginBottom: "48px" }}>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
             <div>
               <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "16px" }}>
                 <div style={{ width: "32px", height: "32px", borderRadius: "8px", background: "linear-gradient(135deg, #7c3aed, #06b6d4)", display: "flex", alignItems: "center", justifyContent: "center", color: "white", fontSize: "14px", fontWeight: "bold" }}>A</div>

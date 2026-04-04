@@ -6,7 +6,7 @@ async function fetchStats() {
   if (!key || !workspaceId) return null;
 
   try {
-    const res = await fetch(`https://api.trillet.ai/v2/api/call-history`, {
+    const res = await fetch(`https://api.trillet.ai/v1/api/call-history`, {
       headers: {
         "Content-Type": "application/json",
         "x-api-key": key,

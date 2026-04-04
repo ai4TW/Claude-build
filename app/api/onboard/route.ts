@@ -15,6 +15,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { buildTrilletAgentPayload } from "@/lib/generateSystemPrompt";
+import { supabase } from "@/lib/supabase";
 
 const TRILLET_BASE = "https://api.trillet.ai";
 
@@ -83,23 +84,14 @@ async function createTrilletAgent(config: OnboardInput): Promise<TrilletAgent> {
 }
 
 async function saveToSupabase(client: OnboardInput, agentId: string, agentName: string) {
-  const supabaseUrl = process.env.SUPABASE_URL;
-  const supabaseKey = process.env.SUPABASE_ANON_KEY;
-
-  if (!supabaseUrl || !supabaseKey) {
+  if (!supabase) {
     console.warn("[onboard] Supabase not configured — skipping DB save. Set SUPABASE_URL and SUPABASE_ANON_KEY.");
     return null;
   }
 
-  const res = await fetch(`${supabaseUrl}/rest/v1/clients`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "apikey": supabaseKey,
-      "Authorization": `Bearer ${supabaseKey}`,
-      "Prefer": "return=representation",
-    },
-    body: JSON.stringify({
+  const { data, error } = await supabase
+    .from("clients")
+    .insert({
       name: client.name,
       email: client.email,
       brokerage: client.brokerage,
@@ -109,17 +101,16 @@ async function saveToSupabase(client: OnboardInput, agentId: string, agentName: 
       trillet_agent_id: agentId,
       trillet_agent_name: agentName,
       status: "pending_phone",
-    }),
-  });
+    })
+    .select()
+    .single();
 
-  if (!res.ok) {
-    const err = await res.text();
-    console.error("[onboard] Supabase save failed:", err);
+  if (error) {
+    console.error("[onboard] Supabase save failed:", error.message);
     return null;
   }
 
-  const rows = await res.json();
-  return rows[0] ?? null;
+  return data;
 }
 
 async function sendWelcomeEmail(client: OnboardInput, agentId: string) {

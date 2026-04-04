@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSession } from "@/lib/session";
+import { supabase } from "@/lib/supabase";
 
 const TRILLET_BASE = "https://api.trillet.ai";
 
@@ -72,18 +73,32 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const { searchParams } = new URL(request.url);
-  const limit = searchParams.get("limit") || "50";
-  const offset = searchParams.get("offset") || "0";
-
   const headers = trilletHeaders();
   if (!headers) {
-    // No API key configured — return demo data
     return NextResponse.json({ calls: demoCalls(), demo: true });
   }
 
+  // Look up the client's Trillet agent ID from Supabase
+  let agentId: string | null = session.agentId || null;
+  if (!agentId && supabase) {
+    const { data } = await supabase
+      .from("clients")
+      .select("trillet_agent_id")
+      .eq("email", session.clientId)
+      .single();
+    agentId = data?.trillet_agent_id ?? null;
+  }
+
+  const url = agentId
+    ? `${TRILLET_BASE}/v1/api/call-history?agentId=${agentId}`
+    : `${TRILLET_BASE}/v1/api/call-history`;
+
   try {
-    const res = await fetch(`${TRILLET_BASE}/v2/api/call-history`, { headers });
+    const res = await fetch(url, { headers });
+    // Trillet returns HTTP 500 when there are zero calls — treat as empty
+    if (res.status === 500) {
+      return NextResponse.json({ calls: [], demo: false });
+    }
     if (!res.ok) {
       const err = await res.text();
       console.error("Trillet calls error:", err);

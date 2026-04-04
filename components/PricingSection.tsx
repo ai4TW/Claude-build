@@ -118,15 +118,7 @@ export default function PricingSection() {
         </div>
 
         {/* Plans Grid */}
-        <div
-          className="fade-in"
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-            gap: "24px",
-            marginBottom: "48px",
-          }}
-        >
+        <div className="fade-in grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
           {plans.map((plan) => (
             <div
               key={plan.id}

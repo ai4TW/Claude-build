@@ -1,7 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { PLANS, PlanId } from "@/lib/stripe";
 
-async function createCheckoutSession(priceId: string, trialDays: number, returnUrl: string, email?: string) {
+async function createCheckoutSession(
+  priceId: string,
+  trialDays: number,
+  returnUrl: string,
+  email?: string,
+  metadata?: Record<string, string>
+) {
   const key = process.env.STRIPE_SECRET_KEY;
   if (!key) throw new Error("STRIPE_SECRET_KEY is not set");
 
@@ -14,6 +20,11 @@ async function createCheckoutSession(priceId: string, trialDays: number, returnU
     return_url: returnUrl,
   });
   if (email) params.set("customer_email", email);
+  if (metadata) {
+    for (const [k, v] of Object.entries(metadata)) {
+      params.set(`metadata[${k}]`, v);
+    }
+  }
 
   const res = await fetch("https://api.stripe.com/v1/checkout/sessions", {
     method: "POST",
@@ -31,7 +42,7 @@ async function createCheckoutSession(priceId: string, trialDays: number, returnU
 
 export async function POST(request: NextRequest) {
   const body = await request.json().catch(() => ({}));
-  const { plan, email } = body as { plan?: string; email?: string };
+  const { plan, email, name, brokerage } = body as { plan?: string; email?: string; name?: string; brokerage?: string };
 
   if (!plan || !(plan in PLANS)) {
     return NextResponse.json(
@@ -41,14 +52,15 @@ export async function POST(request: NextRequest) {
   }
 
   const selectedPlan = PLANS[plan as PlanId];
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://realty-receptionist.vercel.app";
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://allthecalls.ai";
 
   try {
     const session = await createCheckoutSession(
       selectedPlan.priceId,
       14,
       `${appUrl}/welcome?session_id={CHECKOUT_SESSION_ID}`,
-      email
+      email,
+      { plan, name: name || "", brokerage: brokerage || "" }
     );
     return NextResponse.json({ clientSecret: session.client_secret });
   } catch (err) {
