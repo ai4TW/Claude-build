@@ -192,7 +192,7 @@ async function sendWelcomeEmail(client: OnboardInput, agentId: string, password?
 function isAuthorized(request: NextRequest): boolean {
   // Allow requests with the internal secret header (from Stripe webhook, admin dashboard)
   const internalSecret = request.headers.get("x-internal-secret");
-  if (internalSecret && internalSecret === process.env.INTERNAL_SECRET) {
+  if (internalSecret && internalSecret === process.env.INTERNAL_SECRET?.trim()) {
     return true;
   }
   // TODO: Also check session cookie for admin dashboard use
