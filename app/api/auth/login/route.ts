@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
   // Look up client record via service role to bypass RLS
   const { data: client, error: clientError } = await supabaseAdmin
     .from("clients")
-    .select("id, name, email, trillet_agent_id")
+    .select("id, name, email, trillet_agent_id, trillet_agent_name")
     .eq("email", email.toLowerCase().trim())
     .single();
 
@@ -55,7 +55,7 @@ export async function POST(request: NextRequest) {
   const token = await createSession({
     clientId: client.id,
     clientName: client.name,
-    subAccountId: client.id,
+    subAccountId: (client as Record<string, string>).trillet_agent_name || "",  // linked Trillet agent ID
     agentId: client.trillet_agent_id || "",
   });
 
