@@ -39,7 +39,7 @@ export default function LoginPage() {
         setError(data.error || "Login failed. Please try again.");
         return;
       }
-      router.push("/dashboard");
+      router.push("/my");
     } catch {
       setError("Network error. Please try again.");
     } finally {
