@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
   // Look up client record via service role to bypass RLS
   let { data: client, error: clientError } = await supabaseAdmin
     .from("clients")
-    .select("id, name, email, trillet_agent_id, trillet_agent_name")
+    .select("id, name, email, trillet_agent_id")
     .eq("email", email.toLowerCase().trim())
     .single();
 
@@ -79,7 +79,7 @@ export async function POST(request: NextRequest) {
     clientId: client.id,
     clientName: client.name,
     email: client.email,
-    subAccountId: (client as Record<string, string>).trillet_agent_name || "",  // linked Trillet agent ID
+    subAccountId: "",  // trillet_agent_name col not yet in schema — always empty for now
     agentId: client.trillet_agent_id || "",
   });
 

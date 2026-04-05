@@ -213,7 +213,6 @@ export async function POST(req: NextRequest) {
           phone: phone || null,
           plan: "starter",
           trillet_agent_id: flowId,
-          trillet_agent_name: agentId,
           onboarding_completed: true,
         },
         { onConflict: "email" }
