@@ -126,6 +126,7 @@ export default function Home() {
           </div>
           <div className="hidden md:flex items-center gap-3">
             <a href={DEMO_PHONE_HREF} style={{ fontSize: "14px", color: "rgba(255,255,255,0.6)", textDecoration: "none", padding: "8px 16px" }}>📞 {DEMO_PHONE}</a>
+            <Link href="/login" style={{ fontSize: "14px", color: "rgba(255,255,255,0.5)", textDecoration: "none", padding: "10px 16px", borderRadius: "12px", border: "1px solid rgba(255,255,255,0.1)" }}>Sign In</Link>
             <Link href="#pricing" className="btn-glow" style={{ color: "white", fontSize: "14px", fontWeight: 600, padding: "10px 20px", borderRadius: "12px", textDecoration: "none" }}>Start Free Trial</Link>
           </div>
           <button
@@ -145,6 +146,7 @@ export default function Home() {
               {[["#how-it-works", "How It Works"], ["#features", "Features"], ["#pricing", "Pricing"], ["#hear-it", "Hear It Live"]].map(([href, label]) => (
                 <a key={label} href={href} onClick={() => setMenuOpen(false)} style={{ color: "rgba(255,255,255,0.7)", textDecoration: "none", fontSize: "16px", fontWeight: 500, padding: "12px 8px", borderBottom: "1px solid rgba(255,255,255,0.05)" }}>{label}</a>
               ))}
+              <Link href="/login" onClick={() => setMenuOpen(false)} style={{ color: "rgba(255,255,255,0.5)", textDecoration: "none", fontSize: "15px", fontWeight: 500, padding: "12px 8px", borderBottom: "1px solid rgba(255,255,255,0.05)", display: "block" }}>Sign In →</Link>
               <a href={DEMO_PHONE_HREF} onClick={() => setMenuOpen(false)} className="btn-glow" style={{ color: "white", fontWeight: 700, fontSize: "15px", padding: "14px 20px", borderRadius: "12px", textDecoration: "none", textAlign: "center", marginTop: "16px", display: "block" }}>
                 📞 Call Our AI — {DEMO_PHONE}
               </a>
@@ -153,8 +155,9 @@ export default function Home() {
         )}
       </nav>
 
+      <main>
       {/* HERO */}
-      <section style={{ position: "relative", minHeight: "100vh", display: "flex", alignItems: "center", overflow: "hidden", paddingTop: "64px" }}>
+      <section aria-label="Hero" style={{ position: "relative", minHeight: "100dvh", display: "flex", alignItems: "center", overflow: "hidden", paddingTop: "64px" }}>
         <div style={{ position: "absolute", inset: 0, backgroundImage: `url(${HERO_BG})`, backgroundSize: "cover", backgroundPosition: "center", opacity: 0.55 }} />
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, rgba(8,9,15,0.97) 35%, rgba(8,9,15,0.5) 100%)" }} />
         <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "128px", background: "linear-gradient(to bottom, transparent, #08090f)" }} />
@@ -396,7 +399,7 @@ export default function Home() {
       </section>
 
       {/* FOOTER */}
-      <footer style={{ borderTop: "1px solid rgba(255,255,255,0.05)", padding: "64px 1rem" }}>
+      <footer style={{ borderTop: "1px solid rgba(255,255,255,0.05)", padding: "64px 1rem 96px" }}>
         <div style={{ maxWidth: "1024px", margin: "0 auto" }}>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
             <div>
@@ -417,6 +420,7 @@ export default function Home() {
               {[["/contact", "Contact"], ["/privacy", "Privacy Policy"], ["/terms", "Terms of Service"]].map(([href, label]) => (
                 <Link key={label} href={href} style={{ display: "block", color: "rgba(255,255,255,0.4)", fontSize: "14px", textDecoration: "none", marginBottom: "12px" }}>{label}</Link>
               ))}
+              <Link href="/login" style={{ display: "block", color: "rgba(255,255,255,0.4)", fontSize: "14px", textDecoration: "none", marginBottom: "12px" }}>Client Login</Link>
               <a href={DEMO_PHONE_HREF} style={{ display: "block", color: "#a78bfa", fontSize: "14px", fontWeight: 600, textDecoration: "none", marginBottom: "8px" }}>📞 {DEMO_PHONE}</a>
               <Link href="#pricing" className="btn-glow" style={{ display: "inline-block", color: "white", fontSize: "14px", fontWeight: 600, padding: "10px 20px", borderRadius: "12px", textDecoration: "none", marginTop: "8px" }}>Start Free Trial →</Link>
             </div>
@@ -427,6 +431,35 @@ export default function Home() {
           </div>
         </div>
       </footer>
+      </main>
+
+      {/* MOBILE STICKY CTA BAR — shown only on mobile */}
+      <div className="md:hidden" style={{ position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 100, background: "rgba(8,9,15,0.97)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)", borderTop: "1px solid rgba(255,255,255,0.08)", padding: "12px 16px", paddingBottom: "max(12px, env(safe-area-inset-bottom))" }}>
+        <div style={{ display: "flex", gap: "10px" }}>
+          <Link href="#pricing" className="btn-glow" style={{ flex: 1, color: "white", fontWeight: 700, fontSize: "14px", padding: "13px 16px", borderRadius: "12px", textDecoration: "none", textAlign: "center" }}>
+            Start Free Trial
+          </Link>
+          <a href={DEMO_PHONE_HREF} className="btn-ghost" style={{ flex: 1, fontWeight: 600, fontSize: "14px", padding: "13px 16px", borderRadius: "12px", textDecoration: "none", textAlign: "center" }}>
+            📞 Call AI Now
+          </a>
+        </div>
+      </div>
+
+      {/* FAQPage structured data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: faqs.map(({ q, a }) => ({
+              "@type": "Question",
+              name: q,
+              acceptedAnswer: { "@type": "Answer", text: a },
+            })),
+          }),
+        }}
+      />
     </div>
   );
 }
