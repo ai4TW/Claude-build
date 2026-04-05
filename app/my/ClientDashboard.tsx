@@ -48,6 +48,7 @@ const s = {
   label: { fontSize: "12px", fontWeight: 600, color: "rgba(255,255,255,0.4)", letterSpacing: "0.06em", textTransform: "uppercase" as const, marginBottom: "8px", display: "block" },
   btn: { width: "100%", padding: "15px", borderRadius: "12px", border: "none", background: "linear-gradient(135deg, #7c3aed, #06b6d4)", color: "white", fontWeight: 700, fontSize: "15px", cursor: "pointer", fontFamily: "inherit" },
   btnGhost: { padding: "10px 18px", borderRadius: "10px", border: "1px solid rgba(255,255,255,0.12)", background: "transparent", color: "rgba(255,255,255,0.5)", cursor: "pointer", fontSize: "13px", fontFamily: "inherit" },
+  btnGlow: { width: "100%", padding: "15px", borderRadius: "12px", border: "none", background: "linear-gradient(135deg, #7c3aed, #06b6d4)", color: "white", fontWeight: 700, fontSize: "15px", cursor: "pointer", fontFamily: "inherit" },
 };
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -145,7 +146,7 @@ function CallCard({ call, onPlay }: { call: CallRecord; onPlay: (url: string) =>
 }
 
 // ─── Tab: Home ────────────────────────────────────────────────────────────────
-function HomeTab({ clientName, calls, onTabChange }: { clientName: string; calls: CallRecord[]; onTabChange: (t: string) => void }) {
+function HomeTab({ clientName, calls, onTabChange, needsPasswordChange }: { clientName: string; calls: CallRecord[]; onTabChange: (t: string) => void; needsPasswordChange: boolean }) {
   const firstName = clientName.split(" ")[0];
   const today = new Date().toDateString();
   const todayCalls = calls.filter(c => new Date(c.createdAt).toDateString() === today);
@@ -173,6 +174,21 @@ function HomeTab({ clientName, calls, onTabChange }: { clientName: string; calls
           Your AI is handling calls right now.
         </p>
       </div>
+
+      {/* Password change banner — shown until dismissed */}
+      {needsPasswordChange && (
+        <button
+          onClick={() => onTabChange("settings")}
+          style={{ width: "100%", marginBottom: 16, padding: "14px 16px", borderRadius: 14, border: "1px solid rgba(234,179,8,0.35)", background: "rgba(234,179,8,0.08)", cursor: "pointer", textAlign: "left", display: "flex", alignItems: "center", gap: 12 }}
+        >
+          <span style={{ fontSize: 20 }}>🔑</span>
+          <div>
+            <div style={{ fontSize: 14, fontWeight: 600, color: "#fbbf24" }}>Set your permanent password</div>
+            <div style={{ fontSize: 12, color: "rgba(255,255,255,0.4)", marginTop: 2 }}>You're using a temporary password. Tap to update it now.</div>
+          </div>
+          <span style={{ marginLeft: "auto", color: "rgba(255,255,255,0.3)", fontSize: 16 }}>→</span>
+        </button>
+      )}
 
       {/* Stats */}
       <div style={{ display: "flex", gap: 10, marginBottom: 20 }}>
@@ -485,15 +501,42 @@ function CallsTab({ calls }: { calls: CallRecord[] }) {
 }
 
 // ─── Tab: Settings ────────────────────────────────────────────────────────────
-function SettingsTab({ clientName, email }: { clientName: string; email: string }) {
-  const [showEmailForm, setShowEmailForm] = useState(false);
-  const [newEmail, setNewEmail]           = useState("");
-  const [emailStatus, setEmailStatus]     = useState<"idle" | "saving" | "success" | "error">("idle");
-  const [emailError, setEmailError]       = useState("");
+function SettingsTab({ clientName, email, onPasswordChanged }: { clientName: string; email: string; onPasswordChanged: () => void }) {
+  const [showEmailForm, setShowEmailForm]     = useState(false);
+  const [newEmail, setNewEmail]               = useState("");
+  const [emailStatus, setEmailStatus]         = useState<"idle" | "saving" | "success" | "error">("idle");
+  const [emailError, setEmailError]           = useState("");
+  const [newPassword, setNewPassword]         = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [pwdStatus, setPwdStatus]             = useState<"idle" | "saving" | "success" | "error">("idle");
+  const [pwdError, setPwdError]               = useState("");
+  const needsPwd = typeof window !== "undefined" && !localStorage.getItem("atc_pwd_set");
 
   async function logout() {
     await fetch("/api/auth/logout", { method: "POST" });
     window.location.href = "/login";
+  }
+
+  async function handlePasswordChange() {
+    if (newPassword.length < 8) { setPwdError("Must be at least 8 characters."); return; }
+    if (newPassword !== confirmPassword) { setPwdError("Passwords don't match."); return; }
+    setPwdStatus("saving");
+    setPwdError("");
+    const res = await fetch("/api/client/change-password", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ newPassword }),
+    });
+    const data = await res.json();
+    if (res.ok) {
+      setPwdStatus("success");
+      setNewPassword("");
+      setConfirmPassword("");
+      onPasswordChanged();
+    } else {
+      setPwdStatus("error");
+      setPwdError(data.error || "Something went wrong.");
+    }
   }
 
   async function handleEmailChange() {
@@ -525,6 +568,43 @@ function SettingsTab({ clientName, email }: { clientName: string; email: string 
       </div>
 
       <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+
+        {/* Password */}
+        <div style={{ ...s.card, padding: "16px", ...(needsPwd ? { borderColor: "rgba(234,179,8,0.3)", background: "rgba(234,179,8,0.04)" } : {}) }}>
+          <div style={{ fontSize: 11, fontWeight: 600, color: needsPwd ? "rgba(251,191,36,0.7)" : "rgba(255,255,255,0.3)", letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: 12 }}>
+            {needsPwd ? "Action Required — Set Password" : "Change Password"}
+          </div>
+          {needsPwd && (
+            <p style={{ fontSize: 13, color: "rgba(255,255,255,0.5)", marginBottom: 14, lineHeight: 1.5 }}>
+              You signed up with a temporary password. Set a permanent one now.
+            </p>
+          )}
+          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            <input
+              type="password"
+              placeholder="New password (8+ characters)"
+              value={newPassword}
+              onChange={e => setNewPassword(e.target.value)}
+              style={{ ...s.input, boxSizing: "border-box" }}
+            />
+            <input
+              type="password"
+              placeholder="Confirm new password"
+              value={confirmPassword}
+              onChange={e => setConfirmPassword(e.target.value)}
+              style={{ ...s.input, boxSizing: "border-box" }}
+            />
+            {pwdError && <div style={{ fontSize: 12, color: "#f87171" }}>{pwdError}</div>}
+            {pwdStatus === "success" && <div style={{ fontSize: 12, color: "#4ade80" }}>Password updated successfully.</div>}
+            <button
+              onClick={handlePasswordChange}
+              disabled={pwdStatus === "saving"}
+              style={{ ...s.btnGlow, opacity: pwdStatus === "saving" ? 0.6 : 1 }}
+            >
+              {pwdStatus === "saving" ? "Saving…" : "Set Password"}
+            </button>
+          </div>
+        </div>
 
         {/* Account */}
         <div style={{ ...s.card, padding: "16px" }}>
@@ -662,10 +742,15 @@ export default function ClientDashboard({ clientName, email }: { clientName: str
   const [tab, setTab] = useState("home");
   const [calls, setCalls] = useState<CallRecord[]>([]);
   const [agent, setAgent] = useState<AgentData | null>(null);
+  const [needsPasswordChange, setNeedsPasswordChange] = useState(false);
 
   useEffect(() => {
     fetch("/api/client/calls").then(r => r.json()).then(d => setCalls(Array.isArray(d) ? d : []));
     fetch("/api/client/agent").then(r => r.json()).then(d => setAgent(d));
+    // Show password prompt until they explicitly dismiss it
+    if (typeof window !== "undefined" && !localStorage.getItem("atc_pwd_set")) {
+      setNeedsPasswordChange(true);
+    }
   }, []);
 
   return (
@@ -687,11 +772,11 @@ export default function ClientDashboard({ clientName, email }: { clientName: str
 
       {/* Content */}
       <div style={{ maxWidth: 480, margin: "0 auto", paddingBottom: 80 }}>
-        {tab === "home"     && <HomeTab clientName={clientName} calls={calls} onTabChange={setTab} />}
+        {tab === "home"     && <HomeTab clientName={clientName} calls={calls} onTabChange={setTab} needsPasswordChange={needsPasswordChange} />}
         {tab === "ai"       && <MyAiTab agent={agent} />}
         {tab === "teach"    && <TeachTab />}
         {tab === "calls"    && <CallsTab calls={calls} />}
-        {tab === "settings" && <SettingsTab clientName={clientName} email={email} />}
+        {tab === "settings" && <SettingsTab clientName={clientName} email={email} onPasswordChanged={() => { localStorage.setItem("atc_pwd_set", "1"); setNeedsPasswordChange(false); }} />}
       </div>
 
       <BottomNav tab={tab} onChange={setTab} />
