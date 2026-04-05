@@ -301,9 +301,8 @@ export default function PricingSection() {
 
         {/* ── Mobile: snap-scroll carousel ── */}
         <div
-          className="md:hidden"
+          className="flex md:hidden"
           style={{
-            display: "flex",
             overflowX: "auto",
             overflowY: "visible",
             scrollSnapType: "x mandatory",
