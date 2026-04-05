@@ -52,9 +52,8 @@ export default function LoginPage() {
       <div style={{ width: "100%", maxWidth: "420px" }}>
         {/* Logo */}
         <div style={{ textAlign: "center", marginBottom: "36px" }}>
-          <Link href="/" style={{ display: "inline-flex", alignItems: "center", gap: "10px", textDecoration: "none", marginBottom: "8px" }}>
-            <div style={{ width: "40px", height: "40px", borderRadius: "10px", background: "linear-gradient(135deg, #7c3aed, #06b6d4)", display: "flex", alignItems: "center", justifyContent: "center", color: "white", fontSize: "18px", fontWeight: "bold" }}>A</div>
-            <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, color: "white", fontSize: "20px" }}>AllTheCalls<span style={{ color: "#a78bfa" }}>.ai</span></span>
+          <Link href="/" style={{ display: "inline-flex", alignItems: "center", textDecoration: "none", marginBottom: "8px" }}>
+            <img src="/logo.svg" alt="AllTheCalls.ai" style={{ height: "40px", width: "auto" }} />
           </Link>
           <p style={{ color: "rgba(255,255,255,0.35)", fontSize: "13px", marginTop: "4px" }}>Client Portal</p>
         </div>

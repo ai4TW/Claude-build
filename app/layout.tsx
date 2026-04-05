@@ -6,6 +6,11 @@ const APP_URL = "https://allthecalls.ai";
 
 export const metadata: Metadata = {
   metadataBase: new URL(APP_URL),
+  icons: {
+    icon: "/favicon.svg",
+    shortcut: "/favicon.svg",
+    apple: "/favicon.svg",
+  },
   title: {
     default: "All The Calls — AI Receptionist for Real Estate Agents",
     template: "%s | All The Calls",

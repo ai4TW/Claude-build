@@ -47,17 +47,8 @@ export default function NavSidebar({ clientName }: { clientName: string }) {
     <aside className="w-60 bg-brand-900 flex flex-col">
       {/* Brand */}
       <div className="px-5 py-6 border-b border-brand-700">
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-lg bg-brand-500 flex items-center justify-center flex-shrink-0">
-            <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-            </svg>
-          </div>
-          <div>
-            <p className="text-white font-semibold text-sm leading-tight">AllTheCalls.ai</p>
-            <p className="text-brand-100 text-xs opacity-70">Client Portal</p>
-          </div>
-        </div>
+        <img src="/logo.svg" alt="AllTheCalls.ai" style={{ height: "28px", width: "auto" }} />
+        <p className="text-brand-100 text-xs opacity-70 mt-1">Client Portal</p>
       </div>
 
       {/* Client badge */}
