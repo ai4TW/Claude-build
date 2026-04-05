@@ -7,23 +7,26 @@ export function getStripe() {
 }
 
 export const PLANS = {
+  // NOTE: priceIds below are placeholders — replace with new Stripe product IDs
+  // after creating products at $199, $349, $599/mo in the Stripe dashboard.
+  // Stripe Dashboard → Products → Add product → Recurring → set price → copy price ID
   starter: {
-    name: "Starter",
-    priceId: "price_1TILzT42X4XVjhD9dPQHdrQo",
-    displayPrice: "$149",
-    description: "Solo agents getting started — 24/7 AI receptionist",
+    name: "Solo",
+    priceId: "price_1TILzT42X4XVjhD9dPQHdrQo", // TODO: replace with $199/mo price ID
+    displayPrice: "$199",
+    description: "One AI receptionist — 300 calls/month, 24/7",
   },
   pro: {
     name: "Pro",
-    priceId: "price_1TILzT42X4XVjhD9hEKXGf4U",
-    displayPrice: "$249",
-    description: "Active agents with high call volume",
+    priceId: "price_1TILzT42X4XVjhD9hEKXGf4U", // TODO: replace with $349/mo price ID
+    displayPrice: "$349",
+    description: "Unlimited calls + knowledge base + all voices",
   },
   team: {
-    name: "Team",
-    priceId: "price_1TILzU42X4XVjhD9gf9k06do",
-    displayPrice: "$399",
-    description: "Small teams of 2–5 agents",
+    name: "Agency",
+    priceId: "price_1TILzU42X4XVjhD9gf9k06do", // TODO: replace with $599/mo price ID
+    displayPrice: "$599",
+    description: "3 AI receptionists — unique persona per team member",
   },
 } as const;
 

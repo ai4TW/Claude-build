@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     template: "%s | All The Calls",
   },
   description:
-    "All The Calls gives any business a 24/7 AI receptionist that answers every call in your name, qualifies leads, books appointments, and follows up via SMS automatically. Starting at $149/mo. No contracts.",
+    "All The Calls gives any business a 24/7 AI receptionist that answers every call in your name, qualifies leads, books appointments, and follows up via SMS automatically. Starting at $199/mo. No contracts.",
   keywords: [
     "AI receptionist",
     "AI phone answering service",
@@ -115,22 +115,22 @@ const structuredData = {
       offers: [
         {
           "@type": "Offer",
-          name: "Starter",
-          price: "149",
+          name: "Solo",
+          price: "199",
           priceCurrency: "USD",
           billingIncrement: "P1M",
         },
         {
           "@type": "Offer",
           name: "Pro",
-          price: "249",
+          price: "349",
           priceCurrency: "USD",
           billingIncrement: "P1M",
         },
         {
           "@type": "Offer",
-          name: "Team",
-          price: "399",
+          name: "Agency",
+          price: "599",
           priceCurrency: "USD",
           billingIncrement: "P1M",
         },

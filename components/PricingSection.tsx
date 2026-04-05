@@ -5,75 +5,254 @@
  * Matches Midnight Intelligence theme: #08090f + violet/cyan gradients
  * Mobile: horizontal snap-scroll carousel (Pro shown first)
  * Desktop: 3-column grid
+ *
+ * Pricing rationale:
+ *   Solo  $199 — 300 calls/mo, 1 persona → entry point, still 50%+ below human answering services
+ *   Pro   $349 — unlimited calls, knowledge base, all voices → workhorse tier, most revenue
+ *   Agency $599 — 3 personas × unlimited → real estate teams, law firms, multi-provider practices
  */
 
 import { useRouter } from "next/navigation";
 
-// Pro first on mobile so users see the recommended plan without scrolling
+// Mobile order: Pro first so users see the recommended plan immediately
 const plans = [
   {
     id: "pro",
     name: "Pro",
-    price: "$249",
+    price: "$349",
     period: "/mo",
-    desc: "Growing businesses with high call volume",
+    badge: null,
+    desc: "One AI that handles everything, unlimited",
     popular: true,
   },
   {
     id: "starter",
-    name: "Starter",
-    price: "$149",
+    name: "Solo",
+    price: "$199",
     period: "/mo",
-    desc: "Solo operators & small businesses",
+    badge: null,
+    desc: "One AI receptionist for your business",
     popular: false,
   },
   {
     id: "team",
-    name: "Team",
-    price: "$399",
+    name: "Agency",
+    price: "$599",
     period: "/mo",
-    desc: "Teams of 2–5 people",
+    badge: "BEST VALUE",
+    desc: "Three AI receptionists — one per team member",
     popular: false,
   },
 ];
 
-const planFeatures: Record<string, string[]> = {
+const planFeatures: Record<string, { text: string; highlight?: boolean }[]> = {
   starter: [
-    "Up to 200 calls/month",
-    "24/7 AI receptionist in your name",
-    "Industry-specific lead qualification",
-    "SMS follow-up after every call",
-    "Full call transcripts & summaries",
-    "Custom greeting & scripts",
-    "5-minute setup",
-    "Cancel anytime",
+    { text: "1 AI receptionist in your name" },
+    { text: "300 calls / month" },
+    { text: "24/7 availability — never miss a call", highlight: true },
+    { text: "Industry-specific lead qualification" },
+    { text: "SMS follow-up after every call" },
+    { text: "Full call transcripts & summaries" },
+    { text: "5 AI voice options" },
+    { text: "5-minute setup" },
+    { text: "Cancel anytime" },
   ],
   pro: [
-    "Unlimited calls",
-    "24/7 AI receptionist in your name",
-    "Advanced caller qualification",
-    "SMS follow-up after every call",
-    "Full call transcripts & summaries",
-    "Custom call scripts",
-    "Priority support",
-    "Cancel anytime",
+    { text: "1 AI receptionist in your name" },
+    { text: "Unlimited calls — no overage fees", highlight: true },
+    { text: "24/7 availability" },
+    { text: "Advanced lead qualification scripts" },
+    { text: "SMS follow-up after every call" },
+    { text: "Full call transcripts & summaries" },
+    { text: "Full premium voice library", highlight: true },
+    { text: "Custom knowledge base (FAQs, services, pricing)", highlight: true },
+    { text: "Priority support" },
+    { text: "Cancel anytime" },
   ],
   team: [
-    "Up to 5 team members",
-    "Unlimited calls across team",
-    "Individual AI personas per member",
-    "Team dashboard & analytics",
-    "SMS follow-up per team member",
-    "Custom scripts per member",
-    "Dedicated onboarding call",
-    "Priority support",
-    "Cancel anytime",
+    { text: "3 AI receptionists — unique name, voice & script each", highlight: true },
+    { text: "Unlimited calls across all 3 lines", highlight: true },
+    { text: "24/7 availability on every line" },
+    { text: "Advanced lead qualification per persona" },
+    { text: "SMS follow-up per line" },
+    { text: "Full call transcripts & summaries" },
+    { text: "Full premium voice library" },
+    { text: "Custom knowledge base per persona" },
+    { text: "Dedicated onboarding call" },
+    { text: "Quarterly script review" },
+    { text: "Priority support" },
+    { text: "Cancel anytime" },
   ],
 };
 
-export default function PricingSection() {
-  const router = useRouter();
+// Internal plan ID → display name mapping
+const DISPLAY_NAMES: Record<string, string> = {
+  starter: "Solo",
+  pro: "Pro",
+  team: "Agency",
+};
 
+function PlanCard({
+  plan,
+  compact = false,
+}: {
+  plan: (typeof plans)[number];
+  compact?: boolean;
+}) {
+  const router = useRouter();
+  const features = planFeatures[plan.id];
+  const pad = compact ? "28px 24px" : "32px";
+  const priceSize = compact ? "2.75rem" : "3.5rem";
+
+  return (
+    <div
+      style={{
+        position: "relative",
+        borderRadius: "20px",
+        padding: pad,
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        background: plan.popular
+          ? "rgba(124,58,237,0.12)"
+          : plan.badge
+          ? "rgba(6,182,212,0.06)"
+          : "rgba(255,255,255,0.03)",
+        border: `1px solid ${
+          plan.popular
+            ? "rgba(124,58,237,0.5)"
+            : plan.badge
+            ? "rgba(6,182,212,0.3)"
+            : "rgba(255,255,255,0.08)"
+        }`,
+        backdropFilter: "blur(20px)",
+        WebkitBackdropFilter: "blur(20px)",
+        boxShadow: plan.popular
+          ? "0 0 40px rgba(124,58,237,0.2), 0 0 80px rgba(6,182,212,0.05)"
+          : "none",
+      }}
+    >
+      {/* Badge */}
+      {(plan.popular || plan.badge) && (
+        <div
+          style={{
+            position: "absolute",
+            top: "-14px",
+            left: "50%",
+            transform: "translateX(-50%)",
+            background: plan.popular
+              ? "linear-gradient(135deg, #7c3aed, #06b6d4)"
+              : "linear-gradient(135deg, #06b6d4, #0891b2)",
+            color: "white",
+            fontSize: "11px",
+            fontWeight: 700,
+            padding: "6px 16px",
+            borderRadius: "999px",
+            letterSpacing: "0.08em",
+            whiteSpace: "nowrap",
+          }}
+        >
+          {plan.popular ? "MOST POPULAR" : plan.badge}
+        </div>
+      )}
+
+      {/* Name + desc */}
+      <h3
+        style={{
+          fontFamily: "'Space Grotesk', sans-serif",
+          fontSize: "22px",
+          fontWeight: 700,
+          color: "white",
+          marginBottom: "4px",
+        }}
+      >
+        {DISPLAY_NAMES[plan.id]}
+      </h3>
+      <p style={{ color: "rgba(255,255,255,0.45)", fontSize: "13px", marginBottom: "20px", lineHeight: 1.4 }}>
+        {plan.desc}
+      </p>
+
+      {/* Price */}
+      <div style={{ display: "flex", alignItems: "baseline", gap: "4px", marginBottom: "6px" }}>
+        <span
+          style={{
+            fontFamily: "'Space Grotesk', sans-serif",
+            fontSize: priceSize,
+            fontWeight: 700,
+            color: plan.popular ? "transparent" : "white",
+            background: plan.popular ? "linear-gradient(135deg, #a78bfa, #22d3ee)" : "none",
+            WebkitBackgroundClip: plan.popular ? "text" : "unset",
+            backgroundClip: plan.popular ? "text" : "unset",
+            lineHeight: 1,
+          }}
+        >
+          {plan.price}
+        </span>
+        <span style={{ color: "rgba(255,255,255,0.4)", fontSize: "15px" }}>{plan.period}</span>
+      </div>
+      <p style={{ color: "rgba(255,255,255,0.25)", fontSize: "11px", marginBottom: "24px" }}>
+        14-day free trial · no credit card required
+      </p>
+
+      {/* Features */}
+      <ul style={{ listStyle: "none", padding: 0, margin: "0 0 24px", display: "flex", flexDirection: "column", gap: "9px", flex: 1 }}>
+        {features.map((f) => (
+          <li
+            key={f.text}
+            style={{
+              display: "flex",
+              alignItems: "flex-start",
+              gap: "10px",
+              fontSize: "13px",
+              color: f.highlight ? "rgba(255,255,255,0.85)" : "rgba(255,255,255,0.55)",
+              fontWeight: f.highlight ? 500 : 400,
+            }}
+          >
+            <span
+              style={{
+                color: plan.popular ? "#a78bfa" : plan.badge ? "#22d3ee" : "#22d3ee",
+                fontWeight: 700,
+                fontSize: "14px",
+                flexShrink: 0,
+                marginTop: "1px",
+              }}
+            >
+              ✓
+            </span>
+            {f.text}
+          </li>
+        ))}
+      </ul>
+
+      {/* CTA */}
+      <button
+        onClick={() => router.push(`/checkout?plan=${plan.id}`)}
+        style={{
+          width: "100%",
+          padding: "15px",
+          borderRadius: "12px",
+          fontWeight: 700,
+          fontSize: "15px",
+          color: "white",
+          cursor: "pointer",
+          border: plan.popular ? "none" : "1px solid rgba(255,255,255,0.15)",
+          background: plan.popular
+            ? "linear-gradient(135deg, #7c3aed, #06b6d4)"
+            : plan.badge
+            ? "rgba(6,182,212,0.12)"
+            : "rgba(255,255,255,0.05)",
+          boxShadow: plan.popular ? "0 0 30px rgba(124,58,237,0.4)" : "none",
+          fontFamily: "'DM Sans', sans-serif",
+          marginTop: "auto",
+        }}
+      >
+        Start Free Trial →
+      </button>
+    </div>
+  );
+}
+
+export default function PricingSection() {
   return (
     <section
       id="pricing"
@@ -85,6 +264,7 @@ export default function PricingSection() {
       }}
     >
       <div style={{ maxWidth: "1024px", margin: "0 auto" }}>
+
         {/* Header */}
         <div className="fade-in" style={{ textAlign: "center", marginBottom: "48px", padding: "0 1rem" }}>
           <p
@@ -108,23 +288,18 @@ export default function PricingSection() {
               marginBottom: "16px",
             }}
           >
-            Simple pricing.{" "}
-            <span className="gradient-text">Serious ROI.</span>
+            Less than one{" "}
+            <span className="gradient-text">missed opportunity.</span>
           </h2>
           <p style={{ color: "rgba(255,255,255,0.5)", fontSize: "clamp(15px, 2.5vw, 18px)", marginBottom: "8px" }}>
-            One missed call could cost more than a year of All The Calls.
+            A human answering service costs $400–$1,200/mo. Your AI works 24/7 for a fraction of that.
           </p>
           <p style={{ color: "#a78bfa", fontWeight: 600, fontSize: "15px" }}>
-            14-day free trial · No credit card required
+            14-day free trial · No credit card required · Cancel anytime
           </p>
         </div>
 
-        {/*
-          Mobile: horizontal snap-scroll carousel — one card visible at a time, swipe to compare.
-          Desktop (md+): standard 3-column grid.
-        */}
-
-        {/* Mobile carousel */}
+        {/* ── Mobile: snap-scroll carousel ── */}
         <div
           className="md:hidden"
           style={{
@@ -141,274 +316,54 @@ export default function PricingSection() {
             scrollbarWidth: "none",
           }}
         >
-          <style>{`.pricing-scroll::-webkit-scrollbar{display:none}`}</style>
           {plans.map((plan) => (
             <div
-              key={plan.id}
+              key={`mob-${plan.id}`}
               style={{
                 flexShrink: 0,
                 width: "calc(100vw - 2.5rem)",
                 maxWidth: "360px",
                 scrollSnapAlign: "center",
-                position: "relative",
-                borderRadius: "20px",
-                padding: "28px 24px",
-                background: plan.popular ? "rgba(124,58,237,0.12)" : "rgba(255,255,255,0.03)",
-                border: `1px solid ${plan.popular ? "rgba(124,58,237,0.5)" : "rgba(255,255,255,0.08)"}`,
-                backdropFilter: "blur(20px)",
-                WebkitBackdropFilter: "blur(20px)",
-                boxShadow: plan.popular
-                  ? "0 0 40px rgba(124,58,237,0.2), 0 0 80px rgba(6,182,212,0.05)"
-                  : "none",
               }}
             >
-              {plan.popular && (
-                <div
-                  style={{
-                    position: "absolute",
-                    top: "-14px",
-                    left: "50%",
-                    transform: "translateX(-50%)",
-                    background: "linear-gradient(135deg, #7c3aed, #06b6d4)",
-                    color: "white",
-                    fontSize: "11px",
-                    fontWeight: 700,
-                    padding: "6px 16px",
-                    borderRadius: "999px",
-                    letterSpacing: "0.08em",
-                    whiteSpace: "nowrap",
-                  }}
-                >
-                  MOST POPULAR
-                </div>
-              )}
-
-              <h3
-                style={{
-                  fontFamily: "'Space Grotesk', sans-serif",
-                  fontSize: "22px",
-                  fontWeight: 700,
-                  color: "white",
-                  marginBottom: "4px",
-                }}
-              >
-                {plan.name}
-              </h3>
-              <p style={{ color: "rgba(255,255,255,0.45)", fontSize: "13px", marginBottom: "20px" }}>
-                {plan.desc}
-              </p>
-
-              <div style={{ display: "flex", alignItems: "baseline", gap: "4px", marginBottom: "24px" }}>
-                <span
-                  style={{
-                    fontFamily: "'Space Grotesk', sans-serif",
-                    fontSize: "3rem",
-                    fontWeight: 700,
-                    color: plan.popular ? "transparent" : "white",
-                    background: plan.popular ? "linear-gradient(135deg, #a78bfa, #22d3ee)" : "none",
-                    WebkitBackgroundClip: plan.popular ? "text" : "unset",
-                    backgroundClip: plan.popular ? "text" : "unset",
-                    lineHeight: 1,
-                  }}
-                >
-                  {plan.price}
-                </span>
-                <span style={{ color: "rgba(255,255,255,0.4)", fontSize: "15px" }}>{plan.period}</span>
-              </div>
-
-              <ul style={{ listStyle: "none", padding: 0, margin: "0 0 24px", display: "flex", flexDirection: "column", gap: "9px" }}>
-                {planFeatures[plan.id].map((feature) => (
-                  <li
-                    key={feature}
-                    style={{ display: "flex", alignItems: "flex-start", gap: "10px", fontSize: "13px", color: "rgba(255,255,255,0.65)" }}
-                  >
-                    <span
-                      style={{
-                        color: plan.popular ? "#a78bfa" : "#22d3ee",
-                        fontWeight: 700,
-                        fontSize: "14px",
-                        flexShrink: 0,
-                        marginTop: "1px",
-                      }}
-                    >
-                      ✓
-                    </span>
-                    {feature}
-                  </li>
-                ))}
-              </ul>
-
-              <button
-                onClick={() => router.push(`/checkout?plan=${plan.id}`)}
-                style={{
-                  width: "100%",
-                  padding: "16px",
-                  borderRadius: "12px",
-                  fontWeight: 700,
-                  fontSize: "16px",
-                  color: "white",
-                  cursor: "pointer",
-                  border: plan.popular ? "none" : "1px solid rgba(255,255,255,0.15)",
-                  background: plan.popular
-                    ? "linear-gradient(135deg, #7c3aed, #06b6d4)"
-                    : "rgba(255,255,255,0.05)",
-                  boxShadow: plan.popular ? "0 0 30px rgba(124,58,237,0.4)" : "none",
-                  fontFamily: "'DM Sans', sans-serif",
-                }}
-              >
-                Start Free Trial
-              </button>
+              <PlanCard plan={plan} compact />
             </div>
           ))}
-          {/* Trailing spacer so last card scrolls fully into view */}
           <div style={{ flexShrink: 0, width: "1px" }} />
         </div>
 
-        {/* Swipe hint — mobile only */}
-        <p className="md:hidden" style={{ textAlign: "center", fontSize: "12px", color: "rgba(255,255,255,0.25)", marginTop: "12px", marginBottom: "0" }}>
+        <p className="md:hidden" style={{ textAlign: "center", fontSize: "12px", color: "rgba(255,255,255,0.25)", marginTop: "12px" }}>
           ← Swipe to compare plans →
         </p>
 
-        {/* Desktop grid */}
-        <div className="hidden md:grid md:grid-cols-3 gap-6 mb-12 px-4" style={{ paddingTop: "8px" }}>
-          {/* Desktop order: Starter, Pro, Team */}
+        {/* ── Desktop: 3-column grid (Starter | Pro | Agency order) ── */}
+        <div
+          className="hidden md:grid md:grid-cols-3 gap-6 mb-12"
+          style={{ padding: "24px 1rem 0" }}
+        >
+          {/* Desktop order: Solo | Pro | Agency */}
           {[plans[1], plans[0], plans[2]].map((plan) => (
-            <div
-              key={`desk-${plan.id}`}
-              style={{
-                position: "relative",
-                borderRadius: "20px",
-                padding: "32px",
-                background: plan.popular ? "rgba(124,58,237,0.12)" : "rgba(255,255,255,0.03)",
-                border: `1px solid ${plan.popular ? "rgba(124,58,237,0.5)" : "rgba(255,255,255,0.08)"}`,
-                backdropFilter: "blur(20px)",
-                WebkitBackdropFilter: "blur(20px)",
-                boxShadow: plan.popular
-                  ? "0 0 40px rgba(124,58,237,0.2), 0 0 80px rgba(6,182,212,0.05)"
-                  : "none",
-                transition: "transform 0.2s ease",
-              }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLDivElement).style.transform = "translateY(-4px)";
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLDivElement).style.transform = "translateY(0)";
-              }}
-            >
-              {plan.popular && (
-                <div
-                  style={{
-                    position: "absolute",
-                    top: "-14px",
-                    left: "50%",
-                    transform: "translateX(-50%)",
-                    background: "linear-gradient(135deg, #7c3aed, #06b6d4)",
-                    color: "white",
-                    fontSize: "11px",
-                    fontWeight: 700,
-                    padding: "6px 16px",
-                    borderRadius: "999px",
-                    letterSpacing: "0.08em",
-                    whiteSpace: "nowrap",
-                  }}
-                >
-                  MOST POPULAR
-                </div>
-              )}
-
-              <h3
-                style={{
-                  fontFamily: "'Space Grotesk', sans-serif",
-                  fontSize: "22px",
-                  fontWeight: 700,
-                  color: "white",
-                  marginBottom: "4px",
-                }}
-              >
-                {plan.name}
-              </h3>
-              <p style={{ color: "rgba(255,255,255,0.45)", fontSize: "13px", marginBottom: "24px" }}>
-                {plan.desc}
-              </p>
-
-              <div style={{ display: "flex", alignItems: "baseline", gap: "4px", marginBottom: "28px" }}>
-                <span
-                  style={{
-                    fontFamily: "'Space Grotesk', sans-serif",
-                    fontSize: "3.5rem",
-                    fontWeight: 700,
-                    color: plan.popular ? "transparent" : "white",
-                    background: plan.popular ? "linear-gradient(135deg, #a78bfa, #22d3ee)" : "none",
-                    WebkitBackgroundClip: plan.popular ? "text" : "unset",
-                    backgroundClip: plan.popular ? "text" : "unset",
-                    lineHeight: 1,
-                  }}
-                >
-                  {plan.price}
-                </span>
-                <span style={{ color: "rgba(255,255,255,0.4)", fontSize: "15px" }}>{plan.period}</span>
-              </div>
-
-              <ul style={{ listStyle: "none", padding: 0, margin: "0 0 28px", display: "flex", flexDirection: "column", gap: "10px" }}>
-                {planFeatures[plan.id].map((feature) => (
-                  <li
-                    key={feature}
-                    style={{ display: "flex", alignItems: "flex-start", gap: "10px", fontSize: "13px", color: "rgba(255,255,255,0.65)" }}
-                  >
-                    <span
-                      style={{
-                        color: plan.popular ? "#a78bfa" : "#22d3ee",
-                        fontWeight: 700,
-                        fontSize: "14px",
-                        flexShrink: 0,
-                        marginTop: "1px",
-                      }}
-                    >
-                      ✓
-                    </span>
-                    {feature}
-                  </li>
-                ))}
-              </ul>
-
-              <button
-                onClick={() => router.push(`/checkout?plan=${plan.id}`)}
-                style={{
-                  width: "100%",
-                  padding: "14px",
-                  borderRadius: "12px",
-                  fontWeight: 700,
-                  fontSize: "15px",
-                  color: "white",
-                  cursor: "pointer",
-                  border: plan.popular ? "none" : "1px solid rgba(255,255,255,0.15)",
-                  background: plan.popular
-                    ? "linear-gradient(135deg, #7c3aed, #06b6d4)"
-                    : "rgba(255,255,255,0.05)",
-                  boxShadow: plan.popular ? "0 0 30px rgba(124,58,237,0.4)" : "none",
-                  fontFamily: "'DM Sans', sans-serif",
-                  transition: "opacity 0.2s ease, transform 0.2s ease",
-                }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLButtonElement).style.opacity = "0.9";
-                  (e.currentTarget as HTMLButtonElement).style.transform = "translateY(-1px)";
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLButtonElement).style.opacity = "1";
-                  (e.currentTarget as HTMLButtonElement).style.transform = "translateY(0)";
-                }}
-              >
-                Start Free Trial
-              </button>
-            </div>
+            <PlanCard key={`desk-${plan.id}`} plan={plan} />
           ))}
         </div>
 
-        {/* Value note */}
+        {/* Agency upsell nudge */}
+        <p
+          className="hidden md:block"
+          style={{ textAlign: "center", fontSize: "13px", color: "rgba(255,255,255,0.3)", marginBottom: "32px" }}
+        >
+          Need more than 3 lines?{" "}
+          <a href="mailto:hello@allthecalls.ai" style={{ color: "#a78bfa", textDecoration: "none" }}>
+            Contact us
+          </a>{" "}
+          — we build custom setups for larger teams.
+        </p>
+
+        {/* ROI note */}
         <div
           className="fade-in"
           style={{
-            margin: "24px 1rem 0",
+            margin: "0 1rem",
             textAlign: "center",
             padding: "20px 24px",
             borderRadius: "16px",
@@ -416,12 +371,14 @@ export default function PricingSection() {
             border: "1px solid rgba(255,255,255,0.05)",
           }}
         >
-          <p style={{ color: "rgba(255,255,255,0.4)", fontSize: "14px" }}>
-            💡 The average business loses{" "}
-            <span style={{ color: "rgba(255,255,255,0.7)", fontWeight: 600 }}>$75,000+/year</span> from missed calls and slow follow-up. Your AI pays for itself{" "}
-            <span style={{ color: "#a78bfa", fontWeight: 600 }}>the first week.</span>
+          <p style={{ color: "rgba(255,255,255,0.4)", fontSize: "14px", lineHeight: 1.6 }}>
+            💡 One closed deal, one retained client, or one booked patient covers{" "}
+            <span style={{ color: "rgba(255,255,255,0.7)", fontWeight: 600 }}>months of All The Calls.</span>{" "}
+            The question isn&apos;t whether you can afford it —{" "}
+            <span style={{ color: "#a78bfa", fontWeight: 600 }}>it&apos;s whether you can afford to miss another call.</span>
           </p>
         </div>
+
       </div>
     </section>
   );
