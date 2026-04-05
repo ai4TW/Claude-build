@@ -11,9 +11,9 @@ const inputStyle: React.CSSProperties = {
   background: "rgba(255,255,255,0.05)",
   border: "1px solid rgba(255,255,255,0.12)",
   borderRadius: "10px",
-  padding: "12px 16px",
+  padding: "14px 16px",
   color: "white",
-  fontSize: "14px",
+  fontSize: "16px", // 16px prevents iOS auto-zoom on focus
   outline: "none",
   fontFamily: "'DM Sans', sans-serif",
   boxSizing: "border-box",
@@ -125,6 +125,7 @@ export default function CheckoutForm({ plan }: { plan: string }) {
             <input
               style={inputStyle}
               type="tel"
+              inputMode="tel"
               placeholder="(555) 867-5309"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
