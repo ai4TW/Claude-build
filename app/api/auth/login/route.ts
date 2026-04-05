@@ -55,6 +55,7 @@ export async function POST(request: NextRequest) {
   const token = await createSession({
     clientId: client.id,
     clientName: client.name,
+    email: client.email,
     subAccountId: (client as Record<string, string>).trillet_agent_name || "",  // linked Trillet agent ID
     agentId: client.trillet_agent_id || "",
   });

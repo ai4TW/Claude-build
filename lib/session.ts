@@ -9,6 +9,7 @@ const secret = new TextEncoder().encode(
 export interface SessionPayload {
   clientId: string;
   clientName: string;
+  email: string;
   subAccountId: string;
   agentId: string;
 }
