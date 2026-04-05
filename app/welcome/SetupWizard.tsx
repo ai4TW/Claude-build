@@ -82,9 +82,20 @@ const SERVICE_AREA_PLACEHOLDER: Record<string, string> = {
 };
 
 const GREETING_STYLES = [
-  { id: "professional" as const, label: "Professional", preview: (biz: string) => `"Thank you for calling ${biz || "[Business]"}! I'm their assistant — how can I help you today?"` },
-  { id: "friendly" as const, label: "Friendly", preview: (biz: string) => `"Hey! Thanks for calling ${biz || "[Business]"} — I'm their assistant, what can I do for you?"` },
-  { id: "luxury" as const, label: "Luxury", preview: (biz: string) => `"Good afternoon, thank you for calling ${biz || "[Business]"}. How may I assist you today?"` },
+  { id: "professional" as const, label: "Professional", preview: (biz: string, aiName: string) => `"Thank you for calling ${biz || "[Business]"}! ${aiName ? `This is ${aiName}` : "I'm their assistant"} — how can I help you today?"` },
+  { id: "friendly" as const, label: "Friendly", preview: (biz: string, aiName: string) => `"Hey! Thanks for calling ${biz || "[Business]"} — ${aiName ? `this is ${aiName}` : "I'm their assistant"}, what can I do for you?"` },
+  { id: "luxury" as const, label: "Luxury", preview: (biz: string, aiName: string) => `"Good afternoon, thank you for calling ${biz || "[Business]"}. ${aiName ? `This is ${aiName}` : "I'm their assistant"} — how may I assist you?"` },
+];
+
+// Rime AI voices available via Trillet (arcana model)
+const VOICES = [
+  { id: "arcana_celeste", label: "Celeste", gender: "Female", tone: "Professional & clear", default: true },
+  { id: "arcana_luna", label: "Luna", gender: "Female", tone: "Warm & approachable" },
+  { id: "arcana_nova", label: "Nova", gender: "Female", tone: "Energetic & friendly" },
+  { id: "arcana_aria", label: "Aria", gender: "Female", tone: "Calm & reassuring" },
+  { id: "arcana_miles", label: "Miles", gender: "Male", tone: "Professional & confident" },
+  { id: "arcana_finn", label: "Finn", gender: "Male", tone: "Casual & approachable" },
+  { id: "arcana_river", label: "River", gender: "Male", tone: "Warm & trustworthy" },
 ];
 
 export default function SetupWizard({ prefill, sessionId }: { prefill: Prefill | null; sessionId: string }) {
@@ -107,6 +118,8 @@ export default function SetupWizard({ prefill, sessionId }: { prefill: Prefill |
 
   // Step 3
   const [greetingStyle, setGreetingStyle] = useState<"professional" | "friendly" | "luxury">("professional");
+  const [aiName, setAiName] = useState("");
+  const [voiceId, setVoiceId] = useState("arcana_celeste");
   const [workingHours, setWorkingHours] = useState("");
   const [customInstructions, setCustomInstructions] = useState("");
 
@@ -136,6 +149,8 @@ export default function SetupWizard({ prefill, sessionId }: { prefill: Prefill |
           specialties: selectedSpecialties.join(", "),
           website,
           greetingStyle,
+          aiName,
+          voiceId,
           workingHours,
           customInstructions,
         }),
@@ -263,11 +278,16 @@ export default function SetupWizard({ prefill, sessionId }: { prefill: Prefill |
           {/* ── STEP 2 — Your Services ── */}
           {step === 2 && (
             <>
-              <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, color: "white", fontSize: "22px", marginBottom: "6px" }}>
-                Tell us about your {industry === "Other" ? "business" : industry.toLowerCase() + " practice"}
-              </h1>
+              <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "6px" }}>
+                <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, color: "white", fontSize: "22px" }}>
+                  Your {industry === "Other" ? "Business" : industry} Services
+                </h1>
+                <span style={{ fontSize: "11px", fontWeight: 600, padding: "3px 10px", borderRadius: "999px", background: "rgba(124,58,237,0.2)", border: "1px solid rgba(124,58,237,0.4)", color: "#a78bfa" }}>
+                  {INDUSTRIES.find(i => i.id === industry)?.icon} {industry}
+                </span>
+              </div>
               <p style={{ color: "rgba(255,255,255,0.4)", fontSize: "14px", lineHeight: 1.6, marginBottom: "28px" }}>
-                Your AI uses this to answer questions and qualify callers accurately.
+                The more detail you give, the better your AI qualifies callers and answers questions about your business.
               </p>
 
               <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
@@ -285,6 +305,9 @@ export default function SetupWizard({ prefill, sessionId }: { prefill: Prefill |
                 {specialties.length > 0 && (
                   <div>
                     <label style={labelStyle}>What do you specialize in? <span style={{ color: "rgba(255,255,255,0.25)", fontWeight: 400 }}>(select all that apply)</span></label>
+                    <p style={{ fontSize: "11px", color: "rgba(255,255,255,0.3)", marginBottom: "10px" }}>
+                      Your AI uses this to qualify callers with the right questions and tell them upfront whether you&apos;re the right fit — saving you time on the wrong calls.
+                    </p>
                     <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
                       {specialties.map((s) => {
                         const active = selectedSpecialties.includes(s);
@@ -321,9 +344,11 @@ export default function SetupWizard({ prefill, sessionId }: { prefill: Prefill |
                 )}
 
                 <div>
-                  <label style={labelStyle}>Your Website <span style={{ color: "rgba(255,255,255,0.25)", fontWeight: 400 }}>(optional)</span></label>
+                  <label style={labelStyle}>Your Website <span style={{ color: "rgba(255,255,255,0.25)", fontWeight: 400 }}>(optional — but helps)</span></label>
                   <input style={inputStyle} type="url" value={website} onChange={(e) => setWebsite(e.target.value)} placeholder="https://yourwebsite.com" />
-                  <p style={{ fontSize: "11px", color: "rgba(255,255,255,0.25)", marginTop: "5px" }}>Your AI mentions this in SMS follow-ups.</p>
+                  <p style={{ fontSize: "11px", color: "rgba(255,255,255,0.3)", marginTop: "5px" }}>
+                    Your AI mentions this in SMS follow-ups and can reference it when answering questions about your business.
+                  </p>
                 </div>
               </div>
 
@@ -351,10 +376,54 @@ export default function SetupWizard({ prefill, sessionId }: { prefill: Prefill |
                 Pick the tone that matches how you represent your business.
               </p>
 
-              <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: "22px" }}>
+
+                {/* AI Name */}
+                <div>
+                  <label style={labelStyle}>AI Assistant Name <span style={{ color: "rgba(255,255,255,0.25)", fontWeight: 400 }}>(optional)</span></label>
+                  <input style={inputStyle} type="text" value={aiName} onChange={(e) => setAiName(e.target.value)} placeholder="e.g. Alex, Jordan, Morgan..." />
+                  <p style={{ fontSize: "11px", color: "rgba(255,255,255,0.3)", marginTop: "5px" }}>
+                    Give your AI a name and callers will hear it on every call — e.g. &ldquo;Hi, this is Alex with [Your Business]!&rdquo; Leaving this blank keeps it as &ldquo;[Your Name]&rsquo;s assistant.&rdquo;
+                  </p>
+                </div>
+
+                {/* Voice selection */}
+                <div>
+                  <label style={labelStyle}>AI Voice *</label>
+                  <p style={{ fontSize: "11px", color: "rgba(255,255,255,0.3)", marginBottom: "10px" }}>
+                    Choose the voice your AI uses on every call. Picking the right tone for your industry makes callers feel at ease immediately.
+                  </p>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}>
+                    {VOICES.map((v) => {
+                      const active = voiceId === v.id;
+                      return (
+                        <button
+                          key={v.id}
+                          onClick={() => setVoiceId(v.id)}
+                          style={{
+                            textAlign: "left", padding: "12px 14px", borderRadius: "12px", cursor: "pointer", transition: "all 0.15s",
+                            background: active ? "rgba(124,58,237,0.18)" : "rgba(255,255,255,0.04)",
+                            border: active ? "1px solid rgba(124,58,237,0.55)" : "1px solid rgba(255,255,255,0.08)",
+                          }}
+                        >
+                          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "3px" }}>
+                            <span style={{ fontWeight: 700, color: active ? "#a78bfa" : "rgba(255,255,255,0.8)", fontSize: "14px" }}>{v.label}</span>
+                            <span style={{ fontSize: "10px", color: active ? "#a78bfa" : "rgba(255,255,255,0.3)", fontWeight: 600 }}>{v.gender}</span>
+                          </div>
+                          <p style={{ color: "rgba(255,255,255,0.35)", fontSize: "11px", margin: 0 }}>{v.tone}</p>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Greeting style */}
                 <div>
                   <label style={labelStyle}>Greeting Style *</label>
-                  <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                  <p style={{ fontSize: "11px", color: "rgba(255,255,255,0.3)", marginBottom: "10px" }}>
+                    The tone your AI uses on every call. Match this to how your business presents itself — it sets the caller&apos;s first impression.
+                  </p>
+                  <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
                     {GREETING_STYLES.map((g) => {
                       const active = greetingStyle === g.id;
                       return (
@@ -362,33 +431,40 @@ export default function SetupWizard({ prefill, sessionId }: { prefill: Prefill |
                           key={g.id}
                           onClick={() => setGreetingStyle(g.id)}
                           style={{
-                            textAlign: "left", padding: "14px 16px", borderRadius: "12px", cursor: "pointer", transition: "all 0.15s",
+                            textAlign: "left", padding: "13px 16px", borderRadius: "12px", cursor: "pointer", transition: "all 0.15s",
                             background: active ? "rgba(124,58,237,0.15)" : "rgba(255,255,255,0.04)",
                             border: active ? "1px solid rgba(124,58,237,0.5)" : "1px solid rgba(255,255,255,0.08)",
                           }}
                         >
-                          <p style={{ fontWeight: 600, color: active ? "#a78bfa" : "rgba(255,255,255,0.7)", fontSize: "14px", margin: "0 0 4px" }}>{g.label}</p>
-                          <p style={{ color: "rgba(255,255,255,0.35)", fontSize: "12px", margin: 0, fontStyle: "italic" }}>{g.preview(businessName)}</p>
+                          <p style={{ fontWeight: 600, color: active ? "#a78bfa" : "rgba(255,255,255,0.7)", fontSize: "14px", margin: "0 0 3px" }}>{g.label}</p>
+                          <p style={{ color: "rgba(255,255,255,0.3)", fontSize: "12px", margin: 0, fontStyle: "italic" }}>{g.preview(businessName, aiName)}</p>
                         </button>
                       );
                     })}
                   </div>
                 </div>
 
+                {/* Working hours */}
                 <div>
-                  <label style={labelStyle}>When are you available to take calls yourself? <span style={{ color: "rgba(255,255,255,0.25)", fontWeight: 400 }}>(optional)</span></label>
+                  <label style={labelStyle}>When are you available to take calls yourself? <span style={{ color: "rgba(255,255,255,0.25)", fontWeight: 400 }}>(optional — but helps)</span></label>
                   <input style={inputStyle} type="text" value={workingHours} onChange={(e) => setWorkingHours(e.target.value)} placeholder="Mon–Fri 9am–6pm, weekends by appointment" />
-                  <p style={{ fontSize: "11px", color: "rgba(255,255,255,0.25)", marginTop: "5px" }}>Your AI covers all other times automatically.</p>
+                  <p style={{ fontSize: "11px", color: "rgba(255,255,255,0.3)", marginTop: "5px" }}>
+                    Your AI tells callers when to expect you and covers all other hours automatically — so no caller ever feels ignored.
+                  </p>
                 </div>
 
+                {/* Custom instructions */}
                 <div>
-                  <label style={labelStyle}>Anything specific your AI should know or say? <span style={{ color: "rgba(255,255,255,0.25)", fontWeight: 400 }}>(optional)</span></label>
+                  <label style={labelStyle}>Anything specific your AI should always know or say? <span style={{ color: "rgba(255,255,255,0.25)", fontWeight: 400 }}>(optional — but helps)</span></label>
                   <textarea
                     style={{ ...inputStyle, minHeight: "80px", resize: "vertical" }}
                     value={customInstructions}
                     onChange={(e) => setCustomInstructions(e.target.value)}
-                    placeholder="e.g. Always ask how they heard about us. Don't schedule on Sundays. Mention we offer free consultations."
+                    placeholder="e.g. Always ask how they heard about us. Don't book Sundays. Mention we offer free consultations. We serve clients in 3 languages."
                   />
+                  <p style={{ fontSize: "11px", color: "rgba(255,255,255,0.3)", marginTop: "5px" }}>
+                    This goes directly into your AI&apos;s instructions — the more specific you are, the more it sounds like you trained it yourself.
+                  </p>
                 </div>
               </div>
 

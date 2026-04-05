@@ -102,7 +102,9 @@ async function sendWelcomeEmail(client: OnboardInput, _agentId: string, password
       subject: `${firstName}, one quick step to activate your AI receptionist`,
       html: `
         <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 40px 20px; background: #08090f; color: #e2e8f0;">
-          <img src="${appUrl}/logo.svg" alt="AllTheCalls.ai" style="height: 36px; margin-bottom: 32px;" />
+          <div style="margin-bottom: 32px;">
+            <span style="font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 700; background: linear-gradient(90deg, #4cd7f6, #d2bbff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">allthecalls.ai</span>
+          </div>
           <h1 style="color: white; font-size: 26px; margin-bottom: 8px; font-weight: 700;">Payment confirmed. Now let's build your AI.</h1>
           <p style="color: rgba(255,255,255,0.6); font-size: 16px; line-height: 1.7; margin-bottom: 28px;">
             Hi ${firstName} — your trial is active. The last step is a 2-minute setup so your AI knows exactly how to represent you on every call.

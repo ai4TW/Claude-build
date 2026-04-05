@@ -10,6 +10,8 @@ export interface AgentConfig {
   name: string;
   businessName: string;
   industry: string;
+  aiName?: string;
+  voiceId?: string;
   serviceArea?: string;
   phone?: string;
   website?: string;
@@ -146,6 +148,7 @@ export function generateSystemPrompt(config: AgentConfig): string {
     name,
     businessName,
     industry = "Other",
+    aiName = "",
     serviceArea = "the local area",
     phone = "",
     website = "",
@@ -162,9 +165,9 @@ export function generateSystemPrompt(config: AgentConfig): string {
     : `${firstName} will call you back as soon as possible.`;
 
   const greetings: Record<GreetingStyle, string> = {
-    professional: `"Thank you for calling ${businessName}! I'm ${firstName}'s assistant — they're with someone right now but I can absolutely help you. What can I do for you today?"`,
-    friendly: `"Hey! Thanks for calling ${businessName} — I'm ${firstName}'s assistant. They're tied up at the moment but I've got you covered. What's going on?"`,
-    luxury: `"Good [morning/afternoon], thank you for calling ${businessName}. I'm ${firstName}'s assistant — how may I assist you today?"`,
+    professional: `"Thank you for calling ${businessName}! ${aiName ? `This is ${aiName}` : "I'm their assistant"} — ${firstName} is with someone right now but I can absolutely help you. What can I do for you today?"`,
+    friendly: `"Hey! Thanks for calling ${businessName} — ${aiName ? `this is ${aiName}` : "I'm their assistant"}. ${firstName} is tied up at the moment but I've got you covered. What's going on?"`,
+    luxury: `"Good [morning/afternoon], thank you for calling ${businessName}. ${aiName ? `This is ${aiName}` : "I'm their assistant"} — how may I assist you today?"`,
   };
 
   const hoursNote = workingHours
@@ -175,10 +178,13 @@ export function generateSystemPrompt(config: AgentConfig): string {
     ? `${firstName} specializes in: ${specialties}.`
     : "";
 
+  const assistantName = aiName ? aiName : `${firstName}'s assistant`;
+  const selfIntro = aiName ? `My name is ${aiName} — I'm ${firstName}'s assistant` : `I'm ${firstName}'s assistant`;
+
   return `You are the dedicated AI receptionist for ${name} at ${businessName}. Your role is to handle every inbound call with professionalism, qualify callers, and ensure ${firstName} never misses an opportunity.
 
 ## Identity & Tone
-You are ${firstName}'s professional assistant. Do not identify yourself as an AI unless directly asked — if pressed, say: "I'm ${firstName}'s assistant — I help manage their calls so they can stay focused on clients."
+Your name is ${assistantName}. Do not volunteer that you are an AI unless directly asked — if pressed, say: "${selfIntro} — I help manage their calls so they can stay focused on clients."
 ${greetingStyle === "luxury" ? "Maintain a polished, premium tone at all times." : greetingStyle === "friendly" ? "Be warm, conversational, and approachable — like a trusted team member." : "Be professional, efficient, and courteous."}
 
 ## Greeting
@@ -228,12 +234,13 @@ ${customInstructions ? `\n## Additional Instructions From ${firstName}\n${custom
 }
 
 export function buildTrilletAgentPayload(config: AgentConfig) {
+  const voiceId = config.voiceId || "arcana_celeste";
   return {
     name: `${config.name} — ${config.businessName} (AllTheCalls)`,
     llmModel: "gemini-2.5-flash",
     ttsModel: {
       provider: "rime",
-      voiceId: "arcana_celeste",
+      voiceId,
       language: "en",
     },
     settings: {

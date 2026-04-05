@@ -17,6 +17,8 @@ interface CreateAgentBody {
   name: string;
   businessName: string;
   industry: string;
+  aiName: string;
+  voiceId: string;
   phone: string;
   serviceArea: string;
   specialties: string;
@@ -47,7 +49,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
   }
 
-  const { sessionId, email, name, businessName, industry, phone, serviceArea, specialties, website, greetingStyle, workingHours, customInstructions } = body;
+  const { sessionId, email, name, businessName, industry, aiName, voiceId, phone, serviceArea, specialties, website, greetingStyle, workingHours, customInstructions } = body;
 
   if (!email || !name || !businessName) {
     return NextResponse.json({ error: "name, businessName, and email are required" }, { status: 400 });
@@ -70,6 +72,8 @@ export async function POST(req: NextRequest) {
     name,
     businessName,
     industry: industry || "Other",
+    aiName: aiName || "",
+    voiceId: voiceId || "arcana_celeste",
     serviceArea: serviceArea || "the local area",
     phone,
     website,
