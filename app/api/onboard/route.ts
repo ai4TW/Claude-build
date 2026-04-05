@@ -120,7 +120,7 @@ async function saveToSupabase(client: OnboardInput, agentId: string, authUserId:
       brokerage: client.brokerage || null,
       phone: client.phone || null,
       plan: client.plan,
-      trillet_agent_id: agentId,
+      trillet_agent_id: agentId || null,
       onboarding_completed: false,
     })
     .select()
@@ -134,15 +134,15 @@ async function saveToSupabase(client: OnboardInput, agentId: string, authUserId:
   return data;
 }
 
-async function sendWelcomeEmail(client: OnboardInput, agentId: string, password?: string) {
+async function sendWelcomeEmail(client: OnboardInput, _agentId: string, password?: string) {
   const resendKey = process.env.RESEND_API_KEY;
-
   if (!resendKey) {
     console.warn("[onboard] RESEND_API_KEY not set — skipping welcome email.");
     return;
   }
 
   const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://allthecalls.ai";
+  const firstName = client.name.split(" ")[0];
 
   await fetch("https://api.resend.com/emails", {
     method: "POST",
@@ -153,35 +153,26 @@ async function sendWelcomeEmail(client: OnboardInput, agentId: string, password?
     body: JSON.stringify({
       from: "AllTheCalls <hello@allthecalls.ai>",
       to: client.email,
-      subject: `Your AI receptionist is being set up, ${client.name.split(" ")[0]}!`,
+      subject: `${firstName}, one quick step to activate your AI receptionist`,
       html: `
         <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 40px 20px; background: #08090f; color: #e2e8f0;">
-          <h1 style="color: #a78bfa; font-size: 28px; margin-bottom: 8px;">Welcome to AllTheCalls!</h1>
-          <p style="color: rgba(255,255,255,0.7); font-size: 16px; line-height: 1.6;">
-            Hi ${client.name.split(" ")[0]}, your AI receptionist is being configured right now.
+          <img src="${appUrl}/logo.svg" alt="AllTheCalls.ai" style="height: 36px; margin-bottom: 32px;" />
+          <h1 style="color: white; font-size: 26px; margin-bottom: 8px; font-weight: 700;">Payment confirmed. Now let's build your AI.</h1>
+          <p style="color: rgba(255,255,255,0.6); font-size: 16px; line-height: 1.7; margin-bottom: 28px;">
+            Hi ${firstName} — your trial is active. The last step is a 2-minute setup so your AI knows exactly how to represent you on every call.
           </p>
-          <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 24px; margin: 24px 0;">
-            <p style="margin: 0 0 8px; color: rgba(255,255,255,0.5); font-size: 13px; text-transform: uppercase; letter-spacing: 0.1em;">What's happening now</p>
-            <ul style="color: rgba(255,255,255,0.8); line-height: 2; padding-left: 20px;">
-              <li>✅ Your account is active (${client.plan} plan)</li>
-              <li>✅ AI agent created and trained for you</li>
-              <li>⏳ We are assigning your dedicated phone number (within 2 hours)</li>
-              <li>📧 You'll receive a follow-up email with your number and forwarding instructions</li>
-            </ul>
-          </div>
+          <a href="${appUrl}/welcome" style="display: inline-block; background: linear-gradient(135deg, #7c3aed, #06b6d4); color: white; text-decoration: none; padding: 16px 32px; border-radius: 10px; font-weight: 700; font-size: 16px; margin-bottom: 32px;">
+            Complete Your AI Setup →
+          </a>
           ${password ? `
-          <div style="background: rgba(124,58,237,0.1); border: 1px solid rgba(124,58,237,0.3); border-radius: 12px; padding: 24px; margin: 24px 0;">
-            <p style="margin: 0 0 12px; color: rgba(255,255,255,0.5); font-size: 13px; text-transform: uppercase; letter-spacing: 0.1em;">Your Login Credentials</p>
-            <p style="margin: 0 0 6px; color: rgba(255,255,255,0.7); font-size: 14px;">Email: <strong style="color: white;">${client.email}</strong></p>
-            <p style="margin: 0; color: rgba(255,255,255,0.7); font-size: 14px;">Password: <strong style="color: #22d3ee; font-size: 18px; letter-spacing: 0.05em;">${password}</strong></p>
-            <p style="margin: 12px 0 0; color: rgba(255,255,255,0.4); font-size: 12px;">You can change your password after logging in.</p>
+          <div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 20px; margin-bottom: 24px;">
+            <p style="margin: 0 0 10px; color: rgba(255,255,255,0.4); font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em;">Your Login Credentials</p>
+            <p style="margin: 0 0 4px; color: rgba(255,255,255,0.7); font-size: 14px;">Email: <strong style="color: white;">${client.email}</strong></p>
+            <p style="margin: 0; color: rgba(255,255,255,0.7); font-size: 14px;">Password: <strong style="color: #22d3ee; font-size: 16px;">${password}</strong></p>
           </div>
           ` : ""}
-          <a href="${appUrl}/login" style="display: inline-block; background: linear-gradient(135deg, #7c3aed, #06b6d4); color: white; text-decoration: none; padding: 14px 28px; border-radius: 10px; font-weight: 600; margin-top: 8px;">
-            Log In to Your Dashboard →
-          </a>
-          <p style="color: rgba(255,255,255,0.3); font-size: 12px; margin-top: 32px;">
-            Questions? Reply to this email or reach us at hello@allthecalls.ai
+          <p style="color: rgba(255,255,255,0.25); font-size: 12px; margin-top: 24px;">
+            Questions? Reply here or email <a href="mailto:hello@allthecalls.ai" style="color: #a78bfa;">hello@allthecalls.ai</a>
           </p>
         </div>
       `,
@@ -221,36 +212,26 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    // Step 1: Create Trillet agent
-    const agent = await createTrilletAgent(body);
-    console.log(`[onboard] Trillet agent created: ${agent._id} for ${email}`);
-
-    // Step 2: Create Supabase Auth user so client can log in
+    // Step 1: Create Supabase Auth user so client can log in immediately
     const password = generatePassword();
     const authUserId = await createSupabaseAuthUser(email, password);
     if (!authUserId) {
       console.error("[onboard] Could not create auth user — DB save skipped");
     }
 
-    // Step 3: Save to Supabase (requires authUserId for user_id NOT NULL constraint)
+    // Step 2: Save to Supabase (no Trillet agent yet — created by setup wizard)
     if (authUserId) {
-      await saveToSupabase(body, agent._id, authUserId).catch((err) => {
+      await saveToSupabase(body, "", authUserId).catch((err) => {
         console.error("[onboard] Supabase save error (non-fatal):", err);
       });
     }
 
-    // Step 4: Send welcome email with login credentials (non-blocking)
-    await sendWelcomeEmail(body, agent._id, password).catch((err) => {
+    // Step 3: Send welcome email with login creds + setup link
+    await sendWelcomeEmail(body, "", password).catch((err) => {
       console.error("[onboard] Welcome email error (non-fatal):", err);
     });
 
-    return NextResponse.json({
-      success: true,
-      agentId: agent._id,
-      agentName: agent.name,
-      status: agent.status,
-      note: `Agent created successfully. Go to app.trillet.ai → Telephony → assign a phone number to agent ID: ${agent._id}`,
-    });
+    return NextResponse.json({ success: true });
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
     console.error("[onboard] Fatal error:", message);

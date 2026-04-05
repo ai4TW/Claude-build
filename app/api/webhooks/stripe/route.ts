@@ -88,8 +88,10 @@ async function handleCheckoutCompleted(session: Record<string, unknown>) {
     return;
   }
 
-  console.log(`[webhook] Triggering onboard for ${customerEmail} (${plan} plan)`);
+  console.log(`[webhook] Provisioning account for ${customerEmail} (${plan} plan)`);
 
+  // /api/onboard creates the Supabase account + sends setup email.
+  // Trillet agent creation happens when the client completes the setup wizard.
   const res = await fetch(`${appUrl}/api/onboard`, {
     method: "POST",
     headers: {
@@ -110,12 +112,11 @@ async function handleCheckoutCompleted(session: Record<string, unknown>) {
   const result = await res.json();
 
   if (!res.ok) {
-    console.error("[webhook] Onboard failed:", result.error);
-    // TODO: Send alert to admin (Slack/email) when onboarding fails
+    console.error("[webhook] Account provision failed:", result.error);
     return;
   }
 
-  console.log(`[webhook] Onboard success — agent ID: ${result.agentId}`);
+  console.log(`[webhook] Account provisioned for ${customerEmail}`);
 }
 
 async function handleSubscriptionDeleted(subscription: Record<string, unknown>) {
