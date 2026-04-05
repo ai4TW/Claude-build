@@ -30,11 +30,11 @@
   body {
     background-color: #08090f;
     color: #e2e8f0;
-    font-family: 'DM Sans', system-ui, sans-serif;
+    font-family: var(--font-dm-sans), 'DM Sans', system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
   }
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Space Grotesk', system-ui, sans-serif;
+    font-family: var(--font-space-grotesk), 'Space Grotesk', system-ui, sans-serif;
     font-weight: 700;
     line-height: 1.1;
     letter-spacing: -0.02em;

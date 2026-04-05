@@ -2,7 +2,24 @@ import { NextRequest, NextResponse } from "next/server";
 import { jwtVerify } from "jose";
 
 const SESSION_COOKIE = "rv_session";
-const PUBLIC_PATHS = ["/", "/login", "/api/auth/login"];
+const PUBLIC_PATHS = [
+  "/",
+  "/login",
+  "/checkout",
+  "/welcome",
+  "/pricing",
+  "/contact",
+  "/privacy",
+  "/terms",
+  "/demo",
+  "/api/auth/login",
+  "/api/checkout",
+  "/api/leads",
+  "/api/onboard",
+  "/api/webhooks",
+  "/api/create-agent",
+  "/api/voice-preview",
+];
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;

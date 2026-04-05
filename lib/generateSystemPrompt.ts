@@ -233,10 +233,16 @@ ${customInstructions ? `\n## Additional Instructions From ${firstName}\n${custom
 `;
 }
 
-export function buildTrilletAgentPayload(config: AgentConfig) {
-  const voiceId = config.voiceId || "arcana_celeste";
+export function buildTrilletCallFlowPayload(config: AgentConfig) {
+  const voiceId = config.voiceId || "mistv3_astra";
+  // voiceId format: "mistv3_astra" — first segment is the Rime model
+  const rimeModel = voiceId.split("_")[0] || "mistv3";
   return {
     name: `${config.name} — ${config.businessName} (AllTheCalls)`,
+    direction: "bidirectional",
+    promptType: "simple",
+    isSMB: true,
+    isCustom: true,
     llmModel: "gemini-2.5-flash",
     ttsModel: {
       provider: "rime",
@@ -244,10 +250,14 @@ export function buildTrilletAgentPayload(config: AgentConfig) {
       language: "en",
     },
     settings: {
-      model: "arcana",
+      model: rimeModel,
       speed: 1.05,
     },
-    type: "voice",
-    systemPrompt: generateSystemPrompt(config),
+    prompt: generateSystemPrompt(config),
   };
+}
+
+/** @deprecated use buildTrilletCallFlowPayload */
+export function buildTrilletAgentPayload(config: AgentConfig) {
+  return buildTrilletCallFlowPayload(config);
 }

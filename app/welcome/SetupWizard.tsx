@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 
 interface Prefill {
@@ -87,15 +87,15 @@ const GREETING_STYLES = [
   { id: "luxury" as const, label: "Luxury", preview: (biz: string, aiName: string) => `"Good afternoon, thank you for calling ${biz || "[Business]"}. ${aiName ? `This is ${aiName}` : "I'm their assistant"} — how may I assist you?"` },
 ];
 
-// Rime AI voices available via Trillet (arcana model)
+// Confirmed working Rime mistv3 voices via Trillet
 const VOICES = [
-  { id: "arcana_celeste", label: "Celeste", gender: "Female", tone: "Professional & clear", default: true },
-  { id: "arcana_luna", label: "Luna", gender: "Female", tone: "Warm & approachable" },
-  { id: "arcana_nova", label: "Nova", gender: "Female", tone: "Energetic & friendly" },
-  { id: "arcana_aria", label: "Aria", gender: "Female", tone: "Calm & reassuring" },
-  { id: "arcana_miles", label: "Miles", gender: "Male", tone: "Professional & confident" },
-  { id: "arcana_finn", label: "Finn", gender: "Male", tone: "Casual & approachable" },
-  { id: "arcana_river", label: "River", gender: "Male", tone: "Warm & trustworthy" },
+  { id: "mistv3_astra", label: "Astra", gender: "Female", tone: "Professional & polished", default: true },
+  { id: "mistv3_luna", label: "Luna", gender: "Female", tone: "Warm & approachable" },
+  { id: "mistv3_ember", label: "Ember", gender: "Female", tone: "Energetic & friendly" },
+  { id: "mistv3_river", label: "River", gender: "Male", tone: "Warm & trustworthy" },
+  { id: "mistv3_cove", label: "Cove", gender: "Male", tone: "Calm & confident" },
+  { id: "mistv3_grove", label: "Grove", gender: "Male", tone: "Steady & professional" },
+  { id: "mistv3_marsh", label: "Marsh", gender: "Male", tone: "Deep & authoritative" },
 ];
 
 export default function SetupWizard({ prefill, sessionId }: { prefill: Prefill | null; sessionId: string }) {
@@ -104,22 +104,34 @@ export default function SetupWizard({ prefill, sessionId }: { prefill: Prefill |
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
 
+  // Step 4 — password
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [pwdError, setPwdError] = useState("");
+  const step4Valid = password.length >= 8 && password === confirmPassword;
+
   // Step 1
   const [industry, setIndustry] = useState(prefill?.industry || "");
   const [name, setName] = useState(prefill?.name || "");
   const [businessName, setBusinessName] = useState(prefill?.businessName || "");
   const [phone, setPhone] = useState(prefill?.phone || "");
-  const email = prefill?.email || "";
+  const [email, setEmail] = useState(prefill?.email || "");
+
+  // Voice preview
+  const [playingVoice, setPlayingVoice] = useState<string | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   // Step 2
   const [serviceArea, setServiceArea] = useState("");
   const [selectedSpecialties, setSelectedSpecialties] = useState<string[]>([]);
+  const [otherSpecialty, setOtherSpecialty] = useState("");
+  const [showOtherInput, setShowOtherInput] = useState(false);
   const [website, setWebsite] = useState("");
 
   // Step 3
   const [greetingStyle, setGreetingStyle] = useState<"professional" | "friendly" | "luxury">("professional");
   const [aiName, setAiName] = useState("");
-  const [voiceId, setVoiceId] = useState("arcana_celeste");
+  const [voiceId, setVoiceId] = useState("mistv3_astra");
   const [workingHours, setWorkingHours] = useState("");
   const [customInstructions, setCustomInstructions] = useState("");
 
@@ -128,10 +140,32 @@ export default function SetupWizard({ prefill, sessionId }: { prefill: Prefill |
   }
 
   const specialties = SPECIALTIES_BY_INDUSTRY[industry] || [];
-  const step1Valid = industry && name.trim() && businessName.trim() && phone.trim();
+  const step1Valid = industry && name.trim() && businessName.trim() && phone.trim() && email.trim();
+
+  async function handleVoicePreview(vId: string) {
+    if (playingVoice === vId) {
+      audioRef.current?.pause();
+      setPlayingVoice(null);
+      return;
+    }
+    audioRef.current?.pause();
+    setPlayingVoice(vId);
+    try {
+      const audio = new Audio(`/api/voice-preview?voice=${encodeURIComponent(vId)}`);
+      audioRef.current = audio;
+      audio.onended = () => setPlayingVoice(null);
+      audio.onerror = () => setPlayingVoice(null);
+      await audio.play();
+    } catch {
+      setPlayingVoice(null);
+    }
+  }
   const step2Valid = serviceArea.trim();
 
   async function handleFinish() {
+    setPwdError("");
+    if (password.length < 8) { setPwdError("Password must be at least 8 characters."); return; }
+    if (password !== confirmPassword) { setPwdError("Passwords don't match."); return; }
     setSubmitting(true);
     setError("");
     try {
@@ -146,13 +180,14 @@ export default function SetupWizard({ prefill, sessionId }: { prefill: Prefill |
           industry,
           phone,
           serviceArea,
-          specialties: selectedSpecialties.join(", "),
+          specialties: [...selectedSpecialties, ...(otherSpecialty.trim() ? [otherSpecialty.trim()] : [])].join(", "),
           website,
           greetingStyle,
           aiName,
           voiceId,
           workingHours,
           customInstructions,
+          password,
         }),
       });
       const data = await res.json();
@@ -161,14 +196,16 @@ export default function SetupWizard({ prefill, sessionId }: { prefill: Prefill |
         setSubmitting(false);
         return;
       }
-      setStep(4);
+      // Mark password as self-chosen so the dashboard prompt doesn't show
+      if (typeof window !== "undefined") localStorage.setItem("atc_pwd_set", "1");
+      router.push("/my");
     } catch {
       setError("Network error. Please try again.");
       setSubmitting(false);
     }
   }
 
-  const STEP_LABELS = ["", "Your Business", "Your Services", "Your AI's Voice", "Done"];
+  const STEP_LABELS = ["", "Your Business", "Your Services", "Your AI", "Set Password"];
 
   return (
     <div style={{ minHeight: "100vh", background: "#08090f", fontFamily: "'DM Sans', system-ui, sans-serif", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "2rem 1rem" }}>
@@ -180,10 +217,10 @@ export default function SetupWizard({ prefill, sessionId }: { prefill: Prefill |
         </div>
 
         {/* Progress bar */}
-        {step < 4 && (
+        {step <= 4 && (
           <div style={{ marginBottom: "32px" }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", marginBottom: "10px" }}>
-              {[1, 2, 3].map((s) => (
+              {[1, 2, 3, 4].map((s) => (
                 <div key={s} style={{ display: "flex", alignItems: "center", gap: "8px" }}>
                   <div style={{
                     width: "28px", height: "28px", borderRadius: "50%",
@@ -195,12 +232,12 @@ export default function SetupWizard({ prefill, sessionId }: { prefill: Prefill |
                   }}>
                     {step > s ? "✓" : s}
                   </div>
-                  {s < 3 && <div style={{ width: "48px", height: "2px", borderRadius: "2px", background: step > s ? "linear-gradient(90deg, #7c3aed, #06b6d4)" : "rgba(255,255,255,0.08)", transition: "all 0.3s" }} />}
+                  {s < 4 && <div style={{ width: "36px", height: "2px", borderRadius: "2px", background: step > s ? "linear-gradient(90deg, #7c3aed, #06b6d4)" : "rgba(255,255,255,0.08)", transition: "all 0.3s" }} />}
                 </div>
               ))}
             </div>
             <p style={{ textAlign: "center", color: "rgba(255,255,255,0.3)", fontSize: "12px" }}>
-              Step {step} of 3 — {STEP_LABELS[step]}
+              Step {step} of 4 — {STEP_LABELS[step]}
             </p>
           </div>
         )}
@@ -256,12 +293,14 @@ export default function SetupWizard({ prefill, sessionId }: { prefill: Prefill |
                   <input style={inputStyle} type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="(555) 867-5309" />
                   <p style={{ fontSize: "11px", color: "rgba(255,255,255,0.25)", marginTop: "5px" }}>This is the number your AI will cover when you&apos;re unavailable.</p>
                 </div>
-                {email && (
-                  <div>
-                    <label style={labelStyle}>Email</label>
+                <div>
+                  <label style={labelStyle}>Email *</label>
+                  {prefill?.email ? (
                     <div style={{ ...inputStyle, color: "rgba(255,255,255,0.35)", cursor: "default" }}>{email}</div>
-                  </div>
-                )}
+                  ) : (
+                    <input style={inputStyle} type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="your@email.com" />
+                  )}
+                </div>
               </div>
 
               <button
@@ -326,7 +365,34 @@ export default function SetupWizard({ prefill, sessionId }: { prefill: Prefill |
                           </button>
                         );
                       })}
+                      {/* Other pill — always shown at end */}
+                      <button
+                        onClick={() => setShowOtherInput(!showOtherInput)}
+                        style={{
+                          padding: "7px 14px", borderRadius: "999px", fontSize: "13px", fontWeight: 500, cursor: "pointer", transition: "all 0.15s",
+                          background: showOtherInput ? "rgba(255,255,255,0.12)" : "rgba(255,255,255,0.05)",
+                          border: showOtherInput ? "1px solid rgba(255,255,255,0.3)" : "1px solid rgba(255,255,255,0.12)",
+                          color: showOtherInput ? "white" : "rgba(255,255,255,0.4)",
+                        }}
+                      >
+                        + Other
+                      </button>
                     </div>
+                    {showOtherInput && (
+                      <div style={{ marginTop: "10px" }}>
+                        <input
+                          style={inputStyle}
+                          type="text"
+                          value={otherSpecialty}
+                          onChange={(e) => setOtherSpecialty(e.target.value)}
+                          placeholder="Describe what you do that isn't listed above..."
+                          autoFocus
+                        />
+                        <p style={{ fontSize: "11px", color: "rgba(255,255,255,0.3)", marginTop: "5px" }}>
+                          Your AI will use this to answer questions and qualify callers around your specific service.
+                        </p>
+                      </div>
+                    )}
                   </div>
                 )}
 
@@ -396,8 +462,9 @@ export default function SetupWizard({ prefill, sessionId }: { prefill: Prefill |
                   <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}>
                     {VOICES.map((v) => {
                       const active = voiceId === v.id;
+                      const isPlaying = playingVoice === v.id;
                       return (
-                        <button
+                        <div
                           key={v.id}
                           onClick={() => setVoiceId(v.id)}
                           style={{
@@ -408,13 +475,31 @@ export default function SetupWizard({ prefill, sessionId }: { prefill: Prefill |
                         >
                           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "3px" }}>
                             <span style={{ fontWeight: 700, color: active ? "#a78bfa" : "rgba(255,255,255,0.8)", fontSize: "14px" }}>{v.label}</span>
-                            <span style={{ fontSize: "10px", color: active ? "#a78bfa" : "rgba(255,255,255,0.3)", fontWeight: 600 }}>{v.gender}</span>
+                            <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                              <span style={{ fontSize: "10px", color: active ? "#a78bfa" : "rgba(255,255,255,0.3)", fontWeight: 600 }}>{v.gender}</span>
+                              <button
+                                onClick={(e) => { e.stopPropagation(); handleVoicePreview(v.id); }}
+                                title={isPlaying ? "Stop" : "Preview voice"}
+                                style={{
+                                  width: "22px", height: "22px", borderRadius: "50%", border: "none", cursor: "pointer",
+                                  background: isPlaying ? "rgba(6,182,212,0.3)" : "rgba(255,255,255,0.1)",
+                                  color: isPlaying ? "#06b6d4" : "rgba(255,255,255,0.5)",
+                                  fontSize: "9px", display: "flex", alignItems: "center", justifyContent: "center",
+                                  flexShrink: 0, transition: "all 0.15s",
+                                }}
+                              >
+                                {isPlaying ? "■" : "▶"}
+                              </button>
+                            </div>
                           </div>
                           <p style={{ color: "rgba(255,255,255,0.35)", fontSize: "11px", margin: 0 }}>{v.tone}</p>
-                        </button>
+                        </div>
                       );
                     })}
                   </div>
+                  <p style={{ fontSize: "11px", color: "rgba(255,255,255,0.25)", marginTop: "8px" }}>
+                    Click ▶ on any voice to hear a sample before choosing.
+                  </p>
                 </div>
 
                 {/* Greeting style */}
@@ -477,57 +562,73 @@ export default function SetupWizard({ prefill, sessionId }: { prefill: Prefill |
               <div style={{ display: "flex", gap: "12px", marginTop: "28px" }}>
                 <button onClick={() => setStep(2)} style={{ flex: 1, padding: "15px", borderRadius: "12px", border: "1px solid rgba(255,255,255,0.1)", background: "transparent", color: "rgba(255,255,255,0.45)", cursor: "pointer", fontFamily: "'DM Sans', sans-serif", fontSize: "15px" }}>← Back</button>
                 <button
-                  onClick={handleFinish}
-                  disabled={submitting}
+                  onClick={() => setStep(4)}
                   className="btn-glow"
-                  style={{ flex: 2, color: "white", fontWeight: 700, fontSize: "15px", padding: "15px", borderRadius: "12px", border: "none", cursor: submitting ? "not-allowed" : "pointer", opacity: submitting ? 0.7 : 1 }}
+                  style={{ flex: 2, color: "white", fontWeight: 700, fontSize: "15px", padding: "15px", borderRadius: "12px", border: "none", cursor: "pointer" }}
                 >
-                  {submitting ? "Building your AI…" : "Create My AI Receptionist →"}
+                  Continue →
                 </button>
               </div>
             </>
           )}
 
-          {/* ── STEP 4 — Success ── */}
+          {/* ── STEP 4 — Set Password ── */}
           {step === 4 && (
-            <div style={{ textAlign: "center" }}>
-              <div style={{ width: "72px", height: "72px", borderRadius: "50%", background: "linear-gradient(135deg, #7c3aed, #06b6d4)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 24px", fontSize: "32px", color: "white", fontWeight: 700 }}>
-                ✓
-              </div>
-              <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, color: "white", fontSize: "24px", marginBottom: "12px" }}>
-                Your AI is live!
+            <>
+              <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, color: "white", fontSize: "22px", marginBottom: "6px" }}>
+                Set your password
               </h1>
-              <p style={{ color: "rgba(255,255,255,0.5)", fontSize: "15px", lineHeight: 1.7, marginBottom: "28px" }}>
-                <strong style={{ color: "white" }}>{businessName}&apos;s</strong> AI receptionist has been created and trained. We&apos;re assigning your dedicated phone number now — you&apos;ll receive an email with forwarding instructions within 2 hours.
+              <p style={{ color: "rgba(255,255,255,0.4)", fontSize: "14px", lineHeight: 1.6, marginBottom: "28px" }}>
+                You&apos;ll use this to log into your dashboard at allthecalls.ai.
               </p>
-              <div className="glass-card" style={{ borderRadius: "16px", padding: "20px", marginBottom: "28px", textAlign: "left" }}>
-                {[
-                  { done: true, label: "Payment confirmed", sub: "Trial active — no charge for 14 days" },
-                  { done: true, label: "AI receptionist created & trained", sub: `${name} — ${businessName}` },
-                  { done: false, label: "Phone number being assigned", sub: "We'll email you your number within 2 hours" },
-                ].map((item) => (
-                  <div key={item.label} style={{ display: "flex", alignItems: "flex-start", gap: "12px", marginBottom: "14px" }}>
-                    <div style={{ width: "24px", height: "24px", borderRadius: "50%", background: item.done ? "linear-gradient(135deg, #7c3aed, #06b6d4)" : "rgba(255,255,255,0.07)", border: item.done ? "none" : "1px solid rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: "1px" }}>
-                      <span style={{ color: item.done ? "white" : "rgba(255,255,255,0.3)", fontSize: "11px", fontWeight: 700 }}>{item.done ? "✓" : "⏳"}</span>
-                    </div>
-                    <div>
-                      <p style={{ fontWeight: 600, color: item.done ? "white" : "rgba(255,255,255,0.5)", fontSize: "13px", margin: "0 0 2px" }}>{item.label}</p>
-                      <p style={{ color: "rgba(255,255,255,0.3)", fontSize: "12px", margin: 0 }}>{item.sub}</p>
-                    </div>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+                <div>
+                  <label style={labelStyle}>Password *</label>
+                  <input
+                    style={inputStyle}
+                    type="password"
+                    value={password}
+                    onChange={(e) => { setPassword(e.target.value); setPwdError(""); }}
+                    placeholder="At least 8 characters"
+                    autoFocus
+                  />
+                </div>
+                <div>
+                  <label style={labelStyle}>Confirm Password *</label>
+                  <input
+                    style={inputStyle}
+                    type="password"
+                    value={confirmPassword}
+                    onChange={(e) => { setConfirmPassword(e.target.value); setPwdError(""); }}
+                    placeholder="Re-enter your password"
+                  />
+                </div>
+
+                {pwdError && (
+                  <div style={{ background: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.3)", color: "#fca5a5", fontSize: "13px", padding: "12px 16px", borderRadius: "10px" }}>
+                    {pwdError}
                   </div>
-                ))}
+                )}
+                {error && (
+                  <div style={{ background: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.3)", color: "#fca5a5", fontSize: "13px", padding: "12px 16px", borderRadius: "10px" }}>
+                    {error}
+                  </div>
+                )}
               </div>
-              <button
-                onClick={() => router.push("/dashboard")}
-                className="btn-glow"
-                style={{ width: "100%", color: "white", fontWeight: 700, fontSize: "15px", padding: "15px", borderRadius: "12px", border: "none", cursor: "pointer" }}
-              >
-                Go to Your Dashboard →
-              </button>
-              <a href="mailto:hello@allthecalls.ai" style={{ display: "block", color: "rgba(255,255,255,0.3)", fontSize: "13px", textDecoration: "none", marginTop: "16px" }}>
-                Questions? Email hello@allthecalls.ai
-              </a>
-            </div>
+
+              <div style={{ display: "flex", gap: "12px", marginTop: "28px" }}>
+                <button onClick={() => setStep(3)} style={{ flex: 1, padding: "15px", borderRadius: "12px", border: "1px solid rgba(255,255,255,0.1)", background: "transparent", color: "rgba(255,255,255,0.45)", cursor: "pointer", fontFamily: "'DM Sans', sans-serif", fontSize: "15px" }}>← Back</button>
+                <button
+                  onClick={handleFinish}
+                  disabled={submitting || !step4Valid}
+                  className="btn-glow"
+                  style={{ flex: 2, color: "white", fontWeight: 700, fontSize: "15px", padding: "15px", borderRadius: "12px", border: "none", cursor: (submitting || !step4Valid) ? "not-allowed" : "pointer", opacity: (submitting || !step4Valid) ? 0.55 : 1 }}
+                >
+                  {submitting ? "Creating your AI…" : "Finish & Open Dashboard →"}
+                </button>
+              </div>
+            </>
           )}
         </div>
       </div>

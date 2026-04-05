@@ -10,6 +10,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { buildTrilletCallFlowPayload, generateSystemPrompt } from "@/lib/generateSystemPrompt";
 import { supabaseAdmin } from "@/lib/supabase";
+import { createSession, SESSION_COOKIE_NAME } from "@/lib/session";
 
 const TRILLET = "https://api.trillet.ai";
 
@@ -18,6 +19,7 @@ interface CreateAgentBody {
   email: string;
   name: string;
   businessName: string;
+  password?: string;
   industry: string;
   aiName: string;
   voiceId: string;
@@ -59,7 +61,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
   }
 
-  const { sessionId, email, name, businessName, industry, aiName, voiceId, phone, serviceArea, specialties, website, greetingStyle, workingHours, customInstructions } = body;
+  const { sessionId, email, name, businessName, industry, aiName, voiceId, phone, serviceArea, specialties, website, greetingStyle, workingHours, customInstructions, password } = body;
 
   if (!email || !name || !businessName) {
     return NextResponse.json({ error: "name, businessName, and email are required" }, { status: 400 });
@@ -171,22 +173,79 @@ export async function POST(req: NextRequest) {
     });
   }
 
-  // ── Step 5: Update Supabase ────────────────────────────────────────────────
+  // ── Step 5: Create / update Supabase account ──────────────────────────────
+  let clientId: string | null = null;
+  let authUserId: string | null = null;
+
   if (supabaseAdmin) {
-    await supabaseAdmin
+    if (password) {
+      // Client came through the wizard and set their own password — create auth user now
+      const { data: created, error: createErr } = await supabaseAdmin.auth.admin.createUser({
+        email: email.toLowerCase().trim(),
+        password,
+        email_confirm: true,
+      });
+
+      if (createErr) {
+        // User may already exist (re-attempt) — look them up and update password
+        const { data: list } = await supabaseAdmin.auth.admin.listUsers();
+        const existing = list?.users.find(u => u.email?.toLowerCase() === email.toLowerCase());
+        if (existing) {
+          authUserId = existing.id;
+          await supabaseAdmin.auth.admin.updateUserById(existing.id, { password });
+        } else {
+          console.error("[create-agent] Auth user creation failed:", createErr.message);
+        }
+      } else {
+        authUserId = created.user?.id ?? null;
+      }
+    }
+
+    // Upsert the clients row
+    const { data: clientRow } = await supabaseAdmin
       .from("clients")
-      .update({
-        trillet_agent_id: flowId,        // flow ID — used for phone number assignment
-        trillet_agent_name: agentId,     // linked agent ID — used for voice/prompt updates
-        onboarding_completed: true,
-        phone: phone || null,
-        brokerage: businessName,
-        name,
-      })
-      .eq("email", email);
+      .upsert(
+        {
+          ...(authUserId ? { user_id: authUserId } : {}),
+          email: email.toLowerCase().trim(),
+          name,
+          brokerage: businessName,
+          phone: phone || null,
+          plan: "starter",
+          trillet_agent_id: flowId,
+          trillet_agent_name: agentId,
+          onboarding_completed: true,
+        },
+        { onConflict: "email" }
+      )
+      .select("id")
+      .single();
+
+    clientId = clientRow?.id ?? null;
   }
 
   console.log(`[create-agent] Setup complete for ${email} — flow: ${flowId}, agent: ${agentId}, kb: ${kbId}`);
+
+  // ── Step 6: Log the client in if they set a password ──────────────────────
+  if (password && clientId) {
+    const token = await createSession({
+      clientId,
+      clientName: name,
+      email: email.toLowerCase().trim(),
+      subAccountId: agentId || "",
+      agentId: flowId,
+    });
+
+    const response = NextResponse.json({ success: true, agentId: flowId });
+    response.cookies.set(SESSION_COOKIE_NAME, token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      path: "/",
+      maxAge: 60 * 60 * 24 * 7,
+    });
+    return response;
+  }
 
   return NextResponse.json({
     success: true,
