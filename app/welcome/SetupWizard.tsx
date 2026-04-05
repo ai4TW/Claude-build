@@ -87,15 +87,15 @@ const GREETING_STYLES = [
   { id: "luxury" as const, label: "Luxury", preview: (biz: string, aiName: string) => `"Good afternoon, thank you for calling ${biz || "[Business]"}. ${aiName ? `This is ${aiName}` : "I'm their assistant"} — how may I assist you?"` },
 ];
 
-// Confirmed working Rime mistv3 voices via Trillet
+// ElevenLabs voices — eleven_turbo_v2_5 model (low latency, natural sounding)
 const VOICES = [
-  { id: "mistv3_astra", label: "Astra", gender: "Female", tone: "Professional & polished", default: true },
-  { id: "mistv3_luna", label: "Luna", gender: "Female", tone: "Warm & approachable" },
-  { id: "mistv3_ember", label: "Ember", gender: "Female", tone: "Energetic & friendly" },
-  { id: "mistv3_river", label: "River", gender: "Male", tone: "Warm & trustworthy" },
-  { id: "mistv3_cove", label: "Cove", gender: "Male", tone: "Calm & confident" },
-  { id: "mistv3_grove", label: "Grove", gender: "Male", tone: "Steady & professional" },
-  { id: "mistv3_marsh", label: "Marsh", gender: "Male", tone: "Deep & authoritative" },
+  { id: "EXAVITQu4vr4xnSDxMaL", label: "Sarah", gender: "Female", tone: "Mature, reassuring & confident", default: true },
+  { id: "cgSgspJ2msm6clMCkdW9", label: "Jessica", gender: "Female", tone: "Warm, bright & friendly" },
+  { id: "hpp4J3VqNfWAUOO0d1Us", label: "Bella", gender: "Female", tone: "Professional & upbeat" },
+  { id: "XrExE9yKIg1WjnnlVkGX", label: "Matilda", gender: "Female", tone: "Knowledgeable & professional" },
+  { id: "cjVigY5qzO86Huf0OWal", label: "Eric", gender: "Male", tone: "Smooth & trustworthy" },
+  { id: "iP95p4xoKVk53GoZ742B", label: "Chris", gender: "Male", tone: "Charming & down-to-earth" },
+  { id: "nPczCjzI2devNBz1zQrb", label: "Brian", gender: "Male", tone: "Deep, resonant & comforting" },
 ];
 
 export default function SetupWizard({ prefill, sessionId }: { prefill: Prefill | null; sessionId: string }) {
@@ -131,7 +131,7 @@ export default function SetupWizard({ prefill, sessionId }: { prefill: Prefill |
   // Step 3
   const [greetingStyle, setGreetingStyle] = useState<"professional" | "friendly" | "luxury">("professional");
   const [aiName, setAiName] = useState("");
-  const [voiceId, setVoiceId] = useState("mistv3_astra");
+  const [voiceId, setVoiceId] = useState("EXAVITQu4vr4xnSDxMaL");
   const [workingHours, setWorkingHours] = useState("");
   const [customInstructions, setCustomInstructions] = useState("");
 

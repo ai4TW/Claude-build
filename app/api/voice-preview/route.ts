@@ -1,7 +1,7 @@
 /**
- * GET /api/voice-preview?voice=arcana_celeste
- * Generates a short TTS sample using Rime AI so clients can hear each voice before choosing.
- * Requires RIME_API_KEY in Vercel env.
+ * GET /api/voice-preview?voice=<elevenlabs_voice_id>
+ * Generates a short TTS sample using ElevenLabs so clients can hear each voice before choosing.
+ * Uses eleven_turbo_v2_5 model for fast response.
  */
 
 import { NextRequest, NextResponse } from "next/server";
@@ -9,42 +9,39 @@ import { NextRequest, NextResponse } from "next/server";
 const SAMPLE_TEXT = "Hi there! Thanks for calling — I'm your AI assistant, and I'm here to help. What can I do for you today?";
 
 export async function GET(req: NextRequest) {
-  const voiceId = req.nextUrl.searchParams.get("voice") || "arcana_celeste";
+  const voiceId = req.nextUrl.searchParams.get("voice") || "EXAVITQu4vr4xnSDxMaL"; // Default: Sarah
 
-  const rimeKey = process.env.RIME_API_KEY;
-  if (!rimeKey) {
-    return NextResponse.json({ error: "RIME_API_KEY not configured" }, { status: 500 });
+  const apiKey = process.env.ELEVENLABS_API_KEY;
+  if (!apiKey) {
+    return NextResponse.json({ error: "ELEVENLABS_API_KEY not configured" }, { status: 500 });
   }
 
-  // mistv3_astra → modelId: "mistv3", speaker: "astra"
-  const [modelId, speaker] = voiceId.includes("_")
-    ? [voiceId.split("_")[0], voiceId.split("_").slice(1).join("_")]
-    : ["mistv3", voiceId];
-
-  const rimeRes = await fetch("https://users.rime.ai/v1/rime-tts", {
+  const res = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`, {
     method: "POST",
     headers: {
-      "Authorization": `Bearer ${rimeKey}`,
+      "xi-api-key": apiKey,
       "Content-Type": "application/json",
-      "Accept": "audio/mp3",
+      "Accept": "audio/mpeg",
     },
     body: JSON.stringify({
-      speaker,
       text: SAMPLE_TEXT,
-      modelId,
-      samplingRate: 22050,
-      speedAlpha: 1.0,
-      reduceLatency: false,
+      model_id: "eleven_turbo_v2_5",
+      voice_settings: {
+        stability: 0.5,
+        similarity_boost: 0.75,
+        style: 0.0,
+        use_speaker_boost: true,
+      },
     }),
   });
 
-  if (!rimeRes.ok) {
-    const err = await rimeRes.text();
-    console.error("[voice-preview] Rime error:", err);
-    return NextResponse.json({ error: `Rime TTS error: ${err.slice(0, 200)}` }, { status: 500 });
+  if (!res.ok) {
+    const err = await res.text();
+    console.error("[voice-preview] ElevenLabs error:", err);
+    return NextResponse.json({ error: `ElevenLabs TTS error: ${err.slice(0, 200)}` }, { status: 500 });
   }
 
-  const audioBuffer = await rimeRes.arrayBuffer();
+  const audioBuffer = await res.arrayBuffer();
   return new NextResponse(audioBuffer, {
     headers: {
       "Content-Type": "audio/mpeg",

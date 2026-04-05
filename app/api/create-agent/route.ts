@@ -94,8 +94,7 @@ export async function POST(req: NextRequest) {
 
   const flowPayload = buildTrilletCallFlowPayload(config);
   const systemPrompt = generateSystemPrompt(config);
-  const voiceIdFinal = voiceId || "mistv3_astra";
-  const rimeModel = voiceIdFinal.split("_")[0] || "mistv3";
+  const voiceIdFinal = voiceId || "EXAVITQu4vr4xnSDxMaL"; // Default: Sarah (ElevenLabs)
   const flowName = `${name} — ${businessName} (AllTheCalls)`;
 
   // ── Step 1: Create Knowledge Base ──────────────────────────────────────────
@@ -153,8 +152,14 @@ export async function POST(req: NextRequest) {
     body: JSON.stringify({
       name: flowName,
       llmModel: "gemini-2.5-flash",
-      ttsModel: { provider: "rime", voiceId: voiceIdFinal, language: "en" },
-      settings: { model: rimeModel, speed: 1.05 },
+      ttsModel: {
+        provider: "elevenlabs",
+        voiceId: voiceIdFinal,
+        language: "en",
+        elevenLabsApiKey: process.env.ELEVENLABS_API_KEY,
+        elevenLabsModel: "eleven_turbo_v2_5",
+      },
+      settings: { speed: 1.0 },
       type: "voice",
       systemPrompt,
     }),
