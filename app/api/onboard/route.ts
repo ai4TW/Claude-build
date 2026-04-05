@@ -14,15 +14,12 @@
  */
 
 import { NextRequest, NextResponse } from "next/server";
-import { buildTrilletAgentPayload } from "@/lib/generateSystemPrompt";
-import { supabase, supabaseAdmin } from "@/lib/supabase";
+import { supabaseAdmin } from "@/lib/supabase";
 
 function generatePassword(): string {
   const chars = "ABCDEFGHJKMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789";
   return Array.from({ length: 12 }, () => chars[Math.floor(Math.random() * chars.length)]).join("");
 }
-
-const TRILLET_BASE = "https://api.trillet.ai";
 
 interface OnboardInput {
   name: string;
@@ -35,57 +32,6 @@ interface OnboardInput {
   phone?: string;
   website?: string;
   specialties?: string;
-}
-
-interface TrilletAgent {
-  _id: string;
-  name: string;
-  status: string;
-  workspaceId: string;
-}
-
-function getTrilletHeaders() {
-  const key = process.env.TRILLET_API_KEY;
-  const workspaceId = process.env.TRILLET_WORKSPACE_ID;
-  if (!key || !workspaceId) {
-    throw new Error("TRILLET_API_KEY or TRILLET_WORKSPACE_ID not configured");
-  }
-  return {
-    "Content-Type": "application/json",
-    "x-api-key": key,
-    "x-workspace-id": workspaceId,
-  };
-}
-
-async function createTrilletAgent(config: OnboardInput): Promise<TrilletAgent> {
-  const payload = buildTrilletAgentPayload({
-    name: config.name,
-    brokerage: config.brokerage,
-    serviceArea: config.serviceArea,
-    phone: config.phone,
-    website: config.website,
-    specialties: config.specialties,
-  });
-
-  const res = await fetch(`${TRILLET_BASE}/v1/api/agents`, {
-    method: "POST",
-    headers: getTrilletHeaders(),
-    body: JSON.stringify(payload),
-  });
-
-  const text = await res.text();
-  let data: TrilletAgent;
-  try {
-    data = JSON.parse(text);
-  } catch {
-    throw new Error(`Trillet returned non-JSON: ${text.slice(0, 200)}`);
-  }
-
-  if (!res.ok) {
-    throw new Error(`Trillet agent creation failed (${res.status}): ${text.slice(0, 300)}`);
-  }
-
-  return data;
 }
 
 async function createSupabaseAuthUser(email: string, password: string): Promise<string | null> {

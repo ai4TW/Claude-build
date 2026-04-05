@@ -65,7 +65,7 @@ export default function CheckoutForm({ plan }: { plan: string }) {
       return "";
     }
     return data.clientSecret as string;
-  }, [plan, name, email, brokerage]);
+  }, [plan, name, email, businessName]);
 
   if (error) {
     return (

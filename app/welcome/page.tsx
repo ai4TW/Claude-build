@@ -3,9 +3,10 @@ import SetupWizard from "./SetupWizard";
 interface Prefill {
   name: string;
   email: string;
-  brokerage: string;
+  businessName: string;
   phone: string;
   plan: string;
+  industry?: string;
 }
 
 async function getSessionPrefill(sessionId: string): Promise<Prefill | null> {
@@ -21,9 +22,10 @@ async function getSessionPrefill(sessionId: string): Promise<Prefill | null> {
     return {
       email: (session.customer_email as string) || meta.email || "",
       name: meta.name || "",
-      brokerage: meta.brokerage || "",
+      businessName: meta.brokerage || "",
       phone: meta.phone || "",
       plan: meta.plan || "starter",
+      industry: meta.industry || "",
     };
   } catch {
     return null;
