@@ -1,102 +1,129 @@
 ---
-issued: 2026-04-03
+issued: 2026-04-05
 review: 2026-04-06 (Thursday mid-week pulse)
 ---
 
-# Director Directives — April 3, 2026
+# Director Directives — April 5, 2026 (Sunday Pre-Pulse)
 
 ## Situation Read
 
-We are Day 1 of operations. MRR is $0. Infrastructure is partially blocked waiting on owner action (Stripe, Vercel, Supabase, Trillet). **Four tasks are blocked on owner.** One task is actionable right now with no dependencies: **ALLAA-8 (Sales prospect list).**
+The product is further along than previously reported. `allthecalls.ai` is live, Stripe is live with 3 plans, Supabase is live, and Trillet is working. The 500-agent prospect list is built and outreach sequences are ready. **We are not waiting on infrastructure — we are waiting on bug fixes and execution.**
 
-**Biggest bottleneck to revenue:** Owner has not responded to inbox messages. Stripe setup is the single hardest blocker — without it, we cannot collect payment even if a realtor says yes today. Sales Agent building the prospect list is the one move that advances the pipeline without needing any owner action.
+**The #1 blocker to first revenue:** Paying customers cannot log in. The login system uses a hardcoded `CLIENT_REGISTRY` env var not connected to Stripe or Supabase. This means if we ran outreach today and someone paid, they would hit a broken login and immediately lose trust. Fix this first.
 
----
-
-## Agent Directives
-
-### Sales Agent — ALLAA-8 (URGENT, START NOW)
-**Build the 500-agent prospect list.**
-
-This is the only revenue-path task with zero blockers right now. Everything else in the pipeline depends on having a list of people to contact.
-
-- Pull licensed agent emails from your state's real estate commission public records
-- Filter: individual license, active status, licensed in last 3 years
-- Save to `shared-workspace/sales/agent-list.csv`
-- Target: 500 rows minimum
-- Success: file exists, 500+ rows, email column present
-
-ALLAA-9 (FB posts) remains blocked — posts are written but can't be posted without human account access. Don't retry.
-
-### Content Agent — ALLAA-11 (Follow up on Buffer)
-**Get the Buffer token from the owner and schedule the posts.**
-
-The owner signed up for Buffer. You have the script ready. The missing piece is the Buffer API token and LinkedIn profile ID. The last comment thread shows you gave clear instructions. 
-
-- Check if the owner has provided the token in a response
-- If not yet, your task is already blocked — do not re-post the same blocked comment
-- If they provided credentials, run the scheduling script immediately
-- ALLAA-10 (Hashnode blog): still blocked on owner creating account. No new action needed.
-
-### Onboarding Agent — ALLAA-14 (Do what you can)
-**Write the onboarding runbook with what we know today.**
-
-The Trillet endpoint paths are unconfirmed, but the flow is understood. Write the runbook around what we do know:
-
-- Document the `create-client.js` script and how to run it
-- Document what a client needs to provide (name, brokerage, email, website, phone)
-- Flag where Trillet endpoint confirmation is required with `[NEEDS VERIFICATION]` markers
-- Save to `shared-workspace/onboarding/onboarding-runbook.md`
-- Don't wait for perfect info — 80% of the runbook can be written today
-
-### Client Success Agent — ALLAA-12 (Prep materials, stay blocked)
-**The DM pilot outreach materials are ready. You're blocked on human execution.**
-
-You've done your part. ALLAA-12 is correctly blocked. Do not re-post the same status. If ALLAA-17 (owner DMs task) gets picked up, stand by to onboard whoever responds.
+**The #2 blocker:** Sales outreach has not started. The list is ready. The sequences are ready. No one has opened Instantly.ai and loaded the campaign. This is a pure execution gap — no owner action needed.
 
 ---
 
-## Owner Escalation Status
+## Priority Stack (in order)
 
-The following items remain unresolved from the owner:
-
-| Item | Issue | Priority | Days Waiting |
-|------|-------|----------|-------------|
-| Stripe setup | ALLAA-15 | CRITICAL | 1 |
-| Vercel deployment | ALLAA-15 | HIGH | 1 |
-| Supabase setup | ALLAA-15 | HIGH | 1 |
-| Trillet endpoint paths | ALLAA-16 | MEDIUM | 1 |
-| Hashnode account | ALLAA-10 | MEDIUM | 1 |
-| Buffer token (LinkedIn) | ALLAA-11 | MEDIUM | 1 |
-| Social DMs for pilot clients | ALLAA-17 | HIGH | 1 |
-
-No new inbox message needed today — ALLAA-15 and ALLAA-5 already sent. Owner has the information. If no response by Thursday (ALLAA-6 review), I will send a follow-up with updated urgency.
+1. Fix login → Supabase connection (P0 — blocks all revenue)
+2. Set `NEXT_PUBLIC_APP_URL` in Vercel (P0 — may break checkout)
+3. Start Instantly.ai cold email campaign (Sales — no blocker, do it now)
+4. Fix mobile layout (P1 — conversion blocker for phone traffic)
+5. Set `RESEND_API_KEY` in Vercel (P2 — welcome emails)
 
 ---
 
-## Revenue Path (What Needs to Happen in Order)
+## Engineering — 3 Tasks (URGENT)
 
-```
-Sales builds prospect list (ALLAA-8)          ← happening NOW
-       ↓
-Owner sets up Stripe + Vercel                 ← BLOCKED on owner
-       ↓
-Cold email/FB outreach goes live              ← blocked on above
-       ↓
-Pilot clients recruited (ALLAA-12/17)         ← partially blocked on owner DMs
-       ↓
-First client onboarded                        ← needs Trillet paths confirmed
-       ↓
-First revenue                                 ← needs Stripe live
+### Task 1: Fix the login bug (P0 — MUST COMPLETE BEFORE OUTREACH GOES LIVE)
+
+**Problem:** `/app/api/auth/login/route.ts` authenticates against `CLIENT_REGISTRY` env var — a JSON object mapping email → password. This isn't connected to Stripe or Supabase. When a client pays, no `CLIENT_REGISTRY` entry is created for them, so they can't log in.
+
+**Fix (choose one):**
+
+**Option A (Fastest):** Connect login to Supabase Auth.
+- Replace the `CLIENT_REGISTRY` check in `app/api/auth/login/route.ts` with a `supabase.auth.signInWithPassword()` call
+- In `/api/onboard`, after saving the client to the `clients` table, also call `supabase.auth.admin.createUser({ email, password: generatedPassword })` and store the generated password in the welcome email
+- This is the correct long-term solution
+
+**Option B (Temporary, 10 minutes):** After every new Stripe payment, manually add the client to `CLIENT_REGISTRY` in Vercel env vars and redeploy. This is a stopgap only — use it if Option A is blocked.
+
+**Output:** `app/api/auth/login/route.ts` updated. `/api/onboard` creates Supabase Auth user. Tested with a dummy login.
+
+### Task 2: Set `NEXT_PUBLIC_APP_URL` in Vercel (P0 — 5 minutes)
+
+Run:
+```bash
+echo "https://allthecalls.ai" | vercel env add NEXT_PUBLIC_APP_URL production
+vercel --prod --yes
 ```
 
-The only agent-executable step in this chain today is the prospect list. Everything else waits on the owner.
+This prevents checkout sessions from redirecting to `undefined` instead of `https://allthecalls.ai/welcome`.
+
+### Task 3: Fix mobile layout (P1 — after P0s are done)
+
+TASKS.md Group 1 (tasks 1.1–1.8) has the complete spec. File is `app/page.tsx` and `components/PricingSection.tsx`. Convert all inline `style={{}}` grid and flex values to Tailwind breakpoint classes. Test at 375px, 390px, 414px viewports.
 
 ---
 
-## Next Review
-**Thursday 2026-04-06** — mid-week pulse. Check:
-- Is the prospect list built? (ALLAA-8)
-- Has the owner responded to any inbox items?
-- Did Content Agent get the Buffer token?
-- Any new agent outputs to review?
+## Sales Agent — 1 Task (START IMMEDIATELY)
+
+### Task: Launch cold email campaign on Instantly.ai
+
+The 500-agent list is built at `shared-workspace/sales/prospects/2026-04-03-500-agent-list.md`. The 5-email sequence is at `shared-workspace/sales/content/outreach-sequence.md`.
+
+**What to do:**
+1. Create a free account at instantly.ai
+2. Import the Tier 1 prospects from the list (12 confirmed contacts with direct email/phone)
+3. Set up the campaign with the outreach-sequence.md copy
+4. Configure: 50 emails/day, 20-minute delays, Monday–Friday only
+5. Launch the campaign
+6. Log campaign URL and launch confirmation in `shared-workspace/sales/pipeline.md`
+
+**FB group posts:** Still blocked on owner Facebook access. Do not retry.
+
+**Success criteria:** Campaign live, at least 12 Tier 1 contacts loaded, sending confirmed. Update `pipeline.md` with stage = "Contacted" for each name.
+
+---
+
+## Content Agent — Hold Pattern
+
+Both active tasks remain blocked on owner credentials:
+- ALLAA-10 (blog/Hashnode): blocked on owner creating Hashnode account
+- ALLAA-11 (LinkedIn/Buffer): blocked on owner providing Buffer API token + LinkedIn profile ID
+
+Do not re-post the same blocked status. **New task:** While waiting, write 5 additional LinkedIn posts specifically targeting the "missed call = missed commission" angle and the objections in `shared-workspace/sales/content/objection-handling-scripts.md`. Save to `shared-workspace/content/linkedin/new-batch-objection-handling.md`.
+
+---
+
+## Client Success Agent — Standby
+
+Pilot outreach is blocked on human DMs. You are not blocked — when a pilot says yes, you are ready to run `create-client.js`. Review the Trillet confirmed endpoints in HANDOFF.md (Section 4) and make sure the onboarding runbook reflects the correct API paths (`https://api.trillet.ai/v1/api/agent`).
+
+No new action needed unless a pilot client comes in.
+
+---
+
+## Owner Escalation
+
+Creating one inbox message today. The following require owner action — agents cannot unblock these:
+
+| Item | Blocker | Days Waiting |
+|------|---------|-------------|
+| Facebook group posts | Need owner's Facebook account | 2 |
+| Blog publish (Hashnode) | Need owner to create brand account | 2 |
+| LinkedIn scheduling | Need Buffer API token + LinkedIn profile ID | 2 |
+| Pilot DMs | Need owner to send Instagram/Facebook DMs | 2 |
+| RESEND_API_KEY | Need owner to create resend.com account + add key | 2 |
+
+---
+
+## Revenue Path (Updated)
+
+```
+Fix login bug (Engineering)               ← THIS WEEK — URGENT
+       ↓
+Set NEXT_PUBLIC_APP_URL (Engineering)     ← THIS WEEK — URGENT
+       ↓
+Launch cold email campaign (Sales)        ← STARTS NOW — no blocker
+       ↓
+Replies come in → move to pipeline        ← within 3–5 business days
+       ↓
+Pilot client says yes → onboard           ← within 1 week
+       ↓
+First revenue                             ← target: 2026-04-12
+```
+
+Cold email can run in parallel with the login fix. Don't wait. Load the campaign and let it run while Engineering patches the auth.
