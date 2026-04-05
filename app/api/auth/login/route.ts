@@ -39,11 +39,34 @@ export async function POST(request: NextRequest) {
   }
 
   // Look up client record via service role to bypass RLS
-  const { data: client, error: clientError } = await supabaseAdmin
+  let { data: client, error: clientError } = await supabaseAdmin
     .from("clients")
     .select("id, name, email, trillet_agent_id, trillet_agent_name")
     .eq("email", email.toLowerCase().trim())
     .single();
+
+  // Dev bypass: if no client row exists but auth succeeded, auto-create a placeholder row.
+  // Gated by ENABLE_DEV_BYPASS env var — never runs in production unless explicitly set.
+  if ((clientError || !client) && process.env.ENABLE_DEV_BYPASS === "true") {
+    const nameFromEmail = email.split("@")[0].replace(/[._]/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+    const { data: created } = await supabaseAdmin
+      .from("clients")
+      .upsert(
+        {
+          user_id: authData.user.id,
+          email: email.toLowerCase().trim(),
+          name: nameFromEmail,
+          brokerage: "Test Account",
+          plan: "pro",
+          onboarding_completed: false,
+        },
+        { onConflict: "email" }
+      )
+      .select("id, name, email, trillet_agent_id, trillet_agent_name")
+      .single();
+    client = created;
+    clientError = null;
+  }
 
   if (clientError || !client) {
     return NextResponse.json(
