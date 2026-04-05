@@ -13,7 +13,7 @@ const plans = [
     name: "Starter",
     price: "$149",
     period: "/mo",
-    desc: "Solo agents getting started",
+    desc: "Solo operators & small businesses",
     popular: false,
   },
   {
@@ -21,7 +21,7 @@ const plans = [
     name: "Pro",
     price: "$249",
     period: "/mo",
-    desc: "Active agents with high call volume",
+    desc: "Growing businesses with high call volume",
     popular: true,
   },
   {
@@ -29,7 +29,7 @@ const plans = [
     name: "Team",
     price: "$399",
     period: "/mo",
-    desc: "Small teams of 2–5 agents",
+    desc: "Teams of 2–5 people",
     popular: false,
   },
 ];
@@ -38,7 +38,7 @@ const planFeatures: Record<string, string[]> = {
   starter: [
     "Up to 200 calls/month",
     "24/7 AI receptionist in your name",
-    "Lead qualification on every call",
+    "Industry-specific lead qualification",
     "SMS follow-up after every call",
     "Full call transcripts & summaries",
     "Custom greeting & scripts",
@@ -48,7 +48,7 @@ const planFeatures: Record<string, string[]> = {
   pro: [
     "Unlimited calls",
     "24/7 AI receptionist in your name",
-    "Advanced lead qualification",
+    "Advanced caller qualification",
     "SMS follow-up after every call",
     "Full call transcripts & summaries",
     "Custom call scripts",
@@ -56,12 +56,12 @@ const planFeatures: Record<string, string[]> = {
     "Cancel anytime",
   ],
   team: [
-    "Up to 5 agents",
+    "Up to 5 team members",
     "Unlimited calls across team",
-    "Individual AI personas per agent",
+    "Individual AI personas per member",
     "Team dashboard & analytics",
-    "SMS follow-up for each agent",
-    "Custom scripts per agent",
+    "SMS follow-up per team member",
+    "Custom scripts per member",
     "Dedicated onboarding call",
     "Priority support",
     "Cancel anytime",
@@ -109,7 +109,7 @@ export default function PricingSection() {
             <span className="gradient-text">Serious ROI.</span>
           </h2>
           <p style={{ color: "rgba(255,255,255,0.5)", fontSize: "18px", marginBottom: "8px" }}>
-            One commission pays for years of All The Calls.
+            One missed call could cost more than a year of All The Calls.
           </p>
           <p style={{ color: "#a78bfa", fontWeight: 600, fontSize: "15px" }}>
             14-day free trial · No credit card required
@@ -262,9 +262,9 @@ export default function PricingSection() {
           }}
         >
           <p style={{ color: "rgba(255,255,255,0.4)", fontSize: "14px" }}>
-            💡 The average real estate commission in the US is{" "}
-            <span style={{ color: "rgba(255,255,255,0.7)", fontWeight: 600 }}>$9,000+</span>. One call answered by your AI pays for{" "}
-            <span style={{ color: "#a78bfa", fontWeight: 600 }}>5 years</span> of the Starter plan.
+            💡 The average business loses{" "}
+            <span style={{ color: "rgba(255,255,255,0.7)", fontWeight: 600 }}>$75,000+/year</span> from missed calls and slow follow-up. Your AI pays for itself{" "}
+            <span style={{ color: "#a78bfa", fontWeight: 600 }}>the first week.</span>
           </p>
         </div>
       </div>

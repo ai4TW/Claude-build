@@ -6,9 +6,10 @@ import { useRouter } from "next/navigation";
 interface Prefill {
   name: string;
   email: string;
-  brokerage: string;
+  businessName: string;
   phone: string;
   plan: string;
+  industry?: string;
 }
 
 const inputStyle: React.CSSProperties = {
@@ -32,33 +33,58 @@ const labelStyle: React.CSSProperties = {
   marginBottom: "6px",
 };
 
-const SPECIALTIES = [
-  "Buyer Representation",
-  "Listing Agent",
-  "Luxury Homes",
-  "First-Time Buyers",
-  "Investment Properties",
-  "New Construction",
-  "Land & Lots",
-  "Relocation",
+const INDUSTRIES = [
+  { id: "Real Estate", icon: "🏠", label: "Real Estate" },
+  { id: "Legal", icon: "⚖️", label: "Legal" },
+  { id: "Medical / Dental", icon: "🏥", label: "Medical / Dental" },
+  { id: "Home Services", icon: "🔧", label: "Home Services" },
+  { id: "Financial Services", icon: "📈", label: "Financial Services" },
+  { id: "Salon / Spa", icon: "✂️", label: "Salon / Spa" },
+  { id: "Auto", icon: "🚗", label: "Auto" },
+  { id: "Restaurant", icon: "🍽️", label: "Restaurant" },
+  { id: "Other", icon: "💼", label: "Other" },
 ];
 
+const SPECIALTIES_BY_INDUSTRY: Record<string, string[]> = {
+  "Real Estate": ["Buyer Representation", "Listing Agent", "Luxury Homes", "First-Time Buyers", "Investment Properties", "New Construction", "Land & Lots", "Relocation"],
+  "Legal": ["Personal Injury", "Family Law", "Criminal Defense", "Estate Planning", "Business Law", "Real Estate Law", "Bankruptcy", "Immigration"],
+  "Medical / Dental": ["General Practice", "Family Medicine", "Pediatrics", "Cosmetic Dentistry", "Orthodontics", "Sports Medicine", "Mental Health", "Specialty Care"],
+  "Home Services": ["Plumbing", "HVAC", "Electrical", "General Contracting", "Landscaping", "Cleaning", "Roofing", "Painting"],
+  "Financial Services": ["Financial Planning", "Insurance", "Mortgage", "Tax Planning", "Investment Management", "Retirement Planning", "Wealth Management", "Business Finance"],
+  "Salon / Spa": ["Hair Styling", "Color & Highlights", "Nails", "Massage", "Facial & Skincare", "Waxing", "Makeup", "Full-Service Spa"],
+  "Auto": ["New Car Sales", "Used Car Sales", "Service & Repair", "Auto Detailing", "Collision Repair", "Fleet Sales", "EV Specialist", "Financing"],
+  "Restaurant": ["Fine Dining", "Casual Dining", "Private Events", "Catering", "Takeout & Delivery", "Bar & Cocktails", "Brunch", "Tasting Menu"],
+  "Other": [],
+};
+
+const SERVICE_AREA_LABEL: Record<string, string> = {
+  "Real Estate": "Markets & Neighborhoods",
+  "Legal": "Jurisdictions / Counties Served",
+  "Medical / Dental": "Locations / Clinics",
+  "Home Services": "Service Area (Cities or Zip Codes)",
+  "Financial Services": "States Licensed / Regions Served",
+  "Salon / Spa": "Location(s)",
+  "Auto": "Dealership Location(s)",
+  "Restaurant": "Location(s)",
+  "Other": "Service Area or Location",
+};
+
+const SERVICE_AREA_PLACEHOLDER: Record<string, string> = {
+  "Real Estate": "Dallas, Plano, Frisco, McKinney...",
+  "Legal": "Dallas County, Collin County, Denton County...",
+  "Medical / Dental": "North Dallas, Uptown, Main Street location...",
+  "Home Services": "Dallas, Irving, Garland — within 30 miles of 75201",
+  "Financial Services": "Texas, Oklahoma — licensed in 12 states",
+  "Salon / Spa": "Uptown Dallas — 2 locations",
+  "Auto": "Dallas, Fort Worth metro",
+  "Restaurant": "Deep Ellum, Dallas",
+  "Other": "City, region, or nationwide...",
+};
+
 const GREETING_STYLES = [
-  {
-    id: "professional" as const,
-    label: "Professional",
-    preview: '"Thank you for calling [Name] with [Brokerage] — how can I help you today?"',
-  },
-  {
-    id: "friendly" as const,
-    label: "Friendly",
-    preview: '"Hey! Thanks for calling [Name] — I\'m their assistant. What can I do for you?"',
-  },
-  {
-    id: "luxury" as const,
-    label: "Luxury",
-    preview: '"Good afternoon, you\'ve reached the office of [Name] at [Brokerage]. How may I assist you?"',
-  },
+  { id: "professional" as const, label: "Professional", preview: (biz: string) => `"Thank you for calling ${biz || "[Business]"}! I'm their assistant — how can I help you today?"` },
+  { id: "friendly" as const, label: "Friendly", preview: (biz: string) => `"Hey! Thanks for calling ${biz || "[Business]"} — I'm their assistant, what can I do for you?"` },
+  { id: "luxury" as const, label: "Luxury", preview: (biz: string) => `"Good afternoon, thank you for calling ${biz || "[Business]"}. How may I assist you today?"` },
 ];
 
 export default function SetupWizard({ prefill, sessionId }: { prefill: Prefill | null; sessionId: string }) {
@@ -67,27 +93,30 @@ export default function SetupWizard({ prefill, sessionId }: { prefill: Prefill |
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
 
-  // Step 1 fields
+  // Step 1
+  const [industry, setIndustry] = useState(prefill?.industry || "");
   const [name, setName] = useState(prefill?.name || "");
-  const [brokerage, setBrokerage] = useState(prefill?.brokerage || "");
+  const [businessName, setBusinessName] = useState(prefill?.businessName || "");
   const [phone, setPhone] = useState(prefill?.phone || "");
   const email = prefill?.email || "";
 
-  // Step 2 fields
+  // Step 2
   const [serviceArea, setServiceArea] = useState("");
   const [selectedSpecialties, setSelectedSpecialties] = useState<string[]>([]);
   const [website, setWebsite] = useState("");
 
-  // Step 3 fields
+  // Step 3
   const [greetingStyle, setGreetingStyle] = useState<"professional" | "friendly" | "luxury">("professional");
   const [workingHours, setWorkingHours] = useState("");
   const [customInstructions, setCustomInstructions] = useState("");
 
   function toggleSpecialty(s: string) {
-    setSelectedSpecialties((prev) =>
-      prev.includes(s) ? prev.filter((x) => x !== s) : [...prev, s]
-    );
+    setSelectedSpecialties((prev) => prev.includes(s) ? prev.filter((x) => x !== s) : [...prev, s]);
   }
+
+  const specialties = SPECIALTIES_BY_INDUSTRY[industry] || [];
+  const step1Valid = industry && name.trim() && businessName.trim() && phone.trim();
+  const step2Valid = serviceArea.trim();
 
   async function handleFinish() {
     setSubmitting(true);
@@ -100,10 +129,11 @@ export default function SetupWizard({ prefill, sessionId }: { prefill: Prefill |
           sessionId,
           email,
           name,
-          brokerage,
+          businessName,
+          industry,
           phone,
           serviceArea,
-          specialties: selectedSpecialties.join(", ") || "residential real estate",
+          specialties: selectedSpecialties.join(", "),
           website,
           greetingStyle,
           workingHours,
@@ -123,145 +153,187 @@ export default function SetupWizard({ prefill, sessionId }: { prefill: Prefill |
     }
   }
 
-  const stepLabel = ["", "Your Info", "Your Market", "Your AI's Voice", ""][step];
+  const STEP_LABELS = ["", "Your Business", "Your Services", "Your AI's Voice", "Done"];
 
   return (
     <div style={{ minHeight: "100vh", background: "#08090f", fontFamily: "'DM Sans', system-ui, sans-serif", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "2rem 1rem" }}>
-      <div style={{ width: "100%", maxWidth: "560px" }}>
+      <div style={{ width: "100%", maxWidth: "580px" }}>
 
         {/* Logo */}
         <div style={{ textAlign: "center", marginBottom: "32px" }}>
           <img src="/logo.svg" alt="AllTheCalls.ai" style={{ height: "36px" }} />
         </div>
 
-        {/* Progress */}
+        {/* Progress bar */}
         {step < 4 && (
           <div style={{ marginBottom: "32px" }}>
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", marginBottom: "12px" }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", marginBottom: "10px" }}>
               {[1, 2, 3].map((s) => (
                 <div key={s} style={{ display: "flex", alignItems: "center", gap: "8px" }}>
                   <div style={{
                     width: "28px", height: "28px", borderRadius: "50%",
-                    background: step > s ? "linear-gradient(135deg, #7c3aed, #06b6d4)" : step === s ? "rgba(124,58,237,0.3)" : "rgba(255,255,255,0.07)",
+                    background: step > s ? "linear-gradient(135deg, #7c3aed, #06b6d4)" : step === s ? "rgba(124,58,237,0.25)" : "rgba(255,255,255,0.07)",
                     border: step === s ? "2px solid #7c3aed" : "none",
                     display: "flex", alignItems: "center", justifyContent: "center",
                     fontSize: "12px", fontWeight: 700, color: step >= s ? "white" : "rgba(255,255,255,0.3)",
-                    transition: "all 0.3s ease",
+                    transition: "all 0.3s",
                   }}>
                     {step > s ? "✓" : s}
                   </div>
-                  {s < 3 && <div style={{ width: "40px", height: "2px", background: step > s ? "linear-gradient(90deg, #7c3aed, #06b6d4)" : "rgba(255,255,255,0.08)", borderRadius: "2px", transition: "all 0.3s ease" }} />}
+                  {s < 3 && <div style={{ width: "48px", height: "2px", borderRadius: "2px", background: step > s ? "linear-gradient(90deg, #7c3aed, #06b6d4)" : "rgba(255,255,255,0.08)", transition: "all 0.3s" }} />}
                 </div>
               ))}
             </div>
-            <p style={{ textAlign: "center", color: "rgba(255,255,255,0.35)", fontSize: "13px" }}>Step {step} of 3 — {stepLabel}</p>
+            <p style={{ textAlign: "center", color: "rgba(255,255,255,0.3)", fontSize: "12px" }}>
+              Step {step} of 3 — {STEP_LABELS[step]}
+            </p>
           </div>
         )}
 
-        {/* Card */}
         <div className="glass-card" style={{ borderRadius: "24px", padding: "36px" }}>
 
-          {/* ── STEP 1 ── */}
+          {/* ── STEP 1 — Your Business ── */}
           {step === 1 && (
             <>
-              <div style={{ marginBottom: "28px" }}>
-                <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, color: "white", fontSize: "22px", marginBottom: "8px" }}>
-                  Let&apos;s build your AI receptionist
-                </h1>
-                <p style={{ color: "rgba(255,255,255,0.45)", fontSize: "14px", lineHeight: 1.6 }}>
-                  Confirm your info below — this is how your AI will identify you on every call.
-                </p>
+              <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, color: "white", fontSize: "22px", marginBottom: "6px" }}>
+                Let&apos;s build your AI receptionist
+              </h1>
+              <p style={{ color: "rgba(255,255,255,0.4)", fontSize: "14px", lineHeight: 1.6, marginBottom: "28px" }}>
+                Your AI will be fully trained for your specific industry and business in minutes.
+              </p>
+
+              {/* Industry picker */}
+              <div style={{ marginBottom: "24px" }}>
+                <label style={labelStyle}>What type of business are you? *</label>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "8px" }}>
+                  {INDUSTRIES.map((ind) => {
+                    const active = industry === ind.id;
+                    return (
+                      <button
+                        key={ind.id}
+                        onClick={() => { setIndustry(ind.id); setSelectedSpecialties([]); }}
+                        style={{
+                          padding: "12px 8px", borderRadius: "12px", cursor: "pointer", transition: "all 0.15s",
+                          background: active ? "rgba(124,58,237,0.2)" : "rgba(255,255,255,0.04)",
+                          border: active ? "1px solid rgba(124,58,237,0.6)" : "1px solid rgba(255,255,255,0.08)",
+                          display: "flex", flexDirection: "column", alignItems: "center", gap: "6px",
+                        }}
+                      >
+                        <span style={{ fontSize: "22px" }}>{ind.icon}</span>
+                        <span style={{ fontSize: "11px", fontWeight: 600, color: active ? "#a78bfa" : "rgba(255,255,255,0.5)", textAlign: "center", lineHeight: 1.3 }}>{ind.label}</span>
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
 
               <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
                 <div>
+                  <label style={labelStyle}>Business Name *</label>
+                  <input style={inputStyle} type="text" value={businessName} onChange={(e) => setBusinessName(e.target.value)} placeholder="Your business name" />
+                </div>
+                <div>
                   <label style={labelStyle}>Your Full Name *</label>
-                  <input style={inputStyle} type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Sarah Johnson" />
+                  <input style={inputStyle} type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="First and last name" />
                 </div>
                 <div>
-                  <label style={labelStyle}>Brokerage *</label>
-                  <input style={inputStyle} type="text" value={brokerage} onChange={(e) => setBrokerage(e.target.value)} placeholder="Compass, KW, RE/MAX..." />
-                </div>
-                <div>
-                  <label style={labelStyle}>Your Phone Number *</label>
+                  <label style={labelStyle}>Business Phone Number *</label>
                   <input style={inputStyle} type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="(555) 867-5309" />
-                  <p style={{ fontSize: "11px", color: "rgba(255,255,255,0.25)", marginTop: "5px" }}>Clients forward calls from this number to your AI.</p>
+                  <p style={{ fontSize: "11px", color: "rgba(255,255,255,0.25)", marginTop: "5px" }}>This is the number your AI will cover when you&apos;re unavailable.</p>
                 </div>
                 {email && (
                   <div>
                     <label style={labelStyle}>Email</label>
-                    <div style={{ ...inputStyle, color: "rgba(255,255,255,0.4)", cursor: "default" }}>{email}</div>
+                    <div style={{ ...inputStyle, color: "rgba(255,255,255,0.35)", cursor: "default" }}>{email}</div>
                   </div>
                 )}
               </div>
 
               <button
                 onClick={() => setStep(2)}
-                disabled={!name.trim() || !brokerage.trim() || !phone.trim()}
+                disabled={!step1Valid}
                 className="btn-glow"
-                style={{ width: "100%", marginTop: "28px", color: "white", fontWeight: 700, fontSize: "15px", padding: "15px", borderRadius: "12px", border: "none", cursor: (!name.trim() || !brokerage.trim() || !phone.trim()) ? "not-allowed" : "pointer", opacity: (!name.trim() || !brokerage.trim() || !phone.trim()) ? 0.5 : 1 }}
+                style={{ width: "100%", marginTop: "28px", color: "white", fontWeight: 700, fontSize: "15px", padding: "15px", borderRadius: "12px", border: "none", cursor: step1Valid ? "pointer" : "not-allowed", opacity: step1Valid ? 1 : 0.45 }}
               >
                 Continue →
               </button>
             </>
           )}
 
-          {/* ── STEP 2 ── */}
+          {/* ── STEP 2 — Your Services ── */}
           {step === 2 && (
             <>
-              <div style={{ marginBottom: "28px" }}>
-                <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, color: "white", fontSize: "22px", marginBottom: "8px" }}>
-                  Tell us about your practice
-                </h1>
-                <p style={{ color: "rgba(255,255,255,0.45)", fontSize: "14px", lineHeight: 1.6 }}>
-                  Your AI will use this to answer questions about your market and expertise.
-                </p>
-              </div>
+              <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, color: "white", fontSize: "22px", marginBottom: "6px" }}>
+                Tell us about your {industry === "Other" ? "business" : industry.toLowerCase() + " practice"}
+              </h1>
+              <p style={{ color: "rgba(255,255,255,0.4)", fontSize: "14px", lineHeight: 1.6, marginBottom: "28px" }}>
+                Your AI uses this to answer questions and qualify callers accurately.
+              </p>
 
               <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
                 <div>
-                  <label style={labelStyle}>Service Areas *</label>
-                  <input style={inputStyle} type="text" value={serviceArea} onChange={(e) => setServiceArea(e.target.value)} placeholder="Dallas, Plano, Frisco, McKinney..." />
-                  <p style={{ fontSize: "11px", color: "rgba(255,255,255,0.25)", marginTop: "5px" }}>Cities, neighborhoods, or zip codes you work in.</p>
+                  <label style={labelStyle}>{SERVICE_AREA_LABEL[industry] || "Service Area"} *</label>
+                  <input
+                    style={inputStyle}
+                    type="text"
+                    value={serviceArea}
+                    onChange={(e) => setServiceArea(e.target.value)}
+                    placeholder={SERVICE_AREA_PLACEHOLDER[industry] || "Cities, regions, or locations you serve..."}
+                  />
                 </div>
 
-                <div>
-                  <label style={labelStyle}>What do you specialize in?</label>
-                  <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
-                    {SPECIALTIES.map((s) => {
-                      const active = selectedSpecialties.includes(s);
-                      return (
-                        <button
-                          key={s}
-                          onClick={() => toggleSpecialty(s)}
-                          style={{
-                            padding: "7px 14px", borderRadius: "999px", fontSize: "13px", fontWeight: 500, cursor: "pointer", transition: "all 0.15s ease",
-                            background: active ? "linear-gradient(135deg, #7c3aed, #06b6d4)" : "rgba(255,255,255,0.05)",
-                            border: active ? "none" : "1px solid rgba(255,255,255,0.12)",
-                            color: active ? "white" : "rgba(255,255,255,0.6)",
-                          }}
-                        >
-                          {s}
-                        </button>
-                      );
-                    })}
+                {specialties.length > 0 && (
+                  <div>
+                    <label style={labelStyle}>What do you specialize in? <span style={{ color: "rgba(255,255,255,0.25)", fontWeight: 400 }}>(select all that apply)</span></label>
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+                      {specialties.map((s) => {
+                        const active = selectedSpecialties.includes(s);
+                        return (
+                          <button
+                            key={s}
+                            onClick={() => toggleSpecialty(s)}
+                            style={{
+                              padding: "7px 14px", borderRadius: "999px", fontSize: "13px", fontWeight: 500, cursor: "pointer", transition: "all 0.15s",
+                              background: active ? "linear-gradient(135deg, #7c3aed, #06b6d4)" : "rgba(255,255,255,0.05)",
+                              border: active ? "none" : "1px solid rgba(255,255,255,0.12)",
+                              color: active ? "white" : "rgba(255,255,255,0.55)",
+                            }}
+                          >
+                            {s}
+                          </button>
+                        );
+                      })}
+                    </div>
                   </div>
-                </div>
+                )}
+
+                {industry === "Other" && (
+                  <div>
+                    <label style={labelStyle}>What services do you offer?</label>
+                    <input
+                      style={inputStyle}
+                      type="text"
+                      value={selectedSpecialties.join(", ")}
+                      onChange={(e) => setSelectedSpecialties(e.target.value ? [e.target.value] : [])}
+                      placeholder="Brief description of your services..."
+                    />
+                  </div>
+                )}
 
                 <div>
                   <label style={labelStyle}>Your Website <span style={{ color: "rgba(255,255,255,0.25)", fontWeight: 400 }}>(optional)</span></label>
                   <input style={inputStyle} type="url" value={website} onChange={(e) => setWebsite(e.target.value)} placeholder="https://yourwebsite.com" />
-                  <p style={{ fontSize: "11px", color: "rgba(255,255,255,0.25)", marginTop: "5px" }}>Your AI will mention this in follow-up texts.</p>
+                  <p style={{ fontSize: "11px", color: "rgba(255,255,255,0.25)", marginTop: "5px" }}>Your AI mentions this in SMS follow-ups.</p>
                 </div>
               </div>
 
               <div style={{ display: "flex", gap: "12px", marginTop: "28px" }}>
-                <button onClick={() => setStep(1)} style={{ flex: 1, padding: "15px", borderRadius: "12px", border: "1px solid rgba(255,255,255,0.12)", background: "transparent", color: "rgba(255,255,255,0.5)", cursor: "pointer", fontFamily: "'DM Sans', sans-serif", fontSize: "15px" }}>← Back</button>
+                <button onClick={() => setStep(1)} style={{ flex: 1, padding: "15px", borderRadius: "12px", border: "1px solid rgba(255,255,255,0.1)", background: "transparent", color: "rgba(255,255,255,0.45)", cursor: "pointer", fontFamily: "'DM Sans', sans-serif", fontSize: "15px" }}>← Back</button>
                 <button
                   onClick={() => setStep(3)}
-                  disabled={!serviceArea.trim()}
+                  disabled={!step2Valid}
                   className="btn-glow"
-                  style={{ flex: 2, color: "white", fontWeight: 700, fontSize: "15px", padding: "15px", borderRadius: "12px", border: "none", cursor: !serviceArea.trim() ? "not-allowed" : "pointer", opacity: !serviceArea.trim() ? 0.5 : 1 }}
+                  style={{ flex: 2, color: "white", fontWeight: 700, fontSize: "15px", padding: "15px", borderRadius: "12px", border: "none", cursor: step2Valid ? "pointer" : "not-allowed", opacity: step2Valid ? 1 : 0.45 }}
                 >
                   Continue →
                 </button>
@@ -269,17 +341,15 @@ export default function SetupWizard({ prefill, sessionId }: { prefill: Prefill |
             </>
           )}
 
-          {/* ── STEP 3 ── */}
+          {/* ── STEP 3 — AI Voice ── */}
           {step === 3 && (
             <>
-              <div style={{ marginBottom: "28px" }}>
-                <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, color: "white", fontSize: "22px", marginBottom: "8px" }}>
-                  How should your AI sound?
-                </h1>
-                <p style={{ color: "rgba(255,255,255,0.45)", fontSize: "14px", lineHeight: 1.6 }}>
-                  Pick the tone that matches how you represent yourself to clients.
-                </p>
-              </div>
+              <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, color: "white", fontSize: "22px", marginBottom: "6px" }}>
+                How should your AI sound?
+              </h1>
+              <p style={{ color: "rgba(255,255,255,0.4)", fontSize: "14px", lineHeight: 1.6, marginBottom: "28px" }}>
+                Pick the tone that matches how you represent your business.
+              </p>
 
               <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
                 <div>
@@ -292,13 +362,13 @@ export default function SetupWizard({ prefill, sessionId }: { prefill: Prefill |
                           key={g.id}
                           onClick={() => setGreetingStyle(g.id)}
                           style={{
-                            textAlign: "left", padding: "14px 16px", borderRadius: "12px", cursor: "pointer", transition: "all 0.15s ease",
+                            textAlign: "left", padding: "14px 16px", borderRadius: "12px", cursor: "pointer", transition: "all 0.15s",
                             background: active ? "rgba(124,58,237,0.15)" : "rgba(255,255,255,0.04)",
                             border: active ? "1px solid rgba(124,58,237,0.5)" : "1px solid rgba(255,255,255,0.08)",
                           }}
                         >
                           <p style={{ fontWeight: 600, color: active ? "#a78bfa" : "rgba(255,255,255,0.7)", fontSize: "14px", margin: "0 0 4px" }}>{g.label}</p>
-                          <p style={{ color: "rgba(255,255,255,0.35)", fontSize: "12px", margin: 0, fontStyle: "italic" }}>{g.preview}</p>
+                          <p style={{ color: "rgba(255,255,255,0.35)", fontSize: "12px", margin: 0, fontStyle: "italic" }}>{g.preview(businessName)}</p>
                         </button>
                       );
                     })}
@@ -308,16 +378,16 @@ export default function SetupWizard({ prefill, sessionId }: { prefill: Prefill |
                 <div>
                   <label style={labelStyle}>When are you available to take calls yourself? <span style={{ color: "rgba(255,255,255,0.25)", fontWeight: 400 }}>(optional)</span></label>
                   <input style={inputStyle} type="text" value={workingHours} onChange={(e) => setWorkingHours(e.target.value)} placeholder="Mon–Fri 9am–6pm, weekends by appointment" />
-                  <p style={{ fontSize: "11px", color: "rgba(255,255,255,0.25)", marginTop: "5px" }}>Your AI handles calls outside these hours and whenever you're busy.</p>
+                  <p style={{ fontSize: "11px", color: "rgba(255,255,255,0.25)", marginTop: "5px" }}>Your AI covers all other times automatically.</p>
                 </div>
 
                 <div>
-                  <label style={labelStyle}>Anything else your AI should know? <span style={{ color: "rgba(255,255,255,0.25)", fontWeight: 400 }}>(optional)</span></label>
+                  <label style={labelStyle}>Anything specific your AI should know or say? <span style={{ color: "rgba(255,255,255,0.25)", fontWeight: 400 }}>(optional)</span></label>
                   <textarea
                     style={{ ...inputStyle, minHeight: "80px", resize: "vertical" }}
                     value={customInstructions}
                     onChange={(e) => setCustomInstructions(e.target.value)}
-                    placeholder="e.g. I only work with buyers above $500K. Always ask how they heard about me. Don't book showings on Sundays."
+                    placeholder="e.g. Always ask how they heard about us. Don't schedule on Sundays. Mention we offer free consultations."
                   />
                 </div>
               </div>
@@ -329,7 +399,7 @@ export default function SetupWizard({ prefill, sessionId }: { prefill: Prefill |
               )}
 
               <div style={{ display: "flex", gap: "12px", marginTop: "28px" }}>
-                <button onClick={() => setStep(2)} style={{ flex: 1, padding: "15px", borderRadius: "12px", border: "1px solid rgba(255,255,255,0.12)", background: "transparent", color: "rgba(255,255,255,0.5)", cursor: "pointer", fontFamily: "'DM Sans', sans-serif", fontSize: "15px" }}>← Back</button>
+                <button onClick={() => setStep(2)} style={{ flex: 1, padding: "15px", borderRadius: "12px", border: "1px solid rgba(255,255,255,0.1)", background: "transparent", color: "rgba(255,255,255,0.45)", cursor: "pointer", fontFamily: "'DM Sans', sans-serif", fontSize: "15px" }}>← Back</button>
                 <button
                   onClick={handleFinish}
                   disabled={submitting}
@@ -342,25 +412,25 @@ export default function SetupWizard({ prefill, sessionId }: { prefill: Prefill |
             </>
           )}
 
-          {/* ── STEP 4 — SUCCESS ── */}
+          {/* ── STEP 4 — Success ── */}
           {step === 4 && (
             <div style={{ textAlign: "center" }}>
-              <div style={{ width: "72px", height: "72px", borderRadius: "50%", background: "linear-gradient(135deg, #7c3aed, #06b6d4)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 24px", fontSize: "32px" }}>
+              <div style={{ width: "72px", height: "72px", borderRadius: "50%", background: "linear-gradient(135deg, #7c3aed, #06b6d4)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 24px", fontSize: "32px", color: "white", fontWeight: 700 }}>
                 ✓
               </div>
               <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, color: "white", fontSize: "24px", marginBottom: "12px" }}>
                 Your AI is live!
               </h1>
-              <p style={{ color: "rgba(255,255,255,0.5)", fontSize: "15px", lineHeight: 1.7, marginBottom: "32px" }}>
-                <strong style={{ color: "white" }}>{name}&apos;s</strong> AI receptionist has been created and trained. We&apos;re assigning your dedicated phone number now — you&apos;ll receive an email with forwarding instructions within 2 hours.
+              <p style={{ color: "rgba(255,255,255,0.5)", fontSize: "15px", lineHeight: 1.7, marginBottom: "28px" }}>
+                <strong style={{ color: "white" }}>{businessName}&apos;s</strong> AI receptionist has been created and trained. We&apos;re assigning your dedicated phone number now — you&apos;ll receive an email with forwarding instructions within 2 hours.
               </p>
               <div className="glass-card" style={{ borderRadius: "16px", padding: "20px", marginBottom: "28px", textAlign: "left" }}>
                 {[
                   { done: true, label: "Payment confirmed", sub: "Trial active — no charge for 14 days" },
-                  { done: true, label: "AI receptionist created", sub: `${name} — ${brokerage}` },
-                  { done: false, label: "Phone number assignment", sub: "We'll email you your number within 2 hours" },
+                  { done: true, label: "AI receptionist created & trained", sub: `${name} — ${businessName}` },
+                  { done: false, label: "Phone number being assigned", sub: "We'll email you your number within 2 hours" },
                 ].map((item) => (
-                  <div key={item.label} style={{ display: "flex", alignItems: "flex-start", gap: "12px", marginBottom: "16px" }}>
+                  <div key={item.label} style={{ display: "flex", alignItems: "flex-start", gap: "12px", marginBottom: "14px" }}>
                     <div style={{ width: "24px", height: "24px", borderRadius: "50%", background: item.done ? "linear-gradient(135deg, #7c3aed, #06b6d4)" : "rgba(255,255,255,0.07)", border: item.done ? "none" : "1px solid rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: "1px" }}>
                       <span style={{ color: item.done ? "white" : "rgba(255,255,255,0.3)", fontSize: "11px", fontWeight: 700 }}>{item.done ? "✓" : "⏳"}</span>
                     </div>
@@ -378,7 +448,7 @@ export default function SetupWizard({ prefill, sessionId }: { prefill: Prefill |
               >
                 Go to Your Dashboard →
               </button>
-              <a href="mailto:hello@allthecalls.ai" style={{ display: "block", color: "rgba(255,255,255,0.35)", fontSize: "13px", textDecoration: "none", marginTop: "16px" }}>
+              <a href="mailto:hello@allthecalls.ai" style={{ display: "block", color: "rgba(255,255,255,0.3)", fontSize: "13px", textDecoration: "none", marginTop: "16px" }}>
                 Questions? Email hello@allthecalls.ai
               </a>
             </div>

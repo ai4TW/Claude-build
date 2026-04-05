@@ -15,7 +15,8 @@ interface CreateAgentBody {
   sessionId: string;
   email: string;
   name: string;
-  brokerage: string;
+  businessName: string;
+  industry: string;
   phone: string;
   serviceArea: string;
   specialties: string;
@@ -46,10 +47,10 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
   }
 
-  const { sessionId, email, name, brokerage, phone, serviceArea, specialties, website, greetingStyle, workingHours, customInstructions } = body;
+  const { sessionId, email, name, businessName, industry, phone, serviceArea, specialties, website, greetingStyle, workingHours, customInstructions } = body;
 
-  if (!email || !name || !brokerage) {
-    return NextResponse.json({ error: "name, brokerage, and email are required" }, { status: 400 });
+  if (!email || !name || !businessName) {
+    return NextResponse.json({ error: "name, businessName, and email are required" }, { status: 400 });
   }
 
   // Verify the Stripe session before creating anything
@@ -67,11 +68,12 @@ export async function POST(req: NextRequest) {
 
   const payload = buildTrilletAgentPayload({
     name,
-    brokerage,
+    businessName,
+    industry: industry || "Other",
     serviceArea: serviceArea || "the local area",
     phone,
     website,
-    specialties: specialties || "residential real estate",
+    specialties,
     greetingStyle: greetingStyle || "professional",
     workingHours,
     customInstructions,
@@ -108,7 +110,7 @@ export async function POST(req: NextRequest) {
         trillet_agent_id: agent._id,
         onboarding_completed: true,
         phone: phone || null,
-        brokerage,
+        brokerage: businessName,
         name,
       })
       .eq("email", email);

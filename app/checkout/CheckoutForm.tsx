@@ -32,11 +32,11 @@ export default function CheckoutForm({ plan }: { plan: string }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [brokerage, setBrokerage] = useState("");
+  const [businessName, setBusinessName] = useState("");
   const [saving, setSaving] = useState(false);
   const [ready, setReady] = useState(false);
 
-  const isValid = name.trim() && email.trim() && phone.trim() && brokerage.trim();
+  const isValid = name.trim() && email.trim() && phone.trim() && businessName.trim();
 
   const handleContinue = async () => {
     if (!isValid || saving) return;
@@ -46,7 +46,7 @@ export default function CheckoutForm({ plan }: { plan: string }) {
     fetch("/api/leads", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, email, phone, brokerage, plan }),
+      body: JSON.stringify({ name, email, phone, brokerage: businessName, plan }),
     }).catch(() => {}); // non-blocking — proceed regardless
 
     setReady(true);
@@ -57,7 +57,7 @@ export default function CheckoutForm({ plan }: { plan: string }) {
     const res = await fetch("/api/checkout", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ plan, name, email, phone, brokerage }),
+      body: JSON.stringify({ plan, name, email, phone, brokerage: businessName }),
     });
     const data = await res.json();
     if (!res.ok) {
@@ -82,10 +82,10 @@ export default function CheckoutForm({ plan }: { plan: string }) {
         {/* Header */}
         <div style={{ marginBottom: "28px" }}>
           <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, color: "white", fontSize: "20px", marginBottom: "8px" }}>
-            Set up your AI receptionist
+            Start your free trial
           </h2>
           <p style={{ color: "rgba(255,255,255,0.45)", fontSize: "14px", lineHeight: 1.6 }}>
-            We need these details to configure your AI and get it live on your number. Your info is saved the moment you click continue — we&apos;ll personally reach out if you have any questions.
+            Quick info so we can personalize your AI — you&apos;ll configure it fully right after checkout. Your info is saved immediately, even if you don&apos;t complete payment.
           </p>
         </div>
 
@@ -135,15 +135,15 @@ export default function CheckoutForm({ plan }: { plan: string }) {
             </p>
           </div>
 
-          {/* Brokerage */}
+          {/* Business Name */}
           <div>
-            <label style={labelStyle}>Brokerage *</label>
+            <label style={labelStyle}>Business Name *</label>
             <input
               style={inputStyle}
               type="text"
-              placeholder="Compass, Keller Williams, RE/MAX..."
-              value={brokerage}
-              onChange={(e) => setBrokerage(e.target.value)}
+              placeholder="Your business or practice name"
+              value={businessName}
+              onChange={(e) => setBusinessName(e.target.value)}
             />
           </div>
         </div>

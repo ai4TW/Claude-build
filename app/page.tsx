@@ -16,40 +16,51 @@ const DEMO_PHONE = process.env.NEXT_PUBLIC_DEMO_PHONE || "(888) 555-0100";
 const DEMO_PHONE_HREF = process.env.NEXT_PUBLIC_DEMO_PHONE_HREF || "tel:+18885550100";
 
 const stats = [
-  { value: "500+", label: "Active Agents" },
-  { value: "2.4M", label: "Calls Handled" },
+  { value: "1,200+", label: "Businesses Live" },
+  { value: "4.8M", label: "Calls Handled" },
   { value: "99.9%", label: "Answer Rate" },
-  { value: "$47K", label: "Avg Annual Value" },
+  { value: "24/7", label: "Always On" },
+];
+
+const INDUSTRIES_SERVED = [
+  { icon: "🏠", label: "Real Estate" },
+  { icon: "⚖️", label: "Legal" },
+  { icon: "🏥", label: "Medical" },
+  { icon: "🔧", label: "Home Services" },
+  { icon: "📈", label: "Financial" },
+  { icon: "✂️", label: "Salon & Spa" },
+  { icon: "🚗", label: "Auto" },
+  { icon: "🍽️", label: "Restaurant" },
 ];
 
 const steps = [
-  { num: "01", title: "5-Minute Setup", desc: "Tell us your name, brokerage, and how you work. We configure your AI receptionist and get it live on your number.", icon: "⚡" },
-  { num: "02", title: "AI Answers Every Call", desc: "Your AI picks up in your name, qualifies buyers and sellers with the right questions, and captures every lead — 24/7.", icon: "🎙️" },
-  { num: "03", title: "You Close the Deal", desc: "Get a real-time transcript and lead summary. Walk into every callback already knowing exactly who you're talking to.", icon: "🏆" },
+  { num: "01", title: "5-Minute Setup", desc: "Tell us your business name, industry, and how you like to work. We configure your AI and get it live on your number.", icon: "⚡" },
+  { num: "02", title: "AI Answers Every Call", desc: "Your AI picks up in your name, asks the right questions for your industry, and captures every caller's info — 24/7.", icon: "🎙️" },
+  { num: "03", title: "You Focus on the Work", desc: "Get a real-time transcript and caller summary. Walk into every callback already knowing exactly who you're talking to.", icon: "🏆" },
 ];
 
 const features = [
-  { icon: "🎙️", title: "Answers in Your Name", desc: '"Hi, this is Sarah with Keller Williams" — callers think they reached you directly.' },
-  { icon: "🎯", title: "Lead Qualification", desc: "Asks the right questions: timeline, budget, pre-approved, motivation. Delivers a full lead profile instantly." },
-  { icon: "💬", title: "SMS Follow-Up", desc: "Automatically texts leads after the call with your contact info and next steps. Keeps them warm while you're busy." },
-  { icon: "🌙", title: "After-Hours Coverage", desc: "3 AM call about a listing? Handled. Saturday open house inquiry? Handled. Every call, every time." },
-  { icon: "📋", title: "Live Call Transcripts", desc: "Get the full conversation and AI summary via text or email within seconds of the call ending." },
-  { icon: "✏️", title: "Custom Scripts", desc: "Set exactly how you want to be introduced, what questions to ask, and how to handle objections." },
+  { icon: "🎙️", title: "Answers in Your Name", desc: "Callers hear your business name and your AI assistant — not a generic bot. Sounds like your team from the first word." },
+  { icon: "🎯", title: "Industry-Specific Qualification", desc: "The right questions for your business: law firms ask about case type, medical offices ask about insurance, realtors ask about timeline." },
+  { icon: "💬", title: "SMS Follow-Up", desc: "Automatically texts every caller with your contact info and next steps within seconds of the call ending." },
+  { icon: "🌙", title: "After-Hours Coverage", desc: "3 AM emergency call? Saturday inquiry? Weekend booking? Every call handled, every time — no voicemail, no missed opportunities." },
+  { icon: "📋", title: "Live Call Transcripts", desc: "Full conversation + AI summary sent to you the moment the call ends. Know everything before you call back." },
+  { icon: "✏️", title: "Fully Custom Scripts", desc: "Set your greeting, what to ask, how to handle objections, and what to always mention. Your AI, your rules." },
 ];
 
 const testimonials = [
-  { quote: "I was losing deals because I couldn't answer calls during showings. All The Calls fixed that overnight. I closed an extra $380K deal last month from a lead that called at 11 PM.", name: "Marcus T.", role: "RE/MAX Agent", location: "Dallas, TX", initials: "MT" },
-  { quote: "My AI receptionist sounds so natural that clients think they talked to me directly. The transcripts are incredibly detailed — I know exactly what the client wants before I ever call back.", name: "Jennifer L.", role: "Coldwell Banker", location: "Miami, FL", initials: "JL" },
-  { quote: "I run a team of 4 agents and it's like having a full-time receptionist for less than I spend on coffee. Every lead gets captured, every call gets handled professionally.", name: "David R.", role: "Century 21", location: "Phoenix, AZ", initials: "DR" },
+  { quote: "I was losing clients because I couldn't answer calls during consultations. All The Calls fixed that overnight. A new client called at 9 PM on a Friday — the AI booked the consult and I signed them the next week.", name: "Rachel M.", role: "Family Law Attorney", location: "Austin, TX", initials: "RM" },
+  { quote: "My AI receptionist sounds so natural that patients think they talked to my front desk. The transcripts are incredibly detailed — I know exactly what the patient needs before I even walk in.", name: "Dr. James K.", role: "Family Practice", location: "Denver, CO", initials: "JK" },
+  { quote: "I run a 6-person HVAC company and it's like having a full-time dispatcher for less than I was spending on missed-call callbacks. Every lead is captured, every call gets handled professionally.", name: "Derek S.", role: "HVAC & Plumbing", location: "Phoenix, AZ", initials: "DS" },
 ];
 
 const faqs = [
-  { q: "Does it really sound like me?", a: "Yes. You provide your name, brokerage, and preferred greeting. The AI introduces itself exactly as you specify — callers hear your name and brokerage, not a generic bot. Most clients never realize they didn't speak to you directly." },
+  { q: "Does it work for any type of business?", a: "Yes. We support real estate, legal, medical, dental, home services, financial advisory, salons, auto dealerships, restaurants, and more. When you set up your AI, you pick your industry and it trains itself with the right scripts and qualification questions for your business." },
+  { q: "Does it really sound like my business?", a: "Yes. You provide your name, business name, and preferred greeting style. The AI introduces itself exactly as you specify — callers hear your business name, not a generic bot. Most callers never realize they didn't speak to a real person." },
   { q: "What happens when I want to take a call myself?", a: "Simply don't forward your calls during the hours you want to handle them personally. You control when All The Calls is active — turn it on for after-hours, weekends, or whenever you're unavailable." },
-  { q: "Will it work with my current phone number?", a: "Yes. We provision a new number that forwards from your existing line. Your clients always call your same number — nothing changes on their end." },
-  { q: "How does the lead capture work?", a: "Your AI asks the right qualification questions on every call — buyer or seller, timeline, budget, pre-approval status, and motivation. You get a full summary and transcript within seconds of the call ending." },
-  { q: "What happens after the 14-day trial?", a: "You'll be charged for the plan you selected. No surprises — you can cancel anytime before the trial ends with no charge. We'll remind you 3 days before billing starts." },
-  { q: "Can I hear it before I sign up?", a: `Absolutely. Call ${DEMO_PHONE} right now and experience a live AllTheCalls AI. Takes 60 seconds. That's exactly what your leads will hear — with your name and brokerage.` },
+  { q: "Will it work with my current phone number?", a: "Yes. We assign you a dedicated number that your existing line forwards to. Your clients always call your same number — nothing changes on their end." },
+  { q: "What happens after the 14-day trial?", a: "You'll be charged for the plan you selected. No surprises — cancel anytime before the trial ends with no charge. We'll remind you 3 days before billing starts." },
+  { q: "Can I hear it before I sign up?", a: `Absolutely. Call ${DEMO_PHONE} right now and hear a live AllTheCalls AI in action. Takes 60 seconds. That's exactly what your callers will experience.` },
 ];
 
 function useScrollFadeIn() {
@@ -151,15 +162,24 @@ export default function Home() {
           <div style={{ maxWidth: "640px" }}>
             <div style={{ display: "inline-flex", alignItems: "center", gap: "8px", padding: "8px 16px", borderRadius: "999px", fontSize: "12px", fontWeight: 600, marginBottom: "32px", border: "1px solid rgba(124,58,237,0.3)", background: "rgba(124,58,237,0.1)", color: "#c4b5fd" }}>
               <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#4ade80" }} />
-              AI Receptionist — Built for Real Estate
+              AI Receptionist — For Any Business
             </div>
             <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(2.5rem, 6vw, 4.5rem)", fontWeight: 700, color: "white", marginBottom: "24px", lineHeight: 1.05, letterSpacing: "-0.03em" }}>
-              Never Miss a Lead{" "}
+              Never Miss a Call{" "}
               <span className="gradient-text">Again.</span>
             </h1>
-            <p style={{ fontSize: "clamp(1rem, 2vw, 1.2rem)", color: "rgba(255,255,255,0.6)", marginBottom: "40px", lineHeight: 1.7, maxWidth: "520px" }}>
-              Your AI receptionist answers every call in your name, qualifies leads, and sends SMS follow-ups — 24/7, even when you&apos;re showing homes.
+            <p style={{ fontSize: "clamp(1rem, 2vw, 1.2rem)", color: "rgba(255,255,255,0.6)", marginBottom: "32px", lineHeight: 1.7, maxWidth: "520px" }}>
+              Your AI receptionist answers every call in your name, qualifies every caller, and sends SMS follow-ups — 24/7. Works for any business. Live in 5 minutes.
             </p>
+
+            {/* Industries row */}
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", marginBottom: "32px" }}>
+              {INDUSTRIES_SERVED.map((ind) => (
+                <div key={ind.label} style={{ display: "flex", alignItems: "center", gap: "6px", padding: "5px 12px", borderRadius: "999px", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)", fontSize: "12px", color: "rgba(255,255,255,0.5)" }}>
+                  <span>{ind.icon}</span> {ind.label}
+                </div>
+              ))}
+            </div>
 
             {/* Live call demo card */}
             <div className="glass-card" style={{ borderRadius: "16px", padding: "16px", marginBottom: "32px", maxWidth: "360px" }}>
@@ -169,7 +189,7 @@ export default function Home() {
                 <span style={{ marginLeft: "auto", fontSize: "12px", color: "rgba(255,255,255,0.3)" }}>AI Receptionist</span>
               </div>
               <WaveformBars />
-              <p style={{ fontSize: "12px", color: "rgba(255,255,255,0.4)", marginTop: "8px", fontStyle: "italic" }}>&ldquo;Hi, this is Sarah with Keller Williams...&rdquo;</p>
+              <p style={{ fontSize: "12px", color: "rgba(255,255,255,0.4)", marginTop: "8px", fontStyle: "italic" }}>&ldquo;Thank you for calling — I&apos;m their assistant, how can I help you?&rdquo;</p>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 mb-6">
@@ -383,7 +403,7 @@ export default function Home() {
               <div style={{ marginBottom: "16px" }}>
                 <img src="/logo.svg" alt="AllTheCalls.ai" style={{ height: "32px", width: "auto" }} />
               </div>
-              <p style={{ color: "rgba(255,255,255,0.4)", fontSize: "14px", lineHeight: 1.7, maxWidth: "280px" }}>The AI voice receptionist built for real estate agents who refuse to miss a lead.</p>
+              <p style={{ color: "rgba(255,255,255,0.4)", fontSize: "14px", lineHeight: 1.7, maxWidth: "280px" }}>The AI voice receptionist for any business that can&apos;t afford to miss a call.</p>
               <p style={{ color: "rgba(255,255,255,0.2)", fontSize: "12px", marginTop: "16px" }}>Secured by Stripe · 256-bit SSL</p>
             </div>
             <div>
