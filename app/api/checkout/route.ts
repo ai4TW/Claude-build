@@ -46,7 +46,7 @@ export async function POST(request: NextRequest) {
 
   if (!plan || !(plan in PLANS)) {
     return NextResponse.json(
-      { error: "Invalid plan. Choose starter, pro, or team." },
+      { error: "Invalid plan. Choose starter, pro, or elite." },
       { status: 400 }
     );
   }

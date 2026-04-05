@@ -1,96 +1,111 @@
 "use client";
 
-/**
- * PricingSection — Dark Premium Design
- * Matches Midnight Intelligence theme: #08090f + violet/cyan gradients
- * Mobile: horizontal snap-scroll carousel (Pro shown first)
- * Desktop: 3-column grid
- *
- * Pricing rationale:
- *   Solo  $199 — 300 calls/mo, 1 persona → entry point, still 50%+ below human answering services
- *   Pro   $349 — unlimited calls, knowledge base, all voices → workhorse tier, most revenue
- *   Agency $599 — 3 personas × unlimited → real estate teams, law firms, multi-provider practices
- */
-
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
-// Mobile order: Pro first so users see the recommended plan immediately
 const plans = [
+  {
+    id: "starter",
+    name: "Starter",
+    price: 349,
+    desc: "One AI receptionist. Never miss a call.",
+    popular: false,
+    badge: null,
+    cta: "Start Free Trial",
+    features: [
+      { text: "1 AI receptionist in your name", highlight: false },
+      { text: "300 calls / month", highlight: false },
+      { text: "24/7 availability — every call answered", highlight: true },
+      { text: "Industry-specific lead qualification", highlight: false },
+      { text: "SMS follow-up after every call", highlight: false },
+      { text: "Full call transcripts & summaries", highlight: false },
+      { text: "5 AI voice options", highlight: false },
+      { text: "5-minute setup", highlight: false },
+      { text: "14-day free trial · cancel anytime", highlight: false },
+    ],
+  },
   {
     id: "pro",
     name: "Pro",
-    price: "$349",
-    period: "/mo",
-    badge: null,
-    desc: "One AI that handles everything, unlimited",
+    price: 497,
+    desc: "The complete system. Built to convert.",
     popular: true,
+    badge: "MOST POPULAR",
+    cta: "Start Free Trial",
+    features: [
+      { text: "1 AI receptionist in your name", highlight: false },
+      { text: "Unlimited calls — no cap, ever", highlight: true },
+      { text: "24/7 availability", highlight: false },
+      { text: "Advanced industry-specific qualification", highlight: false },
+      { text: "Automated SMS follow-up after every call", highlight: true },
+      { text: "3-touch follow-up sequence over 48 hours", highlight: true },
+      { text: "Full call transcripts & AI summaries", highlight: false },
+      { text: "Full premium voice library", highlight: false },
+      { text: "Custom knowledge base — your services, pricing & FAQs", highlight: true },
+      { text: "Weekly performance report every Monday", highlight: true },
+      { text: "Priority support", highlight: false },
+      { text: "14-day free trial · cancel anytime", highlight: false },
+    ],
   },
   {
-    id: "starter",
-    name: "Solo",
-    price: "$199",
-    period: "/mo",
-    badge: null,
-    desc: "One AI receptionist for your business",
+    id: "elite",
+    name: "Elite",
+    price: 1497,
+    desc: "The full operation. Zero leads lost.",
     popular: false,
-  },
-  {
-    id: "team",
-    name: "Agency",
-    price: "$599",
-    period: "/mo",
-    badge: "BEST VALUE",
-    desc: "Three AI receptionists — one per team member",
-    popular: false,
+    badge: "FULL SYSTEM",
+    cta: "Get Started",
+    features: [
+      { text: "5 AI receptionists — unique names, voices & scripts", highlight: true },
+      { text: "Unlimited calls across all 5 lines", highlight: true },
+      { text: "24/7 availability on every line", highlight: false },
+      { text: "Automated 3-touch SMS follow-up per line", highlight: true },
+      { text: "Calendar booking integration — AI books directly into Calendly or Acuity", highlight: true },
+      { text: "CRM integration — every call auto-logged with full notes", highlight: true },
+      { text: "Custom knowledge base built by our team", highlight: true },
+      { text: "Weekly performance reports across all lines", highlight: false },
+      { text: "White-glove setup — our team configures everything live", highlight: true },
+      { text: "Monthly 30-min strategy & optimization call", highlight: true },
+      { text: "Dedicated priority support channel", highlight: false },
+      { text: "14-day free trial · cancel anytime", highlight: false },
+    ],
   },
 ];
 
-const planFeatures: Record<string, { text: string; highlight?: boolean }[]> = {
-  starter: [
-    { text: "1 AI receptionist in your name" },
-    { text: "300 calls / month" },
-    { text: "24/7 availability — never miss a call", highlight: true },
-    { text: "Industry-specific lead qualification" },
-    { text: "SMS follow-up after every call" },
-    { text: "Full call transcripts & summaries" },
-    { text: "5 AI voice options" },
-    { text: "5-minute setup" },
-    { text: "Cancel anytime" },
-  ],
-  pro: [
-    { text: "1 AI receptionist in your name" },
-    { text: "Unlimited calls — no overage fees", highlight: true },
-    { text: "24/7 availability" },
-    { text: "Advanced lead qualification scripts" },
-    { text: "SMS follow-up after every call" },
-    { text: "Full call transcripts & summaries" },
-    { text: "Full premium voice library", highlight: true },
-    { text: "Custom knowledge base (FAQs, services, pricing)", highlight: true },
-    { text: "Priority support" },
-    { text: "Cancel anytime" },
-  ],
-  team: [
-    { text: "3 AI receptionists — unique name, voice & script each", highlight: true },
-    { text: "Unlimited calls across all 3 lines", highlight: true },
-    { text: "24/7 availability on every line" },
-    { text: "Advanced lead qualification per persona" },
-    { text: "SMS follow-up per line" },
-    { text: "Full call transcripts & summaries" },
-    { text: "Full premium voice library" },
-    { text: "Custom knowledge base per persona" },
-    { text: "Dedicated onboarding call" },
-    { text: "Quarterly script review" },
-    { text: "Priority support" },
-    { text: "Cancel anytime" },
-  ],
-};
+const comparisonRows = [
+  { label: "AI receptionists",            starter: "1",           pro: "1",           elite: "5" },
+  { label: "Monthly calls",               starter: "300",         pro: "Unlimited",   elite: "Unlimited" },
+  { label: "24/7 availability",           starter: true,          pro: true,          elite: true },
+  { label: "SMS follow-up after calls",   starter: true,          pro: true,          elite: true },
+  { label: "3-touch follow-up sequence",  starter: false,         pro: true,          elite: true },
+  { label: "Call transcripts",            starter: true,          pro: true,          elite: true },
+  { label: "Custom knowledge base",       starter: false,         pro: true,          elite: true },
+  { label: "Premium voice library",       starter: false,         pro: true,          elite: true },
+  { label: "Weekly performance report",   starter: false,         pro: true,          elite: true },
+  { label: "Calendar booking (Calendly)", starter: false,         pro: false,         elite: true },
+  { label: "CRM auto-logging",            starter: false,         pro: false,         elite: true },
+  { label: "White-glove setup",           starter: false,         pro: false,         elite: true },
+  { label: "Monthly strategy call",       starter: false,         pro: false,         elite: true },
+  { label: "Priority support",            starter: false,         pro: true,          elite: true },
+];
 
-// Internal plan ID → display name mapping
-const DISPLAY_NAMES: Record<string, string> = {
-  starter: "Solo",
-  pro: "Pro",
-  team: "Agency",
-};
+function CheckIcon({ color }: { color: string }) {
+  return (
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ flexShrink: 0 }}>
+      <circle cx="8" cy="8" r="8" fill={color} fillOpacity="0.15" />
+      <path d="M5 8l2 2 4-4" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function XIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ flexShrink: 0 }}>
+      <circle cx="8" cy="8" r="8" fill="rgba(255,255,255,0.05)" />
+      <path d="M5.5 10.5l5-5M10.5 10.5l-5-5" stroke="rgba(255,255,255,0.2)" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  );
+}
 
 function PlanCard({
   plan,
@@ -100,9 +115,9 @@ function PlanCard({
   compact?: boolean;
 }) {
   const router = useRouter();
-  const features = planFeatures[plan.id];
-  const pad = compact ? "28px 24px" : "32px";
-  const priceSize = compact ? "2.75rem" : "3.5rem";
+  const pad = compact ? "28px 24px" : "36px 32px";
+  const priceSize = compact ? "2.5rem" : "3.25rem";
+  const isElite = plan.id === "elite";
 
   return (
     <div
@@ -115,25 +130,27 @@ function PlanCard({
         flexDirection: "column",
         background: plan.popular
           ? "rgba(124,58,237,0.12)"
-          : plan.badge
+          : isElite
           ? "rgba(6,182,212,0.06)"
           : "rgba(255,255,255,0.03)",
         border: `1px solid ${
           plan.popular
-            ? "rgba(124,58,237,0.5)"
-            : plan.badge
+            ? "rgba(124,58,237,0.6)"
+            : isElite
             ? "rgba(6,182,212,0.3)"
             : "rgba(255,255,255,0.08)"
         }`,
         backdropFilter: "blur(20px)",
         WebkitBackdropFilter: "blur(20px)",
         boxShadow: plan.popular
-          ? "0 0 40px rgba(124,58,237,0.2), 0 0 80px rgba(6,182,212,0.05)"
+          ? "0 0 60px rgba(124,58,237,0.18), 0 0 120px rgba(6,182,212,0.05)"
+          : isElite
+          ? "0 0 40px rgba(6,182,212,0.08)"
           : "none",
       }}
     >
       {/* Badge */}
-      {(plan.popular || plan.badge) && (
+      {plan.badge && (
         <div
           style={{
             position: "absolute",
@@ -146,13 +163,13 @@ function PlanCard({
             color: "white",
             fontSize: "11px",
             fontWeight: 700,
-            padding: "6px 16px",
+            padding: "6px 18px",
             borderRadius: "999px",
             letterSpacing: "0.08em",
             whiteSpace: "nowrap",
           }}
         >
-          {plan.popular ? "MOST POPULAR" : plan.badge}
+          {plan.badge}
         </div>
       )}
 
@@ -166,14 +183,14 @@ function PlanCard({
           marginBottom: "4px",
         }}
       >
-        {DISPLAY_NAMES[plan.id]}
+        {plan.name}
       </h3>
-      <p style={{ color: "rgba(255,255,255,0.45)", fontSize: "13px", marginBottom: "20px", lineHeight: 1.4 }}>
+      <p style={{ color: "rgba(255,255,255,0.45)", fontSize: "13px", marginBottom: "24px", lineHeight: 1.4 }}>
         {plan.desc}
       </p>
 
       {/* Price */}
-      <div style={{ display: "flex", alignItems: "baseline", gap: "4px", marginBottom: "6px" }}>
+      <div style={{ display: "flex", alignItems: "baseline", gap: "4px", marginBottom: "4px" }}>
         <span
           style={{
             fontFamily: "'Space Grotesk', sans-serif",
@@ -186,17 +203,17 @@ function PlanCard({
             lineHeight: 1,
           }}
         >
-          {plan.price}
+          ${plan.price.toLocaleString()}
         </span>
-        <span style={{ color: "rgba(255,255,255,0.4)", fontSize: "15px" }}>{plan.period}</span>
+        <span style={{ color: "rgba(255,255,255,0.4)", fontSize: "15px" }}>/mo</span>
       </div>
-      <p style={{ color: "rgba(255,255,255,0.25)", fontSize: "11px", marginBottom: "24px" }}>
+      <p style={{ color: "rgba(255,255,255,0.25)", fontSize: "11px", marginBottom: "28px" }}>
         14-day free trial · no credit card required
       </p>
 
       {/* Features */}
-      <ul style={{ listStyle: "none", padding: 0, margin: "0 0 24px", display: "flex", flexDirection: "column", gap: "9px", flex: 1 }}>
-        {features.map((f) => (
+      <ul style={{ listStyle: "none", padding: 0, margin: "0 0 28px", display: "flex", flexDirection: "column", gap: "10px", flex: 1 }}>
+        {plan.features.map((f) => (
           <li
             key={f.text}
             style={{
@@ -204,21 +221,11 @@ function PlanCard({
               alignItems: "flex-start",
               gap: "10px",
               fontSize: "13px",
-              color: f.highlight ? "rgba(255,255,255,0.85)" : "rgba(255,255,255,0.55)",
+              color: f.highlight ? "rgba(255,255,255,0.85)" : "rgba(255,255,255,0.5)",
               fontWeight: f.highlight ? 500 : 400,
             }}
           >
-            <span
-              style={{
-                color: plan.popular ? "#a78bfa" : plan.badge ? "#22d3ee" : "#22d3ee",
-                fontWeight: 700,
-                fontSize: "14px",
-                flexShrink: 0,
-                marginTop: "1px",
-              }}
-            >
-              ✓
-            </span>
+            <CheckIcon color={plan.popular ? "#a78bfa" : "#22d3ee"} />
             {f.text}
           </li>
         ))}
@@ -238,21 +245,32 @@ function PlanCard({
           border: plan.popular ? "none" : "1px solid rgba(255,255,255,0.15)",
           background: plan.popular
             ? "linear-gradient(135deg, #7c3aed, #06b6d4)"
-            : plan.badge
+            : isElite
             ? "rgba(6,182,212,0.12)"
             : "rgba(255,255,255,0.05)",
           boxShadow: plan.popular ? "0 0 30px rgba(124,58,237,0.4)" : "none",
           fontFamily: "'DM Sans', sans-serif",
           marginTop: "auto",
+          transition: "transform 0.15s ease, box-shadow 0.15s ease",
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.transform = "scale(1.02)";
+          if (plan.popular) e.currentTarget.style.boxShadow = "0 0 40px rgba(124,58,237,0.55)";
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.transform = "scale(1)";
+          if (plan.popular) e.currentTarget.style.boxShadow = "0 0 30px rgba(124,58,237,0.4)";
         }}
       >
-        Start Free Trial →
+        {plan.cta} →
       </button>
     </div>
   );
 }
 
 export default function PricingSection() {
+  const [tab, setTab] = useState<"starter" | "pro" | "elite">("pro");
+
   return (
     <section
       id="pricing"
@@ -263,20 +281,34 @@ export default function PricingSection() {
         borderBottom: "1px solid rgba(255,255,255,0.05)",
       }}
     >
-      <div style={{ maxWidth: "1024px", margin: "0 auto" }}>
+      <div style={{ maxWidth: "1160px", margin: "0 auto" }}>
 
         {/* Header */}
         <div className="fade-in" style={{ textAlign: "center", marginBottom: "48px", padding: "0 1rem" }}>
-          <p
-            style={{
-              color: "#a78bfa",
-              fontSize: "13px",
-              fontWeight: 600,
-              textTransform: "uppercase",
-              letterSpacing: "0.1em",
-              marginBottom: "12px",
-            }}
-          >
+          <div style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "8px",
+            padding: "6px 16px",
+            borderRadius: "999px",
+            border: "1px solid rgba(167,139,250,0.3)",
+            background: "rgba(124,58,237,0.08)",
+            marginBottom: "24px",
+          }}>
+            <span style={{ fontSize: "14px" }}>⭐</span>
+            <span style={{ color: "#a78bfa", fontSize: "13px", fontWeight: 600 }}>
+              Trusted by 1,200+ businesses
+            </span>
+          </div>
+
+          <p style={{
+            color: "#a78bfa",
+            fontSize: "13px",
+            fontWeight: 600,
+            textTransform: "uppercase",
+            letterSpacing: "0.1em",
+            marginBottom: "12px",
+          }}>
             Pricing
           </p>
           <h2
@@ -292,71 +324,172 @@ export default function PricingSection() {
             <span className="gradient-text">missed opportunity.</span>
           </h2>
           <p style={{ color: "rgba(255,255,255,0.5)", fontSize: "clamp(15px, 2.5vw, 18px)", marginBottom: "8px" }}>
-            A human answering service costs $400–$1,200/mo. Your AI works 24/7 for a fraction of that.
+            A human answering service costs $400–$1,200/mo with sick days and turnover.
           </p>
-          <p style={{ color: "#a78bfa", fontWeight: 600, fontSize: "15px" }}>
-            14-day free trial · No credit card required · Cancel anytime
+          <p style={{ color: "rgba(255,255,255,0.35)", fontSize: "14px" }}>
+            Your AI works 24/7. No scheduling. No mistakes. One missed client covers months of service.
           </p>
         </div>
 
-        {/* ── Mobile: snap-scroll carousel ── */}
-        <div
-          className="flex md:hidden"
-          style={{
-            overflowX: "auto",
-            overflowY: "visible",
-            scrollSnapType: "x mandatory",
-            WebkitOverflowScrolling: "touch",
-            gap: "16px",
-            paddingLeft: "1rem",
-            paddingRight: "1rem",
-            paddingBottom: "8px",
-            paddingTop: "24px",
-            scrollbarWidth: "none",
-          }}
-        >
-          {plans.map((plan) => (
-            <div
-              key={`mob-${plan.id}`}
-              style={{
-                flexShrink: 0,
-                width: "calc(100vw - 2.5rem)",
-                maxWidth: "360px",
-                scrollSnapAlign: "center",
-              }}
-            >
-              <PlanCard plan={plan} compact />
-            </div>
-          ))}
-          <div style={{ flexShrink: 0, width: "1px" }} />
+        {/* Mobile: tab switcher + single card */}
+        <div className="flex md:hidden flex-col items-center" style={{ padding: "0 1rem", marginBottom: "32px" }}>
+          <div style={{
+            display: "flex",
+            background: "rgba(255,255,255,0.05)",
+            border: "1px solid rgba(255,255,255,0.08)",
+            borderRadius: "999px",
+            padding: "4px",
+            marginBottom: "24px",
+            gap: "4px",
+          }}>
+            {plans.map((p) => (
+              <button
+                key={p.id}
+                onClick={() => setTab(p.id as typeof tab)}
+                style={{
+                  padding: "8px 16px",
+                  borderRadius: "999px",
+                  border: "none",
+                  cursor: "pointer",
+                  fontWeight: 600,
+                  fontSize: "13px",
+                  fontFamily: "'DM Sans', sans-serif",
+                  background: tab === p.id
+                    ? p.popular ? "linear-gradient(135deg, #7c3aed, #06b6d4)" : "rgba(255,255,255,0.12)"
+                    : "transparent",
+                  color: tab === p.id ? "white" : "rgba(255,255,255,0.4)",
+                  transition: "all 0.2s ease",
+                }}
+              >
+                {p.name}
+              </button>
+            ))}
+          </div>
+          <div style={{ width: "100%", maxWidth: "400px", paddingTop: "16px" }}>
+            <PlanCard plan={plans.find((p) => p.id === tab)!} compact />
+          </div>
         </div>
 
-        <p className="md:hidden" style={{ textAlign: "center", fontSize: "12px", color: "rgba(255,255,255,0.25)", marginTop: "12px" }}>
-          ← Swipe to compare plans →
-        </p>
-
-        {/* ── Desktop: 3-column grid (Starter | Pro | Agency order) ── */}
+        {/* Desktop: 3-column */}
         <div
-          className="hidden md:grid md:grid-cols-3 gap-6 mb-12"
+          className="hidden md:grid md:grid-cols-3 gap-6 mb-8"
           style={{ padding: "24px 1rem 0" }}
         >
-          {/* Desktop order: Solo | Pro | Agency */}
-          {[plans[1], plans[0], plans[2]].map((plan) => (
-            <PlanCard key={`desk-${plan.id}`} plan={plan} />
+          {plans.map((plan) => (
+            <PlanCard key={plan.id} plan={plan} />
           ))}
         </div>
 
-        {/* Agency upsell nudge */}
+        {/* Custom nudge */}
         <p
           className="hidden md:block"
-          style={{ textAlign: "center", fontSize: "13px", color: "rgba(255,255,255,0.3)", marginBottom: "32px" }}
+          style={{ textAlign: "center", fontSize: "13px", color: "rgba(255,255,255,0.3)", marginBottom: "48px" }}
         >
-          Need more than 3 lines?{" "}
+          Need more than 5 lines?{" "}
           <a href="mailto:hello@allthecalls.ai" style={{ color: "#a78bfa", textDecoration: "none" }}>
             Contact us
           </a>{" "}
-          — we build custom setups for larger teams.
+          — custom setups available for larger teams.
         </p>
+
+        {/* Guarantee bar */}
+        <div
+          className="fade-in"
+          style={{
+            margin: "0 1rem 48px",
+            padding: "24px 32px",
+            borderRadius: "16px",
+            background: "rgba(34,197,94,0.06)",
+            border: "1px solid rgba(34,197,94,0.2)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "16px",
+            flexWrap: "wrap",
+            textAlign: "center",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+            <div style={{
+              width: "40px",
+              height: "40px",
+              borderRadius: "50%",
+              background: "rgba(34,197,94,0.15)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              fontSize: "20px",
+              flexShrink: 0,
+            }}>
+              ✓
+            </div>
+            <div style={{ textAlign: "left" }}>
+              <p style={{ color: "rgba(255,255,255,0.9)", fontWeight: 700, fontSize: "15px", marginBottom: "2px" }}>
+                14-day free trial · No credit card required
+              </p>
+              <p style={{ color: "rgba(255,255,255,0.4)", fontSize: "13px" }}>
+                Set up your AI, test it live, and only pay when you&apos;re confident it works for your business.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Comparison table — desktop only */}
+        <div className="hidden md:block fade-in" style={{ margin: "0 1rem 48px", borderRadius: "16px", overflow: "hidden", border: "1px solid rgba(255,255,255,0.08)" }}>
+          <table style={{ width: "100%", borderCollapse: "collapse" }}>
+            <thead>
+              <tr style={{ background: "rgba(255,255,255,0.03)", borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
+                <th style={{ padding: "20px 24px", textAlign: "left", color: "rgba(255,255,255,0.5)", fontSize: "13px", fontWeight: 600, width: "40%" }}>
+                  Feature
+                </th>
+                <th style={{ padding: "20px 16px", textAlign: "center", color: "rgba(255,255,255,0.7)", fontSize: "13px", fontWeight: 700 }}>
+                  Starter<br /><span style={{ color: "rgba(255,255,255,0.4)", fontWeight: 400 }}>$349/mo</span>
+                </th>
+                <th style={{ padding: "20px 16px", textAlign: "center", fontSize: "13px", fontWeight: 700, background: "rgba(124,58,237,0.08)" }}>
+                  <span style={{ color: "transparent", background: "linear-gradient(135deg, #a78bfa, #22d3ee)", WebkitBackgroundClip: "text", backgroundClip: "text" }}>Pro ⭐</span>
+                  <br /><span style={{ color: "rgba(167,139,250,0.6)", fontWeight: 400 }}>$497/mo</span>
+                </th>
+                <th style={{ padding: "20px 16px", textAlign: "center", color: "rgba(255,255,255,0.7)", fontSize: "13px", fontWeight: 700 }}>
+                  Elite<br /><span style={{ color: "rgba(255,255,255,0.4)", fontWeight: 400 }}>$1,497/mo</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {comparisonRows.map((row, i) => (
+                <tr
+                  key={row.label}
+                  style={{
+                    borderBottom: i < comparisonRows.length - 1 ? "1px solid rgba(255,255,255,0.05)" : "none",
+                    background: i % 2 === 0 ? "rgba(255,255,255,0.01)" : "transparent",
+                  }}
+                >
+                  <td style={{ padding: "16px 24px", color: "rgba(255,255,255,0.6)", fontSize: "13px" }}>{row.label}</td>
+                  <td style={{ padding: "16px", textAlign: "center" }}>
+                    {typeof row.starter === "boolean" ? (
+                      row.starter ? <CheckIcon color="#22d3ee" /> : <XIcon />
+                    ) : (
+                      <span style={{ color: "rgba(255,255,255,0.7)", fontSize: "13px", fontWeight: 600 }}>{row.starter}</span>
+                    )}
+                  </td>
+                  <td style={{ padding: "16px", textAlign: "center", background: "rgba(124,58,237,0.05)" }}>
+                    {typeof row.pro === "boolean" ? (
+                      row.pro ? <CheckIcon color="#a78bfa" /> : <XIcon />
+                    ) : (
+                      <span style={{ color: "#a78bfa", fontSize: "13px", fontWeight: 700 }}>{row.pro}</span>
+                    )}
+                  </td>
+                  <td style={{ padding: "16px", textAlign: "center" }}>
+                    {typeof row.elite === "boolean" ? (
+                      row.elite ? <CheckIcon color="#22d3ee" /> : <XIcon />
+                    ) : (
+                      <span style={{ color: "rgba(255,255,255,0.7)", fontSize: "13px", fontWeight: 600 }}>{row.elite}</span>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
 
         {/* ROI note */}
         <div
@@ -371,8 +504,8 @@ export default function PricingSection() {
           }}
         >
           <p style={{ color: "rgba(255,255,255,0.4)", fontSize: "14px", lineHeight: 1.6 }}>
-            💡 One closed deal, one retained client, or one booked patient covers{" "}
-            <span style={{ color: "rgba(255,255,255,0.7)", fontWeight: 600 }}>months of All The Calls.</span>{" "}
+            💡 One closed deal, one retained client, or one booked appointment covers{" "}
+            <span style={{ color: "rgba(255,255,255,0.7)", fontWeight: 600 }}>months of AllTheCalls.</span>{" "}
             The question isn&apos;t whether you can afford it —{" "}
             <span style={{ color: "#a78bfa", fontWeight: 600 }}>it&apos;s whether you can afford to miss another call.</span>
           </p>

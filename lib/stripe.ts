@@ -8,22 +8,25 @@ export function getStripe() {
 
 export const PLANS = {
   starter: {
-    name: "Solo",
-    priceId: "price_1TIiDH42X4XVjhD9PWXt8WgM", // $199/mo — prod_UHGkw4yWSkErKd
-    displayPrice: "$199",
-    description: "One AI receptionist — 300 calls/month, 24/7",
+    name: "Starter",
+    priceId: "price_1TJ0XK42X4XVjhD9hcuRcsOf",
+    displayPrice: "$349",
+    monthlyAmount: 349,
+    description: "One AI receptionist for your business — 300 calls/month",
   },
   pro: {
     name: "Pro",
-    priceId: "price_1TIiDH42X4XVjhD91fGNwpWH", // $349/mo — prod_UHGkpDyZ0w5q0T
-    displayPrice: "$349",
-    description: "Unlimited calls + knowledge base + all voices",
+    priceId: "price_1TJ0XL42X4XVjhD9Tgxh49JJ",
+    displayPrice: "$497",
+    monthlyAmount: 497,
+    description: "Unlimited calls + automated follow-up + weekly reports",
   },
-  team: {
-    name: "Agency",
-    priceId: "price_1TIiDH42X4XVjhD94HvjsprJ", // $599/mo — prod_UHGk2ZLXjvrydp
-    displayPrice: "$599",
-    description: "3 AI receptionists — unique persona per team member",
+  elite: {
+    name: "Elite",
+    priceId: "price_1TJ0XL42X4XVjhD9JFl1eRob",
+    displayPrice: "$1,497",
+    monthlyAmount: 1497,
+    description: "The full system — 5 AI receptionists + calendar booking + CRM + white-glove setup",
   },
 } as const;
 
