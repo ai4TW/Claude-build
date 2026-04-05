@@ -53,7 +53,7 @@ export default function LoginPage() {
         {/* Logo */}
         <div style={{ textAlign: "center", marginBottom: "36px" }}>
           <Link href="/" style={{ display: "inline-flex", alignItems: "center", textDecoration: "none", marginBottom: "8px" }}>
-            <img src="/logo.svg" alt="AllTheCalls.ai" style={{ height: "40px", width: "auto" }} />
+            <img src="/logo.svg" alt="AllTheCalls.ai" style={{ height: "44px", width: "auto" }} />
           </Link>
           <p style={{ color: "rgba(255,255,255,0.35)", fontSize: "13px", marginTop: "4px" }}>Client Portal</p>
         </div>

@@ -38,9 +38,8 @@ export default async function CheckoutPage({ searchParams }: Props) {
       {/* Header */}
       <div style={{ borderBottom: "1px solid rgba(255,255,255,0.05)", background: "rgba(8,9,15,0.85)", backdropFilter: "blur(20px)", padding: "16px 1rem" }}>
         <div style={{ maxWidth: "768px", margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <Link href="/" style={{ display: "flex", alignItems: "center", gap: "8px", textDecoration: "none" }}>
-            <div style={{ width: "28px", height: "28px", borderRadius: "7px", background: "linear-gradient(135deg, #7c3aed, #06b6d4)", display: "flex", alignItems: "center", justifyContent: "center", color: "white", fontSize: "12px", fontWeight: "bold" }}>A</div>
-            <span style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, color: "white", fontSize: "16px" }}>AllTheCalls<span style={{ color: "#a78bfa" }}>.ai</span></span>
+          <Link href="/" style={{ display: "flex", alignItems: "center", textDecoration: "none" }}>
+            <img src="/logo.svg" alt="AllTheCalls.ai" style={{ height: "36px", width: "auto" }} />
           </Link>
           <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap", justifyContent: "flex-end" }}>
             <span style={{ fontWeight: 700, color: "white", fontSize: "14px" }}>{selectedPlan.name}</span>
