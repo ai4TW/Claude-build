@@ -198,7 +198,7 @@ export default function SetupWizard({ prefill, sessionId }: { prefill: Prefill |
       }
       // Mark password as self-chosen so the dashboard prompt doesn't show
       if (typeof window !== "undefined") localStorage.setItem("atc_pwd_set", "1");
-      router.push("/my");
+      router.push("/myagent");
     } catch {
       setError("Network error. Please try again.");
       setSubmitting(false);
