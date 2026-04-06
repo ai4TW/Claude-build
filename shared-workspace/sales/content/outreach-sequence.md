@@ -99,7 +99,7 @@ All The Calls fixes that. Not by adding more to your plate, but by handling the 
 
 One agent. Unlimited coverage.
 
-**[Start your free trial — no credit card required →]**
+**[Start your 14-day free trial →]**
 
 {{sender_name}}
 
@@ -175,7 +175,7 @@ Either way, thanks for your time. Good luck out there.
 {{sender_name}}
 All The Calls
 
-*P.S. — We offer a 14-day free trial. No credit card. No commitment. If it doesn't save you at least 3 hours in the first two weeks, it's not for you.*
+*P.S. — We offer a 14-day free trial. Cancel anytime before it ends and you won't be charged. If it doesn't capture leads you would have missed, it's not for you.*
 
 ---
 

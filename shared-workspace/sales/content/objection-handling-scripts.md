@@ -20,7 +20,7 @@ Read the intent. Use the script as a guide.
 ## OBJECTION 1: "It's too expensive."
 
 ### Variants heard as:
-- "I can't afford $149/month."
+- "I can't afford $349/month."
 - "That's a lot for a solo agent."
 - "I'm on a tight budget right now."
 
@@ -31,9 +31,9 @@ Read the intent. Use the script as a guide.
 >
 > The average commission in your market is around $9,000–$14,000. All The Calls at $149/month costs you less than 1% of one deal.
 >
-> The question isn't really 'can I afford $149?' — it's 'how many calls did I miss this month while I was in showings?' If it's even one, it paid for itself 6 times over.
+> The question isn't really 'can I afford $349?' — it's 'how many calls did I miss this month while I was in showings?' If it's even one, it paid for itself many times over.
 >
-> We also have a 14-day free trial. No credit card. You'd be literally risking nothing to find out."
+> We also have a 14-day free trial. You'd be risking nothing to find out."
 
 ---
 
@@ -51,9 +51,9 @@ Can I ask you a quick question? How many calls do you miss in a typical week —
 
 **[Wait for answer]**
 
-**You:** "So you're essentially asking whether $149/month is worth one qualified lead per month. And realistically, most agents capture 3 to 5 leads in their first 30 days that would have gone to voicemail.
+**You:** "So you're essentially asking whether $349/month is worth one qualified lead per month. And realistically, most agents capture 3 to 5 leads in their first 30 days that would have gone to voicemail.
 
-Here's what I'd suggest: try it free for 14 days. No credit card, no commitment. If you don't see leads coming through that you would have missed, you cancel — no hard feelings. But most agents don't cancel. They upgrade."
+Here's what I'd suggest: try it free for 14 days. If you don't see leads coming through that you would have missed, you cancel before the trial ends — no hard feelings. But most agents don't cancel. They upgrade."
 
 ---
 
@@ -65,13 +65,13 @@ Subject: Re: All The Calls — quick thought on price
 >
 > Fair point on price — I hear it often and it's worth addressing directly.
 >
-> At $149/month, here's the math that matters: the average buyer's agent commission in most markets is $8,000–$14,000. If All The Calls captures just one lead per month that you would have missed to voicemail, it pays for itself roughly 50–90x over.
+> At $349/month, here's the math that matters: the average buyer's agent commission in most markets is $8,000–$14,000. If All The Calls captures just one lead per month that you would have missed to voicemail, it pays for itself 20–40x over.
 >
 > The harder question is: how many calls do you currently miss each week while you're in a showing, at lunch, or just living your life?
 >
 > If the answer is more than zero, the math works in your favor.
 >
-> We offer a 14-day free trial with no credit card. Happy to set that up for you now if you want to see the numbers for yourself.
+> We offer a 14-day free trial. Happy to set that up for you now if you want to see the numbers for yourself.
 >
 > — {{sender_name}}
 
@@ -79,7 +79,7 @@ Subject: Re: All The Calls — quick thought on price
 
 ### Backup / If They're Still Resistant
 
-> "What I can do is start you on our Starter plan at $79/month — up to 100 calls/month. If you hit the limit, it's because you're capturing leads, and we can move you up then. But let's start small and let the results justify it."
+> "What I can do is start you on our Starter plan at $349/month. It covers everything a solo agent needs — unlimited calls, custom knowledge base, priority support. If you want the automated follow-up sequences and weekly reports, Pro at $497 adds that. But let's start where it makes sense for your volume."
 
 ---
 
@@ -169,7 +169,7 @@ Subject: Re: All The Calls — voicemail vs. AI receptionist
 
 **[Listen to what they say. Usually reveals the real objection — price, trust, timing, or complexity. Handle that.]**
 
-> "That's totally fair. Here's what I'd suggest: don't decide today. Start the 14-day free trial, run it alongside your current setup, and decide based on what you actually see. No credit card. No pressure. If it doesn't capture leads you would have missed, you just haven't lost anything."
+> "That's totally fair. Here's what I'd suggest: don't decide today. Start the 14-day free trial, run it alongside your current setup, and decide based on what you actually see. If it doesn't capture leads you would have missed, cancel before the trial ends — you won't be charged."
 
 ---
 
@@ -184,7 +184,7 @@ Before you go — can I ask what the main thing is you'd want to think through? 
 **[Listen carefully. Common real objections hiding here: budget approval from spouse/partner, already talking to a competitor, doesn't fully understand the product, timing is bad.]**
 
 **If they say "just need to look at my budget":**
-> "Got it. Well, the trial is free — no credit card — so budget isn't really a factor until the 14 days are up. Want to just start it today so you can see the numbers firsthand? You can always cancel before it charges."
+> "Got it. The trial is 14 days free — so budget isn't really a factor until then. Want to just start it today so you can see the numbers firsthand? You can always cancel before it charges."
 
 **If they say "just need to think it through":**
 > "Totally. One thing I've learned: agents who try it usually get a lead in the first few days that they would have missed. That makes the decision easier than any amount of thinking.
@@ -192,7 +192,7 @@ Before you go — can I ask what the main thing is you'd want to think through? 
 > What if we start the trial now and set a check-in call for next Thursday? By then you'll have real data to decide with — not just my pitch."
 
 **If they say "I'll reach out when I'm ready":**
-> "I hear you. Last question — and I'm asking because I want to be respectful of your time, not pester you: is there a specific concern I didn't address? Because 'let me think about it' sometimes means 'I'm not convinced yet,' and I'd rather know that now."
+> "I hear you. Last question — is there a specific concern I didn't address? Because 'let me think about it' sometimes means 'I'm not convinced yet,' and I'd rather know that now."
 
 ---
 
@@ -206,8 +206,8 @@ Subject: Re: All The Calls — before you decide
 >
 > One thing I've noticed: most agents who "think about it" are actually sitting on one of three questions:
 >
-> 1. **Will it actually work for me?** (The trial answers this — 14 days, free, no card required)
-> 2. **Is the price worth it?** (Worth re-reading the commission math — one extra lead/month = 50–90x ROI)
+> 1. **Will it actually work for me?** (The trial answers this — 14 days free, cancel anytime)
+> 2. **Is the price worth it?** (Worth re-reading the commission math — one extra lead/month covers months of the plan)
 > 3. **Is this the right time?** (There's never a perfect time; leads are being missed right now)
 >
 > If it's one of these, I'm happy to talk through it. If it's something else entirely, let me know and I'll address it directly.
@@ -252,9 +252,9 @@ Subject: Still thinking? (here's a shortcut)
 
 | Objection | Core Reframe | Bridge |
 |-----------|-------------|--------|
-| Too expensive | Commission math: $149 vs. one missed deal | Offer free trial, no card |
+| Too expensive | Commission math: $349 vs. one missed deal | Offer free trial, cancel anytime |
 | Already have voicemail | 80% hang up without leaving a message | Show what voicemail can't do |
-| I'll think about it | Surface the real objection | Free trial = decide from inside, not outside |
+| I'll think about it | Surface the real objection | 14-day trial = decide from inside, not outside |
 | I don't want AI talking to clients | Sounds like you, not AI; covers cold calls, not regulars | Route regulars to cell |
 | I'm too busy to set it up | 10 min setup; onboarding team does it for you | Offer live setup call |
 | I don't know if it will work in my market | Works nationwide; ask about their market so you can confirm | Share closest success story |
