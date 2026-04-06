@@ -19,7 +19,7 @@
 | Environment | URL |
 |-------------|-----|
 | Production | https://allthecalls.ai |
-| Vercel project | https://vercel.com/brayden-1155s-projects/allthecalls-ai |
+| Vercel project | https://vercel.com/allthecallsai/allthecalls-ai ← ALWAYS use this, never push to any other project |
 | GitHub repo | https://github.com/ai4TW/Claude-build |
 
 ---
