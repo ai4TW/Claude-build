@@ -510,6 +510,9 @@ function SettingsTab({ clientName, email, onPasswordChanged }: { clientName: str
   const [confirmPassword, setConfirmPassword] = useState("");
   const [pwdStatus, setPwdStatus]             = useState<"idle" | "saving" | "success" | "error">("idle");
   const [pwdError, setPwdError]               = useState("");
+  const [calendlyUrl, setCalendlyUrl]         = useState("");
+  const [crmUrl, setCrmUrl]                   = useState("");
+  const [integrationStatus, setIntegrationStatus] = useState<"idle" | "saving" | "success" | "error">("idle");
   const needsPwd = typeof window !== "undefined" && !localStorage.getItem("atc_pwd_set");
 
   async function logout() {
@@ -537,6 +540,17 @@ function SettingsTab({ clientName, email, onPasswordChanged }: { clientName: str
       setPwdStatus("error");
       setPwdError(data.error || "Something went wrong.");
     }
+  }
+
+  async function handleIntegrationSave(field: "calendly_url" | "crm_webhook_url", value: string) {
+    setIntegrationStatus("saving");
+    const res = await fetch("/api/client/profile", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ [field]: value }),
+    });
+    setIntegrationStatus(res.ok ? "success" : "error");
+    setTimeout(() => setIntegrationStatus("idle"), 2500);
   }
 
   async function handleEmailChange() {
@@ -647,28 +661,52 @@ function SettingsTab({ clientName, email, onPasswordChanged }: { clientName: str
           )}
         </div>
 
-        {/* Calendar */}
+        {/* Calendly */}
         <div style={{ ...s.card, padding: "16px" }}>
-          <div style={{ fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,0.3)", letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: 12 }}>Calendar Integration</div>
+          <div style={{ fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,0.3)", letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: 8 }}>Booking Link (Calendly)</div>
           <p style={{ fontSize: 13, color: "rgba(255,255,255,0.4)", marginBottom: 12, lineHeight: 1.5 }}>
-            Connect your calendar so your AI can check availability and book appointments in real time.
+            Your AI shares this link when callers ask to schedule — e.g. <span style={{ color: "rgba(255,255,255,0.6)" }}>calendly.com/yourname</span>
           </p>
-          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-            <button style={{ ...s.card, padding: "13px 16px", border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: 12, textAlign: "left" }}>
-              <span style={{ fontSize: 20 }}>📅</span>
-              <div>
-                <div style={{ fontSize: 14, fontWeight: 600, color: "white" }}>Google Calendar</div>
-                <div style={{ fontSize: 12, color: "rgba(255,255,255,0.35)" }}>Connect to enable AI booking</div>
-              </div>
-              <span style={{ marginLeft: "auto", fontSize: 12, color: "rgba(255,255,255,0.3)" }}>→</span>
+          <div style={{ display: "flex", gap: 8 }}>
+            <input
+              type="url"
+              placeholder="https://calendly.com/yourname"
+              value={calendlyUrl}
+              onChange={e => setCalendlyUrl(e.target.value)}
+              style={{ ...s.input, flex: 1, boxSizing: "border-box" }}
+            />
+            <button
+              onClick={() => handleIntegrationSave("calendly_url", calendlyUrl)}
+              disabled={integrationStatus === "saving"}
+              style={{ padding: "12px 18px", borderRadius: 10, border: "none", background: "linear-gradient(135deg,#7c3aed,#06b6d4)", color: "white", fontWeight: 700, fontSize: 13, cursor: "pointer", whiteSpace: "nowrap", opacity: integrationStatus === "saving" ? 0.6 : 1 }}
+            >
+              {integrationStatus === "saving" ? "…" : "Save"}
             </button>
-            <button style={{ ...s.card, padding: "13px 16px", border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: 12, textAlign: "left" }}>
-              <span style={{ fontSize: 20 }}>🗓️</span>
-              <div>
-                <div style={{ fontSize: 14, fontWeight: 600, color: "white" }}>Cal.com</div>
-                <div style={{ fontSize: 12, color: "rgba(255,255,255,0.35)" }}>Connect to enable AI booking</div>
-              </div>
-              <span style={{ marginLeft: "auto", fontSize: 12, color: "rgba(255,255,255,0.3)" }}>→</span>
+          </div>
+          {integrationStatus === "success" && <div style={{ fontSize: 12, color: "#4ade80", marginTop: 8 }}>Saved!</div>}
+          {integrationStatus === "error"   && <div style={{ fontSize: 12, color: "#f87171", marginTop: 8 }}>Save failed — try again.</div>}
+        </div>
+
+        {/* CRM Webhook */}
+        <div style={{ ...s.card, padding: "16px" }}>
+          <div style={{ fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,0.3)", letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: 8 }}>CRM Webhook (Elite)</div>
+          <p style={{ fontSize: 13, color: "rgba(255,255,255,0.4)", marginBottom: 12, lineHeight: 1.5 }}>
+            After each call, we POST the caller info + summary to your CRM. Paste your webhook URL below.
+          </p>
+          <div style={{ display: "flex", gap: 8 }}>
+            <input
+              type="url"
+              placeholder="https://hooks.zapier.com/..."
+              value={crmUrl}
+              onChange={e => setCrmUrl(e.target.value)}
+              style={{ ...s.input, flex: 1, boxSizing: "border-box" }}
+            />
+            <button
+              onClick={() => handleIntegrationSave("crm_webhook_url", crmUrl)}
+              disabled={integrationStatus === "saving"}
+              style={{ padding: "12px 18px", borderRadius: 10, border: "none", background: "linear-gradient(135deg,#7c3aed,#06b6d4)", color: "white", fontWeight: 700, fontSize: 13, cursor: "pointer", whiteSpace: "nowrap", opacity: integrationStatus === "saving" ? 0.6 : 1 }}
+            >
+              {integrationStatus === "saving" ? "…" : "Save"}
             </button>
           </div>
         </div>

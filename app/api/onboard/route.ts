@@ -166,7 +166,24 @@ export async function POST(request: NextRequest) {
     }
   }
 
-  // Step 3: Send welcome email — this MUST succeed
+  // Step 3a: Alert internal team for Elite sign-ups
+  if (plan === "elite") {
+    const resendKey = process.env.RESEND_API_KEY;
+    if (resendKey) {
+      fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${resendKey}` },
+        body: JSON.stringify({
+          from: "AllTheCalls <hello@allthecalls.ai>",
+          to: "hello@allthecalls.ai",
+          subject: `🔥 New Elite client: ${name}`,
+          text: `New Elite signup!\n\nName: ${name}\nEmail: ${email}\nPhone: ${phone || "not provided"}\n\nWhite-glove setup required. Reach out within 24 hours.`,
+        }),
+      }).catch(err => console.error("[onboard] Elite alert email failed:", err));
+    }
+  }
+
+  // Step 3b: Send welcome email — this MUST succeed
   try {
     await sendWelcomeEmail(body, password);
     console.log(`[onboard] Welcome email sent to ${email}`);

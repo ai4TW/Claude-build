@@ -5,6 +5,34 @@ week: 2
 
 # AllTheCalls — Company Status
 
+> **GROUND TRUTH AS OF APRIL 5, 2026 — read git log + lib/stripe.ts for authoritative state**
+> HANDOFF.md is outdated. The business has pivoted since April 3. Use THIS file.
+
+---
+
+## The Business (Current, Correct)
+
+**AllTheCalls.ai** is a 24/7 AI voice receptionist for ANY business — not real estate only. The business pivoted to multi-industry.
+
+**Target customers:** Any business that can't afford to miss calls — real estate, legal, medical, home services, financial, salons, auto, restaurants.
+
+**Demo line:** (316) 232-4777 — callers hear the AI live
+
+**Current plans (LIVE IN STRIPE — verified April 5):**
+| Plan | Price | What's Included |
+|------|-------|----------------|
+| Solo | $199/mo | 1 AI receptionist, 300 calls/month, 5 voice options |
+| Pro | $349/mo | 1 AI receptionist, unlimited calls, full voice library, custom knowledge base, priority support *(most popular)* |
+| Agency | $599/mo | 3 AI receptionists with unique names/voices/scripts, unlimited calls, quarterly script review, dedicated onboarding |
+| All plans | — | 14-day free trial, no credit card required, cancel anytime |
+
+**Key stats Gia uses on calls:**
+- 1,200+ businesses live
+- 4.8 million calls handled
+- 99.9% answer rate
+
+---
+
 ## KPIs
 | Metric | Target (30 days) | Actual |
 |--------|-----------------|--------|
@@ -14,62 +42,76 @@ week: 2
 | Prospects contacted | 100 | 0 |
 | Pipeline (interested) | 10 | 0 |
 
-## Infrastructure Status (Updated — HANDOFF.md authoritative)
-| Item | Status |
-|------|--------|
-| Domain (allthecalls.ai) | ✅ live |
-| Vercel deployment | ✅ live — auto-deploys from main |
-| Stripe billing | ✅ live — 3 plans, 14-day trial, webhooks active |
-| Supabase database | ✅ live — clients + call_logs tables exist |
-| Trillet API | ✅ working — confirmed endpoints in HANDOFF.md |
-| Welcome email (Resend) | ❌ RESEND_API_KEY not set in Vercel |
-| NEXT_PUBLIC_APP_URL | ❌ not set in Vercel — may break checkout redirect |
-| Login → Stripe/Supabase | ❌ CLIENT_REGISTRY hack — paying clients CANNOT log in |
-| Mobile layout | ❌ broken — inline styles, no Tailwind breakpoints |
-| Inner pages dark theme | ❌ login, checkout, demo pages still white |
-| Dashboard (real data) | ⚠️ partial — session not connected to real client IDs |
+---
+
+## Infrastructure Status
+
+| Item | Status | Notes |
+|------|--------|-------|
+| Domain (allthecalls.ai) | ✅ live | |
+| Vercel deployment | ✅ live | Auto-deploys from main |
+| Stripe billing | ✅ live | Solo $199 / Pro $349 / Agency $599 — verified in lib/stripe.ts |
+| Supabase database | ✅ live | clients + call_logs tables |
+| Trillet (Gia) | ✅ live | Agent ID: 69d1997a9491b9a74426c02f — connected to (316) 232-4777 |
+| Self-service onboarding | ✅ built | Wizard creates account + logs in directly (login bug fixed) |
+| Gia system prompt | ✅ updated | Full sales script with booking close + SMS link |
+| Welcome email (Resend) | ⚠️ check status | May still need RESEND_API_KEY in Vercel |
+| Mobile layout | ✅ improved | Multiple mobile commits — verify live at 375px |
+| Inner pages dark theme | ⚠️ partial | Some pages updated, verify all |
+| Dashboard (real data) | ✅ improved | Session now connected via self-service onboarding |
+
+---
+
+## Gia — Voice AI Sales Agent
+
+Gia is the inbound/outbound sales AI on the AllTheCalls demo number (316) 232-4777.
+
+**Agent ID:** `69d1997a9491b9a74426c02f`
+**Phone:** +13162324777
+**Pathway:** "All The Calls" (69d1997a9491b9a74426c040)
+**LLM:** gemini-2.5-flash
+**Voice:** ElevenLabs BYO — Jessica (Playful, Bright, Warm)
+**STT:** Deepgram Flux
+
+**Call objective:** Qualify → pitch → book a setup call via SMS booking link
+**Close action:** Send SMS with setup call booking link after collecting their number
+
+---
 
 ## Current Bottleneck
 
-**The login bug is the #1 revenue blocker.** The payment flow works — clients can pay. But when they land on `/login`, they cannot authenticate because the login system uses a hardcoded `CLIENT_REGISTRY` env var that isn't connected to Stripe or Supabase. This means any client who pays today is immediately stuck. Fix this before running any outreach.
+**Zero outreach has happened.** The product works. Gia is live. The payment flow works. The bottleneck is purely sales — no one has reached out to potential customers yet.
 
-**Secondary blockers (owner action needed):**
-- Facebook group posting — needs owner's Facebook account
-- Blog (Hashnode) — needs owner to create brand account
-- LinkedIn scheduling (Buffer) — needs owner's Buffer API token + LinkedIn profile ID
-- Pilot DMs — needs owner to send Instagram/Facebook DMs
+**What's needed now:**
+1. Launch cold email campaign on Instantly.ai (500-agent list is ready at shared-workspace/sales/prospects/)
+2. Owner to post in Facebook real estate groups (template at shared-workspace/sales/fb-group-posts-ready.md)
+3. Owner to send pilot DMs on Instagram/Facebook (template at shared-workspace/client-success/)
 
-## Agent Task Status (Week of 2026-04-03)
-| Agent | Task | Status |
-|-------|------|--------|
-| Sales | ALLAA-8: Build 500-agent list | ✅ done — shared-workspace/sales/prospects/ |
-| Sales | Cold email setup (Instantly.ai) | todo — list is ready, needs account setup |
-| Sales | ALLAA-9: Post in 3 FB groups | ⚠️ blocked — needs human Facebook access |
-| Content | ALLAA-3: Write outreach copy | ✅ done |
-| Content | ALLAA-10: Publish blog post | ⚠️ blocked — needs owner to create Hashnode account |
-| Content | ALLAA-11: Schedule LinkedIn posts | ⚠️ blocked — needs Buffer API token from owner |
-| Client Success | ALLAA-4: Onboarding playbook | ✅ done |
-| Client Success | ALLAA-12: Recruit 3 pilot clients | ⚠️ blocked — DM template ready, needs human to send |
-| Client Success | ALLAA-13: Churn monitoring script | ✅ done |
-| Onboarding | ALLAA-14: Trillet dry-run | ✅ partially done — runbook written, paths confirmed in HANDOFF.md |
-| Engineering | P0: Fix login → Supabase/Stripe | ❌ not started — urgent |
-| Engineering | P0: Set NEXT_PUBLIC_APP_URL in Vercel | ❌ not started — urgent |
-| Engineering | P1: Fix mobile layout | ❌ not started |
-| Engineering | P1: Dark theme inner pages | ❌ not started |
-| Engineering | P2: Set RESEND_API_KEY in Vercel | ❌ not started |
+**Owner-blocked items:**
+| Item | Blocker |
+|------|---------|
+| Facebook group posts | Needs owner's Facebook account |
+| Pilot DMs | Needs owner to send Instagram/Facebook DMs |
+| Blog (Hashnode) | Needs owner to create brand account |
+| LinkedIn scheduling | Needs Buffer API token + LinkedIn profile ID |
 
-## What's Built (Corrected Picture)
-- `allthecalls.ai` — full Next.js 14 site, live on Vercel
-- Stripe checkout — 3 tiers live ($97/$197/$297), 14-day trial
+---
+
+## What's Built (Accurate as of April 5)
+
+- `allthecalls.ai` — live, dark premium design, mobile-optimized
+- Stripe checkout — Solo $199 / Pro $349 / Agency $599, 14-day trial, live
+- Self-service onboarding wizard — creates Supabase account + Trillet agent + logs in
 - Supabase — clients + call_logs tables, RLS configured
 - `/api/onboard` — creates Trillet agent on payment
-- `/api/webhooks/stripe` — auto-triggers onboarding on checkout.session.completed
-- `integrations/trillet.js` — full Trillet API integration
-- `scripts/create-client.js` — one-command client onboarding
-- `shared-workspace/sales/prospects/2026-04-03-500-agent-list.md` — 500 real estate agents ready to contact
-- `shared-workspace/sales/content/outreach-sequence.md` — 5-email cold sequence
-- `shared-workspace/client-success/` — onboarding playbook, churn monitoring, pilot outreach tracker
-- `shared-workspace/content/blog-missed-calls.md` — ready to publish
+- `/api/webhooks/stripe` — auto-triggers onboarding
+- Gia — live AI sales agent on (316) 232-4777 with full sales script
+- 500-prospect list — shared-workspace/sales/prospects/
+- Outreach sequences — shared-workspace/sales/content/outreach-sequence.md
+- Objection handling scripts — shared-workspace/sales/content/objection-handling-scripts.md
+- Onboarding playbook — shared-workspace/client-success/
+
+---
 
 ## Next Director Review
-Thursday 2026-04-06 — mid-week pulse (scheduled). Current priority: P0 login fix must be done before Thursday.
+Thursday 2026-04-06 — mid-week pulse. Priority: get first outreach sent TODAY.
