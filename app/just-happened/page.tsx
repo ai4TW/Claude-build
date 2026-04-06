@@ -108,7 +108,7 @@ export default function JustHappenedPage() {
         </p>
 
         <a
-          href="https://calendly.com/brayden-allthecalls/30min"
+          href="/checkout?plan=pro"
           style={{
             display: "inline-block",
             background: "linear-gradient(135deg, #7c3aed, #06b6d4)",
@@ -126,7 +126,7 @@ export default function JustHappenedPage() {
         </a>
 
         <p style={{ marginTop: 14, fontSize: 13, color: "rgba(255,255,255,0.25)" }}>
-          15-min call · free · no pressure
+          14-day free trial · no setup fees · cancel anytime
         </p>
       </section>
 
@@ -284,7 +284,7 @@ export default function JustHappenedPage() {
           Built for you in days. Answers in your name. Follows up automatically.<br />Starts at $349/month.
         </p>
         <a
-          href="https://calendly.com/brayden-allthecalls/30min"
+          href="/checkout?plan=pro"
           style={{
             display: "inline-block",
             background: "linear-gradient(135deg, #7c3aed, #06b6d4)",
@@ -297,10 +297,10 @@ export default function JustHappenedPage() {
             boxShadow: "0 0 40px rgba(124,58,237,0.35)",
           }}
         >
-          Book a free 15-min call with Brayden
+          Start your free trial — $497/mo after 14 days
         </a>
         <p style={{ marginTop: 16, fontSize: 13, color: "rgba(255,255,255,0.2)" }}>
-          No commitment · No setup fees · Live in days
+          No commitment · Cancel anytime · Live in days
         </p>
       </section>
 
