@@ -14,21 +14,13 @@ interface FollowupRow {
   caller_name: string | null;
   call_summary: string | null;
   touch_number: number;
+  message_override: string | null;
   clients: {
     name: string;
     email: string;
     calendly_url: string | null;
   } | null;
 }
-
-const TOUCH_MESSAGES: Record<number, (callerName: string, agentName: string, calendlyUrl: string | null) => string> = {
-  1: (callerName, agentName, calendlyUrl) =>
-    `Hi${callerName ? ` ${callerName}` : ""}, ${agentName}'s AI receptionist here. Thanks for calling — we wanted to make sure we connected. Reply to this message or book a time directly: ${calendlyUrl || "https://allthecalls.ai"}`,
-  2: (callerName, agentName, calendlyUrl) =>
-    `Following up from ${agentName}'s office — just wanted to make sure you got what you needed. Happy to answer any questions. Book here: ${calendlyUrl || "https://allthecalls.ai"}`,
-  3: (callerName, agentName, _) =>
-    `Last follow-up from ${agentName}'s team — if now isn't the right time, no worries at all. We're here whenever you're ready.`,
-};
 
 async function sendViaResend(to: string, subject: string, body: string): Promise<void> {
   const key = process.env.RESEND_API_KEY;
@@ -88,7 +80,7 @@ export async function GET(req: Request) {
 
   const { data: pending, error } = await supabaseAdmin
     .from("sms_followups")
-    .select("id, caller_number, caller_name, call_summary, touch_number, clients(name, email, calendly_url)")
+    .select("id, caller_number, caller_name, call_summary, touch_number, message_override, clients(name, email, calendly_url)")
     .eq("sent", false)
     .lte("send_at", now)
     .limit(50);
@@ -106,10 +98,9 @@ export async function GET(req: Request) {
     const client = row.clients;
     if (!client) continue;
 
-    const msgFn = TOUCH_MESSAGES[row.touch_number];
-    if (!msgFn) continue;
-
-    const message = msgFn(row.caller_name || "", client.name, client.calendly_url);
+    // Use Claude-generated message if available, otherwise skip (no generic fallback)
+    const message = row.message_override;
+    if (!message) continue;
 
     try {
       const hasTwilio = !!(process.env.TWILIO_ACCOUNT_SID && process.env.TWILIO_AUTH_TOKEN && process.env.TWILIO_FROM_NUMBER);
