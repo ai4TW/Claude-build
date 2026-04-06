@@ -166,7 +166,7 @@ export async function POST(request: NextRequest) {
     }
   }
 
-  // Step 3a: Alert internal team for Elite sign-ups
+  // Step 3a: Email alert for Elite sign-ups
   if (plan === "elite") {
     const resendKey = process.env.RESEND_API_KEY;
     if (resendKey) {

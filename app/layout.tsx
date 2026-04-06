@@ -1,12 +1,19 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
-import { Inter } from "next/font/google";
+import { Space_Grotesk, DM_Sans } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
+const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
-  variable: "--font-inter",
+  variable: "--font-space-grotesk",
+  display: "swap",
+});
+
+const dmSans = DM_Sans({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-dm-sans",
   display: "swap",
 });
 
@@ -21,27 +28,29 @@ export const metadata: Metadata = {
     apple: "/favicon.svg",
   },
   title: {
-    default: "All The Calls — AI Receptionist for Real Estate Agents",
+    default: "All The Calls — AI Voice Receptionist For Your Business",
     template: "%s | All The Calls",
   },
   description:
-    "All The Calls gives any business a 24/7 AI receptionist that answers every call in your name, qualifies leads, books appointments, and follows up via SMS automatically. Starting at $199/mo. No contracts.",
+    "All The Calls gives any business a 24/7 AI receptionist that answers every call in your name, qualifies leads, books appointments, and follows up via SMS automatically. Starting at $349/mo. No contracts.",
   keywords: [
     "AI receptionist",
     "AI phone answering service",
     "24/7 virtual receptionist",
     "never miss a call",
-    "AI receptionist real estate",
-    "real estate answering service",
     "AI receptionist for small business",
     "AI receptionist legal",
     "AI receptionist medical",
+    "AI receptionist real estate",
     "AI receptionist home services",
+    "AI receptionist dental",
+    "AI receptionist financial advisor",
     "automated answering service",
     "lead capture AI",
     "after hours answering service",
     "AI call answering",
     "business phone AI",
+    "AI voice agent",
   ],
   authors: [{ name: "All The Calls" }],
   creator: "All The Calls",
@@ -50,23 +59,23 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: APP_URL,
     siteName: "All The Calls",
-    title: "All The Calls — AI Receptionist for Real Estate Agents",
+    title: "All The Calls — AI Voice Receptionist For Your Business",
     description:
-      "Never miss a lead. Never lose a commission. All The Calls answers every call in your name — 24/7 — qualifying leads and booking showings automatically. Starting at $149/mo.",
+      "Never miss a call. All The Calls answers 24/7 in your name, qualifies every caller, and follows up via SMS automatically. Works for any business. Starting at $349/mo.",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "All The Calls — AI Receptionist for Real Estate Agents",
+        alt: "All The Calls — AI Voice Receptionist For Your Business",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "All The Calls — AI Receptionist for Real Estate Agents",
+    title: "All The Calls — AI Voice Receptionist For Your Business",
     description:
-      "Never miss a lead. 24/7 AI receptionist that answers in your name, qualifies leads, and books showings. Starting at $149/mo.",
+      "Never miss a call. 24/7 AI voice receptionist that answers in your name, qualifies leads, and follows up via SMS. Works for any business. Starting at $349/mo.",
     images: ["/og-image.png"],
   },
   robots: {
@@ -87,7 +96,7 @@ const structuredData = {
       name: "All The Calls",
       url: APP_URL,
       description:
-        "AI-powered 24/7 receptionist service for real estate agents. Answers every call in your name, qualifies leads, and books showings automatically.",
+        "AI-powered 24/7 receptionist service for any business. Answers every call in your name, qualifies leads, and follows up automatically.",
       contactPoint: {
         "@type": "ContactPoint",
         contactType: "customer service",
@@ -101,10 +110,10 @@ const structuredData = {
     },
     {
       "@type": "Service",
-      name: "AI Receptionist for Real Estate Agents",
+      name: "AI Voice Receptionist For Any Business",
       provider: { "@type": "Organization", name: "All The Calls" },
       description:
-        "24/7 AI phone answering service for real estate agents. Qualifies leads, books showings, and follows up via SMS automatically.",
+        "24/7 AI phone answering service for any business. Qualifies leads, books appointments, and follows up via SMS automatically.",
       offers: [
         {
           "@type": "Offer",
@@ -138,7 +147,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${inter.variable}`}>
+    <html lang="en" className={`${spaceGrotesk.variable} ${dmSans.variable}`}>
       <head>
         <script
           type="application/ld+json"

@@ -32,7 +32,7 @@ export default function DemoPage() {
             <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, color: "white", fontSize: "18px", marginBottom: "20px" }}>What happens on the demo call:</h2>
             <ul style={{ listStyle: "none", padding: 0, margin: "0 0 32px", display: "flex", flexDirection: "column", gap: "14px" }}>
               {[
-                "We configure a live AI receptionist with your name and brokerage",
+                "We configure a live AI receptionist with your name and business",
                 "We call your number and you hear it answer exactly as your clients would",
                 "You see how lead qualification and SMS follow-up works in real time",
                 "We set up your account on the spot — you leave the call fully live",
@@ -81,7 +81,7 @@ const labelStyle: React.CSSProperties = {
 
 function DemoForm() {
   const [submitted, setSubmitted] = useState(false);
-  const [form, setForm] = useState({ name: "", brokerage: "", email: "", phone: "" });
+  const [form, setForm] = useState({ name: "", business: "", email: "", phone: "" });
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -107,8 +107,8 @@ function DemoForm() {
           <input style={inputStyle} type="text" required placeholder="Sarah Johnson" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
         </div>
         <div>
-          <label style={labelStyle}>Brokerage</label>
-          <input style={inputStyle} type="text" placeholder="Compass, KW, RE/MAX..." value={form.brokerage} onChange={(e) => setForm({ ...form, brokerage: e.target.value })} />
+          <label style={labelStyle}>Business Name</label>
+          <input style={inputStyle} type="text" placeholder="e.g. Smith Plumbing, Apex Legal..." value={form.business} onChange={(e) => setForm({ ...form, business: e.target.value })} />
         </div>
       </div>
       <div>

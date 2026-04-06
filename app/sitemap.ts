@@ -1,15 +1,37 @@
 import { MetadataRoute } from "next";
 
-const APP_URL = "https://allthecalls.ai";
+const BASE = "https://allthecalls.ai";
+
+const INDUSTRY_SLUGS = [
+  "real-estate",
+  "legal",
+  "medical",
+  "dental",
+  "home-services",
+  "hvac",
+  "financial",
+  "salon",
+  "auto",
+];
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return [
-    { url: APP_URL, lastModified: new Date(), changeFrequency: "weekly", priority: 1 },
-    { url: `${APP_URL}/demo`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
-    { url: `${APP_URL}/checkout`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.7 },
-    { url: `${APP_URL}/login`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.5 },
-    { url: `${APP_URL}/privacy`, lastModified: new Date(), changeFrequency: "yearly", priority: 0.3 },
-    { url: `${APP_URL}/terms`, lastModified: new Date(), changeFrequency: "yearly", priority: 0.3 },
-    { url: `${APP_URL}/contact`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.5 },
+  const now = new Date();
+
+  const staticPages: MetadataRoute.Sitemap = [
+    { url: BASE, lastModified: now, changeFrequency: "weekly", priority: 1.0 },
+    { url: `${BASE}/demo`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${BASE}/contact`, lastModified: now, changeFrequency: "monthly", priority: 0.6 },
+    { url: `${BASE}/blog`, lastModified: now, changeFrequency: "weekly", priority: 0.7 },
+    { url: `${BASE}/privacy`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
+    { url: `${BASE}/terms`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
   ];
+
+  const industryPages: MetadataRoute.Sitemap = INDUSTRY_SLUGS.map((slug) => ({
+    url: `${BASE}/industry/${slug}`,
+    lastModified: now,
+    changeFrequency: "monthly" as const,
+    priority: 0.8,
+  }));
+
+  return [...staticPages, ...industryPages];
 }

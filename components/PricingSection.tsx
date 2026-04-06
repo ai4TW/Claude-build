@@ -20,7 +20,7 @@ const plans = [
       { text: "SMS follow-up after every call", highlight: false },
       { text: "Full call transcripts & summaries", highlight: false },
       { text: "5 AI voice options", highlight: false },
-      { text: "5-minute setup", highlight: false },
+      { text: "Done-for-you setup by our team", highlight: false },
       { text: "14-day free trial · cancel anytime", highlight: false },
     ],
   },
