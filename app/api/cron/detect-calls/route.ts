@@ -47,6 +47,19 @@ interface FollowUpDecision {
   touch_3: string;
 }
 
+const DEMO_URL = "https://allthecalls.ai/just-happened";
+
+function getDemoFollowUp(callerName: string): FollowUpDecision {
+  const name = callerName ? ` ${callerName}` : "";
+  return {
+    should_follow_up: true,
+    skip_touch_1: false,
+    touch_1: `Hey${name} — that was an AI you just spoke with. Here's what happened on that call: ${DEMO_URL}`,
+    touch_2: `Brayden here — what did you think of the demo? Happy to build one just like it for your business.`,
+    touch_3: `Every missed call is a missed client. This is what it looks like when you never miss one: ${DEMO_URL}`,
+  };
+}
+
 async function getFollowUpDecision(
   call: CallRecord,
   clientName: string,
@@ -55,6 +68,11 @@ async function getFollowUpDecision(
   const bookingLink = calendlyUrl || "https://allthecalls.ai";
   const summary = call.summary || "";
   const callerName = call.callerName || "";
+
+  // Demo accounts use the just-happened page — send demo-specific texts
+  if (calendlyUrl === DEMO_URL) {
+    return getDemoFollowUp(callerName);
+  }
 
   const prompt = `You are analyzing a phone call to decide on a follow-up SMS sequence.
 
