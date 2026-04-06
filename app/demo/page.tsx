@@ -12,7 +12,7 @@ export default function DemoPage() {
           <Link href="/" style={{ display: "flex", alignItems: "center", textDecoration: "none" }}>
             <img src="/logo.svg" alt="AllTheCalls.ai" style={{ height: "36px", width: "auto" }} />
           </Link>
-          <Link href="/login" style={{ fontSize: "14px", color: "rgba(255,255,255,0.6)", textDecoration: "none" }}>Log in</Link>
+          <a href="mailto:hello@allthecalls.ai" style={{ fontSize: "14px", color: "rgba(255,255,255,0.6)", textDecoration: "none" }}>hello@allthecalls.ai</a>
         </div>
       </nav>
 

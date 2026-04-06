@@ -119,7 +119,6 @@ export default function Home() {
           </div>
           <div className="hidden md:flex items-center gap-4">
             <a href={DEMO_PHONE_HREF} style={{ fontSize: "14px", color: "#52525b", textDecoration: "none", fontWeight: 500 }}>Call {DEMO_PHONE}</a>
-            <Link href="/login" style={{ fontSize: "14px", color: "#52525b", textDecoration: "none", fontWeight: 500 }}>Login</Link>
             <Link href="/onboarding" className="btn-primary" style={{ fontSize: "14px", fontWeight: 600, padding: "8px 16px", borderRadius: "8px", textDecoration: "none" }}>Get Started</Link>
           </div>
           <button
@@ -140,7 +139,6 @@ export default function Home() {
               <a href="#pricing" onClick={() => setMenuOpen(false)} style={{ color: "#09090b", textDecoration: "none", fontWeight: 500 }}>Pricing</a>
               <a href={DEMO_PHONE_HREF} onClick={() => setMenuOpen(false)} style={{ color: "#09090b", textDecoration: "none", fontWeight: 500 }}>Call {DEMO_PHONE}</a>
               <Link href="/blog" onClick={() => setMenuOpen(false)} style={{ color: "#52525b", textDecoration: "none", fontWeight: 500 }}>Blog</Link>
-              <Link href="/login" onClick={() => setMenuOpen(false)} style={{ color: "#52525b", textDecoration: "none", fontWeight: 500 }}>Login</Link>
               <Link href="/onboarding" onClick={() => setMenuOpen(false)} className="btn-primary" style={{ padding: "12px", borderRadius: "8px", textDecoration: "none", textAlign: "center", fontWeight: 600 }}>Get Started</Link>
             </div>
           </div>
