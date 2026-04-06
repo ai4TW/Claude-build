@@ -1,129 +1,122 @@
 ---
-issued: 2026-04-05
-review: 2026-04-06 (Thursday mid-week pulse)
+issued: 2026-04-06
+type: thursday-pulse
+review: 2026-04-09 (Monday weekly review)
 ---
 
-# Director Directives — April 5, 2026 (Sunday Pre-Pulse)
+# Director Directives — Thursday Pulse, April 6, 2026
 
 ## Situation Read
 
-The product is further along than previously reported. `allthecalls.ai` is live, Stripe is live with 3 plans, Supabase is live, and Trillet is working. The 500-agent prospect list is built and outreach sequences are ready. **We are not waiting on infrastructure — we are waiting on bug fixes and execution.**
+**The product is stronger than it's ever been.** Since Sunday:
+- Login P0 eliminated — client dashboard removed, white-glove model adopted. We set up the client's AI; they don't log in. Simpler, better, fewer moving parts.
+- Repriced to Starter $349 / Pro $497 / Elite $1,497 — better anchoring, better margins
+- Smart follow-ups added (Claude analyzes each call, generates personalized outreach)
+- ElevenLabs voice — better audio quality
+- Welcome page improved
 
-**The #1 blocker to first revenue:** Paying customers cannot log in. The login system uses a hardcoded `CLIENT_REGISTRY` env var not connected to Stripe or Supabase. This means if we ran outreach today and someone paid, they would hit a broken login and immediately lose trust. Fix this first.
+**The product is not the problem. The problem is that zero outreach has happened.**
 
-**The #2 blocker:** Sales outreach has not started. The list is ready. The sequences are ready. No one has opened Instantly.ai and loaded the campaign. This is a pure execution gap — no owner action needed.
+Today is April 6. Revenue target is April 12 — six days from now. The 12 Tier 1 prospects have direct phone numbers and email addresses. They have been sitting untouched for 3 days.
 
----
-
-## Priority Stack (in order)
-
-1. Fix login → Supabase connection (P0 — blocks all revenue)
-2. Set `NEXT_PUBLIC_APP_URL` in Vercel (P0 — may break checkout)
-3. Start Instantly.ai cold email campaign (Sales — no blocker, do it now)
-4. Fix mobile layout (P1 — conversion blocker for phone traffic)
-5. Set `RESEND_API_KEY` in Vercel (P2 — welcome emails)
+**Today's directive is simple: start contacting people.**
 
 ---
 
-## Engineering — 3 Tasks (URGENT)
+## Priority Stack
 
-### Task 1: Fix the login bug (P0 — MUST COMPLETE BEFORE OUTREACH GOES LIVE)
-
-**Problem:** `/app/api/auth/login/route.ts` authenticates against `CLIENT_REGISTRY` env var — a JSON object mapping email → password. This isn't connected to Stripe or Supabase. When a client pays, no `CLIENT_REGISTRY` entry is created for them, so they can't log in.
-
-**Fix (choose one):**
-
-**Option A (Fastest):** Connect login to Supabase Auth.
-- Replace the `CLIENT_REGISTRY` check in `app/api/auth/login/route.ts` with a `supabase.auth.signInWithPassword()` call
-- In `/api/onboard`, after saving the client to the `clients` table, also call `supabase.auth.admin.createUser({ email, password: generatedPassword })` and store the generated password in the welcome email
-- This is the correct long-term solution
-
-**Option B (Temporary, 10 minutes):** After every new Stripe payment, manually add the client to `CLIENT_REGISTRY` in Vercel env vars and redeploy. This is a stopgap only — use it if Option A is blocked.
-
-**Output:** `app/api/auth/login/route.ts` updated. `/api/onboard` creates Supabase Auth user. Tested with a dummy login.
-
-### Task 2: Set `NEXT_PUBLIC_APP_URL` in Vercel (P0 — 5 minutes)
-
-Run:
-```bash
-echo "https://allthecalls.ai" | vercel env add NEXT_PUBLIC_APP_URL production
-vercel --prod --yes
-```
-
-This prevents checkout sessions from redirecting to `undefined` instead of `https://allthecalls.ai/welcome`.
-
-### Task 3: Fix mobile layout (P1 — after P0s are done)
-
-TASKS.md Group 1 (tasks 1.1–1.8) has the complete spec. File is `app/page.tsx` and `components/PricingSection.tsx`. Convert all inline `style={{}}` grid and flex values to Tailwind breakpoint classes. Test at 375px, 390px, 414px viewports.
+1. Sales outreach — START TODAY (revenue blocker, no excuses)
+2. Update outreach materials to reflect new pricing/model
+3. Owner: unblock FB and LinkedIn (4 days stale)
 
 ---
 
-## Sales Agent — 1 Task (START IMMEDIATELY)
+## Sales Agent — 2 Tasks (START IMMEDIATELY)
 
-### Task: Launch cold email campaign on Instantly.ai
+### Task 1: Draft personalized outreach for all 12 Tier 1 prospects
 
-The 500-agent list is built at `shared-workspace/sales/prospects/2026-04-03-500-agent-list.md`. The 5-email sequence is at `shared-workspace/sales/content/outreach-sequence.md`.
+The 12 Tier 1 contacts in `shared-workspace/sales/prospects/2026-04-03-500-agent-list.md` have direct emails or contact info. The outreach sequence is at `shared-workspace/sales/content/outreach-sequence.md`.
 
 **What to do:**
-1. Create a free account at instantly.ai
-2. Import the Tier 1 prospects from the list (12 confirmed contacts with direct email/phone)
-3. Set up the campaign with the outreach-sequence.md copy
-4. Configure: 50 emails/day, 20-minute delays, Monday–Friday only
-5. Launch the campaign
-6. Log campaign URL and launch confirmation in `shared-workspace/sales/pipeline.md`
+1. For each of the 12 Tier 1 prospects, write a personalized version of Email 1 from the sequence. Personalize: use their name, reference their brokerage/market, keep it under 150 words.
+2. Save the 12 drafts to `shared-workspace/sales/outreach-drafts-tier1.md`, one section per prospect.
+3. Flag which 3 have phone numbers — those get a call script too (1 paragraph, natural, not salesy).
 
-**FB group posts:** Still blocked on owner Facebook access. Do not retry.
-
-**Success criteria:** Campaign live, at least 12 Tier 1 contacts loaded, sending confirmed. Update `pipeline.md` with stage = "Contacted" for each name.
+**Success criteria:** 12 personalized email drafts saved and ready. Owner can copy-paste and send in under 10 minutes.
 
 ---
 
-## Content Agent — Hold Pattern
+### Task 2: Update outreach sequence to reflect white-glove model
 
-Both active tasks remain blocked on owner credentials:
-- ALLAA-10 (blog/Hashnode): blocked on owner creating Hashnode account
-- ALLAA-11 (LinkedIn/Buffer): blocked on owner providing Buffer API token + LinkedIn profile ID
+The current outreach sequence (`shared-workspace/sales/content/outreach-sequence.md`) was written before the pivot. It implies the client self-sets-up. The new model is: we set everything up for them.
 
-Do not re-post the same blocked status. **New task:** While waiting, write 5 additional LinkedIn posts specifically targeting the "missed call = missed commission" angle and the objections in `shared-workspace/sales/content/objection-handling-scripts.md`. Save to `shared-workspace/content/linkedin/new-batch-objection-handling.md`.
+**What to change:**
+- Remove any self-serve language ("takes 10 minutes to set up", "you configure your AI")
+- Replace with: "We set your AI receptionist up for you — custom greeting, your name, your schedule. Takes one 15-minute call."
+- Do NOT add pricing. Pricing comes later in the funnel.
+- Keep the subject lines, hooks, and length the same.
+
+**Output:** Updated `shared-workspace/sales/content/outreach-sequence.md`. Mark the old version with `<!-- UPDATED 2026-04-06 -->` comment at the top.
+
+---
+
+## Content Agent — 1 Task
+
+### Task: Write 5 LinkedIn posts targeting non-real-estate verticals
+
+The expanded market is now any business that can't miss calls: legal, medical, home services, financial advisors, auto shops, restaurants. We have real estate content. We need content for at least 2 other verticals.
+
+**What to write:**
+1. 2 posts targeting solo/small law firms (missed calls = missed consultations)
+2. 2 posts targeting home service businesses (HVAC, plumbing, electricians — missed calls = booked jobs going to competitors)
+3. 1 post that is industry-agnostic ("every business that misses calls" angle)
+
+Each post: 150–250 words, LinkedIn format, hook in first line, no hashtag spam (max 3). Conversational, not corporate.
+
+**Output:** `shared-workspace/content/linkedin/new-batch-verticals.md`
+
+---
+
+## Engineering — No New Tasks
+
+Product is solid. No new features this week. If there are open bugs in TASKS.md, address only P0/P1 items. Do not start any new feature work until first revenue lands.
 
 ---
 
 ## Client Success Agent — Standby
 
-Pilot outreach is blocked on human DMs. You are not blocked — when a pilot says yes, you are ready to run `create-client.js`. Review the Trillet confirmed endpoints in HANDOFF.md (Section 4) and make sure the onboarding runbook reflects the correct API paths (`https://api.trillet.ai/v1/api/agent`).
+No pilots yet. Review pilot-outreach.md and confirm the onboarding runbook is accurate for the white-glove model (we set up Trillet, we configure Gia, we test before handing off). Update `shared-workspace/client-success/onboarding-playbook.md` to reflect this — the client does not log in, does not configure anything, just forwards their calls.
 
-No new action needed unless a pilot client comes in.
+---
+
+## Revenue Path
+
+```
+12 personalized emails drafted (Sales — today)
+       ↓
+Owner sends emails to Tier 1 list (owner action — today or tomorrow)
+       ↓
+First replies come in (3–5 business days = April 9–11)
+       ↓
+Discovery calls booked
+       ↓
+First client onboarded → first revenue (target: April 12)
+```
+
+Six days. The list is ready. The product is ready. The emails need to get sent.
 
 ---
 
 ## Owner Escalation
 
-Creating one inbox message today. The following require owner action — agents cannot unblock these:
+Will create an inbox issue today. Items blocked on owner for 4+ days:
 
 | Item | Blocker | Days Waiting |
 |------|---------|-------------|
-| Facebook group posts | Need owner's Facebook account | 2 |
-| Blog publish (Hashnode) | Need owner to create brand account | 2 |
-| LinkedIn scheduling | Need Buffer API token + LinkedIn profile ID | 2 |
-| Pilot DMs | Need owner to send Instagram/Facebook DMs | 2 |
-| RESEND_API_KEY | Need owner to create resend.com account + add key | 2 |
+| Send Tier 1 outreach emails | Owner sends from their inbox (AI drafts ready after Task 1) | 0 (drafts pending) |
+| Facebook group posts | Owner's Facebook account | 4 |
+| Blog (Hashnode) | Owner creates brand account | 4 |
+| LinkedIn posts | Owner posts from personal/brand profile | 4 |
+| RESEND_API_KEY | Owner creates resend.com account | 4 |
 
----
-
-## Revenue Path (Updated)
-
-```
-Fix login bug (Engineering)               ← THIS WEEK — URGENT
-       ↓
-Set NEXT_PUBLIC_APP_URL (Engineering)     ← THIS WEEK — URGENT
-       ↓
-Launch cold email campaign (Sales)        ← STARTS NOW — no blocker
-       ↓
-Replies come in → move to pipeline        ← within 3–5 business days
-       ↓
-Pilot client says yes → onboard           ← within 1 week
-       ↓
-First revenue                             ← target: 2026-04-12
-```
-
-Cold email can run in parallel with the login fix. Don't wait. Load the campaign and let it run while Engineering patches the auth.
+The most important action is sending the Tier 1 emails. Everything else is secondary.

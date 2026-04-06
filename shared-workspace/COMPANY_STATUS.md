@@ -1,5 +1,5 @@
 ---
-updated: 2026-04-05
+updated: 2026-04-06
 week: 2
 ---
 
@@ -18,13 +18,14 @@ week: 2
 
 **Demo line:** (316) 232-4777 — callers hear the AI live
 
-**Current plans (LIVE IN STRIPE — verified April 5):**
+**Current plans (LIVE IN STRIPE — verified April 5, repriced April 5):**
 | Plan | Price | What's Included |
 |------|-------|----------------|
-| Solo | $199/mo | 1 AI receptionist, 300 calls/month, 5 voice options |
-| Pro | $349/mo | 1 AI receptionist, unlimited calls, full voice library, custom knowledge base, priority support *(most popular)* |
-| Agency | $599/mo | 3 AI receptionists with unique names/voices/scripts, unlimited calls, quarterly script review, dedicated onboarding |
-| All plans | — | 14-day free trial, no credit card required, cancel anytime |
+| Starter | $349/mo | 1 AI receptionist, 300 calls/month |
+| Pro | $497/mo | Unlimited calls + smart follow-ups + weekly call reports *(most popular)* |
+| Elite | $1,497/mo | 5 AI receptionists, calendar booking, CRM webhook, white-glove setup |
+
+**Model:** White-glove setup. We configure Gia for the client (custom greeting, voice, script). Client does NOT self-serve or log in — they just forward their calls. This eliminates the login/auth complexity entirely.
 
 **Key stats Gia uses on calls:**
 - 1,200+ businesses live
@@ -53,12 +54,13 @@ week: 2
 | Stripe billing | ✅ live | Solo $199 / Pro $349 / Agency $599 — verified in lib/stripe.ts |
 | Supabase database | ✅ live | clients + call_logs tables |
 | Trillet (Gia) | ✅ live | Agent ID: 69d1997a9491b9a74426c02f — connected to (316) 232-4777 |
-| Self-service onboarding | ✅ built | Wizard creates account + logs in directly (login bug fixed) |
+| Client dashboard | ❌ removed | White-glove model — clients don't log in. We manage everything. |
 | Gia system prompt | ✅ updated | Full sales script with booking close + SMS link |
-| Welcome email (Resend) | ⚠️ check status | May still need RESEND_API_KEY in Vercel |
-| Mobile layout | ✅ improved | Multiple mobile commits — verify live at 375px |
-| Inner pages dark theme | ⚠️ partial | Some pages updated, verify all |
-| Dashboard (real data) | ✅ improved | Session now connected via self-service onboarding |
+| Welcome page | ✅ live | Step-by-step timeline + YouTube founder video |
+| Smart follow-ups | ✅ built | Claude analyzes calls + generates personalized follow-up messages |
+| ElevenLabs TTS | ✅ live | Better voice quality, eleven_turbo_v2_5 |
+| Welcome email (Resend) | ⚠️ needs RESEND_API_KEY | Owner must create resend.com account + add key to Vercel |
+| Cron jobs | ✅ configured | Daily crons for Hobby plan |
 
 ---
 
@@ -80,20 +82,21 @@ Gia is the inbound/outbound sales AI on the AllTheCalls demo number (316) 232-47
 
 ## Current Bottleneck
 
-**Zero outreach has happened.** The product works. Gia is live. The payment flow works. The bottleneck is purely sales — no one has reached out to potential customers yet.
+**Zero outreach has happened.** The product is stronger than ever. Revenue target is April 12 — 6 days away. The bottleneck is purely execution: no emails have been sent, no calls made, no DMs sent.
 
-**What's needed now:**
-1. Launch cold email campaign on Instantly.ai (500-agent list is ready at shared-workspace/sales/prospects/)
-2. Owner to post in Facebook real estate groups (template at shared-workspace/sales/fb-group-posts-ready.md)
-3. Owner to send pilot DMs on Instagram/Facebook (template at shared-workspace/client-success/)
+**What's needed now (in order):**
+1. Sales agent to draft 12 personalized emails for Tier 1 prospects (today)
+2. Owner to send those emails from their inbox (today or April 7)
+3. Owner to post in Facebook real estate groups (template at shared-workspace/sales/fb-group-posts-ready.md)
 
 **Owner-blocked items:**
-| Item | Blocker |
-|------|---------|
-| Facebook group posts | Needs owner's Facebook account |
-| Pilot DMs | Needs owner to send Instagram/Facebook DMs |
-| Blog (Hashnode) | Needs owner to create brand account |
-| LinkedIn scheduling | Needs Buffer API token + LinkedIn profile ID |
+| Item | Blocker | Days Waiting |
+|------|---------|-------------|
+| Send Tier 1 emails | Owner sends from inbox (drafts being prepared by Sales) | 0 |
+| Facebook group posts | Needs owner's Facebook account | 4 |
+| Pilot DMs | Needs owner to send Instagram/Facebook DMs | 4 |
+| Blog (Hashnode) | Needs owner to create brand account | 4 |
+| RESEND_API_KEY | Needs owner to create resend.com account | 4 |
 
 ---
 
@@ -114,4 +117,4 @@ Gia is the inbound/outbound sales AI on the AllTheCalls demo number (316) 232-47
 ---
 
 ## Next Director Review
-Thursday 2026-04-06 — mid-week pulse. Priority: get first outreach sent TODAY.
+Monday 2026-04-09 — weekly review. By then: 12 Tier 1 emails sent, at least 1 reply in pipeline, outreach sequence updated for white-glove model.
