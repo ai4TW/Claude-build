@@ -5,7 +5,7 @@ import CheckoutForm from "./CheckoutForm";
 
 export const metadata: Metadata = {
   title: "Start Your Free Trial",
-  description: "Start your 14-day free trial of All The Calls. No credit card required upfront.",
+  description: "Start your 14-day free trial of All The Calls. Cancel anytime.",
   robots: { index: false },
 };
 

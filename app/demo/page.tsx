@@ -24,7 +24,7 @@ export default function DemoPage() {
               Book a Free <span className="gradient-text">15-Min Demo</span>
             </h1>
             <p style={{ color: "rgba(255,255,255,0.55)", fontSize: "18px", lineHeight: 1.6 }}>
-              Watch your AI receptionist answer a live call in your name. No commitment. No credit card.
+              Watch your AI receptionist answer a live call in your name. No commitment.
             </p>
           </div>
 

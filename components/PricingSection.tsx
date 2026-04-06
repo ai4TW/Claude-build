@@ -208,7 +208,7 @@ function PlanCard({
         <span style={{ color: "rgba(255,255,255,0.4)", fontSize: "15px" }}>/mo</span>
       </div>
       <p style={{ color: "rgba(255,255,255,0.25)", fontSize: "11px", marginBottom: "28px" }}>
-        14-day free trial · no credit card required
+        14-day free trial · cancel anytime
       </p>
 
       {/* Features */}
@@ -425,7 +425,7 @@ export default function PricingSection() {
             </div>
             <div style={{ textAlign: "left" }}>
               <p style={{ color: "rgba(255,255,255,0.9)", fontWeight: 700, fontSize: "15px", marginBottom: "2px" }}>
-                14-day free trial · No credit card required
+                14-day free trial · cancel anytime
               </p>
               <p style={{ color: "rgba(255,255,255,0.4)", fontSize: "13px" }}>
                 Set up your AI, test it live, and only pay when you&apos;re confident it works for your business.
