@@ -43,3 +43,9 @@ _None yet._
 - Watch for replies from high-probability targets: Julio Romero (Dallas), Cesar Espinoza (Houston), Hector Contreras (Tampa), and Jillian Batchelor (Las Vegas). These are solo brokers with high call volume and no obvious VA in place.
 - Tiffany Fykes (Nashville, FYKES Realty) is a strong candidate — relocation specialist who specifically needs after-hours coverage for out-of-timezone buyers.
 - Nick Irwin's hyper-local positioning in East Nashville makes him a great story fit — he's built trust in a specific neighborhood, and a missed call erodes that.
+
+## Update — 2026-04-07 (same day, second pass)
+Batch 2 outreach drafts completed and saved to `shared-workspace/sales/outreach/batch-2-2026-04-14.md`.
+- 23 personalized emails written for all verified Batch 2 prospects
+- Highlights: Ed Prather email addressed to assistant Kaitlyn (unique angle), Pearl Ngo and Angel Hernandez emails lean into multilingual capability, Don Gomez email calls out 465 txns/3yr directly
+- Ready to send 2026-04-14 — owner just needs to replace [Your Name] and send
