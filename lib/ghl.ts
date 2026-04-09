@@ -17,7 +17,7 @@
 const GHL_BASE = "https://services.leadconnectorhq.com";
 
 function getHeaders() {
-  const key = process.env.GHL_API_KEY;
+  const key = process.env.GHL_API_KEY?.trim();
   if (!key) return null;
   return {
     Authorization: `Bearer ${key}`,
@@ -62,6 +62,8 @@ async function findOrCreateContact(
 
     const data = await res.json();
 
+    console.log(`[ghl] Contact API response: status=${res.status}`);
+
     // New contact created
     if (res.ok && data.contact?.id) {
       console.log(`[ghl] NEW contact: ${data.contact.id} (${phone})`);
@@ -74,7 +76,7 @@ async function findOrCreateContact(
       return { id: data.meta.contactId, isNew: false };
     }
 
-    console.error("[ghl] Unexpected response:", data);
+    console.error("[ghl] Unexpected response:", res.status, JSON.stringify(data));
     return null;
   } catch (err) {
     console.error("[ghl] Contact lookup error:", err);
