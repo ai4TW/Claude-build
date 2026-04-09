@@ -7,7 +7,7 @@ const plans = [
   {
     id: "starter",
     name: "Solo",
-    price: 199,
+    price: 397,
     desc: "One AI receptionist. Never miss a call.",
     popular: false,
     badge: null,
@@ -27,7 +27,7 @@ const plans = [
   {
     id: "pro",
     name: "Pro",
-    price: 349,
+    price: 497,
     desc: "The complete system. Built to convert.",
     popular: true,
     badge: "MOST POPULAR",
@@ -50,7 +50,7 @@ const plans = [
   {
     id: "agency",
     name: "Agency",
-    price: 599,
+    price: 1497,
     desc: "The full operation. Zero leads lost.",
     popular: false,
     badge: "FULL SYSTEM",
@@ -443,14 +443,14 @@ export default function PricingSection() {
                   Feature
                 </th>
                 <th style={{ padding: "20px 16px", textAlign: "center", color: "rgba(255,255,255,0.7)", fontSize: "13px", fontWeight: 700 }}>
-                  Solo<br /><span style={{ color: "rgba(255,255,255,0.4)", fontWeight: 400 }}>$199/mo</span>
+                  Solo<br /><span style={{ color: "rgba(255,255,255,0.4)", fontWeight: 400 }}>$397/mo</span>
                 </th>
                 <th style={{ padding: "20px 16px", textAlign: "center", fontSize: "13px", fontWeight: 700, background: "rgba(124,58,237,0.08)" }}>
                   <span style={{ color: "transparent", background: "linear-gradient(135deg, #a78bfa, #22d3ee)", WebkitBackgroundClip: "text", backgroundClip: "text" }}>Pro ⭐</span>
-                  <br /><span style={{ color: "rgba(167,139,250,0.6)", fontWeight: 400 }}>$349/mo</span>
+                  <br /><span style={{ color: "rgba(167,139,250,0.6)", fontWeight: 400 }}>$497/mo</span>
                 </th>
                 <th style={{ padding: "20px 16px", textAlign: "center", color: "rgba(255,255,255,0.7)", fontSize: "13px", fontWeight: 700 }}>
-                  Agency<br /><span style={{ color: "rgba(255,255,255,0.4)", fontWeight: 400 }}>$599/mo</span>
+                  Agency<br /><span style={{ color: "rgba(255,255,255,0.4)", fontWeight: 400 }}>$1,497/mo</span>
                 </th>
               </tr>
             </thead>
