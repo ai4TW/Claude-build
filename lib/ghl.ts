@@ -1,13 +1,17 @@
 /**
  * GoHighLevel API integration — AllTheCalls.ai
  *
- * Creates contacts and pushes them into the sales pipeline
- * when calls come through Trillet.
+ * Smart contact management:
+ * - NEW callers → create contact + add to pipeline + add call note
+ * - RETURNING callers → add call note to existing contact (no duplicate)
+ *
+ * Call recordings, transcripts, and summaries are added as notes
+ * on the contact profile so you can see the full history.
  *
  * Required env vars:
- *   GHL_API_KEY        — API key from GHL Settings → Business Profile
+ *   GHL_API_KEY        — Sub-account Private Integration key
  *   GHL_LOCATION_ID    — Sub-account location ID (default: PeMkLPdDHTeQ4OWJXrGC)
- *   GHL_PIPELINE_ID    — Sales pipeline ID (set after first lookup)
+ *   GHL_PIPELINE_ID    — Sales pipeline ID
  */
 
 const GHL_BASE = "https://services.leadconnectorhq.com";
@@ -22,75 +26,137 @@ function getHeaders() {
   };
 }
 
-export interface GHLContactInput {
-  phone: string;
-  name?: string;
-  email?: string;
-  source?: string;
-  tags?: string[];
-  customFields?: { key: string; value: string }[];
+// ── Contact Management ──────────────────────────────────────────────────
+
+interface ContactResult {
+  id: string;
+  isNew: boolean;
 }
 
 /**
- * Create or update a contact in GHL.
- * GHL deduplicates by phone number — if the contact exists, it updates.
+ * Create a new contact OR return the existing one if phone already exists.
+ * GHL returns 400 with meta.contactId for duplicates.
  */
-export async function createContact(input: GHLContactInput): Promise<{ id: string } | null> {
+async function findOrCreateContact(
+  phone: string,
+  name?: string,
+  source?: string
+): Promise<ContactResult | null> {
   const headers = getHeaders();
-  if (!headers) {
-    console.log("[ghl] GHL_API_KEY not set — skipping contact creation");
-    return null;
-  }
+  if (!headers) return null;
 
   const locationId = process.env.GHL_LOCATION_ID || "PeMkLPdDHTeQ4OWJXrGC";
-
-  const body: Record<string, unknown> = {
-    locationId,
-    phone: input.phone,
-    name: input.name || undefined,
-    email: input.email || undefined,
-    source: input.source || "AllTheCalls AI — Inbound Call",
-    tags: input.tags || ["inbound-call", "demo-line"],
-  };
-
-  if (input.customFields) {
-    body.customFields = input.customFields;
-  }
 
   try {
     const res = await fetch(`${GHL_BASE}/contacts/`, {
       method: "POST",
       headers,
-      body: JSON.stringify(body),
+      body: JSON.stringify({
+        locationId,
+        phone,
+        name: name || undefined,
+        source: source || "AllTheCalls AI — Inbound Call",
+        tags: ["inbound-call", "demo-line", "trillet"],
+      }),
     });
 
     const data = await res.json();
 
-    if (!res.ok) {
-      console.error("[ghl] Contact creation failed:", data);
-      return null;
+    // New contact created
+    if (res.ok && data.contact?.id) {
+      console.log(`[ghl] NEW contact: ${data.contact.id} (${phone})`);
+      return { id: data.contact.id, isNew: true };
     }
 
-    const contactId = data.contact?.id;
-    console.log(`[ghl] Contact created/updated: ${contactId} (${input.phone})`);
-    return { id: contactId };
+    // Duplicate — GHL returns 400 with existing contactId
+    if (res.status === 400 && data.meta?.contactId) {
+      console.log(`[ghl] RETURNING caller: ${data.meta.contactId} (${phone})`);
+      return { id: data.meta.contactId, isNew: false };
+    }
+
+    console.error("[ghl] Unexpected response:", data);
+    return null;
   } catch (err) {
-    console.error("[ghl] Contact creation error:", err);
+    console.error("[ghl] Contact lookup error:", err);
     return null;
   }
 }
 
+// ── Notes (call history on contact profile) ─────────────────────────────
+
 /**
- * Add a contact to the sales pipeline at the "New Lead" stage.
+ * Add a call note to a contact's profile in GHL.
+ * Includes summary, transcript, recording URL, and duration.
  */
-export async function addToPipeline(
+async function addCallNote(
   contactId: string,
-  pipelineId?: string
-): Promise<boolean> {
+  call: CallData
+): Promise<void> {
+  const headers = getHeaders();
+  if (!headers) return;
+
+  const duration = call.duration
+    ? `${Math.floor(call.duration / 60)}m ${call.duration % 60}s`
+    : "unknown";
+
+  const timestamp = new Date().toLocaleString("en-US", {
+    timeZone: "America/Chicago",
+    dateStyle: "medium",
+    timeStyle: "short",
+  });
+
+  // Build the note body with all available info
+  const parts: string[] = [
+    `📞 Call — ${timestamp} — Duration: ${duration}`,
+    `Agent: ${call.agentName || "AI Receptionist"}`,
+  ];
+
+  if (call.callerName) parts.push(`Caller: ${call.callerName}`);
+  if (call.callerNumber) parts.push(`Phone: ${call.callerNumber}`);
+
+  if (call.summary) {
+    parts.push("", "--- Summary ---", call.summary);
+  }
+
+  if (call.transcript) {
+    // Truncate very long transcripts to fit GHL note limits
+    const maxLen = 3000;
+    const truncated = call.transcript.length > maxLen
+      ? call.transcript.slice(0, maxLen) + "\n\n[transcript truncated]"
+      : call.transcript;
+    parts.push("", "--- Transcript ---", truncated);
+  }
+
+  if (call.recordingUrl) {
+    parts.push("", `🔊 Recording: ${call.recordingUrl}`);
+  }
+
+  try {
+    const res = await fetch(`${GHL_BASE}/contacts/${contactId}/notes`, {
+      method: "POST",
+      headers,
+      body: JSON.stringify({ body: parts.join("\n") }),
+    });
+
+    if (!res.ok) {
+      const err = await res.json();
+      console.error("[ghl] Note creation failed:", err);
+      return;
+    }
+
+    console.log(`[ghl] Call note added to contact ${contactId}`);
+  } catch (err) {
+    console.error("[ghl] Note error:", err);
+  }
+}
+
+// ── Pipeline ────────────────────────────────────────────────────────────
+
+async function addToPipeline(contactId: string): Promise<boolean> {
   const headers = getHeaders();
   if (!headers) return false;
 
-  const pipeline = pipelineId || process.env.GHL_PIPELINE_ID;
+  const pipeline = process.env.GHL_PIPELINE_ID;
   if (!pipeline) {
     console.log("[ghl] GHL_PIPELINE_ID not set — skipping pipeline");
     return false;
@@ -112,6 +178,11 @@ export async function addToPipeline(
 
     if (!res.ok) {
       const data = await res.json();
+      // 422 = already in pipeline, which is fine for returning callers
+      if (data.statusCode === 422) {
+        console.log(`[ghl] Contact ${contactId} already in pipeline — OK`);
+        return true;
+      }
       console.error("[ghl] Pipeline add failed:", data);
       return false;
     }
@@ -124,31 +195,39 @@ export async function addToPipeline(
   }
 }
 
-/**
- * Full flow: create contact + add to pipeline in one call.
- * Used by the Trillet webhook and detect-calls cron.
- */
-export async function pushLeadToGHL(call: {
+// ── Main entry point ────────────────────────────────────────────────────
+
+export interface CallData {
   callerNumber: string;
   callerName?: string;
   summary?: string;
+  transcript?: string;
+  recordingUrl?: string;
   duration?: number;
   agentName?: string;
-}): Promise<void> {
+}
+
+/**
+ * Push a call to GHL. Smart handling:
+ * - First-time caller → new contact + pipeline + call note
+ * - Returning caller → just adds a call note to existing profile
+ */
+export async function pushLeadToGHL(call: CallData): Promise<void> {
   if (!process.env.GHL_API_KEY) return;
 
-  const contact = await createContact({
-    phone: call.callerNumber,
-    name: call.callerName,
-    source: `AllTheCalls AI — ${call.agentName || "Inbound Call"}`,
-    tags: ["inbound-call", "demo-line", "trillet"],
-    customFields: [
-      ...(call.summary ? [{ key: "call_summary", value: call.summary }] : []),
-      ...(call.duration ? [{ key: "call_duration", value: `${Math.floor(call.duration / 60)}m ${call.duration % 60}s` }] : []),
-    ],
-  });
+  const contact = await findOrCreateContact(
+    call.callerNumber,
+    call.callerName,
+    `AllTheCalls AI — ${call.agentName || "Inbound Call"}`
+  );
 
-  if (contact?.id) {
+  if (!contact) return;
+
+  // Only add to pipeline for NEW callers
+  if (contact.isNew) {
     await addToPipeline(contact.id);
   }
+
+  // Always add the call note (new or returning)
+  await addCallNote(contact.id, call);
 }

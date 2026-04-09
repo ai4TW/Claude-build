@@ -18,6 +18,7 @@ interface TrilletCallEvent {
   callerName?: string;
   summary?: string;
   transcript?: string;
+  recordingUrl?: string;
   duration?: number;
   status?: string;
 }
@@ -30,7 +31,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
   }
 
-  const { agentId, callId, callerNumber, callerName, summary, transcript, duration } = event;
+  const { agentId, callId, callerNumber, callerName, summary, transcript, recordingUrl, duration } = event;
 
   if (!agentId || !callerNumber) {
     return NextResponse.json({ ok: true, skipped: "missing agentId or callerNumber" });
@@ -55,11 +56,13 @@ export async function POST(req: NextRequest) {
   const isAgency = client.plan === "agency";
   const now = new Date();
 
-  // ── Push lead to GHL ──────────────────────────────────────────────────────
+  // ── Push lead to GHL (new callers → create contact, returning → add note) ─
   pushLeadToGHL({
     callerNumber,
     callerName: callerName || undefined,
     summary: summary || undefined,
+    transcript: transcript || undefined,
+    recordingUrl: recordingUrl || undefined,
     duration: duration || undefined,
     agentName: client.name,
   }).catch(err => console.error("[trillet webhook] GHL push error:", err));

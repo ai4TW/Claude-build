@@ -208,7 +208,7 @@ export async function GET(req: Request) {
         continue;
       }
 
-      // Push lead to GHL (deduplicates by phone, safe to call multiple times)
+      // Push lead to GHL (new callers → create + pipeline, returning → add note)
       pushLeadToGHL({
         callerNumber: callerId,
         callerName: call.callerName || undefined,
