@@ -28,6 +28,11 @@ export async function POST(req: NextRequest) {
   const rawBody = await req.text();
   console.log("[trillet webhook] RAW PAYLOAD:", rawBody);
 
+  // Save to debug log so we can inspect later
+  if (supabaseAdmin) {
+    supabaseAdmin.from("webhook_debug_log").insert({ source: "trillet", payload: rawBody }).then();
+  }
+
   let event: TrilletCallEvent & Record<string, unknown>;
   try {
     event = JSON.parse(rawBody);
