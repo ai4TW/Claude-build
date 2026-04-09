@@ -24,17 +24,46 @@ interface TrilletCallEvent {
 }
 
 export async function POST(req: NextRequest) {
-  let event: TrilletCallEvent;
+  // Capture raw body for debugging what Trillet sends
+  const rawBody = await req.text();
+  console.log("[trillet webhook] RAW PAYLOAD:", rawBody);
+
+  let event: TrilletCallEvent & Record<string, unknown>;
   try {
-    event = await req.json();
+    event = JSON.parse(rawBody);
   } catch {
-    return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
+    return NextResponse.json({ error: "Invalid JSON", rawBody: rawBody.slice(0, 500) }, { status: 400 });
   }
+
+  // Log all keys Trillet sends so we know the field names
+  console.log("[trillet webhook] KEYS:", Object.keys(event));
 
   const { agentId, callId, callerNumber, callerName, summary, transcript, recordingUrl, duration } = event;
 
-  if (!agentId || !callerNumber) {
-    return NextResponse.json({ ok: true, skipped: "missing agentId or callerNumber" });
+  // Also check alternative field names Trillet might use
+  const phone = callerNumber || (event.caller_number as string) || (event.from as string) || (event.phone as string) || (event.phoneNumber as string);
+  const name = callerName || (event.caller_name as string) || (event.name as string) || (event.contactName as string);
+  const sum = summary || (event.call_summary as string) || (event.analysis as string);
+  const trans = transcript || (event.call_transcript as string);
+  const rec = recordingUrl || (event.recording_url as string) || (event.recording as string);
+  const dur = duration || (event.call_duration as number);
+  const agent = agentId || (event.agent_id as string) || (event.pathwayId as string);
+
+  if (!agent && !phone) {
+    return NextResponse.json({ ok: true, skipped: "no agent or phone", keys: Object.keys(event), raw: rawBody.slice(0, 500) });
+  }
+
+  // Use the resolved values going forward
+  const resolvedCallerNumber = phone;
+  const resolvedCallerName = name;
+  const resolvedSummary = sum;
+  const resolvedTranscript = trans;
+  const resolvedRecordingUrl = rec;
+  const resolvedDuration = dur;
+  const resolvedAgentId = agent;
+
+  if (!resolvedAgentId || !resolvedCallerNumber) {
+    return NextResponse.json({ ok: true, skipped: "missing agentId or callerNumber after resolve", keys: Object.keys(event) });
   }
 
   if (!supabaseAdmin) {
@@ -45,7 +74,7 @@ export async function POST(req: NextRequest) {
   const { data: client } = await supabaseAdmin
     .from("clients")
     .select("id, plan, crm_webhook_url, name, email")
-    .or(`trillet_agent_id.eq.${agentId}`)
+    .or(`trillet_agent_id.eq.${resolvedAgentId}`)
     .single();
 
   if (!client) {
@@ -60,7 +89,7 @@ export async function POST(req: NextRequest) {
   const ghlKey = process.env.GHL_API_KEY?.trim();
   const ghlLocationId = (process.env.GHL_LOCATION_ID || "PeMkLPdDHTeQ4OWJXrGC").trim();
   const ghlPipelineId = process.env.GHL_PIPELINE_ID?.trim();
-  if (ghlKey && callerNumber) {
+  if (ghlKey && resolvedCallerNumber) {
     try {
       const ghlHeaders = {
         Authorization: `Bearer ${ghlKey}`,
@@ -74,8 +103,8 @@ export async function POST(req: NextRequest) {
         headers: ghlHeaders,
         body: JSON.stringify({
           locationId: ghlLocationId,
-          phone: callerNumber,
-          name: callerName || "Unknown Caller",
+          phone: resolvedCallerNumber,
+          name: resolvedCallerName || "Unknown Caller",
           source: `AllTheCalls AI — ${client.name}`,
           tags: ["inbound-call", "demo-line", "trillet"],
         }),
@@ -115,14 +144,14 @@ export async function POST(req: NextRequest) {
         }
 
         // Step 3: Add call note with summary, transcript, recording
-        const dur = duration ? `${Math.floor(duration / 60)}m ${duration % 60}s` : "unknown";
+        const durStr = resolvedDuration ? `${Math.floor(Number(resolvedDuration) / 60)}m ${Number(resolvedDuration) % 60}s` : "unknown";
         const noteLines = [
-          `📞 Call — ${new Date().toLocaleString("en-US", { timeZone: "America/Chicago", dateStyle: "medium", timeStyle: "short" })} — Duration: ${dur}`,
+          `📞 Call — ${new Date().toLocaleString("en-US", { timeZone: "America/Chicago", dateStyle: "medium", timeStyle: "short" })} — Duration: ${durStr}`,
           `Agent: ${client.name}`,
-          callerName ? `Caller: ${callerName}` : null,
-          summary ? `\n--- Summary ---\n${summary}` : null,
-          transcript ? `\n--- Transcript ---\n${transcript.length > 3000 ? transcript.slice(0, 3000) + "\n[truncated]" : transcript}` : null,
-          recordingUrl ? `\n🔊 Recording: ${recordingUrl}` : null,
+          resolvedCallerName ? `Caller: ${resolvedCallerName}` : null,
+          resolvedSummary ? `\n--- Summary ---\n${resolvedSummary}` : null,
+          resolvedTranscript ? `\n--- Transcript ---\n${resolvedTranscript.length > 3000 ? resolvedTranscript.slice(0, 3000) + "\n[truncated]" : resolvedTranscript}` : null,
+          resolvedRecordingUrl ? `\n🔊 Recording: ${resolvedRecordingUrl}` : null,
         ].filter(Boolean).join("\n");
 
         await fetch(`https://services.leadconnectorhq.com/contacts/${contactId}/notes`, {
@@ -138,7 +167,7 @@ export async function POST(req: NextRequest) {
   }
 
   // ── 3-touch follow-up queue (Pro + Agency) ─────────────────────────────────
-  if (isPro && callerNumber) {
+  if (isPro && resolvedCallerNumber) {
     const touches = [
       { touch_number: 1, send_at: new Date(now.getTime() + 1 * 60 * 60 * 1000) },   // +1h
       { touch_number: 2, send_at: new Date(now.getTime() + 24 * 60 * 60 * 1000) },  // +24h
@@ -147,9 +176,9 @@ export async function POST(req: NextRequest) {
 
     const rows = touches.map((t) => ({
       client_id: client.id,
-      caller_number: callerNumber,
-      caller_name: callerName || null,
-      call_summary: summary || null,
+      caller_number: resolvedCallerNumber,
+      caller_name: resolvedCallerName || null,
+      call_summary: resolvedSummary || null,
       touch_number: t.touch_number,
       send_at: t.send_at.toISOString(),
       sent: false,
@@ -170,13 +199,13 @@ export async function POST(req: NextRequest) {
         body: JSON.stringify({
           source: "allthecalls.ai",
           clientName: client.name,
-          callId,
-          agentId,
-          callerNumber,
-          callerName: callerName || null,
-          summary: summary || null,
-          transcript: transcript || null,
-          durationSeconds: duration || null,
+          callId: callId || null,
+          agentId: resolvedAgentId,
+          callerNumber: resolvedCallerNumber,
+          callerName: resolvedCallerName || null,
+          summary: resolvedSummary || null,
+          transcript: resolvedTranscript || null,
+          durationSeconds: resolvedDuration || null,
           calledAt: now.toISOString(),
         }),
       });
