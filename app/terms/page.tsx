@@ -30,7 +30,7 @@ export default function TermsPage() {
 
             <section>
               <h2 className="text-xl font-bold text-gray-900 mb-3">Subscription & Billing</h2>
-              <p>Subscriptions are billed monthly. Your 14-day free trial begins at signup. After the trial, your selected plan is charged automatically. You may cancel anytime from your dashboard — cancellation takes effect at the end of your current billing period.</p>
+              <p>Subscriptions are billed monthly. Your 7-day free trial begins at signup. After the trial, your selected plan is charged automatically. You may cancel anytime from your dashboard — cancellation takes effect at the end of your current billing period.</p>
             </section>
 
             <section>

@@ -166,8 +166,8 @@ export async function POST(request: NextRequest) {
     }
   }
 
-  // Step 3a: Email alert for Elite sign-ups
-  if (plan === "elite") {
+  // Step 3a: Email alert for Agency sign-ups
+  if (plan === "agency") {
     const resendKey = process.env.RESEND_API_KEY;
     if (resendKey) {
       fetch("https://api.resend.com/emails", {
@@ -176,10 +176,10 @@ export async function POST(request: NextRequest) {
         body: JSON.stringify({
           from: "AllTheCalls <hello@allthecalls.ai>",
           to: "hello@allthecalls.ai",
-          subject: `🔥 New Elite client: ${name}`,
-          text: `New Elite signup!\n\nName: ${name}\nEmail: ${email}\nPhone: ${phone || "not provided"}\n\nWhite-glove setup required. Reach out within 24 hours.`,
+          subject: `New Agency client: ${name}`,
+          text: `New Agency signup!\n\nName: ${name}\nEmail: ${email}\nPhone: ${phone || "not provided"}\n\nWhite-glove setup required. Reach out within 24 hours.`,
         }),
-      }).catch(err => console.error("[onboard] Elite alert email failed:", err));
+      }).catch(err => console.error("[onboard] Agency alert email failed:", err));
     }
   }
 

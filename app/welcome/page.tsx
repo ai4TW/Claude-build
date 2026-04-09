@@ -15,7 +15,7 @@ const STEPS = [
   {
     number: "01",
     title: "Payment confirmed",
-    description: "Your 14-day trial has started. No action needed on your end.",
+    description: "Your 7-day trial has started. No action needed on your end.",
     status: "done",
   },
   {

@@ -5,7 +5,7 @@ import CheckoutForm from "./CheckoutForm";
 
 export const metadata: Metadata = {
   title: "Start Your Free Trial",
-  description: "Start your 14-day free trial of All The Calls. Cancel anytime.",
+  description: "Start your 7-day free trial of All The Calls. Cancel anytime.",
   robots: { index: false },
 };
 
@@ -46,7 +46,7 @@ export default async function CheckoutPage({ searchParams }: Props) {
             <span style={{ color: "rgba(255,255,255,0.4)", fontSize: "14px" }}>·</span>
             <span style={{ color: "rgba(255,255,255,0.6)", fontSize: "14px" }}>{selectedPlan.displayPrice}</span>
             <span style={{ background: "rgba(124,58,237,0.2)", border: "1px solid rgba(124,58,237,0.35)", color: "#c4b5fd", fontSize: "11px", fontWeight: 700, padding: "3px 10px", borderRadius: "999px" }}>
-              14-day free trial
+              7-day free trial
             </span>
           </div>
         </div>
@@ -59,7 +59,7 @@ export default async function CheckoutPage({ searchParams }: Props) {
             Start Your <span className="gradient-text">Free Trial</span>
           </h1>
           <p style={{ color: "rgba(255,255,255,0.45)", fontSize: "14px" }}>
-            14 days free — no charge until your trial ends. Cancel anytime.
+            7 days free — no charge until your trial ends. Cancel anytime.
           </p>
         </div>
 

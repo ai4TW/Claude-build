@@ -151,7 +151,7 @@ export default function CheckoutForm({ plan }: { plan: string }) {
 
         {/* Trust signals */}
         <div style={{ display: "flex", gap: "16px", flexWrap: "wrap", marginBottom: "24px" }}>
-          {["🔒 256-bit SSL", "14-day free trial", "Cancel anytime"].map((item) => (
+          {["🔒 256-bit SSL", "7-day free trial", "Cancel anytime"].map((item) => (
             <span key={item} style={{ fontSize: "12px", color: "rgba(255,255,255,0.3)", display: "flex", alignItems: "center", gap: "4px" }}>
               {item}
             </span>

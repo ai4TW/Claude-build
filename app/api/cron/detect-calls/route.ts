@@ -1,7 +1,7 @@
 /**
  * GET /api/cron/detect-calls
  * Runs every hour via Vercel cron.
- * Polls Trillet call history for each Pro + Elite client.
+ * Polls Trillet call history for each Pro + Agency client.
  * For each new call not already queued, uses Claude to decide
  * whether to follow up and generates personalized messages.
  */
@@ -158,7 +158,7 @@ export async function GET(req: Request) {
   const { data: clients, error } = await supabaseAdmin
     .from("clients")
     .select("id, name, email, plan, trillet_agent_id, calendly_url")
-    .in("plan", ["pro", "elite"])
+    .in("plan", ["pro", "agency"])
     .not("trillet_agent_id", "is", null);
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });

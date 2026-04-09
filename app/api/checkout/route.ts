@@ -46,7 +46,7 @@ export async function POST(request: NextRequest) {
 
   if (!plan || !(plan in PLANS)) {
     return NextResponse.json(
-      { error: "Invalid plan. Choose starter, pro, or elite." },
+      { error: "Invalid plan. Choose starter, pro, or agency." },
       { status: 400 }
     );
   }
@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
   try {
     const session = await createCheckoutSession(
       selectedPlan.priceId,
-      14,
+      7,
       `${appUrl}/welcome?session_id={CHECKOUT_SESSION_ID}`,
       email,
       { plan, name: name || "", brokerage: brokerage || "", phone: phone || "" }

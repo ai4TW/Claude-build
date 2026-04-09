@@ -1,7 +1,7 @@
 /**
  * GET /api/cron/weekly-report
  * Runs every Monday at 12:00 UTC via Vercel cron.
- * Pulls last 7 days of call history from Trillet for each Pro + Elite client,
+ * Pulls last 7 days of call history from Trillet for each Pro + Agency client,
  * and emails them a performance summary via Resend.
  */
 
@@ -120,7 +120,7 @@ export async function GET(req: Request) {
   const { data: clients, error } = await supabaseAdmin
     .from("clients")
     .select("id, name, email, plan, trillet_agent_id")
-    .in("plan", ["pro", "elite"]);
+    .in("plan", ["pro", "agency"]);
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 

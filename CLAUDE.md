@@ -80,24 +80,25 @@ RESEND_API_KEY=<set in Vercel>
 // lib/stripe.ts
 export const PLANS = {
   starter: {
-    name: "Starter",
-    priceId: "price_1TIH7FIgJN5lMiutLRBnBWY1",
-    displayPrice: "$149/mo",
-    trialDays: 14,
+    name: "Solo",
+    priceId: "price_1TIiDH42X4XVjhD9PWXt8WgM",
+    displayPrice: "$199",
+    monthlyAmount: 199,
   },
   pro: {
     name: "Pro",
-    priceId: "price_1TIH7GIgJN5lMiutGURvH9pe",
-    displayPrice: "$249/mo",
-    trialDays: 14,
+    priceId: "price_1TIiDH42X4XVjhD91fGNwpWH",
+    displayPrice: "$349",
+    monthlyAmount: 349,
   },
-  team: {
-    name: "Team",
-    priceId: "price_1TIH7HIgJN5lMiutrnXZiiLA",
-    displayPrice: "$399/mo",
-    trialDays: 14,
+  agency: {
+    name: "Agency",
+    priceId: "price_1TIiDH42X4XVjhD94HvjsprJ",
+    displayPrice: "$599",
+    monthlyAmount: 599,
   },
 };
+// All plans: 7-day free trial. Stripe is in LIVE mode.
 ```
 
 ---
@@ -128,7 +129,7 @@ GET    /v1/api/call-history?agentId=:id  — calls for one agent
 - `GET /v1/api/call-history` returns HTTP 500 when there are zero calls — catch this and return `[]`
 - Phone number provisioning is **dashboard-only** — there is no API endpoint for it (`/v1/api/phone-numbers` returns 404)
 - No sub-accounts or client isolation — all agents share one workspace
-- The `/api/calls` route in this app incorrectly uses `/v2/api/call-history` — the correct version is `/v1/api/call-history`
+- All routes use `/v1/api/call-history` (correct)
 
 **Agent creation schema:**
 ```json
@@ -153,7 +154,7 @@ GET    /v1/api/call-history?agentId=:id  — calls for one agent
 ```
 1. Client visits allthecalls.ai/pricing
 2. Clicks "Start Free Trial" → /checkout?plan=pro
-3. Stripe embedded checkout → 14-day trial starts
+3. Stripe embedded checkout → 7-day trial starts
 4. Stripe fires webhook: checkout.session.completed
 5. /api/webhooks/stripe receives event
 6. Calls /api/onboard internally:

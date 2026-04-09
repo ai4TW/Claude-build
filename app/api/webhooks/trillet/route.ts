@@ -1,8 +1,8 @@
 /**
  * POST /api/webhooks/trillet
  * Receives call-end events from Trillet.
- * For Pro + Elite clients: queues a 3-touch SMS/email follow-up sequence.
- * For Elite clients: fires CRM webhook with call data.
+ * For Pro + Agency clients: queues a 3-touch SMS/email follow-up sequence.
+ * For Agency clients: fires CRM webhook with call data.
  *
  * Configure in Trillet dashboard: Settings → Webhooks → add this URL.
  */
@@ -50,11 +50,11 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: true, skipped: "no client for agentId" });
   }
 
-  const isPro = ["pro", "elite"].includes(client.plan);
-  const isElite = client.plan === "elite";
+  const isPro = ["pro", "agency"].includes(client.plan);
+  const isAgency = client.plan === "agency";
   const now = new Date();
 
-  // ── 3-touch follow-up queue (Pro + Elite) ──────────────────────────────────
+  // ── 3-touch follow-up queue (Pro + Agency) ─────────────────────────────────
   if (isPro && callerNumber) {
     const touches = [
       { touch_number: 1, send_at: new Date(now.getTime() + 1 * 60 * 60 * 1000) },   // +1h
@@ -78,8 +78,8 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  // ── CRM webhook (Elite only) ───────────────────────────────────────────────
-  if (isElite && client.crm_webhook_url) {
+  // ── CRM webhook (Agency only) ──────────────────────────────────────────────
+  if (isAgency && client.crm_webhook_url) {
     try {
       await fetch(client.crm_webhook_url, {
         method: "POST",

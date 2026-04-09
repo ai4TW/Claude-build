@@ -59,7 +59,7 @@ const faqs = [
   { q: "Does it really sound like my business?", a: "Yes. You provide your name, business name, and preferred greeting style. The AI introduces itself exactly as you specify — callers hear your business name, not a generic bot. Most callers never realize they didn't speak to a real person." },
   { q: "What happens when I want to take a call myself?", a: "Simply don't forward your calls during the hours you want to handle them personally. You control when All The Calls is active — turn it on for after-hours, weekends, or whenever you're unavailable." },
   { q: "Will it work with my current phone number?", a: "Yes. We assign you a dedicated number that your existing line forwards to. Your clients always call your same number — nothing changes on their end." },
-  { q: "What happens after the 14-day trial?", a: "You'll be charged for the plan you selected. No surprises — cancel anytime before the trial ends with no charge. We'll remind you 3 days before billing starts." },
+  { q: "What happens after the 7-day trial?", a: "You'll be charged for the plan you selected. No surprises — cancel anytime before the trial ends with no charge. We'll remind you before billing starts." },
   { q: "Can I hear it before I sign up?", a: `Absolutely. Call ${DEMO_PHONE} right now and hear a live AllTheCalls AI in action. Takes 60 seconds. That's exactly what your callers will experience.` },
 ];
 
@@ -195,7 +195,7 @@ export default function Home() {
 
             <div className="flex flex-col sm:flex-row gap-4 mb-6">
               <Link href="#pricing" className="btn-glow w-full sm:w-auto" style={{ color: "white", fontWeight: 700, fontSize: "16px", padding: "16px 32px", borderRadius: "12px", textDecoration: "none", textAlign: "center" }}>
-                Start 14-Day Free Trial
+                Start 7-Day Free Trial
               </Link>
               <a href="#hear-it" className="btn-ghost w-full sm:w-auto" style={{ fontWeight: 600, fontSize: "16px", padding: "16px 32px", borderRadius: "12px", textDecoration: "none", textAlign: "center" }}>
                 Hear It Live →

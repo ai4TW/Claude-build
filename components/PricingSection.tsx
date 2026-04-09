@@ -6,8 +6,8 @@ import { useState } from "react";
 const plans = [
   {
     id: "starter",
-    name: "Starter",
-    price: 349,
+    name: "Solo",
+    price: 199,
     desc: "One AI receptionist. Never miss a call.",
     popular: false,
     badge: null,
@@ -21,13 +21,13 @@ const plans = [
       { text: "Full call transcripts & summaries", highlight: false },
       { text: "5 AI voice options", highlight: false },
       { text: "Done-for-you setup by our team", highlight: false },
-      { text: "14-day free trial · cancel anytime", highlight: false },
+      { text: "7-day free trial · cancel anytime", highlight: false },
     ],
   },
   {
     id: "pro",
     name: "Pro",
-    price: 497,
+    price: 349,
     desc: "The complete system. Built to convert.",
     popular: true,
     badge: "MOST POPULAR",
@@ -44,13 +44,13 @@ const plans = [
       { text: "Custom knowledge base — your services, pricing & FAQs", highlight: true },
       { text: "Weekly performance report every Monday", highlight: true },
       { text: "Priority support", highlight: false },
-      { text: "14-day free trial · cancel anytime", highlight: false },
+      { text: "7-day free trial · cancel anytime", highlight: false },
     ],
   },
   {
-    id: "elite",
-    name: "Elite",
-    price: 1497,
+    id: "agency",
+    name: "Agency",
+    price: 599,
     desc: "The full operation. Zero leads lost.",
     popular: false,
     badge: "FULL SYSTEM",
@@ -67,26 +67,26 @@ const plans = [
       { text: "White-glove setup — our team configures everything live", highlight: true },
       { text: "Monthly 30-min strategy & optimization call", highlight: true },
       { text: "Dedicated priority support channel", highlight: false },
-      { text: "14-day free trial · cancel anytime", highlight: false },
+      { text: "7-day free trial · cancel anytime", highlight: false },
     ],
   },
 ];
 
 const comparisonRows = [
-  { label: "AI receptionists",            starter: "1",           pro: "1",           elite: "5" },
-  { label: "Monthly calls",               starter: "300",         pro: "Unlimited",   elite: "Unlimited" },
-  { label: "24/7 availability",           starter: true,          pro: true,          elite: true },
-  { label: "SMS follow-up after calls",   starter: true,          pro: true,          elite: true },
-  { label: "3-touch follow-up sequence",  starter: false,         pro: true,          elite: true },
-  { label: "Call transcripts",            starter: true,          pro: true,          elite: true },
-  { label: "Custom knowledge base",       starter: false,         pro: true,          elite: true },
-  { label: "Premium voice library",       starter: false,         pro: true,          elite: true },
-  { label: "Weekly performance report",   starter: false,         pro: true,          elite: true },
-  { label: "Calendar booking (Calendly)", starter: false,         pro: false,         elite: true },
-  { label: "CRM auto-logging",            starter: false,         pro: false,         elite: true },
-  { label: "White-glove setup",           starter: false,         pro: false,         elite: true },
-  { label: "Monthly strategy call",       starter: false,         pro: false,         elite: true },
-  { label: "Priority support",            starter: false,         pro: true,          elite: true },
+  { label: "AI receptionists",            starter: "1",           pro: "1",           agency: "5" },
+  { label: "Monthly calls",               starter: "300",         pro: "Unlimited",   agency: "Unlimited" },
+  { label: "24/7 availability",           starter: true,          pro: true,          agency: true },
+  { label: "SMS follow-up after calls",   starter: true,          pro: true,          agency: true },
+  { label: "3-touch follow-up sequence",  starter: false,         pro: true,          agency: true },
+  { label: "Call transcripts",            starter: true,          pro: true,          agency: true },
+  { label: "Custom knowledge base",       starter: false,         pro: true,          agency: true },
+  { label: "Premium voice library",       starter: false,         pro: true,          agency: true },
+  { label: "Weekly performance report",   starter: false,         pro: true,          agency: true },
+  { label: "Calendar booking (Calendly)", starter: false,         pro: false,         agency: true },
+  { label: "CRM auto-logging",            starter: false,         pro: false,         agency: true },
+  { label: "White-glove setup",           starter: false,         pro: false,         agency: true },
+  { label: "Monthly strategy call",       starter: false,         pro: false,         agency: true },
+  { label: "Priority support",            starter: false,         pro: true,          agency: true },
 ];
 
 function CheckIcon({ color }: { color: string }) {
@@ -117,7 +117,7 @@ function PlanCard({
   const router = useRouter();
   const pad = compact ? "28px 24px" : "36px 32px";
   const priceSize = compact ? "2.5rem" : "3.25rem";
-  const isElite = plan.id === "elite";
+  const isAgency = plan.id === "agency";
 
   return (
     <div
@@ -130,13 +130,13 @@ function PlanCard({
         flexDirection: "column",
         background: plan.popular
           ? "rgba(124,58,237,0.12)"
-          : isElite
+          : isAgency
           ? "rgba(6,182,212,0.06)"
           : "rgba(255,255,255,0.03)",
         border: `1px solid ${
           plan.popular
             ? "rgba(124,58,237,0.6)"
-            : isElite
+            : isAgency
             ? "rgba(6,182,212,0.3)"
             : "rgba(255,255,255,0.08)"
         }`,
@@ -144,7 +144,7 @@ function PlanCard({
         WebkitBackdropFilter: "blur(20px)",
         boxShadow: plan.popular
           ? "0 0 60px rgba(124,58,237,0.18), 0 0 120px rgba(6,182,212,0.05)"
-          : isElite
+          : isAgency
           ? "0 0 40px rgba(6,182,212,0.08)"
           : "none",
       }}
@@ -208,7 +208,7 @@ function PlanCard({
         <span style={{ color: "rgba(255,255,255,0.4)", fontSize: "15px" }}>/mo</span>
       </div>
       <p style={{ color: "rgba(255,255,255,0.25)", fontSize: "11px", marginBottom: "28px" }}>
-        14-day free trial · cancel anytime
+        7-day free trial · cancel anytime
       </p>
 
       {/* Features */}
@@ -245,7 +245,7 @@ function PlanCard({
           border: plan.popular ? "none" : "1px solid rgba(255,255,255,0.15)",
           background: plan.popular
             ? "linear-gradient(135deg, #7c3aed, #06b6d4)"
-            : isElite
+            : isAgency
             ? "rgba(6,182,212,0.12)"
             : "rgba(255,255,255,0.05)",
           boxShadow: plan.popular ? "0 0 30px rgba(124,58,237,0.4)" : "none",
@@ -269,7 +269,7 @@ function PlanCard({
 }
 
 export default function PricingSection() {
-  const [tab, setTab] = useState<"starter" | "pro" | "elite">("pro");
+  const [tab, setTab] = useState<"starter" | "pro" | "agency">("pro");
 
   return (
     <section
@@ -425,7 +425,7 @@ export default function PricingSection() {
             </div>
             <div style={{ textAlign: "left" }}>
               <p style={{ color: "rgba(255,255,255,0.9)", fontWeight: 700, fontSize: "15px", marginBottom: "2px" }}>
-                14-day free trial · cancel anytime
+                7-day free trial · cancel anytime
               </p>
               <p style={{ color: "rgba(255,255,255,0.4)", fontSize: "13px" }}>
                 Set up your AI, test it live, and only pay when you&apos;re confident it works for your business.
@@ -443,14 +443,14 @@ export default function PricingSection() {
                   Feature
                 </th>
                 <th style={{ padding: "20px 16px", textAlign: "center", color: "rgba(255,255,255,0.7)", fontSize: "13px", fontWeight: 700 }}>
-                  Starter<br /><span style={{ color: "rgba(255,255,255,0.4)", fontWeight: 400 }}>$349/mo</span>
+                  Solo<br /><span style={{ color: "rgba(255,255,255,0.4)", fontWeight: 400 }}>$199/mo</span>
                 </th>
                 <th style={{ padding: "20px 16px", textAlign: "center", fontSize: "13px", fontWeight: 700, background: "rgba(124,58,237,0.08)" }}>
                   <span style={{ color: "transparent", background: "linear-gradient(135deg, #a78bfa, #22d3ee)", WebkitBackgroundClip: "text", backgroundClip: "text" }}>Pro ⭐</span>
-                  <br /><span style={{ color: "rgba(167,139,250,0.6)", fontWeight: 400 }}>$497/mo</span>
+                  <br /><span style={{ color: "rgba(167,139,250,0.6)", fontWeight: 400 }}>$349/mo</span>
                 </th>
                 <th style={{ padding: "20px 16px", textAlign: "center", color: "rgba(255,255,255,0.7)", fontSize: "13px", fontWeight: 700 }}>
-                  Elite<br /><span style={{ color: "rgba(255,255,255,0.4)", fontWeight: 400 }}>$1,497/mo</span>
+                  Agency<br /><span style={{ color: "rgba(255,255,255,0.4)", fontWeight: 400 }}>$599/mo</span>
                 </th>
               </tr>
             </thead>
@@ -479,10 +479,10 @@ export default function PricingSection() {
                     )}
                   </td>
                   <td style={{ padding: "16px", textAlign: "center" }}>
-                    {typeof row.elite === "boolean" ? (
-                      row.elite ? <CheckIcon color="#22d3ee" /> : <XIcon />
+                    {typeof row.agency === "boolean" ? (
+                      row.agency ? <CheckIcon color="#22d3ee" /> : <XIcon />
                     ) : (
-                      <span style={{ color: "rgba(255,255,255,0.7)", fontSize: "13px", fontWeight: 600 }}>{row.elite}</span>
+                      <span style={{ color: "rgba(255,255,255,0.7)", fontSize: "13px", fontWeight: 600 }}>{row.agency}</span>
                     )}
                   </td>
                 </tr>

@@ -126,7 +126,7 @@ export default function JustHappenedPage() {
         </a>
 
         <p style={{ marginTop: 14, fontSize: 13, color: "rgba(255,255,255,0.25)" }}>
-          14-day free trial · no setup fees · cancel anytime
+          7-day free trial · no setup fees · cancel anytime
         </p>
       </section>
 
@@ -297,7 +297,7 @@ export default function JustHappenedPage() {
             boxShadow: "0 0 40px rgba(124,58,237,0.35)",
           }}
         >
-          Start your free trial — $497/mo after 14 days
+          Start your free trial — $349/mo after 7 days
         </a>
         <p style={{ marginTop: 16, fontSize: 13, color: "rgba(255,255,255,0.2)" }}>
           No commitment · Cancel anytime · Live in days
