@@ -57,15 +57,19 @@ export async function POST(req: NextRequest) {
   const now = new Date();
 
   // ── Push lead to GHL (new callers → create contact, returning → add note) ─
-  pushLeadToGHL({
-    callerNumber,
-    callerName: callerName || undefined,
-    summary: summary || undefined,
-    transcript: transcript || undefined,
-    recordingUrl: recordingUrl || undefined,
-    duration: duration || undefined,
-    agentName: client.name,
-  }).catch(err => console.error("[trillet webhook] GHL push error:", err));
+  try {
+    await pushLeadToGHL({
+      callerNumber,
+      callerName: callerName || undefined,
+      summary: summary || undefined,
+      transcript: transcript || undefined,
+      recordingUrl: recordingUrl || undefined,
+      duration: duration || undefined,
+      agentName: client.name,
+    });
+  } catch (err) {
+    console.error("[trillet webhook] GHL push error:", err);
+  }
 
   // ── 3-touch follow-up queue (Pro + Agency) ─────────────────────────────────
   if (isPro && callerNumber) {
@@ -115,5 +119,5 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  return NextResponse.json({ ok: true });
+  return NextResponse.json({ ok: true, ghlConfigured: !!process.env.GHL_API_KEY, client: client.name });
 }
