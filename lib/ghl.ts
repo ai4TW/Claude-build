@@ -45,7 +45,7 @@ async function findOrCreateContact(
   const headers = getHeaders();
   if (!headers) return null;
 
-  const locationId = process.env.GHL_LOCATION_ID || "PeMkLPdDHTeQ4OWJXrGC";
+  const locationId = (process.env.GHL_LOCATION_ID || "PeMkLPdDHTeQ4OWJXrGC").trim();
 
   try {
     const res = await fetch(`${GHL_BASE}/contacts/`, {
@@ -158,7 +158,7 @@ async function addToPipeline(contactId: string): Promise<boolean> {
   const headers = getHeaders();
   if (!headers) return false;
 
-  const pipeline = process.env.GHL_PIPELINE_ID;
+  const pipeline = process.env.GHL_PIPELINE_ID?.trim();
   if (!pipeline) {
     console.log("[ghl] GHL_PIPELINE_ID not set — skipping pipeline");
     return false;
@@ -170,7 +170,7 @@ async function addToPipeline(contactId: string): Promise<boolean> {
       headers,
       body: JSON.stringify({
         pipelineId: pipeline,
-        locationId: process.env.GHL_LOCATION_ID || "PeMkLPdDHTeQ4OWJXrGC",
+        locationId: (process.env.GHL_LOCATION_ID || "PeMkLPdDHTeQ4OWJXrGC").trim(),
         contactId,
         name: "Inbound Call Lead",
         status: "open",
