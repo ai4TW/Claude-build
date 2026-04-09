@@ -85,8 +85,7 @@ export async function createContact(input: GHLContactInput): Promise<{ id: strin
  */
 export async function addToPipeline(
   contactId: string,
-  pipelineId?: string,
-  stageId?: string
+  pipelineId?: string
 ): Promise<boolean> {
   const headers = getHeaders();
   if (!headers) return false;
@@ -103,7 +102,6 @@ export async function addToPipeline(
       headers,
       body: JSON.stringify({
         pipelineId: pipeline,
-        stageId: stageId || undefined, // GHL defaults to first stage if not set
         locationId: process.env.GHL_LOCATION_ID || "PeMkLPdDHTeQ4OWJXrGC",
         contactId,
         name: "Inbound Call Lead",
