@@ -57,18 +57,84 @@ export async function POST(req: NextRequest) {
   const now = new Date();
 
   // ── Push lead to GHL (new callers → create contact, returning → add note) ─
-  try {
-    await pushLeadToGHL({
-      callerNumber,
-      callerName: callerName || undefined,
-      summary: summary || undefined,
-      transcript: transcript || undefined,
-      recordingUrl: recordingUrl || undefined,
-      duration: duration || undefined,
-      agentName: client.name,
-    });
-  } catch (err) {
-    console.error("[trillet webhook] GHL push error:", err);
+  const ghlKey = process.env.GHL_API_KEY?.trim();
+  const ghlLocationId = (process.env.GHL_LOCATION_ID || "PeMkLPdDHTeQ4OWJXrGC").trim();
+  const ghlPipelineId = process.env.GHL_PIPELINE_ID?.trim();
+  if (ghlKey && callerNumber) {
+    try {
+      const ghlHeaders = {
+        Authorization: `Bearer ${ghlKey}`,
+        "Content-Type": "application/json",
+        Version: "2021-07-28",
+      };
+
+      // Step 1: Create or find existing contact
+      const createRes = await fetch("https://services.leadconnectorhq.com/contacts/", {
+        method: "POST",
+        headers: ghlHeaders,
+        body: JSON.stringify({
+          locationId: ghlLocationId,
+          phone: callerNumber,
+          name: callerName || "Unknown Caller",
+          source: `AllTheCalls AI — ${client.name}`,
+          tags: ["inbound-call", "demo-line", "trillet"],
+        }),
+      });
+      const createData = await createRes.json();
+
+      let contactId: string | null = null;
+      let isNewContact = false;
+
+      if (createRes.ok && createData.contact?.id) {
+        contactId = createData.contact.id;
+        isNewContact = true;
+        console.log(`[ghl] NEW contact: ${contactId}`);
+      } else if (createRes.status === 400 && createData.meta?.contactId) {
+        contactId = createData.meta.contactId;
+        console.log(`[ghl] RETURNING caller: ${contactId}`);
+      } else {
+        console.error("[ghl] Contact creation failed:", createRes.status, JSON.stringify(createData));
+      }
+
+      if (contactId) {
+        // Step 2: Add to pipeline (new callers only)
+        if (isNewContact && ghlPipelineId) {
+          await fetch("https://services.leadconnectorhq.com/opportunities/", {
+            method: "POST",
+            headers: ghlHeaders,
+            body: JSON.stringify({
+              pipelineId: ghlPipelineId,
+              locationId: ghlLocationId,
+              contactId,
+              name: "Inbound Call Lead",
+              status: "open",
+              source: "AllTheCalls AI",
+            }),
+          });
+          console.log(`[ghl] Added to pipeline`);
+        }
+
+        // Step 3: Add call note with summary, transcript, recording
+        const dur = duration ? `${Math.floor(duration / 60)}m ${duration % 60}s` : "unknown";
+        const noteLines = [
+          `📞 Call — ${new Date().toLocaleString("en-US", { timeZone: "America/Chicago", dateStyle: "medium", timeStyle: "short" })} — Duration: ${dur}`,
+          `Agent: ${client.name}`,
+          callerName ? `Caller: ${callerName}` : null,
+          summary ? `\n--- Summary ---\n${summary}` : null,
+          transcript ? `\n--- Transcript ---\n${transcript.length > 3000 ? transcript.slice(0, 3000) + "\n[truncated]" : transcript}` : null,
+          recordingUrl ? `\n🔊 Recording: ${recordingUrl}` : null,
+        ].filter(Boolean).join("\n");
+
+        await fetch(`https://services.leadconnectorhq.com/contacts/${contactId}/notes`, {
+          method: "POST",
+          headers: ghlHeaders,
+          body: JSON.stringify({ body: noteLines }),
+        });
+        console.log(`[ghl] Call note added`);
+      }
+    } catch (err) {
+      console.error("[trillet webhook] GHL error:", err);
+    }
   }
 
   // ── 3-touch follow-up queue (Pro + Agency) ─────────────────────────────────
