@@ -8,6 +8,7 @@
 
 import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase";
+import { pushLeadToGHL } from "@/lib/ghl";
 
 const TRILLET = "https://api.trillet.ai";
 const ANTHROPIC = "https://api.anthropic.com/v1/messages";
@@ -205,6 +206,15 @@ export async function GET(req: Request) {
         skipped++;
         continue;
       }
+
+      // Push lead to GHL (deduplicates by phone, safe to call multiple times)
+      pushLeadToGHL({
+        callerNumber: callerId,
+        callerName: call.callerName || undefined,
+        summary: call.summary || undefined,
+        duration: call.duration || undefined,
+        agentName: client.name,
+      }).catch(err => console.error("[detect-calls] GHL push error:", err));
 
       // Ask Claude whether and how to follow up
       const decision = await getFollowUpDecision(call, client.name, client.calendly_url);

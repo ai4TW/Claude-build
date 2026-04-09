@@ -9,6 +9,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase";
+import { pushLeadToGHL } from "@/lib/ghl";
 
 interface TrilletCallEvent {
   agentId?: string;
@@ -53,6 +54,15 @@ export async function POST(req: NextRequest) {
   const isPro = ["pro", "agency"].includes(client.plan);
   const isAgency = client.plan === "agency";
   const now = new Date();
+
+  // ── Push lead to GHL ──────────────────────────────────────────────────────
+  pushLeadToGHL({
+    callerNumber,
+    callerName: callerName || undefined,
+    summary: summary || undefined,
+    duration: duration || undefined,
+    agentName: client.name,
+  }).catch(err => console.error("[trillet webhook] GHL push error:", err));
 
   // ── 3-touch follow-up queue (Pro + Agency) ─────────────────────────────────
   if (isPro && callerNumber) {
