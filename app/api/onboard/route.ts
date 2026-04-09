@@ -12,6 +12,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase";
+import { queueSequence } from "@/lib/email-sequences";
 
 function generatePassword(): string {
   const chars = "ABCDEFGHJKMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789";
@@ -183,7 +184,13 @@ export async function POST(request: NextRequest) {
     }
   }
 
-  // Step 3b: Send welcome email — this MUST succeed
+  // Step 3b: Queue trial onboarding email sequence
+  if (supabaseAdmin) {
+    queueSequence(supabaseAdmin, "trial_onboarding", email, name, undefined, { plan })
+      .catch(err => console.error("[onboard] Trial onboarding sequence queue failed:", err));
+  }
+
+  // Step 3c: Send welcome email — this MUST succeed
   try {
     await sendWelcomeEmail(body, password);
     console.log(`[onboard] Welcome email sent to ${email}`);

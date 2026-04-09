@@ -9,6 +9,7 @@
 import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase";
 import { pushLeadToGHL } from "@/lib/ghl";
+import { queueSequence } from "@/lib/email-sequences";
 
 const TRILLET = "https://api.trillet.ai";
 const ANTHROPIC = "https://api.anthropic.com/v1/messages";

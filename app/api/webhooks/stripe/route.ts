@@ -20,6 +20,8 @@
  */
 
 import { NextRequest, NextResponse } from "next/server";
+import { queueSequence } from "@/lib/email-sequences";
+import { createClient } from "@supabase/supabase-js";
 
 const STRIPE_API = "https://api.stripe.com/v1";
 
@@ -147,9 +149,24 @@ async function handleSubscriptionDeleted(subscription: Record<string, unknown>) 
 }
 
 async function handlePaymentFailed(invoice: Record<string, unknown>) {
-  // TODO: Send payment failure email to client via Resend
-  // For now, just log it
-  console.warn(`[webhook] Payment failed for customer: ${invoice.customer}`);
+  const customerId = invoice.customer as string;
+  const customerEmail = invoice.customer_email as string;
+  const customerName = (invoice.customer_name as string) || "";
+
+  console.warn(`[webhook] Payment failed for customer: ${customerId}`);
+
+  // Queue payment recovery email sequence
+  if (customerEmail) {
+    const supabaseUrl = process.env.SUPABASE_URL;
+    const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+    if (supabaseUrl && supabaseKey) {
+      const supabase = createClient(supabaseUrl, supabaseKey, {
+        auth: { autoRefreshToken: false, persistSession: false },
+      });
+      await queueSequence(supabase, "payment_failed", customerEmail, customerName || "there")
+        .catch(err => console.error("[webhook] Payment failed sequence queue error:", err));
+    }
+  }
 }
 
 export async function POST(request: NextRequest) {
