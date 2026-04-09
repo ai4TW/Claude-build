@@ -119,5 +119,31 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  return NextResponse.json({ ok: true, ghlConfigured: !!process.env.GHL_API_KEY, client: client.name });
+  // Debug: inline GHL test to see exact response
+  let ghlDebug: unknown = null;
+  const ghlKey = process.env.GHL_API_KEY?.trim();
+  if (ghlKey && callerNumber) {
+    try {
+      const ghlRes = await fetch("https://services.leadconnectorhq.com/contacts/", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${ghlKey}`,
+          "Content-Type": "application/json",
+          Version: "2021-07-28",
+        },
+        body: JSON.stringify({
+          locationId: process.env.GHL_LOCATION_ID?.trim() || "PeMkLPdDHTeQ4OWJXrGC",
+          phone: callerNumber,
+          name: callerName || "Unknown Caller",
+          source: "AllTheCalls AI — debug test",
+          tags: ["debug-test"],
+        }),
+      });
+      ghlDebug = { status: ghlRes.status, body: await ghlRes.json() };
+    } catch (err) {
+      ghlDebug = { error: String(err) };
+    }
+  }
+
+  return NextResponse.json({ ok: true, ghlConfigured: !!ghlKey, client: client.name, ghlDebug });
 }
