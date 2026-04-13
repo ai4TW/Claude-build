@@ -1,112 +1,129 @@
-# CEO Directives — Week of April 10, 2026
+# CEO Directives — Week of April 14, 2026
 
 _Issued by: Director_
-_Date: 2026-04-10 (Thursday mid-week pulse)_
+_Date: 2026-04-13 (Monday weekly review)_
 
 ---
 
-## BLOCKER: Owner Action Required
+## ⛔ CRITICAL: Owner Must Unblock This Week or Revenue Timeline Fails
 
-Before any agent work proceeds, the owner must resolve these:
+We are 6 days stalled. Every agent is idle. The product works. The pipeline is drafted. Nothing is reaching the real world. Three decisions/actions from the owner will unblock everything:
 
-### B1. Confirm Pricing
-**What:** Outreach says $149/mo. Stripe is set to $397/$497/$1,497. Which is it?
-**Options:**
-- (a) Keep $397/$497/$1,497 — all outreach must be rewritten with correct pricing
-- (b) Revert to $199/$349/$599 — update Stripe price IDs
-- (c) Use $149 as a "founding rate" for first 5 clients, then raise — outreach stays as-is but checkout needs a promo flow
-**Where to respond:** Create a note in `shared-workspace/director/` or reply via Paperclip inbox
-**Deadline:** Before April 14 (Batch 2 send date)
+### B1. DECIDE: What is the pricing? (5 minutes)
 
-### B2. Send Batch 1 Emails
-**What:** 10 personalized cold emails have been sitting in `shared-workspace/sales/outreach/batch-1-2026-04-07.md` since April 7. They haven't been sent.
-**Action:** Send them from hello@allthecalls.com or a personal Gmail. Replace `[Your Name]` with actual sender name.
-**Note:** If pricing changes (B1), update the $149 references in these emails first.
-**Deadline:** ASAP — every day of delay is a day the pipeline sits cold
+Pick ONE and tell me:
 
-### B3. Post Content
-**What:** LinkedIn posts, Facebook posts, and an email draft are ready in `shared-workspace/content/`. None have been published.
-**Action:** Post to AllTheCalls social accounts. LinkedIn Post 3 needs real metrics or removal of specific numbers (flagged in `content/needs-review.md`).
-**Deadline:** This week — content loses relevance quickly
+- **(a) $199 / $349 / $599** — the original tiers. Competitive, easy sell, good margins on Pro+Agency. Stripe price IDs need updating.
+- **(b) $397 / $497 / $1,497** — the current Stripe pricing. Premium positioning but harder cold sell with zero social proof. All outreach must be rewritten.
+- **(c) Founding rate: $149/mo** for first 5 clients, then move to (a) or (b). Fastest path to first revenue. Outreach stays as-is.
+
+**My recommendation:** Option (c) to get first clients fast, then move to option (a). $149 founding rate closes deals. First 5 clients become testimonials. Then raise to $199/$349/$599 with social proof. The current $397+ pricing with zero clients and zero reviews is a tough sell via cold email.
+
+**Where to respond:** Reply via Paperclip inbox or drop a note in `shared-workspace/director/pricing-decision.md`
+
+### B2. CONFIRM: Were Batch 1 emails sent? (2 minutes)
+
+Did you send the 10 emails from `shared-workspace/sales/outreach/batch-1-2026-04-07.md`?
+- If YES → tell me which tool you used (Gmail? Instantly?) and whether you got any replies
+- If NO → send them TODAY, even from personal Gmail. Or tell me what's blocking you.
+
+### B3. DO: Post the content (15 minutes)
+
+Open `shared-workspace/content/linkedin/` and `shared-workspace/content/facebook/` and post them to your AllTheCalls social accounts. This requires zero decisions — the content is written and reviewed.
 
 ---
 
-## Agent Directives
+## Agent Directives (Conditional on B1)
+
+All agent work below activates ONLY after the owner confirms pricing (B1).
 
 ### 1. Sales Agent
 
-**Task 1.1 — Correct pricing in Batch 2 outreach**
-- **What:** Update all 23 emails in `shared-workspace/sales/outreach/batch-2-2026-04-14.md` to reflect the owner's confirmed pricing (see B1 above)
-- **Where:** Edit the existing file in place
-- **Success:** Every email shows the correct price, no `$149` references remain
-- **When:** Immediately after owner confirms pricing (B1)
+**Task 1.1 — Fix pricing in ALL outreach**
+- **What:** Search every file in `shared-workspace/sales/` and replace any $149 references with the confirmed price. If option (a), use "$199/mo" for Solo. If option (c), use "$149/mo founding rate (limited to first 5 clients)".
+- **Where:** Edit files in place
+- **Success:** Zero pricing mismatches across all sales materials
 
-**Task 1.2 — Prepare Batch 1 follow-up emails**
-- **What:** Draft follow-up #2 for all 10 Batch 1 prospects who haven't replied
-- **Where:** Save to `shared-workspace/sales/outreach/batch-1-followup-2026-04-12.md`
-- **Success:** 10 short, personalized follow-ups ready to send. Different angle than original email. Include correct pricing.
-- **When:** By April 12
+**Task 1.2 — Batch 1 follow-ups (OVERDUE)**
+- **What:** Draft follow-up #2 for all 10 Batch 1 prospects. If originals were sent, use a different angle. If originals were NOT sent, combine original + follow-up into a single stronger email.
+- **Where:** `shared-workspace/sales/outreach/batch-1-followup-2026-04-14.md`
+- **Success:** 10 personalized follow-ups ready to copy-paste and send
 
-**Task 1.3 — Pipeline review**
-- **What:** Update pipeline status based on any replies received. Move anyone who replied to next stage.
-- **Where:** Update `shared-workspace/sales/pipeline.md` and create `shared-workspace/sales/pipeline-review-2026-04-14.md`
-- **Success:** Pipeline accurately reflects current state of all 33 prospects
-- **When:** April 14 (Monday)
+**Task 1.3 — Batch 2 pricing correction + send prep**
+- **What:** Update all 23 Batch 2 emails with confirmed pricing. These were supposed to send April 14.
+- **Where:** Edit `shared-workspace/sales/outreach/batch-2-2026-04-14.md` in place
+- **Success:** 23 emails ready to send with correct pricing
+
+**Task 1.4 — Pipeline status update**
+- **What:** Update pipeline with any new data (replies, bounces, no-responses). Mark Batch 1 follow-up status.
+- **Where:** Update `shared-workspace/sales/pipeline.md`
+- **Success:** Pipeline reflects reality as of April 14
 
 ### 2. Content Agent
 
-**Task 2.1 — Create Week 2 content batch**
-- **What:** New set of LinkedIn posts, Facebook posts, and email for week of April 14. Theme: social proof angle — even without clients, use the product demo, founder story, or "why we built this" narrative.
-- **Where:** Save to `shared-workspace/content/linkedin/2026-04-14-posts.md`, `shared-workspace/content/facebook/2026-04-14-posts.md`, `shared-workspace/content/emails/2026-04-14-email.md`
-- **Success:** 3 LinkedIn posts, 2 Facebook posts, 1 email — all using correct pricing, all ready to publish
-- **When:** By April 14
+**Task 2.1 — Week 2 content batch**
+- **What:** Create new LinkedIn + Facebook content for week of April 14. Themes: "Why we built AllTheCalls" (founder story), "What happens when you miss a call" (pain point), "Our AI just handled its 100th demo call" (momentum). Use confirmed pricing.
+- **Where:** `shared-workspace/content/linkedin/2026-04-14-posts.md`, `shared-workspace/content/facebook/2026-04-14-posts.md`
+- **Success:** 3 LinkedIn posts, 2 Facebook posts, all with correct pricing, ready to publish
 
 **Task 2.2 — Fix pricing in Week 1 content**
-- **What:** If any Week 1 content references $149, update to match confirmed pricing
-- **Where:** Edit files in `shared-workspace/content/`
-- **Success:** All content reflects one consistent price point
-- **When:** After owner confirms pricing (B1)
+- **What:** Update any $149 references in existing content files
+- **Where:** Edit files in `shared-workspace/content/` in place
+- **Success:** All content has consistent pricing
+
+**Task 2.3 — Create a 60-second demo video script**
+- **What:** Write a script for Brayden to record showing how the AI answers a call. This is the highest-converting content we can make right now.
+- **Where:** `shared-workspace/content/video-scripts/demo-walkthrough-60s.md`
+- **Success:** A tight 60-second script with visual cues, talking points, and CTA
 
 ### 3. Client Success Agent
 
 **Task 3.1 — Update pilot playbook pricing**
-- **What:** `shared-workspace/client-success/pilot-activation.md` references $349/month for Starter. Update to match confirmed pricing.
+- **What:** Update `shared-workspace/client-success/pilot-activation.md` with confirmed pricing
 - **Where:** Edit in place
-- **Success:** All pricing references in the playbook match live Stripe pricing
-- **When:** After owner confirms pricing (B1)
+- **Success:** Playbook matches live pricing
 
 **Task 3.2 — Standby for activation**
-- **What:** If any Batch 1 prospect replies with interest, execute the pilot activation playbook immediately
-- **Where:** Follow `shared-workspace/client-success/pilot-activation.md` steps, update `shared-workspace/client-success/clients.md`
-- **Success:** New pilot client is live within 2 hours of "yes"
-- **When:** On demand
+- **What:** If any prospect replies with interest, execute pilot playbook immediately
+- **When:** On demand — be ready to activate within 2 hours
 
 ### 4. Onboarding Agent
 
 **Task 4.1 — Standby**
-- **What:** No onboarding tasks this week. Stay ready.
-- **When:** Activate when Client Success hands off a new paying client
+- **What:** No onboarding work this week. Stay ready for first client handoff.
 
 ---
 
-## Priority Stack (what matters most this week)
+## Priority Stack
 
-1. **RESOLVE PRICING** — nothing else moves until this is settled
-2. **SEND THE EMAILS** — pipeline has been drafted for 3 days with no sends
-3. **Prep follow-ups** — Batch 1 follow-ups due in 2 days
-4. **Post content** — social presence is zero right now
-5. **Correct all agent outputs** — once pricing is confirmed, sweep every file
+1. **GET THE PRICING DECISION** — everything depends on this
+2. **CONFIRM BATCH 1 STATUS** — did emails go out or not?
+3. **POST EXISTING CONTENT** — zero-effort action, just copy-paste to social
+4. **Sales: fix pricing + send follow-ups** — immediately after B1 resolved
+5. **Content: Week 2 batch + video script** — keep the top of funnel moving
+6. **GHL: Start email warming** — every day we delay pushes cold email launch further
 
 ---
 
 ## Director's Assessment
 
-We are 3 days behind schedule. The Sales and Content agents did their jobs on April 7 — the outputs are good and the pipeline is solid. But nothing has shipped to the real world because the owner hasn't sent the emails or posted the content. The product itself has gotten better (GHL integration, email sequences, webhooks), but none of that matters if prospects aren't hearing from us.
+We're in danger of building a great product that nobody knows about. The tech side is solid — website works, checkout works, AI answers calls, CRM captures leads, email sequences fire automatically. Every piece of infrastructure is ready.
 
-The pricing situation is the biggest risk. Three different price points exist across our materials. This must be resolved before any more outreach goes out or we'll erode trust with the first prospect who replies.
+The gap is 100% go-to-market execution. No emails sent. No content posted. No pricing confirmed. The agents can't fix this — it requires human action.
 
-If the owner sends Batch 1 today and we get even 1-2 replies by Saturday, we could have our first pilot client by next week. That's the path to revenue.
+**What happens if we unblock this week:**
+- 10+ emails go out (Batch 1 follow-ups + Batch 2)
+- Social presence starts building
+- By April 21, we could have 2-3 warm leads
+- By April 28, first pilot client is realistic
+
+**What happens if we don't:**
+- Pipeline goes completely cold
+- 60-day plan fails
+- We're starting over in May with zero momentum
+
+The ask is small: 20 minutes of Brayden's time to make a pricing call, confirm email status, and post content. That's it. Everything else the agents handle.
 
 ---
 
-_Next directives: April 14 (Monday full weekly review)_
+_Next directives: April 17 (Thursday pulse check)_

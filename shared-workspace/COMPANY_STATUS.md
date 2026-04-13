@@ -1,6 +1,6 @@
 # AllTheCalls — Company Status
 
-_Last updated: 2026-04-10 (Director — Thursday pulse check)_
+_Last updated: 2026-04-13 (Director — Week 2 Monday review)_
 
 ---
 
@@ -10,53 +10,57 @@ _Last updated: 2026-04-10 (Director — Thursday pulse check)_
 |--------|---------|-----------------|-----|
 | MRR | $0 | $1,000+ | $1,000 |
 | Active Clients | 0 | 3 | 3 |
-| Pipeline (contacted) | 10 | 30+ | 20 |
-| Pipeline (replied) | 0 | 5+ | 5 |
+| Pipeline (contacted) | 10 (unconfirmed) | 30+ | 20+ |
+| Pipeline (replied) | 0 (unknown — emails may not have been sent) | 5+ | 5+ |
 | Pipeline (interested/closing) | 0 | 2+ | 2 |
 | Churn Risk | N/A | N/A | — |
-| Content Published | 0 (drafted, not posted) | Weekly cadence | Need to start posting |
+| Content Published | 0 | Weekly cadence | 2 weeks of drafts sitting unpublished |
+| Days Since Last Revenue Action | 6 (since April 7 drafts) | 0 | CRITICAL |
 
 ---
 
 ## Current Bottleneck
 
-**PRICING MISMATCH — CRITICAL**
+**COMPLETE STALL — ALL OUTBOUND BLOCKED ON OWNER ACTION**
 
-All 10 Batch 1 outreach emails (sent April 7) and all 23 Batch 2 drafts quote **"$149/month"**. Live Stripe pricing was updated to **$397 / $497 / $1,497**. If a prospect replies expecting $149 and sees $397 at checkout, we lose credibility immediately.
+The company has not moved forward since April 7. Three blockers remain open from the April 10 pulse check, and none have been resolved:
 
-**Decision needed from owner:**
-1. Are we keeping $397/$497/$1,497 pricing? Or reverting to the earlier $199/$349/$599?
-2. If keeping higher pricing, all outreach drafts must be corrected before Batch 2 sends on April 14.
-3. For Batch 1 (already sent at $149) — any prospect who replies will need a conversation about actual pricing. Consider honoring $149 for first 3 pilot clients as a "founding rate" to close them.
+1. **Pricing not confirmed** — Outreach says $149/mo, Stripe shows $397/$497/$1,497, original plans were $199/$349/$599. Three different price points across materials. Cannot send outreach until this is resolved.
+2. **Batch 1 emails not confirmed sent** — 10 personalized emails drafted April 7 have no confirmation of delivery. Follow-ups were due April 12 and could not be prepared.
+3. **Zero content published** — LinkedIn, Facebook, and email content drafted April 7 remains in shared-workspace/content/, never posted.
+
+**Impact:** We are now 6 days behind the 60-day plan. The pipeline is cold. If Batch 1 was sent and prospects haven't heard back, we've already missed the follow-up window. If Batch 1 was never sent, the entire pipeline is dead.
 
 ---
 
 ## What's Working
 
-- **Product is live and functional** at allthecalls.ai — Stripe checkout, Trillet integration, dark design all working
-- **GHL integration added** — inbound calls now auto-create contacts in GoHighLevel pipeline
-- **Email sequences built** — demo followup, trial onboarding, churn recovery, payment recovery all automated
-- **Trillet webhook processing** — call summaries flow through to CRM
-- **33 qualified prospects researched** across 7 metro markets with personalized outreach drafted
-- **Pilot activation playbook** ready — can onboard a new client in under 2 hours
+- **Product is live and functional** — allthecalls.ai, Stripe checkout, Trillet integration all operational
+- **GHL CRM integration** — inbound calls auto-create contacts in pipeline
+- **Email sequences automated** — demo follow-up, trial onboarding, churn recovery, payment recovery
+- **33 qualified prospects researched** with personalized outreach drafted
+- **Demo agents live** — Richard, Roxy, Ria all answering calls for demos
+- **Pilot activation playbook** ready for instant onboarding
 
 ## What's Not Working
 
-- **No emails have been sent by the owner yet** — Batch 1 drafts were marked ready on April 7 but require manual sending from a configured email account (Gmail or Instantly). Three days have passed with no sends confirmed.
-- **Content is drafted but not published** — LinkedIn, Facebook, and email content from April 7 sitting in shared-workspace/content/. Needs to be posted to actual accounts.
-- **Pricing confusion** — the product, outreach, and playbooks all reference different price points ($149, $199, $349, $397, $497, $599, $1,497). Need one source of truth.
-- **No configured sending infrastructure** — Sales can't send outreach without an email sending tool (Instantly, Mailshake, or even Gmail). This is blocking all outbound.
+- **No human action taken on any agent output since April 7** — every agent is idle waiting on owner
+- **Pricing confusion unresolved** — still 3 different price points across materials
+- **No sending infrastructure confirmed** — unclear if Gmail, Instantly, or GHL is being used for outreach
+- **GHL buildout incomplete** — email warming, DNS records, workflows, funnel pages, calendar all still need manual setup (see GHL-BUILDOUT-STATUS.md)
+- **Email warming not started** — this is a 2-3 week process, every day of delay pushes cold email launch further out
 
 ---
 
-## Agent Status (as of April 10)
+## Agent Status (as of April 13)
 
 | Agent | Last Output | Status | Blocker? |
 |-------|-------------|--------|----------|
-| Sales | April 7 — Batch 1 emails drafted, Batch 2 emails drafted | Waiting | Emails not sent — needs owner to send or configure sending tool |
-| Content | April 7 — LinkedIn/FB/email content drafted | Waiting | Content not published — needs owner to post or grant account access |
-| Client Success | April 7 — Health report, pilot playbook created | Idle | No clients to monitor |
-| Onboarding | N/A | Idle | No clients to onboard |
+| Sales | April 7 — Batch 1 + Batch 2 emails drafted | STALLED | Pricing unconfirmed, emails not sent, no sending tool confirmed |
+| Content | April 7 — LinkedIn/FB/email content drafted | STALLED | Content not published, no account access |
+| Client Success | April 7 — Health report + pilot playbook | IDLE | No clients |
+| Onboarding | N/A | IDLE | No clients |
+| Director | April 13 — This update | ACTIVE | Escalating to owner |
 
 ---
 
@@ -64,13 +68,22 @@ All 10 Batch 1 outreach emails (sent April 7) and all 23 Batch 2 drafts quote **
 
 | Date | Event |
 |------|-------|
-| Apr 7 | Batch 1 outreach drafted (10 prospects). Content created. Pilot playbook written. |
-| Apr 7–9 | Product improvements: GHL integration, email sequences, webhook processing, pricing update to $397/$497/$1,497 |
-| **Apr 10** | **TODAY — Director pulse check. Pricing mismatch identified.** |
-| Apr 12 | Batch 1 follow-ups due (if emails were sent) |
-| Apr 14 | Batch 2 outreach scheduled (23 prospects) — BLOCKED by pricing decision |
-| Apr 19 | Batch 2 follow-ups + Batch 1 follow-up #3 |
+| Apr 7 | Batch 1 outreach drafted. Content created. Pilot playbook written. |
+| Apr 7–9 | Product improvements: GHL integration, email sequences, webhooks |
+| Apr 10 | Director pulse check — pricing mismatch identified, blockers escalated |
+| Apr 10–13 | **No activity. All agents waiting on owner.** |
+| **Apr 13** | **Director Week 2 review. Escalating blockers again.** |
+| Apr 14 | Batch 2 was scheduled — CANNOT SEND without pricing decision |
+| Apr 25 | Original GHL cold email go-live target — at risk (warming not started) |
 
 ---
 
-_Next update: April 14 (Monday — full weekly review)_
+## Risk Assessment
+
+**HIGH RISK:** The 60-day plan ($50K MRR by June 7) assumed outreach starts Week 1. We're now in Week 2 with zero emails confirmed sent, zero content published, and zero revenue. The product works. The pipeline exists. The content is written. The only missing piece is human execution on sending/posting and a pricing decision.
+
+If we don't unblock this week, the 60-day plan is dead and we're looking at a 90-day timeline at best.
+
+---
+
+_Next update: April 17 (Thursday pulse check)_
