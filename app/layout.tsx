@@ -59,9 +59,9 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: APP_URL,
     siteName: "All The Calls",
-    title: "All The Calls — AI Voice Receptionist For Your Business",
+    title: "AllTheCalls.ai — AI Voice Receptionist",
     description:
-      "Never miss a call. All The Calls answers 24/7 in your name, qualifies every caller, and follows up via SMS automatically. Works for any business. Starting at $349/mo.",
+      "Never miss a call again. AI answers in your name 24/7, qualifies leads, and sends follow-ups. Built for realtors, investors, and tradespeople.",
     images: [
       {
         url: "/og-image.png",
@@ -147,7 +147,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${spaceGrotesk.variable} ${dmSans.variable}`}>
+    <html lang="en" className={`${spaceGrotesk.variable} ${dmSans.variable}`} style={{ scrollBehavior: "smooth" }}>
       <head>
         <script
           type="application/ld+json"

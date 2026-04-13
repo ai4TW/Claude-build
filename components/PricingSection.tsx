@@ -11,7 +11,7 @@ const plans = [
     desc: "One AI receptionist. Never miss a call.",
     popular: false,
     badge: null,
-    cta: "Start Free Trial",
+    cta: "Get Started",
     features: [
       { text: "1 AI receptionist in your name", highlight: false },
       { text: "300 calls / month", highlight: false },
@@ -21,7 +21,6 @@ const plans = [
       { text: "Full call transcripts & summaries", highlight: false },
       { text: "5 AI voice options", highlight: false },
       { text: "Done-for-you setup by our team", highlight: false },
-      { text: "7-day free trial · cancel anytime", highlight: false },
     ],
   },
   {
@@ -31,7 +30,7 @@ const plans = [
     desc: "The complete system. Built to convert.",
     popular: true,
     badge: "MOST POPULAR",
-    cta: "Start Free Trial",
+    cta: "Get Started",
     features: [
       { text: "1 AI receptionist in your name", highlight: false },
       { text: "Unlimited calls — no cap, ever", highlight: true },
@@ -44,7 +43,6 @@ const plans = [
       { text: "Custom knowledge base — your services, pricing & FAQs", highlight: true },
       { text: "Weekly performance report every Monday", highlight: true },
       { text: "Priority support", highlight: false },
-      { text: "7-day free trial · cancel anytime", highlight: false },
     ],
   },
   {
@@ -67,7 +65,6 @@ const plans = [
       { text: "White-glove setup — our team configures everything live", highlight: true },
       { text: "Monthly 30-min strategy & optimization call", highlight: true },
       { text: "Dedicated priority support channel", highlight: false },
-      { text: "7-day free trial · cancel anytime", highlight: false },
     ],
   },
 ];
@@ -208,7 +205,7 @@ function PlanCard({
         <span style={{ color: "rgba(255,255,255,0.4)", fontSize: "15px" }}>/mo</span>
       </div>
       <p style={{ color: "rgba(255,255,255,0.25)", fontSize: "11px", marginBottom: "28px" }}>
-        7-day free trial · cancel anytime
+        14-day money-back guarantee
       </p>
 
       {/* Features */}
@@ -352,7 +349,7 @@ export default function PricingSection() {
                   border: "none",
                   cursor: "pointer",
                   fontWeight: 600,
-                  fontSize: "13px",
+                  fontSize: "14px",
                   fontFamily: "'DM Sans', sans-serif",
                   background: tab === p.id
                     ? p.popular ? "linear-gradient(135deg, #7c3aed, #06b6d4)" : "rgba(255,255,255,0.12)"
@@ -383,7 +380,7 @@ export default function PricingSection() {
         {/* Custom nudge */}
         <p
           className="hidden md:block"
-          style={{ textAlign: "center", fontSize: "13px", color: "rgba(255,255,255,0.3)", marginBottom: "48px" }}
+          style={{ textAlign: "center", fontSize: "13px", color: "rgba(255,255,255,0.3)", marginBottom: "48px", marginTop: "32px" }}
         >
           Need more than 5 lines?{" "}
           <a href="mailto:hello@allthecalls.ai" style={{ color: "#a78bfa", textDecoration: "none" }}>
@@ -425,10 +422,10 @@ export default function PricingSection() {
             </div>
             <div style={{ textAlign: "left" }}>
               <p style={{ color: "rgba(255,255,255,0.9)", fontWeight: 700, fontSize: "15px", marginBottom: "2px" }}>
-                7-day free trial · cancel anytime
+                14-Day Money-Back Guarantee
               </p>
               <p style={{ color: "rgba(255,255,255,0.4)", fontSize: "13px" }}>
-                Set up your AI, test it live, and only pay when you&apos;re confident it works for your business.
+                Love it or your money back. Try it risk-free for 14 days — if it&apos;s not for you, we refund every penny.
               </p>
             </div>
           </div>
@@ -491,6 +488,161 @@ export default function PricingSection() {
           </table>
         </div>
 
+        {/* BONUSES — Sign up before your sales call */}
+        <div
+          className="fade-in"
+          style={{
+            margin: "0 1rem 48px",
+            padding: "40px 32px",
+            borderRadius: "20px",
+            background: "linear-gradient(135deg, rgba(124,58,237,0.08), rgba(6,182,212,0.06))",
+            border: "1px solid rgba(124,58,237,0.2)",
+            position: "relative",
+            overflow: "hidden",
+          }}
+        >
+          {/* Decorative glow */}
+          <div style={{ position: "absolute", top: "-60px", right: "-60px", width: "200px", height: "200px", borderRadius: "50%", background: "radial-gradient(circle, rgba(124,58,237,0.15), transparent)", pointerEvents: "none" }} />
+
+          <div style={{ textAlign: "center", marginBottom: "32px", position: "relative" }}>
+            <div style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "8px",
+              padding: "6px 16px",
+              borderRadius: "999px",
+              border: "1px solid rgba(250,204,21,0.3)",
+              background: "rgba(250,204,21,0.08)",
+              marginBottom: "16px",
+            }}>
+              <span style={{ fontSize: "14px" }}>🎁</span>
+              <span style={{ color: "#fde047", fontSize: "13px", fontWeight: 600 }}>
+                FREE BONUSES — Included With Every Plan
+              </span>
+            </div>
+            <h3 style={{
+              fontFamily: "'Space Grotesk', sans-serif",
+              fontSize: "clamp(1.5rem, 3vw, 2rem)",
+              fontWeight: 700,
+              color: "white",
+              marginBottom: "8px",
+            }}>
+              Sign up now and get these <span style={{ color: "transparent", background: "linear-gradient(135deg, #a78bfa, #22d3ee)", WebkitBackgroundClip: "text", backgroundClip: "text" }}>free</span> — no sales call needed
+            </h3>
+            <p style={{ color: "rgba(255,255,255,0.4)", fontSize: "14px" }}>
+              Everything you need to maximize every call your AI handles.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" style={{ position: "relative" }}>
+            {[
+              {
+                icon: (
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="url(#bonus-grad)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <defs><linearGradient id="bonus-grad" x1="0" y1="0" x2="24" y2="24"><stop offset="0%" stopColor="#a78bfa" /><stop offset="100%" stopColor="#22d3ee" /></linearGradient></defs>
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /><line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" /><polyline points="10 9 9 9 8 9" />
+                  </svg>
+                ),
+                title: "Industry Call Scripts",
+                desc: "Pre-built AI scripts for real estate, HVAC, plumbing, electrical, roofing, and more. Plug-and-play — tested on thousands of real calls.",
+                value: "$297 value",
+              },
+              {
+                icon: (
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="url(#bonus-grad2)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <defs><linearGradient id="bonus-grad2" x1="0" y1="0" x2="24" y2="24"><stop offset="0%" stopColor="#a78bfa" /><stop offset="100%" stopColor="#22d3ee" /></linearGradient></defs>
+                    <rect x="1" y="4" width="22" height="16" rx="2" ry="2" /><line x1="1" y1="10" x2="23" y2="10" />
+                  </svg>
+                ),
+                title: "Missed Call ROI Calculator",
+                desc: "Custom spreadsheet that shows exactly how much revenue you lose per missed call based on your industry, close rate, and average deal size.",
+                value: "$97 value",
+              },
+              {
+                icon: (
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="url(#bonus-grad3)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <defs><linearGradient id="bonus-grad3" x1="0" y1="0" x2="24" y2="24"><stop offset="0%" stopColor="#a78bfa" /><stop offset="100%" stopColor="#22d3ee" /></linearGradient></defs>
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                  </svg>
+                ),
+                title: "SMS Follow-Up Templates",
+                desc: "12 proven follow-up text message templates that turn missed calls into booked appointments. Copy, paste, close.",
+                value: "$197 value",
+              },
+              {
+                icon: (
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="url(#bonus-grad4)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <defs><linearGradient id="bonus-grad4" x1="0" y1="0" x2="24" y2="24"><stop offset="0%" stopColor="#a78bfa" /><stop offset="100%" stopColor="#22d3ee" /></linearGradient></defs>
+                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" /><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+                  </svg>
+                ),
+                title: "AI Receptionist Playbook",
+                desc: "Step-by-step guide to getting the most out of your AI: call forwarding setup, script optimization, lead handling best practices.",
+                value: "$197 value",
+              },
+              {
+                icon: (
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="url(#bonus-grad5)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <defs><linearGradient id="bonus-grad5" x1="0" y1="0" x2="24" y2="24"><stop offset="0%" stopColor="#a78bfa" /><stop offset="100%" stopColor="#22d3ee" /></linearGradient></defs>
+                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+                  </svg>
+                ),
+                title: "Weekly Call Analytics Guide",
+                desc: "Learn to read your call data like a pro: which calls convert, peak hours, caller intent patterns, and how to optimize your script over time.",
+                value: "$147 value",
+              },
+              {
+                icon: (
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="url(#bonus-grad6)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <defs><linearGradient id="bonus-grad6" x1="0" y1="0" x2="24" y2="24"><stop offset="0%" stopColor="#a78bfa" /><stop offset="100%" stopColor="#22d3ee" /></linearGradient></defs>
+                    <circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" />
+                  </svg>
+                ),
+                title: "30-Day Quick Start Plan",
+                desc: "Day-by-day action plan for your first month: when to test, what to tweak, how to train your team, and when to scale up.",
+                value: "$97 value",
+              },
+            ].map((bonus) => (
+              <div
+                key={bonus.title}
+                style={{
+                  padding: "20px",
+                  borderRadius: "14px",
+                  background: "rgba(255,255,255,0.03)",
+                  border: "1px solid rgba(255,255,255,0.06)",
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "10px" }}>
+                  <div style={{
+                    width: "40px",
+                    height: "40px",
+                    borderRadius: "10px",
+                    background: "rgba(124,58,237,0.1)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    flexShrink: 0,
+                  }}>
+                    {bonus.icon}
+                  </div>
+                  <div>
+                    <h4 style={{ fontWeight: 700, color: "white", fontSize: "14px", marginBottom: "2px" }}>{bonus.title}</h4>
+                    <span style={{ fontSize: "11px", color: "#fde047", fontWeight: 600 }}>{bonus.value}</span>
+                  </div>
+                </div>
+                <p style={{ color: "rgba(255,255,255,0.45)", fontSize: "12px", lineHeight: 1.6 }}>{bonus.desc}</p>
+              </div>
+            ))}
+          </div>
+
+          <div style={{ textAlign: "center", marginTop: "28px", position: "relative" }}>
+            <p style={{ fontSize: "15px", color: "rgba(255,255,255,0.6)", fontWeight: 500 }}>
+              Total bonus value: <span style={{ color: "#fde047", fontWeight: 700, fontSize: "18px" }}>$1,032</span>
+              <span style={{ color: "rgba(255,255,255,0.3)", marginLeft: "8px" }}>— yours free with any plan</span>
+            </p>
+          </div>
+        </div>
+
         {/* ROI note */}
         <div
           className="fade-in"
@@ -504,7 +656,7 @@ export default function PricingSection() {
           }}
         >
           <p style={{ color: "rgba(255,255,255,0.4)", fontSize: "14px", lineHeight: 1.6 }}>
-            💡 One closed deal, one retained client, or one booked appointment covers{" "}
+            One closed deal, one retained client, or one booked appointment covers{" "}
             <span style={{ color: "rgba(255,255,255,0.7)", fontWeight: 600 }}>months of AllTheCalls.</span>{" "}
             The question isn&apos;t whether you can afford it —{" "}
             <span style={{ color: "#a78bfa", fontWeight: 600 }}>it&apos;s whether you can afford to miss another call.</span>

@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
   try {
     const session = await createCheckoutSession(
       selectedPlan.priceId,
-      7,
+      14,
       `${appUrl}/welcome?session_id={CHECKOUT_SESSION_ID}`,
       email,
       { plan, name: name || "", brokerage: brokerage || "", phone: phone || "" }

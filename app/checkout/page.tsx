@@ -4,8 +4,8 @@ import { PLANS, PlanId } from "@/lib/stripe";
 import CheckoutForm from "./CheckoutForm";
 
 export const metadata: Metadata = {
-  title: "Start Your Free Trial",
-  description: "Start your 7-day free trial of All The Calls. Cancel anytime.",
+  title: "Complete Your Order",
+  description: "Get started with All The Calls. 14-day money-back guarantee.",
   robots: { index: false },
 };
 
@@ -23,7 +23,7 @@ export default async function CheckoutPage({ searchParams }: Props) {
         <div style={{ textAlign: "center" }}>
           <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "24px", fontWeight: 700, color: "white", marginBottom: "12px" }}>Invalid Plan</h1>
           <p style={{ color: "rgba(255,255,255,0.5)", marginBottom: "24px" }}>Please select a plan from our pricing page.</p>
-          <Link href="/#pricing" className="btn-glow" style={{ color: "white", fontWeight: 700, padding: "12px 24px", borderRadius: "12px", textDecoration: "none", fontSize: "15px" }}>
+          <Link href="/pricing" className="btn-glow" style={{ color: "white", fontWeight: 700, padding: "12px 24px", borderRadius: "12px", textDecoration: "none", fontSize: "15px" }}>
             View Plans →
           </Link>
         </div>
@@ -45,8 +45,8 @@ export default async function CheckoutPage({ searchParams }: Props) {
             <span style={{ fontWeight: 700, color: "white", fontSize: "14px" }}>{selectedPlan.name}</span>
             <span style={{ color: "rgba(255,255,255,0.4)", fontSize: "14px" }}>·</span>
             <span style={{ color: "rgba(255,255,255,0.6)", fontSize: "14px" }}>{selectedPlan.displayPrice}</span>
-            <span style={{ background: "rgba(124,58,237,0.2)", border: "1px solid rgba(124,58,237,0.35)", color: "#c4b5fd", fontSize: "11px", fontWeight: 700, padding: "3px 10px", borderRadius: "999px" }}>
-              7-day free trial
+            <span style={{ background: "rgba(34,197,94,0.15)", border: "1px solid rgba(34,197,94,0.35)", color: "#86efac", fontSize: "11px", fontWeight: 700, padding: "3px 10px", borderRadius: "999px" }}>
+              14-day money-back guarantee
             </span>
           </div>
         </div>
@@ -56,10 +56,10 @@ export default async function CheckoutPage({ searchParams }: Props) {
       <div style={{ maxWidth: "768px", margin: "0 auto", padding: "40px 1rem" }}>
         <div style={{ textAlign: "center", marginBottom: "28px" }}>
           <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(1.75rem, 4vw, 2.25rem)", fontWeight: 700, color: "white", marginBottom: "8px" }}>
-            Start Your <span className="gradient-text">Free Trial</span>
+            Complete Your <span className="gradient-text">Order</span>
           </h1>
           <p style={{ color: "rgba(255,255,255,0.45)", fontSize: "14px" }}>
-            7 days free — no charge until your trial ends. Cancel anytime.
+            14-day money-back guarantee — love it or your money back.
           </p>
         </div>
 
@@ -68,7 +68,7 @@ export default async function CheckoutPage({ searchParams }: Props) {
         </div>
 
         <p style={{ textAlign: "center", color: "rgba(255,255,255,0.2)", fontSize: "12px", marginTop: "16px" }}>
-          Secured by Stripe · 256-bit SSL · Cancel anytime from your dashboard
+          Secured by Stripe · 256-bit SSL · 14-day money-back guarantee
         </p>
       </div>
     </div>
