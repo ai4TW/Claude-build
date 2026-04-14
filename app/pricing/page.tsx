@@ -10,6 +10,8 @@ export const metadata: Metadata = {
 const DEMO_PHONE = process.env.NEXT_PUBLIC_DEMO_PHONE || "(316) 232-4777";
 const DEMO_PHONE_HREF =
   process.env.NEXT_PUBLIC_DEMO_PHONE_HREF || "tel:+13162324777";
+const VSL_URL = process.env.NEXT_PUBLIC_VSL_URL || "";
+const VSL_POSTER = process.env.NEXT_PUBLIC_VSL_POSTER || "";
 
 type Plan = {
   id: "starter" | "pro" | "agency";
@@ -154,6 +156,78 @@ export default function PricingPage() {
             turnover. Your AI answers every call, 24/7, for less — and plugs
             straight into your phone.
           </p>
+        </div>
+      </section>
+
+      {/* VSL — WATCH VIDEO */}
+      <section className="px-4 pb-10">
+        <div className="mx-auto max-w-3xl">
+          <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <div className="text-[11px] font-bold uppercase tracking-[0.14em] text-violet-300">
+                Watch · 2 min
+              </div>
+              <h2
+                className="mt-1 text-xl font-bold text-white md:text-2xl"
+                style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+              >
+                See exactly how it works for your business
+              </h2>
+            </div>
+            <a
+              href={DEMO_PHONE_HREF}
+              className="text-xs font-semibold text-violet-300 hover:text-violet-200"
+            >
+              Prefer to call? {DEMO_PHONE}
+            </a>
+          </div>
+          <div className="group relative overflow-hidden rounded-2xl border border-white/8 bg-white/[0.02] shadow-2xl shadow-violet-500/10">
+            <div className="aspect-video">
+              {VSL_URL ? (
+                <video
+                  controls
+                  playsInline
+                  poster={VSL_POSTER || undefined}
+                  className="h-full w-full object-cover"
+                >
+                  <source src={VSL_URL} />
+                  Your browser doesn&apos;t support embedded video.
+                </video>
+              ) : (
+                <div
+                  className="flex h-full w-full items-center justify-center"
+                  style={{
+                    background:
+                      "radial-gradient(ellipse at center, rgba(124,58,237,0.25) 0%, #0f1119 70%)",
+                  }}
+                >
+                  <div className="flex flex-col items-center gap-3 text-center">
+                    <div className="flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-[#4cd7f6] via-[#7c3aed] to-[#c4b5fd] shadow-2xl shadow-violet-500/40 transition group-hover:scale-110">
+                      <svg
+                        className="ml-1 h-8 w-8 fill-white"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M8 5v14l11-7z" />
+                      </svg>
+                    </div>
+                    <div className="text-sm font-semibold text-white/90">
+                      Video coming soon
+                    </div>
+                    <div className="text-xs text-white/50">
+                      In the meantime, call{" "}
+                      <a
+                        href={DEMO_PHONE_HREF}
+                        className="font-semibold text-violet-300 hover:text-violet-200"
+                      >
+                        {DEMO_PHONE}
+                      </a>{" "}
+                      to hear it live
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
       </section>
 
