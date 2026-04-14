@@ -1,471 +1,449 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import PricingSection from "@/components/PricingSection";
 
 export const metadata: Metadata = {
   title: "Pricing — AllTheCalls.ai",
   description:
-    "AI receptionist plans for realtors, real estate investors, and tradespeople. 14-day money-back guarantee.",
+    "AI receptionist plans for real estate investors, agents, and tradespeople. Every call answered 24/7. 14-day money-back guarantee.",
 };
 
 const DEMO_PHONE = process.env.NEXT_PUBLIC_DEMO_PHONE || "(316) 232-4777";
 const DEMO_PHONE_HREF =
   process.env.NEXT_PUBLIC_DEMO_PHONE_HREF || "tel:+13162324777";
 
+type Plan = {
+  id: "starter" | "pro" | "agency";
+  name: string;
+  price: number;
+  tagline: string;
+  features: string[];
+  popular?: boolean;
+  badge?: string;
+};
+
+const PLANS: Plan[] = [
+  {
+    id: "starter",
+    name: "Solo",
+    price: 397,
+    tagline: "Never miss another call. Ever.",
+    features: [
+      "1 AI receptionist in your name",
+      "300 calls / month",
+      "24/7 availability — every call answered",
+      "Industry-specific lead qualification",
+      "SMS follow-up after every call",
+      "Full call transcripts & AI summaries",
+      "5 AI voice options",
+      "Live client app — call history, recordings & transcripts on your phone",
+      "Done-for-you setup by our team",
+    ],
+  },
+  {
+    id: "pro",
+    name: "Pro",
+    price: 497,
+    tagline: "Unlimited calls. Booked appointments. Your own website.",
+    popular: true,
+    badge: "MOST POPULAR",
+    features: [
+      "Unlimited calls — no cap, ever",
+      "Advanced industry-specific qualification",
+      "Automated calendar booking — directly into Calendly or Acuity",
+      "Automated SMS follow-up after every call",
+      "Custom knowledge base — your services, pricing & FAQs",
+      "Full premium voice library",
+      "Full call transcripts & AI summaries",
+      "Live client app — call history, recordings & transcripts on your phone",
+      "FREE high-converting marketing website — we design & build it",
+      "Priority support",
+    ],
+  },
+  {
+    id: "agency",
+    name: "Agency",
+    price: 1497,
+    tagline: "The full operation. Zero leads lost.",
+    badge: "FULL SYSTEM",
+    features: [
+      "5 AI receptionists — unique names, voices & scripts",
+      "Unlimited calls across all 5 lines",
+      "Automated calendar booking on every line",
+      "CRM integration — every call auto-logged with full notes",
+      "Custom knowledge base built by our team",
+      "Live client app for every line",
+      "FREE high-converting marketing website",
+      "White-glove setup — our team configures everything live",
+      "Monthly 30-min strategy & optimization call",
+      "Dedicated priority support channel",
+    ],
+  },
+];
+
+const FAQ: Array<{ q: string; a: string }> = [
+  {
+    q: "Do I really need unlimited calls?",
+    a: "If you run ads, have a website, or answer inbound leads, yes. Pro pays for itself the moment you stop worrying about call volume.",
+  },
+  {
+    q: "How fast can I go live?",
+    a: "Most clients are answering calls within 24 hours of checkout. We do the setup — you forward your number.",
+  },
+  {
+    q: "What if I don't like it?",
+    a: "14-day money-back guarantee, no questions. Cancel inside the portal or email hello@allthecalls.ai.",
+  },
+  {
+    q: "Do my clients see the call history?",
+    a: "Yes — every plan includes the Live Client App at app.allthecalls.ai. Installable on iPhone and Android in under a minute.",
+  },
+];
+
 export default function PricingPage() {
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        background: "#08090f",
-        color: "#e2e8f0",
-        fontFamily: "'DM Sans', system-ui, sans-serif",
-      }}
-    >
+    <div className="min-h-screen bg-[#08090f] text-slate-200 font-sans antialiased">
       {/* NAV */}
-      <nav
-        style={{
-          background: "rgba(8,9,15,0.85)",
-          backdropFilter: "blur(20px)",
-          WebkitBackdropFilter: "blur(20px)",
-          borderBottom: "1px solid rgba(255,255,255,0.05)",
-        }}
-      >
-        <div
-          style={{
-            maxWidth: "1152px",
-            margin: "0 auto",
-            padding: "0 1rem",
-            height: "64px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <Link
-            href="/"
-            style={{ display: "flex", alignItems: "center", textDecoration: "none" }}
-          >
-            <img
-              src="/logo.svg"
-              alt="AllTheCalls.ai"
-              style={{ height: "40px", width: "auto" }}
-            />
+      <nav className="sticky top-0 z-30 border-b border-white/5 bg-[#08090f]/85 backdrop-blur-xl">
+        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
+          <Link href="/" className="flex items-center">
+            <img src="/logo.svg" alt="AllTheCalls.ai" className="h-10 w-auto" />
           </Link>
-          <a
-            href={DEMO_PHONE_HREF}
-            style={{
-              fontSize: "14px",
-              color: "rgba(255,255,255,0.6)",
-              textDecoration: "none",
-              padding: "8px 16px",
-            }}
-          >
-            📞 {DEMO_PHONE}
-          </a>
+          <div className="flex items-center gap-4">
+            <a
+              href={DEMO_PHONE_HREF}
+              className="hidden text-sm text-white/60 hover:text-white sm:inline"
+            >
+              📞 {DEMO_PHONE}
+            </a>
+            <Link
+              href="/checkout?plan=pro"
+              className="rounded-full bg-gradient-to-br from-[#4cd7f6] via-[#7c3aed] to-[#c4b5fd] px-5 py-2 text-sm font-semibold text-white shadow-lg shadow-violet-500/30 hover:opacity-90"
+            >
+              Start Free Trial
+            </Link>
+          </div>
         </div>
       </nav>
 
-      {/* VSL — VIDEO SALES LETTER SECTION */}
-      <section
-        style={{
-          padding: "4rem 1rem 1.5rem",
-          position: "relative",
-          overflow: "hidden",
-        }}
-      >
-        {/* Glow behind video */}
+      {/* HERO */}
+      <section className="relative overflow-hidden px-4 pt-16 pb-10 text-center md:pt-20 md:pb-12">
         <div
+          className="pointer-events-none absolute inset-x-0 top-0 h-[420px] opacity-60"
           style={{
-            position: "absolute",
-            top: "40%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            width: "700px",
-            height: "400px",
-            borderRadius: "50%",
-            background: "linear-gradient(135deg, #7c3aed, #06b6d4)",
-            opacity: 0.1,
-            filter: "blur(100px)",
-            pointerEvents: "none",
+            background:
+              "radial-gradient(ellipse at top, rgba(124,58,237,0.25) 0%, transparent 60%)",
           }}
         />
-
-        <div
-          style={{
-            position: "relative",
-            zIndex: 10,
-            maxWidth: "800px",
-            margin: "0 auto",
-            textAlign: "center",
-          }}
-        >
-          <div
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "8px",
-              padding: "6px 16px",
-              borderRadius: "999px",
-              border: "1px solid rgba(34,197,94,0.3)",
-              background: "rgba(34,197,94,0.08)",
-              marginBottom: "24px",
-            }}
-          >
-            <span style={{ fontSize: "14px" }}>🛡️</span>
-            <span
-              style={{ color: "#86efac", fontSize: "13px", fontWeight: 600 }}
-            >
+        <div className="relative mx-auto max-w-3xl">
+          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-violet-400/30 bg-violet-500/10 px-4 py-1.5">
+            <span className="text-[11px] font-bold uppercase tracking-[0.14em] text-violet-300">
               14-Day Money-Back Guarantee
             </span>
           </div>
-
           <h1
-            style={{
-              fontFamily: "'Space Grotesk', sans-serif",
-              fontSize: "clamp(2rem, 5vw, 3.25rem)",
-              fontWeight: 700,
-              color: "white",
-              marginBottom: "16px",
-              lineHeight: 1.1,
-            }}
+            className="mb-4 text-[clamp(2.25rem,5vw,3.5rem)] font-bold leading-[1.05] tracking-tight text-white"
+            style={{ fontFamily: "'Space Grotesk', sans-serif" }}
           >
-            See How It Works in{" "}
-            <span className="gradient-text">3 Minutes</span>
+            Less than one{" "}
+            <span className="bg-gradient-to-br from-[#4cd7f6] via-[#a78bfa] to-[#d2bbff] bg-clip-text text-transparent">
+              missed opportunity.
+            </span>
           </h1>
-          <p
-            style={{
-              color: "rgba(255,255,255,0.5)",
-              fontSize: "clamp(15px, 2.5vw, 18px)",
-              marginBottom: "40px",
-              maxWidth: "560px",
-              margin: "0 auto 40px",
-              lineHeight: 1.7,
-            }}
-          >
-            Watch how realtors, investors, and tradespeople are using
-            AllTheCalls to capture every lead — even at 2 AM.
-          </p>
-
-          {/* VIDEO SALES LETTER — replace src with your recorded VSL */}
-          <div
-            style={{
-              position: "relative",
-              width: "100%",
-              maxWidth: "720px",
-              margin: "0 auto 32px",
-              aspectRatio: "16 / 9",
-              borderRadius: "16px",
-              overflow: "hidden",
-              background: "rgba(255,255,255,0.03)",
-              border: "1px solid rgba(255,255,255,0.08)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            {/*
-              TO ADD YOUR VSL:
-              Replace this placeholder with an iframe or video element:
-
-              YouTube:
-              <iframe
-                src="https://www.youtube.com/embed/YOUR_VIDEO_ID"
-                style={{ width: "100%", height: "100%", border: "none" }}
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
-
-              Or a hosted MP4:
-              <video src="/vsl.mp4" controls style={{ width: "100%", height: "100%" }} />
-            */}
-            <div style={{ textAlign: "center", padding: "32px" }}>
-              <div
-                style={{
-                  width: "80px",
-                  height: "80px",
-                  borderRadius: "50%",
-                  background: "linear-gradient(135deg, #7c3aed, #06b6d4)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  margin: "0 auto 20px",
-                  boxShadow:
-                    "0 0 40px rgba(124,58,237,0.4), 0 0 80px rgba(6,182,212,0.15)",
-                  cursor: "pointer",
-                }}
-              >
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="white">
-                  <path d="M8 5v14l11-7z" />
-                </svg>
-              </div>
-              <p
-                style={{
-                  color: "rgba(255,255,255,0.5)",
-                  fontSize: "15px",
-                  fontWeight: 500,
-                }}
-              >
-                Video coming soon
-              </p>
-              <p
-                style={{
-                  color: "rgba(255,255,255,0.25)",
-                  fontSize: "12px",
-                  marginTop: "4px",
-                }}
-              >
-                3-minute walkthrough
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* DEMO CALL CTA — one more nudge to call before buying */}
-      <section style={{ padding: "0 1rem 4rem" }}>
-        <div
-          className="glass-card"
-          style={{
-            maxWidth: "720px",
-            margin: "0 auto",
-            borderRadius: "20px",
-            padding: "32px",
-            textAlign: "center",
-          }}
-        >
-          <p
-            style={{
-              color: "#4ade80",
-              fontSize: "13px",
-              fontWeight: 600,
-              textTransform: "uppercase",
-              letterSpacing: "0.1em",
-              marginBottom: "12px",
-            }}
-          >
-            ● Try Before You Buy
-          </p>
-          <h2
-            style={{
-              fontFamily: "'Space Grotesk', sans-serif",
-              fontSize: "clamp(1.5rem, 3vw, 2rem)",
-              fontWeight: 700,
-              color: "white",
-              marginBottom: "12px",
-            }}
-          >
-            Haven&apos;t called yet? Hear it live.
-          </h2>
-          <p
-            style={{
-              color: "rgba(255,255,255,0.5)",
-              fontSize: "15px",
-              marginBottom: "28px",
-              maxWidth: "480px",
-              margin: "0 auto 28px",
-              lineHeight: 1.6,
-            }}
-          >
-            Call our demo AI right now — it picks up instantly, qualifies the
-            caller, and sends a transcript. That&apos;s exactly what your
-            callers will experience.
-          </p>
-          <a
-            href={DEMO_PHONE_HREF}
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "12px",
-              padding: "16px 36px",
-              borderRadius: "14px",
-              background: "linear-gradient(135deg, #7c3aed, #06b6d4)",
-              boxShadow:
-                "0 0 40px rgba(124,58,237,0.35), 0 0 80px rgba(6,182,212,0.1)",
-              textDecoration: "none",
-              color: "white",
-              fontWeight: 700,
-              fontSize: "18px",
-              fontFamily: "'Space Grotesk', sans-serif",
-            }}
-          >
-            📞 {DEMO_PHONE}
-          </a>
-          <p
-            style={{
-              color: "rgba(255,255,255,0.3)",
-              fontSize: "12px",
-              marginTop: "12px",
-            }}
-          >
-            Takes 60 seconds. No signup required.
+          <p className="mx-auto max-w-xl text-[clamp(15px,2vw,18px)] leading-relaxed text-white/60">
+            A human answering service runs $400–$1,200/mo with sick days and
+            turnover. Your AI answers every call, 24/7, for less — and plugs
+            straight into your phone.
           </p>
         </div>
       </section>
 
       {/* PRICING CARDS */}
-      <PricingSection />
+      <section className="px-4 pb-6">
+        <div className="mx-auto grid max-w-6xl gap-6 md:grid-cols-3">
+          {PLANS.map((plan) => (
+            <PlanCard key={plan.id} plan={plan} />
+          ))}
+        </div>
+        <p className="mx-auto mt-5 max-w-3xl text-center text-xs text-white/35">
+          Need more than 5 lines?{" "}
+          <a
+            href="mailto:hello@allthecalls.ai"
+            className="font-medium text-violet-300 hover:text-violet-200"
+          >
+            Contact us
+          </a>{" "}
+          — custom setups available for larger teams.
+        </p>
+      </section>
 
-      {/* FINAL CTA — dual action */}
-      <section style={{ padding: "3rem 1rem 5rem", position: "relative" }}>
+      {/* COMPARISON TABLE — desktop only, compact */}
+      <section className="hidden px-4 pb-10 md:block">
+        <div className="mx-auto max-w-5xl overflow-hidden rounded-2xl border border-white/8 bg-white/[0.02]">
+          <table className="w-full border-collapse text-left text-sm">
+            <thead>
+              <tr className="border-b border-white/8 bg-white/[0.03]">
+                <th className="w-[40%] px-6 py-4 text-xs font-semibold uppercase tracking-wider text-white/50">
+                  Feature
+                </th>
+                <th className="px-4 py-4 text-center text-xs font-bold text-white/70">
+                  Solo
+                  <div className="text-[11px] font-normal text-white/40">$397</div>
+                </th>
+                <th className="bg-violet-500/[0.08] px-4 py-4 text-center text-xs font-bold">
+                  <span className="bg-gradient-to-r from-[#a78bfa] to-[#22d3ee] bg-clip-text text-transparent">
+                    Pro ⭐
+                  </span>
+                  <div className="text-[11px] font-normal text-violet-300/60">$497</div>
+                </th>
+                <th className="px-4 py-4 text-center text-xs font-bold text-white/70">
+                  Agency
+                  <div className="text-[11px] font-normal text-white/40">$1,497</div>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {COMPARISON.map((row, i) => (
+                <tr
+                  key={row.label}
+                  className={`border-b border-white/[0.04] ${
+                    i % 2 === 0 ? "bg-white/[0.01]" : ""
+                  }`}
+                >
+                  <td className="px-6 py-3.5 text-[13px] text-white/65">
+                    {row.label}
+                  </td>
+                  <Cell value={row.solo} />
+                  <Cell value={row.pro} highlighted />
+                  <Cell value={row.agency} />
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="px-4 pb-10">
+        <div className="mx-auto max-w-3xl">
+          <h2
+            className="mb-6 text-center text-2xl font-bold text-white md:text-3xl"
+            style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+          >
+            Quick answers
+          </h2>
+          <div className="space-y-3">
+            {FAQ.map((f) => (
+              <details
+                key={f.q}
+                className="group rounded-xl border border-white/8 bg-white/[0.02] p-5 open:bg-white/[0.04]"
+              >
+                <summary className="flex cursor-pointer list-none items-center justify-between font-semibold text-white">
+                  {f.q}
+                  <span className="ml-4 text-violet-300 transition group-open:rotate-45">+</span>
+                </summary>
+                <p className="mt-3 text-sm leading-relaxed text-white/60">{f.a}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FINAL CTA */}
+      <section className="relative overflow-hidden px-4 py-14 text-center">
         <div
+          className="pointer-events-none absolute inset-0"
           style={{
-            position: "absolute",
-            inset: 0,
             background:
-              "radial-gradient(ellipse at center, rgba(124,58,237,0.15) 0%, transparent 60%)",
-            pointerEvents: "none",
+              "radial-gradient(ellipse at center, rgba(124,58,237,0.14) 0%, transparent 60%)",
           }}
         />
-        <div
-          style={{
-            maxWidth: "860px",
-            margin: "0 auto",
-            position: "relative",
-            textAlign: "center",
-          }}
-        >
-          <div
-            style={{
-              display: "inline-block",
-              padding: "6px 14px",
-              fontSize: "11px",
-              fontWeight: 700,
-              letterSpacing: "0.14em",
-              textTransform: "uppercase",
-              color: "#a78bfa",
-              background: "rgba(124,58,237,0.12)",
-              border: "1px solid rgba(124,58,237,0.3)",
-              borderRadius: "999px",
-              marginBottom: "20px",
-            }}
-          >
+        <div className="relative mx-auto max-w-2xl">
+          <div className="mb-5 inline-block rounded-full border border-violet-400/30 bg-violet-500/10 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-violet-300">
             Ready to stop missing calls?
           </div>
           <h2
-            style={{
-              fontFamily: "'Space Grotesk', sans-serif",
-              fontSize: "clamp(32px, 5vw, 52px)",
-              fontWeight: 700,
-              lineHeight: 1.1,
-              letterSpacing: "-0.02em",
-              marginBottom: "16px",
-              color: "#ffffff",
-            }}
+            className="mb-4 text-[clamp(1.75rem,4.5vw,3rem)] font-bold leading-[1.1] tracking-tight text-white"
+            style={{ fontFamily: "'Space Grotesk', sans-serif" }}
           >
             Every missed call is{" "}
-            <span
-              style={{
-                background: "linear-gradient(135deg,#4cd7f6,#a78bfa,#d2bbff)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-              }}
-            >
+            <span className="bg-gradient-to-br from-[#4cd7f6] via-[#a78bfa] to-[#d2bbff] bg-clip-text text-transparent">
               money walking away.
             </span>
           </h2>
-          <p
-            style={{
-              fontSize: "clamp(16px, 2vw, 20px)",
-              color: "rgba(255,255,255,0.65)",
-              maxWidth: "620px",
-              margin: "0 auto 36px",
-              lineHeight: 1.6,
-            }}
-          >
-            Get started in under 5 minutes — your AI is answering calls the same day.
-            Or book a quick call and we&rsquo;ll walk you through it live.
+          <p className="mb-7 text-[15px] leading-relaxed text-white/65 md:text-base">
+            Get started in under 5 minutes — your AI is answering the same day.
+            Or book a 15-min call and we&apos;ll walk you through it live.
           </p>
-
-          <div
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              gap: "14px",
-              justifyContent: "center",
-              marginBottom: "28px",
-            }}
-          >
+          <div className="flex flex-wrap justify-center gap-3">
             <Link
               href="/checkout?plan=pro"
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: "8px",
-                padding: "18px 36px",
-                fontSize: "16px",
-                fontWeight: 700,
-                color: "#ffffff",
-                textDecoration: "none",
-                background:
-                  "linear-gradient(135deg,#4cd7f6 0%,#7c3aed 55%,#c4b5fd 100%)",
-                borderRadius: "14px",
-                boxShadow: "0 20px 50px -12px rgba(124,58,237,0.55)",
-                transition: "transform 0.15s ease, opacity 0.15s ease",
-              }}
+              className="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-br from-[#4cd7f6] via-[#7c3aed] to-[#c4b5fd] px-7 py-4 text-base font-bold text-white shadow-xl shadow-violet-500/40 transition hover:opacity-90"
             >
               Start now — 14-day guarantee →
             </Link>
             <Link
               href="/book"
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: "8px",
-                padding: "18px 32px",
-                fontSize: "16px",
-                fontWeight: 600,
-                color: "#e2e8f0",
-                textDecoration: "none",
-                background: "rgba(255,255,255,0.04)",
-                border: "1px solid rgba(255,255,255,0.14)",
-                borderRadius: "14px",
-                backdropFilter: "blur(10px)",
-                transition: "border-color 0.15s ease, background 0.15s ease",
-              }}
+              className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/[0.04] px-6 py-4 text-base font-semibold text-slate-200 backdrop-blur-sm hover:border-white/25"
             >
-              📅 Book a live call
+              📅 Book a 15-min call
             </Link>
           </div>
-
-          <p
-            style={{
-              fontSize: "14px",
-              color: "rgba(255,255,255,0.45)",
-              marginBottom: 0,
-            }}
-          >
-            Prefer to hear it first? Call{" "}
+          <p className="mt-5 text-xs text-white/40">
+            Or call{" "}
             <a
               href={DEMO_PHONE_HREF}
-              style={{
-                color: "#a78bfa",
-                textDecoration: "none",
-                fontWeight: 600,
-              }}
+              className="font-semibold text-violet-300 hover:text-violet-200"
             >
               {DEMO_PHONE}
             </a>{" "}
-            — our live AI picks up 24/7. Love it or your money back, 14 days, no questions.
+            — our live AI picks up 24/7.
           </p>
         </div>
       </section>
 
-      {/* FOOTER — minimal */}
-      <footer
-        style={{
-          borderTop: "1px solid rgba(255,255,255,0.05)",
-          padding: "32px 1rem",
-          textAlign: "center",
-        }}
-      >
-        <p style={{ color: "rgba(255,255,255,0.25)", fontSize: "13px" }}>
-          &copy; 2026 All The Calls. All rights reserved.
-        </p>
+      {/* FOOTER */}
+      <footer className="border-t border-white/5 px-4 py-8 text-center text-xs text-white/25">
+        &copy; 2026 All The Calls. All rights reserved.
       </footer>
     </div>
   );
 }
+
+function PlanCard({ plan }: { plan: Plan }) {
+  const isPopular = plan.popular === true;
+  return (
+    <div
+      className={`relative flex flex-col rounded-2xl p-7 backdrop-blur-xl transition ${
+        isPopular
+          ? "border-2 border-violet-500/60 bg-violet-500/[0.08] shadow-2xl shadow-violet-500/20"
+          : "border border-white/8 bg-white/[0.03]"
+      }`}
+    >
+      {plan.badge && (
+        <div
+          className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full px-4 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-white"
+          style={{
+            background: isPopular
+              ? "linear-gradient(135deg, #7c3aed, #06b6d4)"
+              : "linear-gradient(135deg, #06b6d4, #0891b2)",
+          }}
+        >
+          {plan.badge}
+        </div>
+      )}
+
+      <h3
+        className="mb-1 text-xl font-bold text-white"
+        style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+      >
+        {plan.name}
+      </h3>
+      <p className="mb-5 text-[13px] leading-snug text-white/45">{plan.tagline}</p>
+
+      <div className="mb-1 flex items-baseline gap-1">
+        <span
+          className={`text-4xl font-bold leading-none ${
+            isPopular
+              ? "bg-gradient-to-br from-[#a78bfa] to-[#22d3ee] bg-clip-text text-transparent"
+              : "text-white"
+          }`}
+          style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+        >
+          ${plan.price.toLocaleString()}
+        </span>
+        <span className="text-sm text-white/40">/mo</span>
+      </div>
+      <p className="mb-5 text-[11px] text-white/30">14-day money-back guarantee</p>
+
+      <ul className="mb-6 flex flex-1 flex-col gap-2.5">
+        {plan.features.map((f) => (
+          <li key={f} className="flex items-start gap-2.5 text-[13px] text-white/75">
+            <CheckIcon color={isPopular ? "#a78bfa" : "#22d3ee"} />
+            <span>{f}</span>
+          </li>
+        ))}
+      </ul>
+
+      <Link
+        href={`/checkout?plan=${plan.id}`}
+        className={`mt-auto inline-flex items-center justify-center rounded-xl px-5 py-3.5 text-sm font-bold transition ${
+          isPopular
+            ? "bg-gradient-to-br from-[#4cd7f6] via-[#7c3aed] to-[#c4b5fd] text-white shadow-lg shadow-violet-500/30 hover:opacity-90"
+            : "border border-white/15 bg-white/[0.04] text-white hover:border-white/30"
+        }`}
+      >
+        Get Started →
+      </Link>
+    </div>
+  );
+}
+
+function CheckIcon({ color }: { color: string }) {
+  return (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
+      fill="none"
+      className="mt-[3px] flex-shrink-0"
+    >
+      <circle cx="8" cy="8" r="8" fill={color} fillOpacity="0.15" />
+      <path
+        d="M5 8l2 2 4-4"
+        stroke={color}
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+type CellValue = boolean | string;
+function Cell({ value, highlighted }: { value: CellValue; highlighted?: boolean }) {
+  const bg = highlighted ? "bg-violet-500/[0.05]" : "";
+  if (typeof value === "boolean") {
+    return (
+      <td className={`px-4 py-3 text-center ${bg}`}>
+        {value ? (
+          <CheckIcon color={highlighted ? "#a78bfa" : "#22d3ee"} />
+        ) : (
+          <span className="text-white/15">—</span>
+        )}
+      </td>
+    );
+  }
+  return (
+    <td className={`px-4 py-3 text-center ${bg}`}>
+      <span
+        className={`text-[13px] font-semibold ${
+          highlighted ? "text-violet-300" : "text-white/70"
+        }`}
+      >
+        {value}
+      </span>
+    </td>
+  );
+}
+
+const COMPARISON: Array<{
+  label: string;
+  solo: CellValue;
+  pro: CellValue;
+  agency: CellValue;
+}> = [
+  { label: "AI receptionists", solo: "1", pro: "1", agency: "5" },
+  { label: "Monthly calls", solo: "300", pro: "Unlimited", agency: "Unlimited" },
+  { label: "24/7 availability", solo: true, pro: true, agency: true },
+  { label: "Live client app (iOS/Android)", solo: true, pro: true, agency: true },
+  { label: "Call transcripts & recordings", solo: true, pro: true, agency: true },
+  { label: "SMS follow-up after calls", solo: true, pro: true, agency: true },
+  { label: "Automated calendar booking", solo: false, pro: true, agency: true },
+  { label: "Custom knowledge base", solo: false, pro: true, agency: true },
+  { label: "Premium voice library", solo: false, pro: true, agency: true },
+  { label: "FREE marketing website", solo: false, pro: true, agency: true },
+  { label: "Priority support", solo: false, pro: true, agency: true },
+  { label: "CRM auto-logging", solo: false, pro: false, agency: true },
+  { label: "White-glove setup", solo: false, pro: false, agency: true },
+  { label: "Monthly strategy call", solo: false, pro: false, agency: true },
+];
