@@ -38,8 +38,8 @@ const STEPS = [
   },
   {
     number: "05",
-    title: "Weekly performance reports",
-    description: "Every Monday morning you'll receive a full report — calls answered, summaries, trends.",
+    title: "Your live client app",
+    description: "Install app.allthecalls.ai to your phone's home screen — every call, recording, transcript & note in your pocket, 24/7.",
     status: "upcoming",
   },
 ];

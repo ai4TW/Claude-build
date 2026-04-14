@@ -306,27 +306,152 @@ export default function PricingPage() {
       {/* PRICING CARDS */}
       <PricingSection />
 
-      {/* FINAL CTA */}
-      <section style={{ padding: "4rem 1rem 6rem", textAlign: "center" }}>
-        <p
+      {/* FINAL CTA — dual action */}
+      <section style={{ padding: "5rem 1rem 6rem", position: "relative" }}>
+        <div
           style={{
-            color: "rgba(255,255,255,0.4)",
-            fontSize: "15px",
-            maxWidth: "480px",
+            position: "absolute",
+            inset: 0,
+            background:
+              "radial-gradient(ellipse at center, rgba(124,58,237,0.15) 0%, transparent 60%)",
+            pointerEvents: "none",
+          }}
+        />
+        <div
+          style={{
+            maxWidth: "860px",
             margin: "0 auto",
-            lineHeight: 1.6,
+            position: "relative",
+            textAlign: "center",
           }}
         >
-          Still not sure? Call{" "}
-          <a
-            href={DEMO_PHONE_HREF}
-            style={{ color: "#a78bfa", textDecoration: "none", fontWeight: 600 }}
+          <div
+            style={{
+              display: "inline-block",
+              padding: "6px 14px",
+              fontSize: "11px",
+              fontWeight: 700,
+              letterSpacing: "0.14em",
+              textTransform: "uppercase",
+              color: "#a78bfa",
+              background: "rgba(124,58,237,0.12)",
+              border: "1px solid rgba(124,58,237,0.3)",
+              borderRadius: "999px",
+              marginBottom: "20px",
+            }}
           >
-            {DEMO_PHONE}
-          </a>{" "}
-          and hear it for yourself. Love it or your money back — 14 days, no
-          questions asked.
-        </p>
+            Ready to stop missing calls?
+          </div>
+          <h2
+            style={{
+              fontFamily: "'Space Grotesk', sans-serif",
+              fontSize: "clamp(32px, 5vw, 52px)",
+              fontWeight: 700,
+              lineHeight: 1.1,
+              letterSpacing: "-0.02em",
+              marginBottom: "16px",
+              color: "#ffffff",
+            }}
+          >
+            Every missed call is{" "}
+            <span
+              style={{
+                background: "linear-gradient(135deg,#4cd7f6,#a78bfa,#d2bbff)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+              }}
+            >
+              money walking away.
+            </span>
+          </h2>
+          <p
+            style={{
+              fontSize: "clamp(16px, 2vw, 20px)",
+              color: "rgba(255,255,255,0.65)",
+              maxWidth: "620px",
+              margin: "0 auto 36px",
+              lineHeight: 1.6,
+            }}
+          >
+            Get started in under 5 minutes — your AI is answering calls the same day.
+            Or book a quick call and we&rsquo;ll walk you through it live.
+          </p>
+
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "14px",
+              justifyContent: "center",
+              marginBottom: "28px",
+            }}
+          >
+            <Link
+              href="/checkout?plan=pro"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "8px",
+                padding: "18px 36px",
+                fontSize: "16px",
+                fontWeight: 700,
+                color: "#ffffff",
+                textDecoration: "none",
+                background:
+                  "linear-gradient(135deg,#4cd7f6 0%,#7c3aed 55%,#c4b5fd 100%)",
+                borderRadius: "14px",
+                boxShadow: "0 20px 50px -12px rgba(124,58,237,0.55)",
+                transition: "transform 0.15s ease, opacity 0.15s ease",
+              }}
+            >
+              Start now — 14-day guarantee →
+            </Link>
+            <Link
+              href="/demo"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "8px",
+                padding: "18px 32px",
+                fontSize: "16px",
+                fontWeight: 600,
+                color: "#e2e8f0",
+                textDecoration: "none",
+                background: "rgba(255,255,255,0.04)",
+                border: "1px solid rgba(255,255,255,0.14)",
+                borderRadius: "14px",
+                backdropFilter: "blur(10px)",
+                transition: "border-color 0.15s ease, background 0.15s ease",
+              }}
+            >
+              📅 Book a live call
+            </Link>
+          </div>
+
+          <p
+            style={{
+              fontSize: "14px",
+              color: "rgba(255,255,255,0.45)",
+              marginBottom: 0,
+            }}
+          >
+            Prefer to hear it first? Call{" "}
+            <a
+              href={DEMO_PHONE_HREF}
+              style={{
+                color: "#a78bfa",
+                textDecoration: "none",
+                fontWeight: 600,
+              }}
+            >
+              {DEMO_PHONE}
+            </a>{" "}
+            — our live AI picks up 24/7. Love it or your money back, 14 days, no questions.
+          </p>
+        </div>
       </section>
 
       {/* FOOTER — minimal */}
