@@ -69,7 +69,7 @@ export default function PricingPage() {
       {/* VSL — VIDEO SALES LETTER SECTION */}
       <section
         style={{
-          padding: "5rem 1rem 3rem",
+          padding: "4rem 1rem 1.5rem",
           position: "relative",
           overflow: "hidden",
         }}

@@ -274,7 +274,7 @@ export default function PricingSection() {
     <section
       id="pricing"
       style={{
-        padding: "7rem 0 2rem",
+        padding: "2.5rem 0 2rem",
         background: "rgba(255,255,255,0.01)",
         borderTop: "1px solid rgba(255,255,255,0.05)",
         borderBottom: "1px solid rgba(255,255,255,0.05)",
@@ -283,7 +283,7 @@ export default function PricingSection() {
       <div style={{ maxWidth: "1160px", margin: "0 auto" }}>
 
         {/* Header */}
-        <div className="fade-in" style={{ textAlign: "center", marginBottom: "48px", padding: "0 1rem" }}>
+        <div className="fade-in" style={{ textAlign: "center", marginBottom: "28px", padding: "0 1rem" }}>
           <div style={{
             display: "inline-flex",
             alignItems: "center",
@@ -382,7 +382,7 @@ export default function PricingSection() {
         {/* Custom nudge */}
         <p
           className="hidden md:block"
-          style={{ textAlign: "center", fontSize: "13px", color: "rgba(255,255,255,0.3)", marginBottom: "48px", marginTop: "32px" }}
+          style={{ textAlign: "center", fontSize: "13px", color: "rgba(255,255,255,0.3)", marginBottom: "24px", marginTop: "16px" }}
         >
           Need more than 5 lines?{" "}
           <a href="mailto:hello@allthecalls.ai" style={{ color: "#a78bfa", textDecoration: "none" }}>
@@ -395,8 +395,8 @@ export default function PricingSection() {
         <div
           className="fade-in"
           style={{
-            margin: "0 1rem 48px",
-            padding: "24px 32px",
+            margin: "0 1rem 24px",
+            padding: "20px 28px",
             borderRadius: "16px",
             background: "rgba(34,197,94,0.06)",
             border: "1px solid rgba(34,197,94,0.2)",
@@ -434,7 +434,7 @@ export default function PricingSection() {
         </div>
 
         {/* Comparison table — desktop only */}
-        <div className="hidden md:block fade-in" style={{ margin: "0 1rem 48px", borderRadius: "16px", overflow: "hidden", border: "1px solid rgba(255,255,255,0.08)" }}>
+        <div className="hidden md:block fade-in" style={{ margin: "0 1rem 24px", borderRadius: "16px", overflow: "hidden", border: "1px solid rgba(255,255,255,0.08)" }}>
           <table style={{ width: "100%", borderCollapse: "collapse" }}>
             <thead>
               <tr style={{ background: "rgba(255,255,255,0.03)", borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
@@ -494,8 +494,8 @@ export default function PricingSection() {
         <div
           className="fade-in"
           style={{
-            margin: "0 1rem 48px",
-            padding: "40px 32px",
+            margin: "0 1rem 24px",
+            padding: "32px 28px",
             borderRadius: "20px",
             background: "linear-gradient(135deg, rgba(124,58,237,0.08), rgba(6,182,212,0.06))",
             border: "1px solid rgba(124,58,237,0.2)",
@@ -506,7 +506,7 @@ export default function PricingSection() {
           {/* Decorative glow */}
           <div style={{ position: "absolute", top: "-60px", right: "-60px", width: "200px", height: "200px", borderRadius: "50%", background: "radial-gradient(circle, rgba(124,58,237,0.15), transparent)", pointerEvents: "none" }} />
 
-          <div style={{ textAlign: "center", marginBottom: "32px", position: "relative" }}>
+          <div style={{ textAlign: "center", marginBottom: "24px", position: "relative" }}>
             <div style={{
               display: "inline-flex",
               alignItems: "center",
@@ -637,7 +637,7 @@ export default function PricingSection() {
             ))}
           </div>
 
-          <div style={{ textAlign: "center", marginTop: "28px", position: "relative" }}>
+          <div style={{ textAlign: "center", marginTop: "20px", position: "relative" }}>
             <p style={{ fontSize: "15px", color: "rgba(255,255,255,0.6)", fontWeight: 500 }}>
               Total bonus value: <span style={{ color: "#fde047", fontWeight: 700, fontSize: "18px" }}>$1,032</span>
               <span style={{ color: "rgba(255,255,255,0.3)", marginLeft: "8px" }}>— yours free with any plan</span>
