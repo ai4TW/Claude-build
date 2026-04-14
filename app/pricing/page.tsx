@@ -409,7 +409,7 @@ export default function PricingPage() {
               Start now — 14-day guarantee →
             </Link>
             <Link
-              href="/demo"
+              href="/book"
               style={{
                 display: "inline-flex",
                 alignItems: "center",
