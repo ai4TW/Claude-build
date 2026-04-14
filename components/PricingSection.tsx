@@ -274,7 +274,7 @@ export default function PricingSection() {
     <section
       id="pricing"
       style={{
-        padding: "7rem 0",
+        padding: "7rem 0 2rem",
         background: "rgba(255,255,255,0.01)",
         borderTop: "1px solid rgba(255,255,255,0.05)",
         borderBottom: "1px solid rgba(255,255,255,0.05)",
@@ -649,7 +649,7 @@ export default function PricingSection() {
         <div
           className="fade-in"
           style={{
-            margin: "0 1rem",
+            margin: "0 1rem 0",
             textAlign: "center",
             padding: "20px 24px",
             borderRadius: "16px",

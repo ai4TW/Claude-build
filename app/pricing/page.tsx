@@ -307,7 +307,7 @@ export default function PricingPage() {
       <PricingSection />
 
       {/* FINAL CTA — dual action */}
-      <section style={{ padding: "5rem 1rem 6rem", position: "relative" }}>
+      <section style={{ padding: "3rem 1rem 5rem", position: "relative" }}>
         <div
           style={{
             position: "absolute",
