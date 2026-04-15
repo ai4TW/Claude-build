@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import TrackPurchase from "@/components/TrackPurchase";
 
 export const metadata: Metadata = {
   title: "Welcome — AllTheCalls.ai",
@@ -68,9 +69,13 @@ const STATUS_STYLES: Record<string, { dot: string; border: string; bg: string; n
 export default async function WelcomePage({
   searchParams,
 }: {
-  searchParams: Promise<{ session_id?: string }>;
+  searchParams: Promise<{ session_id?: string; plan?: string }>;
 }) {
-  await searchParams;
+  const sp = await searchParams;
+  const plan =
+    sp.plan === "starter" || sp.plan === "pro" || sp.plan === "agency"
+      ? sp.plan
+      : undefined;
 
   return (
     <div style={{
@@ -79,6 +84,7 @@ export default async function WelcomePage({
       fontFamily: "DM Sans, sans-serif",
       color: "#e2e8f0",
     }}>
+      <TrackPurchase plan={plan} orderId={sp.session_id} />
 
       {/* Nav */}
       <div style={{ padding: "20px 24px", borderBottom: "1px solid rgba(255,255,255,0.05)" }}>

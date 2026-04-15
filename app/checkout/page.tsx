@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { PLANS, PlanId } from "@/lib/stripe";
 import CheckoutForm from "./CheckoutForm";
+import TrackInitiateCheckout from "@/components/TrackInitiateCheckout";
 
 export const metadata: Metadata = {
   title: "Complete Your Order",
@@ -65,6 +66,7 @@ export default async function CheckoutPage({ searchParams }: Props) {
 
         <div className="glass-card" style={{ borderRadius: "20px", overflow: "hidden" }}>
           <CheckoutForm plan={validPlan} />
+          <TrackInitiateCheckout plan={validPlan} />
         </div>
 
         <p style={{ textAlign: "center", color: "rgba(255,255,255,0.2)", fontSize: "12px", marginTop: "16px" }}>

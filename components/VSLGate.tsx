@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { trackLead, trackVideoView } from "@/lib/meta";
 
 const STORAGE_KEY = "atc_vsl_unlocked_v1";
 
@@ -83,6 +84,14 @@ export default function VSLGate({
     } catch {
       /* ignore */
     }
+
+    // Meta Pixel: fire Lead + ViewContent
+    trackLead({
+      email: payload.email,
+      businessType: payload.businessType,
+    });
+    trackVideoView();
+
     setStatus("video");
   }
 

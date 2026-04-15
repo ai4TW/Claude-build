@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import { Space_Grotesk, DM_Sans } from "next/font/google";
+import MetaPixel from "@/components/MetaPixel";
 import "./globals.css";
 
 const spaceGrotesk = Space_Grotesk({
@@ -161,6 +162,7 @@ export default function RootLayout({
         <meta name="theme-color" content="#08090f" />
       </head>
       <body>
+        <MetaPixel />
         {children}
         <Analytics />
       </body>
