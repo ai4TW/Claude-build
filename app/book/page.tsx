@@ -5,7 +5,7 @@ import Script from "next/script";
 export const metadata: Metadata = {
   title: "Book a Call — AllTheCalls.ai",
   description:
-    "Book a 15-minute call with Brayden to see how AllTheCalls.ai can answer every call for your business 24/7.",
+    "Book a 15-minute call with the AllTheCalls.ai team to see how we can answer every call for your business 24/7.",
 };
 
 const DEMO_PHONE = process.env.NEXT_PUBLIC_DEMO_PHONE || "(316) 232-4777";
@@ -130,7 +130,7 @@ export default function BookPage() {
               color: "#ffffff",
             }}
           >
-            Book a call with{" "}
+            Talk to{" "}
             <span
               style={{
                 background:
@@ -140,7 +140,7 @@ export default function BookPage() {
                 backgroundClip: "text",
               }}
             >
-              Brayden
+              our team
             </span>
           </h1>
           <p

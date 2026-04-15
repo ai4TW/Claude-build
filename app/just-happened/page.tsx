@@ -258,7 +258,7 @@ export default function JustHappenedPage() {
             </span>"
           </p>
           <p style={{ fontSize: 14, color: "rgba(255,255,255,0.35)", margin: 0 }}>
-            — Brayden Myers, AllTheCalls.ai
+            — The AllTheCalls.ai team
           </p>
         </div>
       </section>

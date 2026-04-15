@@ -27,7 +27,7 @@ async function sendEmail(to: string, subject: string, body: string): Promise<voi
     method: "POST",
     headers: { "Content-Type": "application/json", Authorization: `Bearer ${key}` },
     body: JSON.stringify({
-      from: "Brayden from AllTheCalls <hello@allthecalls.ai>",
+      from: "AllTheCalls <hello@allthecalls.ai>",
       to,
       subject,
       text: body,

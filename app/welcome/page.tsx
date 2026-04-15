@@ -129,7 +129,7 @@ export default async function WelcomePage({
           </p>
         </div>
 
-        {/* Video from Brayden */}
+        {/* Welcome video from the AllTheCalls team */}
         <div style={{
           background: "rgba(255,255,255,0.03)",
           border: "1px solid rgba(255,255,255,0.08)",
@@ -149,11 +149,11 @@ export default async function WelcomePage({
               fontSize: 14,
               flexShrink: 0,
             }}>
-              B
+              ⚡
             </div>
             <div>
-              <div style={{ fontSize: 13, fontWeight: 600, color: "white" }}>A message from Brayden Myers</div>
-              <div style={{ fontSize: 11, color: "rgba(255,255,255,0.35)" }}>Founder, AllTheCalls.ai</div>
+              <div style={{ fontSize: 13, fontWeight: 600, color: "white" }}>A welcome from the AllTheCalls team</div>
+              <div style={{ fontSize: 11, color: "rgba(255,255,255,0.35)" }}>AllTheCalls.ai</div>
             </div>
           </div>
 
@@ -161,7 +161,7 @@ export default async function WelcomePage({
             <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
               <iframe
                 src={`https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}?rel=0&modestbranding=1`}
-                title="Welcome from Brayden — AllTheCalls.ai"
+                title="Welcome — AllTheCalls.ai"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
                 style={{
@@ -200,7 +200,7 @@ export default async function WelcomePage({
                 ▶
               </div>
               <p style={{ color: "rgba(255,255,255,0.3)", fontSize: 13, margin: 0, textAlign: "center" }}>
-                Welcome video coming soon from Brayden
+                Welcome video coming soon
               </p>
             </div>
           )}

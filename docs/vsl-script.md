@@ -2,9 +2,9 @@
 
 **Target length:** 2:30 – 3:00
 **Target audience:** small business owners running ads to `/pricing` — real estate investors, agents, home service pros, trades, anyone who misses calls
-**Tone:** direct, confident, zero fluff, founder-voice (Brayden)
+**Tone:** direct, confident, zero fluff, founder-voice
 **Goal:** Click "Start now" below the video
-**Talent:** Brayden on camera (or screen recording + voiceover)
+**Talent:** founder on camera (or screen recording + voiceover)
 
 ---
 
@@ -14,7 +14,7 @@
 - **B-roll cues** marked in `[]`. Don't feel obligated to hit all of them — clean talking head is fine.
 - **Captions on** by default (most Facebook/Instagram ad traffic watches muted).
 - **CTA overlay** (bottom third): "Pick a plan below ↓" persistent from 0:30 onward.
-- **End frame:** hold on Brayden, freeze, card text "Start today · 14-day guarantee".
+- **End frame:** hold on the on-camera talent, freeze, card text "Start today · 14-day guarantee".
 - **No stock music.** Low subby under-bed (no vocals) for first 30s, drop for the offer, back in under the CTA.
 
 ---
@@ -147,7 +147,7 @@ The pricing page will automatically swap the placeholder for the real video on t
 
 ## Things to A/B test once it's live
 
-1. **Thumbnail** — Brayden's face vs. a headline ("Never miss another call") vs. an iPhone missed-call screenshot
+1. **Thumbnail** — founder face vs. a headline ("Never miss another call") vs. an iPhone missed-call screenshot
 2. **Hook** — "There's a call you missed yesterday" vs. "Call 316-232-4777 right now. That's our AI." (proof-first)
 3. **Offer order** — Pro-first vs. Solo-first in the script
 4. **Auto-play muted** — on by default vs. click-to-play (mobile page load matters for Core Web Vitals)

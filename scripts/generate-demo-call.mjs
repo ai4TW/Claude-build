@@ -37,7 +37,7 @@ const VOICE_SETTINGS = {
 const SCRIPT = [
   {
     speaker: "gia",
-    text: "Thanks for calling — I'm Gia, Brayden's AI receptionist. What can I help you with?",
+    text: "Thanks for calling — I'm Gia, the AllTheCalls AI receptionist. What can I help you with?",
     pause: 700,
   },
   {
@@ -47,7 +47,7 @@ const SCRIPT = [
   },
   {
     speaker: "gia",
-    text: "That's exactly what this is built for. The AI answers in your name twenty-four seven — qualifies the caller and follows up by text automatically. Brayden can show you how it works in fifteen minutes. Do you have time this week?",
+    text: "That's exactly what this is built for. The AI answers in your name twenty-four seven — qualifies the caller and follows up by text automatically. Our team can show you how it works in fifteen minutes. Do you have time this week?",
     pause: 700,
   },
   {
@@ -57,7 +57,7 @@ const SCRIPT = [
   },
   {
     speaker: "gia",
-    text: "Plans start at three forty-nine a month, no contract. Want me to grab you a time with Brayden?",
+    text: "Plans start at three forty-nine a month, no contract. Want me to grab you a time with our team?",
     pause: 600,
   },
   {
@@ -67,7 +67,7 @@ const SCRIPT = [
   },
   {
     speaker: "gia",
-    text: "Perfect. I'll text you his booking link now — is this number good to text?",
+    text: "Perfect. I'll text you our booking link now — is this number good to text?",
     pause: 500,
   },
   {
@@ -77,7 +77,7 @@ const SCRIPT = [
   },
   {
     speaker: "gia",
-    text: "Sent. Brayden's looking forward to it — have a great day!",
+    text: "Sent. Our team is looking forward to it — have a great day!",
     pause: 0,
   },
 ];

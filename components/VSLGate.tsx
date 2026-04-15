@@ -164,9 +164,9 @@ export default function VSLGate({
             for over 1,200 businesses
           </h3>
           <p className="mt-3 text-sm leading-relaxed text-white/60 md:text-[15px]">
-            Watch how Brayden built an AI receptionist that picks up every call
-            in your name, qualifies the lead, and texts you the details —
-            before your competitor can even ring back.
+            Watch how we built an AI receptionist that picks up every call in
+            your name, qualifies the lead, and texts you the details — before
+            your competitor can even ring back.
           </p>
 
           <ul className="mt-5 space-y-2 text-[13px] text-white/70">

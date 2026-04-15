@@ -31,7 +31,7 @@ If you loved it, let's get you started. If you had a concern, I want to hear it.
 
 Reply to this email. Or start your free trial: https://allthecalls.ai/#pricing
 
-Brayden`,
+The AllTheCalls Team`,
     },
     {
       step: 2,
@@ -52,7 +52,7 @@ $397/month. First 7 days free. You'll know in 3 days if it's working.
 
 Start your free trial: https://allthecalls.ai/#pricing
 
-Brayden`,
+The AllTheCalls Team`,
     },
     {
       step: 3,
@@ -70,7 +70,7 @@ If no: totally fine. But one of your competitors will be live by next week. Thou
 
 https://allthecalls.ai/#pricing
 
-Brayden`,
+The AllTheCalls Team`,
     },
   ],
 
@@ -99,7 +99,7 @@ If you hit any snags during setup, just reply to this email. I read everything.
 
 Let's go.
 
-Brayden`,
+The AllTheCalls Team`,
     },
     {
       step: 2,
@@ -119,7 +119,7 @@ Pro tip: The first few calls are weird. Your AI learns your business as calls co
 
 Questions? Just reply here.
 
-Brayden`,
+The AllTheCalls Team`,
     },
     {
       step: 3,
@@ -139,7 +139,7 @@ Don't overthink it. The magic happens when your AI has real calls to learn from.
 
 If you're not getting calls yet, it might just be because we need to point more traffic at that number. Let me know and I can help you think through that.
 
-Brayden`,
+The AllTheCalls Team`,
     },
     {
       step: 4,
@@ -163,7 +163,7 @@ But here's the real number: If your AI captures just one extra deal this month d
 
 You still have 2 days left on your trial. This is the time to really stress-test it. Forward calls. Let it handle your voicemail. See what it can do.
 
-Brayden`,
+The AllTheCalls Team`,
     },
     {
       step: 5,
@@ -186,7 +186,7 @@ Ready to keep it running? Pick your plan: https://allthecalls.ai/my
 
 Questions about pricing? Reply and I'll walk you through it.
 
-Brayden`,
+The AllTheCalls Team`,
     },
   ],
 
@@ -210,7 +210,7 @@ But here's the truth: every day your AI is off, you're missing calls. Real money
 
 I'd rather have you as a customer than not. If there's something I can do to make this a yes, tell me.
 
-Brayden`,
+The AllTheCalls Team`,
     },
     {
       step: 2,
@@ -230,7 +230,7 @@ Pick whichever feels right. I just think you're making a mistake by not having t
 
 Reply with which option and I'll set it up.
 
-Brayden`,
+The AllTheCalls Team`,
     },
     {
       step: 3,
@@ -250,7 +250,7 @@ An AI receptionist costs less than one lost deal per year. The math is brutal.
 
 If you change your mind — even in six months — just reach out. I'll help.
 
-Brayden`,
+The AllTheCalls Team`,
     },
   ],
 
@@ -275,7 +275,7 @@ It takes 90 seconds. Your AI will be live again immediately after.
 
 If you're having trouble, reply and I'll handle it.
 
-Brayden`,
+The AllTheCalls Team`,
     },
     {
       step: 2,
@@ -294,7 +294,7 @@ Log in here and update it: https://allthecalls.ai/my
 
 Takes a minute. Your AI comes right back.
 
-Brayden`,
+The AllTheCalls Team`,
     },
     {
       step: 3,
@@ -315,7 +315,7 @@ Or if there's a reason you want to cancel, just let me know. No hard feelings.
 
 But if you're just forgetting, don't. Fix it today.
 
-Brayden`,
+The AllTheCalls Team`,
     },
   ],
 };
