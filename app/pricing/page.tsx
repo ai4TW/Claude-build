@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import VSLGate from "@/components/VSLGate";
 
 export const metadata: Metadata = {
   title: "Pricing — AllTheCalls.ai",
@@ -11,8 +10,7 @@ export const metadata: Metadata = {
 const DEMO_PHONE = process.env.NEXT_PUBLIC_DEMO_PHONE || "(316) 232-4777";
 const DEMO_PHONE_HREF =
   process.env.NEXT_PUBLIC_DEMO_PHONE_HREF || "tel:+13162324777";
-const VSL_URL = process.env.NEXT_PUBLIC_VSL_URL || "";
-const VSL_POSTER = process.env.NEXT_PUBLIC_VSL_POSTER || "";
+const CALENDLY_URL = "https://calendly.com/brayden-allthecalls/new-meeting";
 
 type Plan = {
   id: "starter" | "pro" | "agency";
@@ -100,6 +98,10 @@ const FAQ: Array<{ q: string; a: string }> = [
     q: "Do my clients see the call history?",
     a: "Yes — every plan includes the Live Client App at app.allthecalls.ai. Installable on iPhone and Android in under a minute.",
   },
+  {
+    q: "Can I try it before I buy?",
+    a: `Absolutely. Call ${DEMO_PHONE} right now and talk to Gia, our live AI demo. Or book a free 15-minute call and we'll build one with your business name on the spot.`,
+  },
 ];
 
 export default function PricingPage() {
@@ -111,25 +113,33 @@ export default function PricingPage() {
           <Link href="/" className="flex items-center">
             <img src="/logo.svg" alt="AllTheCalls.ai" className="h-10 w-auto" />
           </Link>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             <a
               href={DEMO_PHONE_HREF}
               className="hidden text-sm text-white/60 hover:text-white sm:inline"
             >
-              📞 {DEMO_PHONE}
+              {"\u{1F4DE}"} {DEMO_PHONE}
+            </a>
+            <a
+              href={CALENDLY_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden rounded-xl border border-white/15 bg-white/[0.04] px-4 py-2 text-sm font-semibold text-slate-200 hover:border-white/25 sm:inline-flex items-center gap-2"
+            >
+              {"\u{1F4C5}"} Book a Call
             </a>
             <Link
-              href="/checkout?plan=pro"
-              className="rounded-full bg-gradient-to-br from-[#4cd7f6] via-[#7c3aed] to-[#c4b5fd] px-5 py-2 text-sm font-semibold text-white shadow-lg shadow-violet-500/30 hover:opacity-90"
+              href="/demo"
+              className="rounded-xl bg-gradient-to-br from-[#4cd7f6] via-[#7c3aed] to-[#c4b5fd] px-5 py-2 text-sm font-semibold text-white shadow-lg shadow-violet-500/30 hover:opacity-90"
             >
-              Start Free Trial
+              Get Started
             </Link>
           </div>
         </div>
       </nav>
 
       {/* HERO */}
-      <section className="relative overflow-hidden px-4 pt-16 pb-10 text-center md:pt-20 md:pb-12">
+      <section className="relative overflow-hidden px-4 pt-16 pb-12 text-center md:pt-20 md:pb-14">
         <div
           className="pointer-events-none absolute inset-x-0 top-0 h-[420px] opacity-60"
           style={{
@@ -160,23 +170,11 @@ export default function PricingPage() {
         </div>
       </section>
 
-      {/* VSL — Lead capture gate, then video */}
-      <section className="px-4 pb-10">
-        <div className="mx-auto max-w-4xl">
-          <VSLGate
-            videoUrl={VSL_URL}
-            videoPoster={VSL_POSTER}
-            demoPhone={DEMO_PHONE}
-            demoPhoneHref={DEMO_PHONE_HREF}
-          />
-        </div>
-      </section>
-
       {/* PRICING CARDS */}
       <section className="px-4 pb-6">
         <div className="mx-auto grid max-w-6xl gap-6 md:grid-cols-3">
           {PLANS.map((plan) => (
-            <PlanCard key={plan.id} plan={plan} />
+            <PlanCard key={plan.id} plan={plan} calendlyUrl={CALENDLY_URL} />
           ))}
         </div>
         <p className="mx-auto mt-5 max-w-3xl text-center text-xs text-white/35">
@@ -191,7 +189,32 @@ export default function PricingPage() {
         </p>
       </section>
 
-      {/* COMPARISON TABLE — desktop only, compact */}
+      {/* BOOK A CALL BANNER */}
+      <section className="px-4 pb-10">
+        <div className="mx-auto max-w-4xl rounded-2xl border border-violet-500/20 bg-violet-500/[0.06] p-8 text-center md:flex md:items-center md:justify-between md:text-left">
+          <div className="mb-4 md:mb-0">
+            <h3
+              className="mb-1 text-lg font-bold text-white"
+              style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+            >
+              Not sure which plan? Let&apos;s talk.
+            </h3>
+            <p className="text-sm text-white/50">
+              15-minute call. We&apos;ll demo it live with your business name and help you pick the right plan.
+            </p>
+          </div>
+          <a
+            href={CALENDLY_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/[0.06] px-6 py-3 text-sm font-bold text-white hover:border-white/25 hover:bg-white/[0.1] transition"
+          >
+            {"\u{1F4C5}"} Book a Free Demo Call
+          </a>
+        </div>
+      </section>
+
+      {/* COMPARISON TABLE — desktop only */}
       <section className="hidden px-4 pb-10 md:block">
         <div className="mx-auto max-w-5xl overflow-hidden rounded-2xl border border-white/8 bg-white/[0.02]">
           <table className="w-full border-collapse text-left text-sm">
@@ -206,7 +229,7 @@ export default function PricingPage() {
                 </th>
                 <th className="bg-violet-500/[0.08] px-4 py-4 text-center text-xs font-bold">
                   <span className="bg-gradient-to-r from-[#a78bfa] to-[#22d3ee] bg-clip-text text-transparent">
-                    Pro ⭐
+                    Pro {"\u2B50"}
                   </span>
                   <div className="text-[11px] font-normal text-violet-300/60">$497</div>
                 </th>
@@ -291,17 +314,19 @@ export default function PricingPage() {
           </p>
           <div className="flex flex-wrap justify-center gap-3">
             <Link
-              href="/checkout?plan=pro"
+              href="/demo"
               className="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-br from-[#4cd7f6] via-[#7c3aed] to-[#c4b5fd] px-7 py-4 text-base font-bold text-white shadow-xl shadow-violet-500/40 transition hover:opacity-90"
             >
-              Start now — 14-day guarantee →
+              Get Started Free {"\u2192"}
             </Link>
-            <Link
-              href="/book"
+            <a
+              href={CALENDLY_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/[0.04] px-6 py-4 text-base font-semibold text-slate-200 backdrop-blur-sm hover:border-white/25"
             >
-              📅 Book a 15-min call
-            </Link>
+              {"\u{1F4C5}"} Book a 15-min call
+            </a>
           </div>
           <p className="mt-5 text-xs text-white/40">
             Or call{" "}
@@ -324,7 +349,7 @@ export default function PricingPage() {
   );
 }
 
-function PlanCard({ plan }: { plan: Plan }) {
+function PlanCard({ plan, calendlyUrl }: { plan: Plan; calendlyUrl: string }) {
   const isPopular = plan.popular === true;
   return (
     <div
@@ -379,16 +404,27 @@ function PlanCard({ plan }: { plan: Plan }) {
         ))}
       </ul>
 
-      <Link
-        href={`/checkout?plan=${plan.id}`}
-        className={`mt-auto inline-flex items-center justify-center rounded-xl px-5 py-3.5 text-sm font-bold transition ${
-          isPopular
-            ? "bg-gradient-to-br from-[#4cd7f6] via-[#7c3aed] to-[#c4b5fd] text-white shadow-lg shadow-violet-500/30 hover:opacity-90"
-            : "border border-white/15 bg-white/[0.04] text-white hover:border-white/30"
-        }`}
-      >
-        Get Started →
-      </Link>
+      {/* Two CTAs per card */}
+      <div className="mt-auto flex flex-col gap-2.5">
+        <Link
+          href={`/checkout?plan=${plan.id}`}
+          className={`inline-flex items-center justify-center rounded-xl px-5 py-3.5 text-sm font-bold transition ${
+            isPopular
+              ? "bg-gradient-to-br from-[#4cd7f6] via-[#7c3aed] to-[#c4b5fd] text-white shadow-lg shadow-violet-500/30 hover:opacity-90"
+              : "border border-white/15 bg-white/[0.04] text-white hover:border-white/30"
+          }`}
+        >
+          Get Started {"\u2192"}
+        </Link>
+        <a
+          href={calendlyUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/10 px-5 py-3 text-[13px] font-semibold text-white/60 hover:text-white hover:border-white/20 transition"
+        >
+          {"\u{1F4C5}"} Book a call first
+        </a>
+      </div>
     </div>
   );
 }
@@ -423,7 +459,7 @@ function Cell({ value, highlighted }: { value: CellValue; highlighted?: boolean 
         {value ? (
           <CheckIcon color={highlighted ? "#a78bfa" : "#22d3ee"} />
         ) : (
-          <span className="text-white/15">—</span>
+          <span className="text-white/15">{"\u2014"}</span>
         )}
       </td>
     );
