@@ -142,10 +142,51 @@ export async function POST(req: Request) {
     console.error("[lead] supabase error:", (e as Error).message);
   }
 
+  // Push to GHL CRM — fire-and-forget
+  pushToGHL({ firstName, email, phone, businessType, source }).catch(() => {});
+
   // Notifications — fire-and-forget, never block the response
   const lead = { firstName, email, phone, businessType, source };
   notifyNewLead(lead).catch(() => {});
   notifySms(lead).catch(() => {});
 
   return NextResponse.json({ ok: true });
+}
+
+async function pushToGHL(lead: {
+  firstName: string;
+  email: string;
+  phone: string;
+  businessType: string;
+  source: string;
+}) {
+  const apiKey = process.env.GHL_API_KEY;
+  if (!apiKey) return;
+
+  const locationId = process.env.GHL_LOCATION_ID || "PeMkLPdDHTeQ4OWJXrGC";
+
+  try {
+    await fetch("https://services.leadconnectorhq.com/contacts/", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+        Version: "2021-07-28",
+      },
+      body: JSON.stringify({
+        locationId,
+        firstName: lead.firstName.split(" ")[0] || lead.firstName,
+        lastName: lead.firstName.split(" ").slice(1).join(" ") || "",
+        email: lead.email,
+        phone: lead.phone || undefined,
+        tags: ["new-lead"],
+        source: lead.source,
+        customFields: [
+          { id: "8o7fwZxbTN1INIFDXVrg", value: lead.businessType },
+        ],
+      }),
+    });
+  } catch (e) {
+    console.error("[lead] GHL push failed:", (e as Error).message);
+  }
 }
