@@ -424,11 +424,11 @@ export default function Home() {
           <div className="hidden md:flex items-center gap-3">
             <a href={DEMO_PHONE_HREF} style={{ fontSize: "14px", color: "rgba(255,255,255,0.6)", textDecoration: "none", padding: "8px 16px" }}>{"\u{1F4DE}"} {DEMO_PHONE}</a>
             <Link
-              href="/pricing"
+              href="/demo"
               className="btn-glow"
               style={{ color: "white", fontSize: "14px", fontWeight: 600, padding: "10px 20px", borderRadius: "12px", textDecoration: "none", position: "relative", overflow: "hidden" }}
             >
-              See Pricing
+              Get Started
               {/* Shimmer */}
               <span style={{
                 position: "absolute", top: 0, left: 0, width: "50%", height: "100%",
@@ -529,7 +529,7 @@ export default function Home() {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 mb-6">
-              <Link href="/pricing" className="btn-glow w-full sm:w-auto" style={{ color: "white", fontWeight: 700, fontSize: "16px", padding: "16px 32px", borderRadius: "12px", textDecoration: "none", textAlign: "center" }}>
+              <Link href="/demo" className="btn-glow w-full sm:w-auto" style={{ color: "white", fontWeight: 700, fontSize: "16px", padding: "16px 32px", borderRadius: "12px", textDecoration: "none", textAlign: "center" }}>
                 Get Started — Risk Free
               </Link>
               <a href="#hear-it" className="btn-ghost w-full sm:w-auto" style={{ fontWeight: 600, fontSize: "16px", padding: "16px 32px", borderRadius: "12px", textDecoration: "none", textAlign: "center" }}>
@@ -867,8 +867,8 @@ export default function Home() {
             Stop sending revenue to voicemail. Call our AI first, then see our plans.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
-            <Link href="/pricing" className="btn-glow w-full sm:w-auto" style={{ color: "white", fontWeight: 700, fontSize: "18px", padding: "16px 40px", borderRadius: "12px", textDecoration: "none", textAlign: "center" }}>
-              See Pricing &rarr;
+            <Link href="/demo" className="btn-glow w-full sm:w-auto" style={{ color: "white", fontWeight: 700, fontSize: "18px", padding: "16px 40px", borderRadius: "12px", textDecoration: "none", textAlign: "center" }}>
+              Get Your Free Demo &rarr;
             </Link>
             <a href={DEMO_PHONE_HREF} className="btn-ghost w-full sm:w-auto" style={{ fontWeight: 600, fontSize: "18px", padding: "16px 40px", borderRadius: "12px", textDecoration: "none", textAlign: "center" }}>
               {"\u{1F4DE}"} Call {DEMO_PHONE}
@@ -903,7 +903,7 @@ export default function Home() {
                 <Link key={label} href={href} style={{ display: "block", color: "rgba(255,255,255,0.4)", fontSize: "14px", textDecoration: "none", marginBottom: "12px" }}>{label}</Link>
               ))}
               <a href={DEMO_PHONE_HREF} style={{ display: "block", color: "#a78bfa", fontSize: "14px", fontWeight: 600, textDecoration: "none", marginBottom: "8px" }}>{"\u{1F4DE}"} {DEMO_PHONE}</a>
-              <Link href="/pricing" className="btn-glow" style={{ display: "inline-block", color: "white", fontSize: "14px", fontWeight: 600, padding: "10px 20px", borderRadius: "12px", textDecoration: "none", marginTop: "8px" }}>See Pricing &rarr;</Link>
+              <Link href="/demo" className="btn-glow" style={{ display: "inline-block", color: "white", fontSize: "14px", fontWeight: 600, padding: "10px 20px", borderRadius: "12px", textDecoration: "none", marginTop: "8px" }}>Get Started &rarr;</Link>
             </div>
           </div>
           <div style={{ borderTop: "1px solid rgba(255,255,255,0.05)", paddingTop: "32px", display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: "16px" }}>
