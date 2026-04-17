@@ -15,8 +15,8 @@ const CALENDLY_URL = "https://calendly.com/brayden-allthecalls/new-meeting";
 
 const FAQ: Array<{ q: string; a: string }> = [
   {
-    q: "Why real estate investors specifically?",
-    a: "Because speed-to-lead is the whole game. If a motivated seller fills out your form or leaves a voicemail and you don't call back inside a minute, they've already called three of your competitors. We built AllTheCalls to make sure you're always the first — and only — call back.",
+    q: "Who is this actually built for?",
+    a: "Real estate investors first — wholesalers, fix & flip, buy-and-hold, creative finance, and PPL buyers who live or die on speed-to-lead. But it works just as well for agents, brokers, lenders, title companies, and property managers. If your business is real estate and you've ever lost a deal to voicemail or a slow callback, this is for you.",
   },
   {
     q: "How does the <30-second outbound work?",
@@ -107,8 +107,9 @@ export default function PricingPage() {
             </span>
           </h1>
           <p className="mx-auto max-w-xl text-[clamp(15px,2vw,18px)] leading-relaxed text-white/60">
-            One plan. $497/mo. Everything a serious investor needs to answer every
-            inbound call 24/7 — and call every new CRM lead back in under 30 seconds.
+            One plan. $497/mo. Built for real estate investors first &mdash; used by
+            agents, lenders, title companies, and any RE operator who can&apos;t afford to
+            miss a call or a lead.
           </p>
         </div>
       </section>

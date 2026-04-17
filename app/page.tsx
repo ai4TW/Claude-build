@@ -39,12 +39,12 @@ const stats: Stat[] = [
 ];
 
 const AUDIENCE_TAGS = [
-  { icon: "\u{1F3D7}\uFE0F", label: "Wholesalers" },
-  { icon: "\u{1F6E0}\uFE0F", label: "Flippers" },
-  { icon: "\u{1F3E0}", label: "Buy & Hold" },
-  { icon: "\u{1F4DD}", label: "Creative Finance" },
+  { icon: "\u{1F3D7}\uFE0F", label: "Investors" },
+  { icon: "\u{1F3E0}", label: "Agents & Brokers" },
+  { icon: "\u{1F4B0}", label: "Lenders" },
+  { icon: "\u{1F4DC}", label: "Title Companies" },
+  { icon: "\u{1F511}", label: "Property Managers" },
   { icon: "\u{1F4C8}", label: "PPL Buyers" },
-  { icon: "\u{1F4EC}", label: "Direct Mail" },
 ];
 
 const steps = [
@@ -459,9 +459,12 @@ export default function Home() {
               Never lose another{" "}
               <span className="gradient-text">motivated seller.</span>
             </h1>
-            <p style={{ fontSize: "clamp(1rem, 2vw, 1.2rem)", color: "rgba(255,255,255,0.6)", marginBottom: "32px", lineHeight: 1.7, maxWidth: "560px" }}>
+            <p style={{ fontSize: "clamp(1rem, 2vw, 1.2rem)", color: "rgba(255,255,255,0.6)", marginBottom: "20px", lineHeight: 1.7, maxWidth: "560px" }}>
               Your AI answers every inbound in your name &mdash; 24/7 &mdash; and calls every new CRM lead back in{" "}
               <span style={{ color: "white", fontWeight: 600 }}>under 30 seconds</span>. Qualified. Booked. Synced. Before your competitor even sees the notification.
+            </p>
+            <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.45)", marginBottom: "32px", maxWidth: "560px", lineHeight: 1.6 }}>
+              Built for real estate investors first &mdash; used by agents, lenders, title companies, property managers, and any RE operator doing volume.
             </p>
 
             {/* Audience chips */}
@@ -522,20 +525,20 @@ export default function Home() {
           <div className="fade-in" style={{ textAlign: "center", marginBottom: "48px" }}>
             <p style={{ color: "#a78bfa", fontSize: "13px", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "12px" }}>Who It&apos;s For</p>
             <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(1.75rem, 4vw, 2.75rem)", fontWeight: 700, color: "white", marginBottom: "12px" }}>
-              Built for investors where <span className="gradient-text">speed wins deals</span>
+              Built where <span className="gradient-text">speed wins deals</span>
             </h2>
             <p style={{ color: "rgba(255,255,255,0.5)", fontSize: "17px", maxWidth: "640px", margin: "0 auto", lineHeight: 1.6 }}>
-              If you&apos;re buying PPL leads, running direct mail, cold calling, or spending money on Google ads, a missed call or slow callback is a deal walking to your competitor.
+              Real estate investors get the most out of AllTheCalls &mdash; but any operator running PPL, PPC, direct mail, or a real estate pipeline wins the same way. If a missed call or slow callback costs you a deal, this is for you.
             </p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {[
-              { title: "Wholesalers", desc: "Every motivated seller call gets picked up. Every Zillow/PropStream lead called back in 30 seconds. Your pipeline stops leaking." },
-              { title: "Fix & Flip Investors", desc: "You&apos;re on a walkthrough, at the contractor meeting, or on vacation. The AI captures every inbound and qualifies for condition, timeline, and price." },
-              { title: "Buy-and-Hold", desc: "Tenant calls, inquiry calls, pocket listings &mdash; all filtered and routed. Maintenance escalations hit your phone, the rest lives in your CRM." },
-              { title: "PPL Lead Buyers", desc: "Stop letting $50 leads die in voicemail. AllTheCalls gets to them first &mdash; under 30 seconds from form submit &mdash; before your competition dials." },
-              { title: "Creative Finance", desc: "Subject-to, seller finance, novations &mdash; deals take explaining. Your AI is trained on your exact pitch and qualifies complex structures." },
-              { title: "Acquisitions Teams", desc: "Don&apos;t hire another VA you have to manage. Run the AI as your front-line qualifier, let your closers close the deals worth closing." },
+              { title: "Investors & Wholesalers", desc: "Every motivated seller call picked up. Every Zillow / PropStream / PPL lead called back in 30 seconds. Your pipeline stops leaking." },
+              { title: "Fix & Flip", desc: "You&apos;re on a walkthrough, at the contractor meeting, or on vacation. The AI captures every inbound and qualifies for condition, timeline, and price." },
+              { title: "Agents & Brokers", desc: "Showing a house? Closing a deal? The AI answers every buyer / listing inquiry, qualifies the lead, and books the appointment on your calendar." },
+              { title: "Lenders & Title", desc: "Every loan inquiry, every closing question, every pre-qual &mdash; handled 24/7 in your name. Booked into your calendar, logged in your CRM." },
+              { title: "Property Managers & Buy-and-Hold", desc: "Tenant calls, inquiry calls, maintenance escalations &mdash; triaged and routed. Urgent hits your phone, everything else lives in your CRM." },
+              { title: "Any RE Operator Doing Volume", desc: "Creative finance, novations, acquisitions teams, STR / Airbnb operators &mdash; if speed-to-lead moves the needle for you, this is the tool." },
             ].map((item) => (
               <div key={item.title} className="glass-card fade-in" style={{ borderRadius: "16px", padding: "24px" }}>
                 <h3 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, color: "white", fontSize: "16px", marginBottom: "8px" }}>{item.title}</h3>

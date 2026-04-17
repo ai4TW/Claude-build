@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     template: "%s | AllTheCalls",
   },
   description:
-    "Never lose another motivated seller. AllTheCalls answers every inbound call 24/7 and calls every new lead back in under 30 seconds — fully synced with your CRM. $497/mo.",
+    "Built for real estate investors — and used by agents, lenders, title, and any RE operator doing volume. AllTheCalls answers every inbound 24/7 and calls every new CRM lead back in under 30 seconds. $497/mo.",
   keywords: [
     "AI acquisitions manager",
     "AI for real estate investors",
@@ -49,6 +49,11 @@ export const metadata: Metadata = {
     "real estate CRM AI",
     "AI cold caller real estate",
     "investor call center",
+    "AI receptionist for real estate agents",
+    "AI for mortgage lenders",
+    "AI for title companies",
+    "AI for property managers",
+    "real estate AI voice agent",
   ],
   authors: [{ name: "AllTheCalls" }],
   creator: "AllTheCalls",
