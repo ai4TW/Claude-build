@@ -1,15 +1,23 @@
 /**
  * POST /api/webhooks/trillet
- * Receives call-end events from Trillet.
- * For Pro + Agency clients: queues a 3-touch SMS/email follow-up sequence.
- * For Agency clients: fires CRM webhook with call data.
+ *
+ * Call-completion webhook from Trillet. Handles BOTH:
+ *   - Inbound calls (motivated seller dials the AI)
+ *   - Outbound calls fired by /api/outbound on the webhook-bridge
+ *     (metadata.ghl_contact_id threads the GHL contact through)
+ *
+ * For every client (single-tier as of April 17, 2026), we:
+ *   1. Look up the client by Trillet agent ID
+ *   2. Push a full call record to GHL — contact + pipeline + note + stats
+ *   3. Queue a 3-touch SMS follow-up in Supabase
+ *   4. Fire any per-client `crm_webhook_url` for external CRMs
  *
  * Configure in Trillet dashboard: Settings → Webhooks → add this URL.
  */
 
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase";
-import { pushLeadToGHL } from "@/lib/ghl";
+import { pushLeadToGHL, type Direction } from "@/lib/ghl";
 
 interface TrilletCallEvent {
   agentId?: string;
@@ -21,14 +29,27 @@ interface TrilletCallEvent {
   recordingUrl?: string;
   duration?: number;
   status?: string;
+  direction?: string;
+  metadata?: Record<string, string>;
+  dynamic_variables?: Record<string, string>;
+}
+
+// Read a field from a Trillet payload accepting any of several likely names.
+function pick<T = string>(
+  obj: Record<string, unknown>,
+  keys: string[],
+): T | undefined {
+  for (const k of keys) {
+    const v = obj[k];
+    if (v !== undefined && v !== null && v !== "") return v as T;
+  }
+  return undefined;
 }
 
 export async function POST(req: NextRequest) {
-  // Capture raw body for debugging what Trillet sends
   const rawBody = await req.text();
   console.log("[trillet webhook] RAW PAYLOAD:", rawBody);
 
-  // Save to debug log so we can inspect later
   if (supabaseAdmin) {
     supabaseAdmin.from("webhook_debug_log").insert({ source: "trillet", payload: rawBody }).then();
   }
@@ -37,153 +58,129 @@ export async function POST(req: NextRequest) {
   try {
     event = JSON.parse(rawBody);
   } catch {
-    return NextResponse.json({ error: "Invalid JSON", rawBody: rawBody.slice(0, 500) }, { status: 400 });
+    return NextResponse.json(
+      { error: "Invalid JSON", rawBody: rawBody.slice(0, 500) },
+      { status: 400 },
+    );
   }
 
-  // Log all keys Trillet sends so we know the field names
   console.log("[trillet webhook] KEYS:", Object.keys(event));
 
-  const { agentId, callId, callerNumber, callerName, summary, transcript, recordingUrl, duration } = event;
+  // ── Normalize field names (Trillet has been inconsistent) ────────────
+  const phone = pick<string>(event, [
+    "callerNumber",
+    "caller_number",
+    "from",
+    "phone",
+    "phoneNumber",
+    "to", // outbound calls: "to" is who we dialed
+  ]);
+  const callerName = pick<string>(event, [
+    "callerName",
+    "caller_name",
+    "name",
+    "contactName",
+  ]);
+  const summary = pick<string>(event, ["summary", "call_summary", "analysis"]);
+  const transcript = pick<string>(event, ["transcript", "call_transcript"]);
+  const recordingUrl = pick<string>(event, [
+    "recordingUrl",
+    "recording_url",
+    "recording",
+  ]);
+  const duration = pick<number>(event, ["duration", "call_duration"]);
+  const agentId = pick<string>(event, ["agentId", "agent_id", "pathwayId", "call_agent_id"]);
+  const callId = pick<string>(event, ["callId", "call_id"]);
+  const directionRaw = pick<string>(event, ["direction", "call_direction"]);
+  const direction: Direction =
+    directionRaw && directionRaw.toLowerCase().startsWith("out") ? "outbound" : "inbound";
 
-  // Also check alternative field names Trillet might use
-  const phone = callerNumber || (event.caller_number as string) || (event.from as string) || (event.phone as string) || (event.phoneNumber as string);
-  const name = callerName || (event.caller_name as string) || (event.name as string) || (event.contactName as string);
-  const sum = summary || (event.call_summary as string) || (event.analysis as string);
-  const trans = transcript || (event.call_transcript as string);
-  const rec = recordingUrl || (event.recording_url as string) || (event.recording as string);
-  const dur = duration || (event.call_duration as number);
-  const agent = agentId || (event.agent_id as string) || (event.pathwayId as string);
+  // Metadata + dynamic_variables — populated by /api/outbound when this is
+  // a callback for one of our speed-to-lead calls.
+  const metadata = (event.metadata || {}) as Record<string, string>;
+  const dynamicVars = (event.dynamic_variables || {}) as Record<string, string>;
 
-  if (!agent && !phone) {
-    return NextResponse.json({ ok: true, skipped: "no agent or phone", keys: Object.keys(event), raw: rawBody.slice(0, 500) });
+  const ghlContactId = metadata.ghl_contact_id || undefined;
+  const leadSource = metadata.lead_source || dynamicVars.lead_source || undefined;
+
+  // If the AI collected a nicer name during the call, prefer dynamic_variables
+  const effectiveName =
+    callerName ||
+    [dynamicVars.first_name, dynamicVars.last_name].filter(Boolean).join(" ") ||
+    undefined;
+
+  if (!agentId && !phone && !ghlContactId) {
+    return NextResponse.json({
+      ok: true,
+      skipped: "no agent, phone, or contact id",
+      keys: Object.keys(event),
+      raw: rawBody.slice(0, 500),
+    });
   }
 
-  // Use the resolved values going forward
-  const resolvedCallerNumber = phone;
-  const resolvedCallerName = name;
-  const resolvedSummary = sum;
-  const resolvedTranscript = trans;
-  const resolvedRecordingUrl = rec;
-  const resolvedDuration = dur;
-  const resolvedAgentId = agent;
-
-  if (!resolvedAgentId || !resolvedCallerNumber) {
-    return NextResponse.json({ ok: true, skipped: "missing agentId or callerNumber after resolve", keys: Object.keys(event) });
+  if (!agentId) {
+    return NextResponse.json({ ok: true, skipped: "missing agentId", keys: Object.keys(event) });
   }
 
   if (!supabaseAdmin) {
     return NextResponse.json({ error: "DB not configured" }, { status: 500 });
   }
 
-  // Look up client by their Trillet agent/flow ID
+  // ── Look up client by Trillet agent/flow ID ───────────────────────────
   const { data: client } = await supabaseAdmin
     .from("clients")
     .select("id, plan, crm_webhook_url, name, email")
-    .or(`trillet_agent_id.eq.${resolvedAgentId}`)
+    .or(`trillet_agent_id.eq.${agentId}`)
     .single();
 
   if (!client) {
     return NextResponse.json({ ok: true, skipped: "no client for agentId" });
   }
 
-  const isPro = ["pro", "agency"].includes(client.plan);
-  const isAgency = client.plan === "agency";
   const now = new Date();
 
-  // ── Push lead to GHL (new callers → create contact, returning → add note) ─
-  const ghlKey = process.env.GHL_API_KEY?.trim();
-  const ghlLocationId = (process.env.GHL_LOCATION_ID || "PeMkLPdDHTeQ4OWJXrGC").trim();
-  const ghlPipelineId = process.env.GHL_PIPELINE_ID?.trim();
-  if (ghlKey && resolvedCallerNumber) {
+  // ── Push to GHL (every client — single-tier now) ──────────────────────
+  if (phone || ghlContactId) {
     try {
-      const ghlHeaders = {
-        Authorization: `Bearer ${ghlKey}`,
-        "Content-Type": "application/json",
-        Version: "2021-07-28",
-      };
-
-      // Step 1: Create or find existing contact
-      const createRes = await fetch("https://services.leadconnectorhq.com/contacts/", {
-        method: "POST",
-        headers: ghlHeaders,
-        body: JSON.stringify({
-          locationId: ghlLocationId,
-          phone: resolvedCallerNumber,
-          name: resolvedCallerName || "Unknown Caller",
-          source: `AllTheCalls AI — ${client.name}`,
-          tags: ["inbound-call", "demo-line", "trillet"],
-        }),
-      });
-      const createData = await createRes.json();
-
-      let contactId: string | null = null;
-      let isNewContact = false;
-
-      if (createRes.ok && createData.contact?.id) {
-        contactId = createData.contact.id;
-        isNewContact = true;
-        console.log(`[ghl] NEW contact: ${contactId}`);
-      } else if (createRes.status === 400 && createData.meta?.contactId) {
-        contactId = createData.meta.contactId;
-        console.log(`[ghl] RETURNING caller: ${contactId}`);
-      } else {
-        console.error("[ghl] Contact creation failed:", createRes.status, JSON.stringify(createData));
-      }
-
-      if (contactId) {
-        // Step 2: Add to pipeline (new callers only)
-        if (isNewContact && ghlPipelineId) {
-          await fetch("https://services.leadconnectorhq.com/opportunities/", {
-            method: "POST",
-            headers: ghlHeaders,
-            body: JSON.stringify({
-              pipelineId: ghlPipelineId,
-              locationId: ghlLocationId,
-              contactId,
-              name: "Inbound Call Lead",
-              status: "open",
-              source: "AllTheCalls AI",
-            }),
-          });
-          console.log(`[ghl] Added to pipeline`);
-        }
-
-        // Step 3: Add call note with summary, transcript, recording
-        const durStr = resolvedDuration ? `${Math.floor(Number(resolvedDuration) / 60)}m ${Number(resolvedDuration) % 60}s` : "unknown";
-        const noteLines = [
-          `📞 Call — ${new Date().toLocaleString("en-US", { timeZone: "America/Chicago", dateStyle: "medium", timeStyle: "short" })} — Duration: ${durStr}`,
-          `Agent: ${client.name}`,
-          resolvedCallerName ? `Caller: ${resolvedCallerName}` : null,
-          resolvedSummary ? `\n--- Summary ---\n${resolvedSummary}` : null,
-          resolvedTranscript ? `\n--- Transcript ---\n${resolvedTranscript.length > 3000 ? resolvedTranscript.slice(0, 3000) + "\n[truncated]" : resolvedTranscript}` : null,
-          resolvedRecordingUrl ? `\n🔊 Recording: ${resolvedRecordingUrl}` : null,
-        ].filter(Boolean).join("\n");
-
-        await fetch(`https://services.leadconnectorhq.com/contacts/${contactId}/notes`, {
-          method: "POST",
-          headers: ghlHeaders,
-          body: JSON.stringify({ body: noteLines }),
-        });
-        console.log(`[ghl] Call note added`);
-      }
+      await pushLeadToGHL(
+        {
+          callerNumber: phone || "",
+          callerName: effectiveName,
+          summary,
+          transcript,
+          recordingUrl,
+          duration,
+          agentName: client.name,
+          direction,
+          leadSource,
+        },
+        {
+          existingContactId: ghlContactId,
+          extraTags: [client.name ? `client-${client.name.toLowerCase().replace(/\s+/g, "-")}` : ""].filter(
+            Boolean,
+          ),
+        },
+      );
     } catch (err) {
-      console.error("[trillet webhook] GHL error:", err);
+      console.error("[trillet webhook] GHL push error:", err);
     }
   }
 
-  // ── 3-touch follow-up queue (Pro + Agency) ─────────────────────────────────
-  if (isPro && resolvedCallerNumber) {
+  // ── 3-touch SMS follow-up queue (every client) ────────────────────────
+  // Skip outbound calls where we already reached the lead live — follow-ups
+  // are an inbound-only mechanism (seller called us, we text back).
+  if (direction === "inbound" && phone) {
     const touches = [
-      { touch_number: 1, send_at: new Date(now.getTime() + 1 * 60 * 60 * 1000) },   // +1h
-      { touch_number: 2, send_at: new Date(now.getTime() + 24 * 60 * 60 * 1000) },  // +24h
-      { touch_number: 3, send_at: new Date(now.getTime() + 48 * 60 * 60 * 1000) },  // +48h
+      { touch_number: 1, send_at: new Date(now.getTime() + 1 * 60 * 60 * 1000) }, // +1h
+      { touch_number: 2, send_at: new Date(now.getTime() + 24 * 60 * 60 * 1000) }, // +24h
+      { touch_number: 3, send_at: new Date(now.getTime() + 48 * 60 * 60 * 1000) }, // +48h
     ];
 
     const rows = touches.map((t) => ({
       client_id: client.id,
-      caller_number: resolvedCallerNumber,
-      caller_name: resolvedCallerName || null,
-      call_summary: resolvedSummary || null,
+      caller_number: phone,
+      caller_name: effectiveName || null,
+      call_summary: summary || null,
       touch_number: t.touch_number,
       send_at: t.send_at.toISOString(),
       sent: false,
@@ -195,8 +192,8 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  // ── CRM webhook (Agency only) ──────────────────────────────────────────────
-  if (isAgency && client.crm_webhook_url) {
+  // ── Per-client CRM webhook (any client with a URL configured) ─────────
+  if (client.crm_webhook_url) {
     try {
       await fetch(client.crm_webhook_url, {
         method: "POST",
@@ -205,12 +202,17 @@ export async function POST(req: NextRequest) {
           source: "allthecalls.ai",
           clientName: client.name,
           callId: callId || null,
-          agentId: resolvedAgentId,
-          callerNumber: resolvedCallerNumber,
-          callerName: resolvedCallerName || null,
-          summary: resolvedSummary || null,
-          transcript: resolvedTranscript || null,
-          durationSeconds: resolvedDuration || null,
+          agentId,
+          direction,
+          callerNumber: phone || null,
+          callerName: effectiveName || null,
+          summary: summary || null,
+          transcript: transcript || null,
+          durationSeconds: duration || null,
+          recordingUrl: recordingUrl || null,
+          leadSource: leadSource || null,
+          ghlContactId: ghlContactId || null,
+          metadata,
           calledAt: now.toISOString(),
         }),
       });
@@ -219,5 +221,5 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  return NextResponse.json({ ok: true });
+  return NextResponse.json({ ok: true, direction, clientId: client.id });
 }
