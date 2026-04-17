@@ -6,27 +6,20 @@ export function getStripe() {
   return new Stripe(key);
 }
 
+/**
+ * Single-plan catalog.
+ * The `pro` key is kept so existing `/checkout?plan=pro` links continue to work.
+ * Price is $497/mo — Stripe priceId unchanged from previous config.
+ * Custom buildouts for larger teams are handled via Calendly / sales call, not self-serve.
+ */
 export const PLANS = {
-  starter: {
-    name: "Solo",
-    priceId: "price_1TKOpP42X4XVjhD97B47RoJP",
-    displayPrice: "$397",
-    monthlyAmount: 397,
-    description: "One AI receptionist for your business — never miss a call",
-  },
   pro: {
-    name: "Pro",
+    name: "AllTheCalls for Investors",
     priceId: "price_1TKOpP42X4XVjhD9P2VH0xgn",
     displayPrice: "$497",
     monthlyAmount: 497,
-    description: "Unlimited calls + automated follow-up + weekly reports",
-  },
-  agency: {
-    name: "Agency",
-    priceId: "price_1TKOpQ42X4XVjhD9hx0BIvH2",
-    displayPrice: "$1,497",
-    monthlyAmount: 1497,
-    description: "Multi-agent system — up to 5 AI receptionists + white-glove setup",
+    description:
+      "Your 24/7 AI acquisitions manager — answers every inbound motivated seller, calls every new lead back in under 30 seconds, and syncs with your CRM.",
   },
 } as const;
 

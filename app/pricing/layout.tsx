@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Pricing — AllTheCalls.ai",
+  title: "Pricing — AllTheCalls for Investors",
   description:
-    "AI receptionist plans for realtors, real estate investors, and tradespeople. 14-day money-back guarantee.",
+    "$497/mo. One plan for real estate investors. 24/7 inbound answering, <30s outbound on every new lead, CRM auto-sync, DFY setup. 14-day money-back guarantee.",
 };
 
 export default function PricingLayout({

@@ -278,10 +278,10 @@ export default function JustHappenedPage() {
           letterSpacing: "-0.02em",
           marginBottom: 16,
         }}>
-          Your business.<br />This AI. Every call.
+          Your investing business.<br />This AI. Every deal.
         </h2>
         <p style={{ fontSize: 18, color: "rgba(255,255,255,0.45)", marginBottom: 40, lineHeight: 1.6 }}>
-          Built for you in days. Answers in your name. Follows up automatically.<br />Starts at $349/month.
+          Built for real estate investors. Answers every inbound. Calls every new lead back in under 30 seconds.<br />$497/month. Live in 24-48 hours.
         </p>
         <a
           href="/checkout?plan=pro"
