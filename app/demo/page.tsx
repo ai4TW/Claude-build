@@ -12,12 +12,13 @@ const CALENDLY_URL = "https://calendly.com/brayden-allthecalls/new-meeting";
 /* ------------------------------------------------------------------ */
 
 const INDUSTRIES = [
-  { label: "Wholesaler", icon: "\u{1F3D7}\uFE0F" },
-  { label: "Fix & Flip", icon: "\u{1F6E0}\uFE0F" },
-  { label: "Buy & Hold", icon: "\u{1F3E0}" },
-  { label: "Creative Finance", icon: "\u{1F4DD}" },
-  { label: "Acquisitions Team", icon: "\u{1F465}" },
-  { label: "Other Investor Type", icon: "\u{1F4BC}" },
+  { label: "Real Estate Agent", icon: "\u{1F3E0}" },
+  { label: "Real Estate Investor", icon: "\u{1F3D7}\uFE0F" },
+  { label: "Lender / Mortgage", icon: "\u{1F4B0}" },
+  { label: "Title / Escrow", icon: "\u{1F4DC}" },
+  { label: "Property Manager", icon: "\u{1F511}" },
+  { label: "Home Services", icon: "\u{1F527}" },
+  { label: "Other Business", icon: "\u{1F4BC}" },
 ];
 
 const CALL_VOLUMES = [
@@ -147,10 +148,10 @@ function MultiStepForm() {
       {step === 1 && (
         <div>
           <h3 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, color: "white", fontSize: "20px", marginBottom: "8px" }}>
-            What kind of investor are you?
+            What kind of business do you run?
           </h3>
           <p style={{ color: "rgba(255,255,255,0.4)", fontSize: "14px", marginBottom: "20px" }}>
-            We tune your AI to your buy box and your lead sources.
+            We customize your AI to your industry so it sounds like your front desk.
           </p>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "10px" }}>
             {INDUSTRIES.map((ind) => (
@@ -179,7 +180,7 @@ function MultiStepForm() {
       {step === 2 && (
         <div>
           <h3 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, color: "white", fontSize: "20px", marginBottom: "8px" }}>
-            How many motivated seller leads a week?
+            How many inbound calls does your business get?
           </h3>
           <p style={{ color: "rgba(255,255,255,0.4)", fontSize: "14px", marginBottom: "20px" }}>
             This helps us size your plan and show you exactly how much revenue you&apos;re leaving on the table.
@@ -216,7 +217,7 @@ function MultiStepForm() {
             Almost done! Where should we send your demo?
           </h3>
           <p style={{ color: "rgba(255,255,255,0.4)", fontSize: "14px", marginBottom: "20px" }}>
-            We&apos;ll build a custom AI acquisitions manager tuned to your {form.industry.toLowerCase()} operation.
+            We&apos;ll build a custom AI receptionist tuned for your {form.industry.toLowerCase()} business.
           </p>
           <form onSubmit={(e) => { e.preventDefault(); handleFinalSubmit(); }} style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
             <input
@@ -339,16 +340,16 @@ export default function DemoPage() {
               {/* Urgency badge */}
               <div style={{ display: "inline-flex", alignItems: "center", gap: "8px", padding: "6px 14px", borderRadius: "999px", fontSize: "12px", fontWeight: 600, marginBottom: "24px", border: "1px solid rgba(239,68,68,0.3)", background: "rgba(239,68,68,0.08)", color: "#fca5a5", width: "fit-content" }}>
                 <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#ef4444", animation: "pulse-dot 2s ease-in-out infinite" }} />
-                Your competitors are calling sellers first. Are you?
+                Every missed call costs you money. Are you still missing them?
               </div>
 
               <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(2rem, 4.5vw, 3.25rem)", fontWeight: 700, color: "white", marginBottom: "20px", lineHeight: 1.08, letterSpacing: "-0.03em" }}>
-                Never Miss a Seller.{" "}
-                <span className="gradient-text">Lock Up More Deals.</span>
+                Stop Missing Calls.{" "}
+                <span className="gradient-text">Start Closing More.</span>
               </h1>
 
               <p style={{ color: "rgba(255,255,255,0.55)", fontSize: "17px", lineHeight: 1.7, marginBottom: "28px", maxWidth: "480px" }}>
-                See your AI acquisitions manager live on a 15-minute call. Built for your buy box, your CRM, your lead sources &mdash; answering every inbound and calling every new lead back in under 30 seconds.
+                Get a custom AI receptionist that answers every call in your business name, qualifies the caller, books the meeting, and texts you the summary &mdash; while you focus on the work.
               </p>
 
               {/* Revenue loss callout */}
@@ -364,8 +365,8 @@ export default function DemoPage() {
                   ${missedRevenue.toLocaleString()}+
                 </div>
                 <div style={{ fontSize: "13px", color: "rgba(255,255,255,0.5)", lineHeight: 1.5 }}>
-                  Average revenue lost per year from slow lead response.{" "}
-                  <span style={{ color: "#fca5a5", fontWeight: 600 }}>How many deals are you leaving on the table?</span>
+                  Average revenue lost per year from missed calls.{" "}
+                  <span style={{ color: "#fca5a5", fontWeight: 600 }}>How much are you losing?</span>
                 </div>
               </div>
 
@@ -402,7 +403,7 @@ export default function DemoPage() {
                   <div style={{ display: "flex", gap: "2px", marginBottom: "2px" }}>
                     {[...Array(5)].map((_, j) => <span key={j} style={{ color: "#facc15", fontSize: "10px" }}>{"\u2605"}</span>)}
                   </div>
-                  <span style={{ fontSize: "11px", color: "rgba(255,255,255,0.35)" }}>Trusted by real estate investors</span>
+                  <span style={{ fontSize: "11px", color: "rgba(255,255,255,0.35)" }}>Trusted by real estate pros &amp; service businesses</span>
                 </div>
               </div>
             </div>
@@ -430,10 +431,10 @@ export default function DemoPage() {
                       {"\u26A1"} Free Custom Demo
                     </div>
                     <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, color: "white", fontSize: "22px", marginBottom: "6px" }}>
-                      See Your AI Acquisitions Manager Live
+                      See Your AI Receptionist Live
                     </h2>
                     <p style={{ color: "rgba(255,255,255,0.4)", fontSize: "14px" }}>
-                      Takes 2 minutes. Built for your investing business.
+                      Takes 2 minutes. Built for your business.
                     </p>
                   </div>
 
@@ -457,19 +458,19 @@ export default function DemoPage() {
                 {
                   num: "1",
                   title: "We Build Your AI",
-                  desc: "Tell us your name, buy box, and lead sources. We configure your AI acquisitions manager live on the call.",
+                  desc: "Tell us your business name, industry, and how you want the AI to sound. We configure your AI receptionist right on the call.",
                   icon: "\u26A1",
                 },
                 {
                   num: "2",
                   title: "You Hear It Live",
-                  desc: "We call your number and you hear your AI answer exactly as a motivated seller would. Real call, real time.",
+                  desc: "We call your number and you hear your AI answer exactly as your clients would. Real call, real time.",
                   icon: "\u{1F399}\uFE0F",
                 },
                 {
                   num: "3",
                   title: "You Go Live",
-                  desc: "Love it? You leave the call with a working AI acquisitions manager. Don't love it? No charge, no commitment.",
+                  desc: "Love it? You leave the call with a working AI receptionist. Don't love it? No charge, no commitment.",
                   icon: "\u{1F680}",
                 },
               ].map((s) => (

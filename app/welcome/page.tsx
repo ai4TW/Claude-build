@@ -72,10 +72,7 @@ export default async function WelcomePage({
   searchParams: Promise<{ session_id?: string; plan?: string }>;
 }) {
   const sp = await searchParams;
-  const plan =
-    sp.plan === "starter" || sp.plan === "pro" || sp.plan === "agency"
-      ? sp.plan
-      : undefined;
+  const plan = sp.plan === "pro" ? sp.plan : undefined;
 
   return (
     <div style={{

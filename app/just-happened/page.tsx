@@ -108,7 +108,7 @@ export default function JustHappenedPage() {
         </p>
 
         <a
-          href="/checkout?plan=pro"
+          href="/pricing"
           style={{
             display: "inline-block",
             background: "linear-gradient(135deg, #7c3aed, #06b6d4)",
@@ -126,7 +126,7 @@ export default function JustHappenedPage() {
         </a>
 
         <p style={{ marginTop: 14, fontSize: 13, color: "rgba(255,255,255,0.25)" }}>
-          7-day free trial · no setup fees · cancel anytime
+          Live in 24-48 hours · 14-day money-back guarantee · cancel anytime
         </p>
       </section>
 
@@ -278,13 +278,13 @@ export default function JustHappenedPage() {
           letterSpacing: "-0.02em",
           marginBottom: 16,
         }}>
-          Your investing business.<br />This AI. Every deal.
+          Your business.<br />This AI. Every call.
         </h2>
         <p style={{ fontSize: 18, color: "rgba(255,255,255,0.45)", marginBottom: 40, lineHeight: 1.6 }}>
-          Built for real estate investors. Answers every inbound. Calls every new lead back in under 30 seconds.<br />$497/month. Live in 24-48 hours.
+          Built for real estate pros &mdash; and any business that can&apos;t afford to miss a call.<br />$497/month. Live in 24-48 hours.
         </p>
         <a
-          href="/checkout?plan=pro"
+          href="/pricing"
           style={{
             display: "inline-block",
             background: "linear-gradient(135deg, #7c3aed, #06b6d4)",
@@ -297,10 +297,10 @@ export default function JustHappenedPage() {
             boxShadow: "0 0 40px rgba(124,58,237,0.35)",
           }}
         >
-          Start your free trial — $497/mo after 7 days
+          See Pricing &rarr;
         </a>
         <p style={{ marginTop: 16, fontSize: 13, color: "rgba(255,255,255,0.2)" }}>
-          No commitment · Cancel anytime · Live in days
+          14-day money-back guarantee · Live in days · Cancel anytime
         </p>
       </section>
 
