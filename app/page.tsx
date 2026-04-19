@@ -2,80 +2,180 @@
 
 /**
  * AllTheCalls.ai — Main Landing Page
- * Audience: real estate investors (wholesalers, flippers, buy-and-hold, creative finance)
- * Offer: $497/mo — one plan, done-for-you. Custom buildouts via Calendly.
+ * Primary audience: real estate professionals (agents, brokers, investors, lenders,
+ *   title, property managers). Copy explicitly welcomes any business that can't
+ *   miss a call.
+ * Primary hook: "Every missed call is money left on the table" — inbound receptionist.
+ * <30s outbound remains a feature, not the hero.
+ * Offer: $497/mo — gated behind lead-capture form on /pricing.
  * Design: Midnight Intelligence (dark premium tech)
  */
 
 import Link from "next/link";
 import { useEffect, useState, useRef } from "react";
 
-const HERO_BG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663500027049/hApYubRRcrnE9zFXtM2xoS/hero_dark_bg-fkt9hQFvTLbJjo3Xfqo2GA.webp";
-const FEATURES_BG = "https://d2xsxph8kpxj0f.cloudfront.net/310519663500027049/hApYubRRcrnE9zFXtM2xoS/features_bg-Du87iwMHbT3Kn67LivhhPN.webp";
+const HERO_BG =
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663500027049/hApYubRRcrnE9zFXtM2xoS/hero_dark_bg-fkt9hQFvTLbJjo3Xfqo2GA.webp";
+const FEATURES_BG =
+  "https://d2xsxph8kpxj0f.cloudfront.net/310519663500027049/hApYubRRcrnE9zFXtM2xoS/features_bg-Du87iwMHbT3Kn67LivhhPN.webp";
 
 const DEMO_PHONE = process.env.NEXT_PUBLIC_DEMO_PHONE || "(316) 232-4777";
 const DEMO_PHONE_HREF = process.env.NEXT_PUBLIC_DEMO_PHONE_HREF || "tel:+13162324777";
-const CHECKOUT_URL = "/checkout?plan=pro";
+// All primary CTAs route to /pricing — which is gated behind a lead form.
+// Phone CTAs always bypass the gate for highest-intent visitors.
+const PRIMARY_CTA = "/pricing";
 const CALENDLY_URL = "https://calendly.com/brayden-allthecalls/new-meeting";
-const PRICE_DISPLAY = "$497/mo";
 
 /* ------------------------------------------------------------------ */
 /*  DATA                                                               */
 /* ------------------------------------------------------------------ */
 
 interface Stat {
-  numericValue: number;
-  suffix: string;
-  prefix: string;
-  label: string;
   display: string;
+  label: string;
 }
 
 const stats: Stat[] = [
-  { numericValue: 30, suffix: "s", prefix: "<", label: "Outbound Lead Response", display: "<30s" },
-  { numericValue: 0, suffix: "", prefix: "", label: "Every Call Answered", display: "24/7" },
-  { numericValue: 100, suffix: "%", prefix: "", label: "Leads Captured", display: "100%" },
-  { numericValue: 1, suffix: "", prefix: "$", label: "Per Qualified Call", display: "<$1" },
+  { display: "24/7", label: "Every Call Answered" },
+  { display: "0", label: "Missed Calls" },
+  { display: "100%", label: "Leads Captured" },
+  { display: "<30s", label: "Callback on New Leads" },
 ];
 
 const AUDIENCE_TAGS = [
-  { icon: "\u{1F3D7}\uFE0F", label: "Investors" },
   { icon: "\u{1F3E0}", label: "Agents & Brokers" },
+  { icon: "\u{1F3D7}\uFE0F", label: "Investors" },
   { icon: "\u{1F4B0}", label: "Lenders" },
   { icon: "\u{1F4DC}", label: "Title Companies" },
   { icon: "\u{1F511}", label: "Property Managers" },
-  { icon: "\u{1F4C8}", label: "PPL Buyers" },
+  { icon: "\u2795", label: "& More" },
 ];
 
 const steps = [
-  { num: "01", title: "We Build Your AI", desc: "Your AI acquisitions manager is configured with your name, market, buy box, and the exact qualification questions you want on every call.", icon: "\u26A1" },
-  { num: "02", title: "We Plug Into Your CRM", desc: "Podio, REISift, GoHighLevel, Close — whatever you run. Every new lead fires a webhook and your AI is dialing in under 30 seconds.", icon: "\u{1F517}" },
-  { num: "03", title: "Deals Land on Your Calendar", desc: "Qualified acquisitions calls get booked straight into your Google or Outlook calendar. You show up knowing the deal before you dial.", icon: "\u{1F3C6}" },
+  {
+    num: "01",
+    title: "We Build Your AI",
+    desc:
+      "We configure your AI receptionist with your business name, your voice, and the exact questions you want asked on every call. Done-for-you.",
+    icon: "\u26A1",
+  },
+  {
+    num: "02",
+    title: "Forward Your Number",
+    desc:
+      "Forward your existing business line to your new dedicated AI number. Takes 30 seconds. Your callers dial the same number they always have.",
+    icon: "\u{1F4DE}",
+  },
+  {
+    num: "03",
+    title: "Never Miss Another Call",
+    desc:
+      "3 AM, Sunday, holiday, mid-showing, mid-closing — every caller gets answered, qualified, and captured. You get a clean summary on your phone.",
+    icon: "\u{1F3C6}",
+  },
 ];
 
 const features = [
-  { title: "<30-Second Outbound Lead Response", desc: "New lead hits your CRM — from PPL, PPC, direct mail, SEO, bandit signs — and your AI is already dialing. Before your competitor even sees the notification.", iconKey: "bolt" as const },
-  { title: "24/7 Inbound Answering", desc: "Motivated sellers don't call 9-to-5. Every inbound — 3 AM, Sunday, holiday, mid-closing — gets picked up in your name and qualified.", iconKey: "moon" as const },
-  { title: "Motivated Seller Qualification", desc: "Condition, timeline, motivation, asking price, mortgage status, liens. The AI asks the right questions and sends you a clean deal sheet.", iconKey: "crosshair" as const },
-  { title: "Native Calendar Booking", desc: "Connects directly to Google and Outlook via OAuth. No password sharing. AI books acquisitions calls on the fly and sends confirmations.", iconKey: "calendar" as const },
-  { title: "CRM Auto-Sync", desc: "Every call — transcript, summary, deal notes — logged straight into your CRM. Podio, REISift, InvestorFuse, GHL, HubSpot, Close, or anything with a webhook.", iconKey: "crm" as const },
-  { title: "Everything Included", desc: "Your dedicated phone number, SMS capability, DFY marketing website, client portal, and full white-glove setup. One price, no upsells.", iconKey: "package" as const },
+  {
+    title: "24/7 Inbound Answering",
+    desc:
+      "Every call — morning, night, weekend, holiday — gets picked up in your name. No voicemail, no missed opportunities, no angry callbacks.",
+    iconKey: "moon" as const,
+  },
+  {
+    title: "Answers In Your Business Name",
+    desc:
+      "Callers hear your business name and your assistant — not a generic bot. Most callers never realize it's AI.",
+    iconKey: "mic" as const,
+  },
+  {
+    title: "Qualifies Every Lead",
+    desc:
+      "The right questions for your business — buyer vs seller, loan type, property condition, service need, timeline, urgency. You get a clean deal sheet.",
+    iconKey: "crosshair" as const,
+  },
+  {
+    title: "SMS Follow-Up, Automatically",
+    desc:
+      "Every caller gets a text with your contact info and next steps within seconds of hanging up. Keeps you top-of-mind before they call the next guy.",
+    iconKey: "message" as const,
+  },
+  {
+    title: "Native Calendar Booking",
+    desc:
+      "Connects to Google and Outlook via OAuth. AI books appointments on your calendar on the fly, sends confirmations, no password sharing.",
+    iconKey: "calendar" as const,
+  },
+  {
+    title: "<30s Outbound on New Leads",
+    desc:
+      "New contact hits your CRM? The AI calls them back in under 30 seconds — before they start calling your competitors.",
+    iconKey: "bolt" as const,
+  },
 ];
 
 const testimonials = [
-  { quote: "We were losing $20k deals because voicemails took us two days to call back. AllTheCalls hit every new PPL lead in under a minute. Locked up three wholesale contracts our first week.", boldPart: "Locked up three wholesale contracts our first week.", rest: "", name: "Derek M.", role: "Wholesaler", location: "Dallas, TX", initials: "DM" },
-  { quote: "I buy 8-12 houses a month. Before this I had two VAs chasing leads and still missing seller calls on Sundays. Now my AI catches everything and the VAs just close deals.", boldPart: "Now my AI catches everything and the VAs just close deals.", rest: "", name: "Ashley R.", role: "Fix & Flip Investor", location: "Tampa, FL", initials: "AR" },
-  { quote: "Speed-to-lead is everything in this business. I stopped buying Zillow leads because I could never call fast enough. With AllTheCalls I'm hitting them in 20 seconds and my conversion has doubled.", boldPart: "my conversion has doubled.", rest: "", name: "Marcus T.", role: "Buy-and-Hold Investor", location: "Phoenix, AZ", initials: "MT" },
+  {
+    quote:
+      "I was losing deals because I couldn't answer calls during showings. AllTheCalls fixed that overnight. A seller called at 9 PM on a Friday — the AI qualified them and booked me on Monday. I closed it that week.",
+    boldPart: "AllTheCalls fixed that overnight.",
+    rest: "",
+    name: "Rachel M.",
+    role: "Real Estate Agent",
+    location: "Austin, TX",
+    initials: "RM",
+  },
+  {
+    quote:
+      "We were losing $20k deals because voicemails took us two days to call back. AllTheCalls hit every new PPL lead in under a minute. Locked up three wholesale contracts our first week.",
+    boldPart: "Locked up three wholesale contracts our first week.",
+    rest: "",
+    name: "Derek M.",
+    role: "Real Estate Investor",
+    location: "Dallas, TX",
+    initials: "DM",
+  },
+  {
+    quote:
+      "I run a 6-person HVAC company and it's like having a full-time dispatcher for less than I was spending on missed-call callbacks. Every lead captured, every call answered professionally.",
+    boldPart: "like having a full-time dispatcher",
+    rest: " for less than I was spending on missed-call callbacks.",
+    name: "Derek S.",
+    role: "HVAC & Plumbing",
+    location: "Phoenix, AZ",
+    initials: "DS",
+  },
 ];
 
 const faqs = [
-  { q: "Will the AI actually sound like me answering?", a: "Yes. It uses your name, your market language, and your qualification script. Most motivated sellers don't realize they're talking to AI. Call (316) 232-4777 right now and decide for yourself — that's a live AllTheCalls AI." },
-  { q: "Does the <30-second outbound actually work?", a: "When a new contact hits your CRM, we fire a webhook the moment it's created. The AI picks up the phone and starts dialing the seller inside 30 seconds — while their form submission is still warm. No other investor is calling that fast." },
-  { q: "What CRMs do you connect to?", a: "Podio, REISift, InvestorFuse, GoHighLevel, Close, HubSpot, and anything that can send/receive webhooks. Zillow, PropStream, BatchLeads, DealMachine — if your lead source can fire a webhook, we can wire it." },
-  { q: "What's actually included at $497/mo?", a: "Everything. Your AI, a dedicated phone number, SMS follow-up, DFY marketing website, client portal (iOS/Android), calendar integration, CRM integration, and full done-for-you setup by our team. No upsells, no add-ons." },
-  { q: "When does Custom make sense?", a: "If you're running multiple acquisitions managers, multi-state, a fund, or need white-label / reseller access — go Custom. We build around your playbook. Book a call and we'll scope it." },
-  { q: "How fast can I be live?", a: "Most investors are live within 24-48 hours. Once you sign up, our team handles the AI build, CRM integration, and phone forwarding setup. You just tell us your buy box." },
-  { q: "What if it doesn't work out?", a: "14-day money-back guarantee. No questions. Email hello@allthecalls.ai and we refund you." },
+  {
+    q: "Who is this built for?",
+    a: "Real estate professionals first — agents, brokers, investors, lenders, title companies, property managers. But it works for any business that can't afford to miss a call: home services, trades, legal, medical, any service business that runs on inbound leads.",
+  },
+  {
+    q: "Does it really sound like my business?",
+    a: "Yes. You give us your business name and how you want the AI to answer. Callers hear your name — not 'AllTheCalls,' not a generic bot. Most callers never realize they're not talking to your front desk.",
+  },
+  {
+    q: "How much revenue am I actually losing to missed calls?",
+    a: "Industry averages: businesses miss 20-30% of inbound calls, and a missed call converts to a booked appointment <1% of the time vs. ~50% when answered live. Do the math on your average deal size times lost leads — most business owners are leaving tens of thousands per year on voicemail.",
+  },
+  {
+    q: "How fast can I go live?",
+    a: "Most businesses are answering calls within 24-48 hours. Our team handles the full setup — you just forward your existing number.",
+  },
+  {
+    q: "What if I want to take a call myself?",
+    a: "Don't forward during hours you want to handle yourself. You control when AllTheCalls is on — after-hours, weekends, when you're in meetings, or always. Your call, always.",
+  },
+  {
+    q: "What if I'm not happy with it?",
+    a: "14-day money-back guarantee. If you don't love it, let us know within 14 days and we'll refund every penny. No questions.",
+  },
+  {
+    q: "Can I hear it before I sign up?",
+    a: `Yes — call ${DEMO_PHONE} right now and hear a live AllTheCalls AI handle a call end-to-end. 60 seconds, no signup. Or fill in the form on our pricing page and we'll build a free custom demo in your business name.`,
+  },
 ];
 
 /* ------------------------------------------------------------------ */
@@ -93,22 +193,76 @@ const gradientDefs = (id: string) => (
 
 function FeatureIcon({ iconKey, size = 24 }: { iconKey: string; size?: number }) {
   const id = `grad-${iconKey}`;
-  const common = { width: size, height: size, viewBox: "0 0 24 24", fill: "none", stroke: `url(#${id})`, strokeWidth: 1.5, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
+  const common = {
+    width: size,
+    height: size,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: `url(#${id})`,
+    strokeWidth: 1.5,
+    strokeLinecap: "round" as const,
+    strokeLinejoin: "round" as const,
+  };
   switch (iconKey) {
     case "bolt":
-      return <svg {...common}>{gradientDefs(id)}<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" /></svg>;
+      return (
+        <svg {...common}>
+          {gradientDefs(id)}
+          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+        </svg>
+      );
     case "moon":
-      return <svg {...common}>{gradientDefs(id)}<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" /></svg>;
+      return (
+        <svg {...common}>
+          {gradientDefs(id)}
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+        </svg>
+      );
+    case "mic":
+      return (
+        <svg {...common}>
+          {gradientDefs(id)}
+          <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
+          <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+          <line x1="12" y1="19" x2="12" y2="23" />
+          <line x1="8" y1="23" x2="16" y2="23" />
+        </svg>
+      );
     case "crosshair":
-      return <svg {...common}>{gradientDefs(id)}<circle cx="12" cy="12" r="10" /><line x1="22" y1="12" x2="18" y2="12" /><line x1="6" y1="12" x2="2" y2="12" /><line x1="12" y1="6" x2="12" y2="2" /><line x1="12" y1="22" x2="12" y2="18" /></svg>;
+      return (
+        <svg {...common}>
+          {gradientDefs(id)}
+          <circle cx="12" cy="12" r="10" />
+          <line x1="22" y1="12" x2="18" y2="12" />
+          <line x1="6" y1="12" x2="2" y2="12" />
+          <line x1="12" y1="6" x2="12" y2="2" />
+          <line x1="12" y1="22" x2="12" y2="18" />
+        </svg>
+      );
+    case "message":
+      return (
+        <svg {...common}>
+          {gradientDefs(id)}
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+        </svg>
+      );
     case "calendar":
-      return <svg {...common}>{gradientDefs(id)}<rect x="3" y="4" width="18" height="18" rx="2" ry="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></svg>;
-    case "crm":
-      return <svg {...common}>{gradientDefs(id)}<ellipse cx="12" cy="5" rx="9" ry="3" /><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" /><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" /></svg>;
-    case "package":
-      return <svg {...common}>{gradientDefs(id)}<line x1="16.5" y1="9.4" x2="7.5" y2="4.21" /><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" /><polyline points="3.27 6.96 12 12.01 20.73 6.96" /><line x1="12" y1="22.08" x2="12" y2="12" /></svg>;
+      return (
+        <svg {...common}>
+          {gradientDefs(id)}
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+          <line x1="16" y1="2" x2="16" y2="6" />
+          <line x1="8" y1="2" x2="8" y2="6" />
+          <line x1="3" y1="10" x2="21" y2="10" />
+        </svg>
+      );
     case "phone":
-      return <svg {...common}>{gradientDefs(id)}<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" /></svg>;
+      return (
+        <svg {...common}>
+          {gradientDefs(id)}
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
+        </svg>
+      );
     default:
       return null;
   }
@@ -144,8 +298,8 @@ const KEYFRAMES = `
   50%      { transform: translateY(-4px); }
 }
 @keyframes float-glow {
-  0%, 100% { box-shadow: 0 0 20px rgba(124,58,237,0.5), 0 0 40px rgba(6,182,212,0.2); }
-  50%      { box-shadow: 0 0 30px rgba(124,58,237,0.7), 0 0 60px rgba(6,182,212,0.35); }
+  0%, 100% { box-shadow: 0 0 20px rgba(74,222,128,0.5), 0 0 40px rgba(34,197,94,0.2); }
+  50%      { box-shadow: 0 0 30px rgba(74,222,128,0.7), 0 0 60px rgba(34,197,94,0.35); }
 }
 `;
 
@@ -156,42 +310,16 @@ const KEYFRAMES = `
 function useScrollFadeIn() {
   useEffect(() => {
     const observer = new IntersectionObserver(
-      (entries) => { entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add("visible"); }); },
-      { threshold: 0.1 }
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) e.target.classList.add("visible");
+        });
+      },
+      { threshold: 0.1 },
     );
     document.querySelectorAll(".fade-in").forEach((el) => observer.observe(el));
     return () => observer.disconnect();
   }, []);
-}
-
-function useCountUp(ref: React.RefObject<HTMLDivElement | null>, target: number, duration = 2000): string {
-  const [val, setVal] = useState(0);
-  const started = useRef(false);
-
-  useEffect(() => {
-    if (!ref.current) return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && !started.current) {
-          started.current = true;
-          const start = performance.now();
-          const animate = (now: number) => {
-            const elapsed = now - start;
-            const progress = Math.min(elapsed / duration, 1);
-            const eased = 1 - Math.pow(1 - progress, 3);
-            setVal(eased * target);
-            if (progress < 1) requestAnimationFrame(animate);
-          };
-          requestAnimationFrame(animate);
-        }
-      },
-      { threshold: 0.3 }
-    );
-    observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, [ref, target, duration]);
-
-  return val === 0 && !started.current ? "0" : target >= 100 ? Math.round(val).toLocaleString() : val.toFixed(1);
 }
 
 /* ------------------------------------------------------------------ */
@@ -210,36 +338,22 @@ function WaveformBars() {
 }
 
 function StatItem({ stat }: { stat: Stat }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [labelVisible, setLabelVisible] = useState(false);
-
-  // Static displays ("24/7", "<30s", "<$1")
-  if (stat.display === "24/7" || stat.display === "<30s" || stat.display === "<$1") {
-    useEffect(() => {
-      if (!ref.current) return;
-      const observer = new IntersectionObserver(
-        (entries) => { if (entries[0].isIntersecting) setLabelVisible(true); },
-        { threshold: 0.3 }
-      );
-      observer.observe(ref.current);
-      return () => observer.disconnect();
-    }, []);
-    return (
-      <div ref={ref} style={{ textAlign: "center" }}>
-        <div className="gradient-text" style={{ fontSize: "clamp(1.75rem, 4vw, 2.25rem)", fontWeight: 700, marginBottom: "4px", fontFamily: "'Space Grotesk', sans-serif" }}>{stat.display}</div>
-        <div style={{ fontSize: "14px", color: "rgba(255,255,255,0.5)", fontWeight: 500, opacity: labelVisible ? 1 : 0, transition: "opacity 0.6s ease 0.3s" }}>{stat.label}</div>
-      </div>
-    );
-  }
-
-  const countVal = useCountUp(ref, stat.numericValue);
-
   return (
-    <div ref={ref} style={{ textAlign: "center" }}>
-      <div className="gradient-text" style={{ fontSize: "clamp(1.75rem, 4vw, 2.25rem)", fontWeight: 700, marginBottom: "4px", fontFamily: "'Space Grotesk', sans-serif" }}>
-        {stat.prefix}{countVal}{stat.suffix}
+    <div style={{ textAlign: "center" }}>
+      <div
+        className="gradient-text"
+        style={{
+          fontSize: "clamp(1.75rem, 4vw, 2.25rem)",
+          fontWeight: 700,
+          marginBottom: "4px",
+          fontFamily: "'Space Grotesk', sans-serif",
+        }}
+      >
+        {stat.display}
       </div>
-      <div style={{ fontSize: "14px", color: "rgba(255,255,255,0.5)", fontWeight: 500, opacity: parseFloat(countVal) > 0 ? 1 : 0, transition: "opacity 0.6s ease 0.3s" }}>{stat.label}</div>
+      <div style={{ fontSize: "14px", color: "rgba(255,255,255,0.5)", fontWeight: 500 }}>
+        {stat.label}
+      </div>
     </div>
   );
 }
@@ -258,30 +372,65 @@ function FAQItem({ q, a, index }: { q: string; a: string; index: number }) {
         animationDelay: `${index * 80}ms`,
       }}
     >
-      <div style={{
-        position: "absolute", top: 0, bottom: 0, left: 0, width: "3px",
-        background: open ? "linear-gradient(to bottom, #7c3aed, #06b6d4)" : "transparent",
-        transition: "background 0.3s ease",
-      }} />
+      <div
+        style={{
+          position: "absolute",
+          top: 0,
+          bottom: 0,
+          left: 0,
+          width: "3px",
+          background: open ? "linear-gradient(to bottom, #7c3aed, #06b6d4)" : "transparent",
+          transition: "background 0.3s ease",
+        }}
+      />
       <button
         onClick={() => setOpen(!open)}
-        style={{ width: "100%", textAlign: "left", padding: "20px 24px 20px 28px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "16px", cursor: "pointer", background: "none", border: "none", color: "inherit" }}
+        style={{
+          width: "100%",
+          textAlign: "left",
+          padding: "20px 24px 20px 28px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: "16px",
+          cursor: "pointer",
+          background: "none",
+          border: "none",
+          color: "inherit",
+        }}
       >
         <span style={{ fontWeight: 600, color: "rgba(255,255,255,0.9)" }}>{q}</span>
-        <span style={{
-          color: "rgba(255,255,255,0.4)", fontSize: "1.25rem", flexShrink: 0,
-          transition: "transform 0.3s ease",
-          transform: open ? "rotate(135deg)" : "rotate(0deg)",
-          display: "inline-block",
-        }}>+</span>
+        <span
+          style={{
+            color: "rgba(255,255,255,0.4)",
+            fontSize: "1.25rem",
+            flexShrink: 0,
+            transition: "transform 0.3s ease",
+            transform: open ? "rotate(135deg)" : "rotate(0deg)",
+            display: "inline-block",
+          }}
+        >
+          +
+        </span>
       </button>
-      <div style={{
-        display: "grid",
-        gridTemplateRows: open ? "1fr" : "0fr",
-        transition: "grid-template-rows 0.35s ease",
-      }}>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateRows: open ? "1fr" : "0fr",
+          transition: "grid-template-rows 0.35s ease",
+        }}
+      >
         <div style={{ overflow: "hidden" }}>
-          <div style={{ padding: "0 24px 20px 28px", color: "rgba(255,255,255,0.6)", lineHeight: 1.7, fontSize: "14px", borderTop: "1px solid rgba(255,255,255,0.05)", paddingTop: "16px" }}>
+          <div
+            style={{
+              padding: "0 24px 20px 28px",
+              color: "rgba(255,255,255,0.6)",
+              lineHeight: 1.7,
+              fontSize: "14px",
+              borderTop: "1px solid rgba(255,255,255,0.05)",
+              paddingTop: "16px",
+            }}
+          >
             {a}
           </div>
         </div>
@@ -309,27 +458,39 @@ function FeatureCard({ f, index }: { f: typeof features[0]; index: number }) {
         boxShadow: hovered ? "0 12px 40px rgba(124,58,237,0.15)" : undefined,
       }}
     >
-      <div style={{
-        position: "absolute", top: 0, left: "50%",
-        transform: "translateX(-50%)",
-        height: "2px",
-        width: hovered ? "100%" : "0%",
-        background: "linear-gradient(90deg, #7c3aed, #06b6d4)",
-        transition: "width 0.4s ease",
-      }} />
+      <div
+        style={{
+          position: "absolute",
+          top: 0,
+          left: "50%",
+          transform: "translateX(-50%)",
+          height: "2px",
+          width: hovered ? "100%" : "0%",
+          background: "linear-gradient(90deg, #7c3aed, #06b6d4)",
+          transition: "width 0.4s ease",
+        }}
+      />
       <div
         className="icon-glow"
         style={{
-          width: "48px", height: "48px", borderRadius: "12px",
-          display: "flex", alignItems: "center", justifyContent: "center",
+          width: "48px",
+          height: "48px",
+          borderRadius: "12px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
           marginBottom: "16px",
           animation: hovered ? "icon-bounce 0.5s ease" : "none",
         }}
       >
         <FeatureIcon iconKey={f.iconKey} size={24} />
       </div>
-      <h3 style={{ fontWeight: 700, color: "white", marginBottom: "8px", fontSize: "14px" }}>{f.title}</h3>
-      <p style={{ color: "rgba(255,255,255,0.45)", fontSize: "13px", lineHeight: 1.6 }}>{f.desc}</p>
+      <h3 style={{ fontWeight: 700, color: "white", marginBottom: "8px", fontSize: "14px" }}>
+        {f.title}
+      </h3>
+      <p style={{ color: "rgba(255,255,255,0.45)", fontSize: "13px", lineHeight: 1.6 }}>
+        {f.desc}
+      </p>
     </div>
   );
 }
@@ -347,10 +508,7 @@ export default function Home() {
 
   useEffect(() => {
     document.documentElement.style.scrollBehavior = "smooth";
-
-    const onScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
+    const onScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => {
       window.removeEventListener("scroll", onScroll);
@@ -361,51 +519,113 @@ export default function Home() {
   useEffect(() => {
     if (!heroRef.current) return;
     const observer = new IntersectionObserver(
-      (entries) => { setPastHero(!entries[0].isIntersecting); },
-      { threshold: 0.1 }
+      (entries) => setPastHero(!entries[0].isIntersecting),
+      { threshold: 0.1 },
     );
     observer.observe(heroRef.current);
     return () => observer.disconnect();
   }, []);
 
   return (
-    <div style={{ minHeight: "100vh", background: "#08090f", color: "#e2e8f0", fontFamily: "'DM Sans', system-ui, sans-serif" }}>
-
+    <div
+      style={{
+        minHeight: "100vh",
+        background: "#08090f",
+        color: "#e2e8f0",
+        fontFamily: "'DM Sans', system-ui, sans-serif",
+      }}
+    >
       <style dangerouslySetInnerHTML={{ __html: KEYFRAMES }} />
 
       {/* NAV */}
-      <nav style={{
-        position: "fixed", top: 0, left: 0, right: 0, zIndex: 50,
-        background: scrolled ? "rgba(8,9,15,0.85)" : "transparent",
-        backdropFilter: scrolled ? "blur(20px)" : "none",
-        WebkitBackdropFilter: scrolled ? "blur(20px)" : "none",
-        borderBottom: scrolled ? "1px solid rgba(255,255,255,0.05)" : "1px solid transparent",
-        transition: "background 0.35s ease, border-color 0.35s ease, backdrop-filter 0.35s ease",
-      }}>
-        <div style={{ maxWidth: "1152px", margin: "0 auto", padding: "0 1rem", height: "64px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+      <nav
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 50,
+          background: scrolled ? "rgba(8,9,15,0.85)" : "transparent",
+          backdropFilter: scrolled ? "blur(20px)" : "none",
+          WebkitBackdropFilter: scrolled ? "blur(20px)" : "none",
+          borderBottom: scrolled ? "1px solid rgba(255,255,255,0.05)" : "1px solid transparent",
+          transition: "background 0.35s ease, border-color 0.35s ease, backdrop-filter 0.35s ease",
+        }}
+      >
+        <div
+          style={{
+            maxWidth: "1152px",
+            margin: "0 auto",
+            padding: "0 1rem",
+            height: "64px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
           <Link href="/" style={{ display: "flex", alignItems: "center", textDecoration: "none" }}>
             <img src="/logo.svg" alt="AllTheCalls" style={{ height: "40px", width: "auto" }} />
           </Link>
           <div className="hidden md:flex items-center gap-8 text-sm">
-            <a href="#how-it-works" style={{ color: "rgba(255,255,255,0.6)", textDecoration: "none" }}>How It Works</a>
-            <a href="#features" style={{ color: "rgba(255,255,255,0.6)", textDecoration: "none" }}>Features</a>
-            <Link href="/pricing" style={{ color: "rgba(255,255,255,0.6)", textDecoration: "none" }}>Pricing</Link>
-            <a href="#hear-it" style={{ color: "rgba(255,255,255,0.6)", textDecoration: "none" }}>Hear It Live</a>
+            <a href="#how-it-works" style={{ color: "rgba(255,255,255,0.6)", textDecoration: "none" }}>
+              How It Works
+            </a>
+            <a href="#features" style={{ color: "rgba(255,255,255,0.6)", textDecoration: "none" }}>
+              Features
+            </a>
+            <Link href="/pricing" style={{ color: "rgba(255,255,255,0.6)", textDecoration: "none" }}>
+              Pricing
+            </Link>
+            <a href="#hear-it" style={{ color: "rgba(255,255,255,0.6)", textDecoration: "none" }}>
+              Hear It Live
+            </a>
           </div>
           <div className="hidden md:flex items-center gap-3">
-            <a href={DEMO_PHONE_HREF} style={{ fontSize: "14px", color: "rgba(255,255,255,0.6)", textDecoration: "none", padding: "8px 16px" }}>{"\u{1F4DE}"} {DEMO_PHONE}</a>
-            <Link
-              href={CHECKOUT_URL}
-              className="btn-glow"
-              style={{ color: "white", fontSize: "14px", fontWeight: 600, padding: "10px 20px", borderRadius: "12px", textDecoration: "none", position: "relative", overflow: "hidden" }}
+            <a
+              href={DEMO_PHONE_HREF}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "6px",
+                fontSize: "14px",
+                color: "#86efac",
+                textDecoration: "none",
+                padding: "8px 14px",
+                borderRadius: "10px",
+                border: "1px solid rgba(74,222,128,0.3)",
+                background: "rgba(34,197,94,0.08)",
+                fontWeight: 600,
+              }}
             >
-              Get Started — {PRICE_DISPLAY}
-              <span style={{
-                position: "absolute", top: 0, left: 0, width: "50%", height: "100%",
-                background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent)",
-                animation: "shimmer 3s ease-in-out infinite",
-                pointerEvents: "none",
-              }} />
+              {"\u{1F4DE}"} {DEMO_PHONE}
+            </a>
+            <Link
+              href={PRIMARY_CTA}
+              className="btn-glow"
+              style={{
+                color: "white",
+                fontSize: "14px",
+                fontWeight: 600,
+                padding: "10px 20px",
+                borderRadius: "12px",
+                textDecoration: "none",
+                position: "relative",
+                overflow: "hidden",
+              }}
+            >
+              See Pricing
+              <span
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  width: "50%",
+                  height: "100%",
+                  background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent)",
+                  animation: "shimmer 3s ease-in-out infinite",
+                  pointerEvents: "none",
+                }}
+              />
             </Link>
           </div>
           <button
@@ -414,29 +634,117 @@ export default function Home() {
             aria-label="Toggle menu"
             style={{ background: "none", border: "none", cursor: "pointer", padding: "4px" }}
           >
-            <span style={{ display: "block", width: "22px", height: "2px", background: "rgba(255,255,255,0.7)", borderRadius: "2px", transition: "all 0.3s", transform: menuOpen ? "translateY(6px) rotate(45deg)" : "none" }} />
-            <span style={{ display: "block", width: "22px", height: "2px", background: "rgba(255,255,255,0.7)", borderRadius: "2px", transition: "all 0.3s", opacity: menuOpen ? 0 : 1 }} />
-            <span style={{ display: "block", width: "22px", height: "2px", background: "rgba(255,255,255,0.7)", borderRadius: "2px", transition: "all 0.3s", transform: menuOpen ? "translateY(-6px) rotate(-45deg)" : "none" }} />
+            <span
+              style={{
+                display: "block",
+                width: "22px",
+                height: "2px",
+                background: "rgba(255,255,255,0.7)",
+                borderRadius: "2px",
+                transition: "all 0.3s",
+                transform: menuOpen ? "translateY(6px) rotate(45deg)" : "none",
+              }}
+            />
+            <span
+              style={{
+                display: "block",
+                width: "22px",
+                height: "2px",
+                background: "rgba(255,255,255,0.7)",
+                borderRadius: "2px",
+                transition: "all 0.3s",
+                opacity: menuOpen ? 0 : 1,
+              }}
+            />
+            <span
+              style={{
+                display: "block",
+                width: "22px",
+                height: "2px",
+                background: "rgba(255,255,255,0.7)",
+                borderRadius: "2px",
+                transition: "all 0.3s",
+                transform: menuOpen ? "translateY(-6px) rotate(-45deg)" : "none",
+              }}
+            />
           </button>
         </div>
         {/* Mobile menu */}
         <div
           className="md:hidden"
           style={{
-            maxHeight: menuOpen ? "400px" : "0",
+            maxHeight: menuOpen ? "440px" : "0",
             overflow: "hidden",
             transition: "max-height 0.35s ease",
             background: "rgba(8,9,15,0.95)",
             backdropFilter: "blur(20px)",
           }}
         >
-          <div style={{ padding: menuOpen ? "16px 1rem 24px" : "0 1rem", transition: "padding 0.3s ease", borderTop: menuOpen ? "1px solid rgba(255,255,255,0.06)" : "none" }}>
+          <div
+            style={{
+              padding: menuOpen ? "16px 1rem 24px" : "0 1rem",
+              transition: "padding 0.3s ease",
+              borderTop: menuOpen ? "1px solid rgba(255,255,255,0.06)" : "none",
+            }}
+          >
             <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
-              {[["#how-it-works", "How It Works"], ["#features", "Features"], ["/pricing", "Pricing"], ["#hear-it", "Hear It Live"]].map(([href, label]) => (
-                <a key={label} href={href} onClick={() => setMenuOpen(false)} style={{ color: "rgba(255,255,255,0.7)", textDecoration: "none", fontSize: "16px", fontWeight: 500, padding: "12px 8px", borderBottom: "1px solid rgba(255,255,255,0.05)" }}>{label}</a>
+              {[
+                ["#how-it-works", "How It Works"],
+                ["#features", "Features"],
+                ["/pricing", "Pricing"],
+                ["#hear-it", "Hear It Live"],
+              ].map(([href, label]) => (
+                <a
+                  key={label}
+                  href={href}
+                  onClick={() => setMenuOpen(false)}
+                  style={{
+                    color: "rgba(255,255,255,0.7)",
+                    textDecoration: "none",
+                    fontSize: "16px",
+                    fontWeight: 500,
+                    padding: "12px 8px",
+                    borderBottom: "1px solid rgba(255,255,255,0.05)",
+                  }}
+                >
+                  {label}
+                </a>
               ))}
-              <Link href={CHECKOUT_URL} onClick={() => setMenuOpen(false)} className="btn-glow" style={{ color: "white", fontWeight: 700, fontSize: "15px", padding: "14px 20px", borderRadius: "12px", textDecoration: "none", textAlign: "center", marginTop: "16px", display: "block" }}>
-                Get Started &mdash; {PRICE_DISPLAY}
+              <a
+                href={DEMO_PHONE_HREF}
+                onClick={() => setMenuOpen(false)}
+                style={{
+                  color: "white",
+                  fontWeight: 700,
+                  fontSize: "15px",
+                  padding: "14px 20px",
+                  borderRadius: "12px",
+                  textDecoration: "none",
+                  textAlign: "center",
+                  marginTop: "16px",
+                  display: "block",
+                  background: "linear-gradient(135deg, #10b981, #059669)",
+                }}
+              >
+                {"\u{1F4DE}"} Call Our AI Now &mdash; {DEMO_PHONE}
+              </a>
+              <Link
+                href={PRIMARY_CTA}
+                onClick={() => setMenuOpen(false)}
+                style={{
+                  color: "white",
+                  fontWeight: 700,
+                  fontSize: "15px",
+                  padding: "14px 20px",
+                  borderRadius: "12px",
+                  textDecoration: "none",
+                  textAlign: "center",
+                  marginTop: "8px",
+                  display: "block",
+                  background: "linear-gradient(135deg, #7c3aed, #06b6d4)",
+                }}
+              >
+                See Pricing
               </Link>
             </div>
           </div>
@@ -444,421 +752,1172 @@ export default function Home() {
       </nav>
 
       <main>
-      {/* HERO */}
-      <section ref={heroRef} aria-label="Hero" style={{ position: "relative", minHeight: "100dvh", display: "flex", alignItems: "center", overflow: "hidden", paddingTop: "64px" }}>
-        <div style={{ position: "absolute", inset: 0, backgroundImage: `url(${HERO_BG})`, backgroundSize: "cover", backgroundPosition: "center", opacity: 0.55 }} />
-        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, rgba(8,9,15,0.97) 35%, rgba(8,9,15,0.5) 100%)" }} />
-        <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "128px", background: "linear-gradient(to bottom, transparent, #08090f)" }} />
-        <div style={{ position: "relative", zIndex: 10, maxWidth: "1152px", margin: "0 auto", padding: "6rem 1rem", width: "100%", animation: "hero-entrance 0.8s ease-out both" }}>
-          <div style={{ maxWidth: "680px" }}>
-            <div style={{ display: "inline-flex", alignItems: "center", gap: "8px", padding: "8px 16px", borderRadius: "999px", fontSize: "12px", fontWeight: 600, marginBottom: "32px", border: "1px solid rgba(124,58,237,0.3)", background: "rgba(124,58,237,0.1)", color: "#c4b5fd" }}>
-              <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#4ade80" }} />
-              The AI Acquisitions Manager for Real Estate Investors
-            </div>
-            <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(2.5rem, 6vw, 4.5rem)", fontWeight: 700, color: "white", marginBottom: "24px", lineHeight: 1.05, letterSpacing: "-0.03em" }}>
-              Never lose another{" "}
-              <span className="gradient-text">motivated seller.</span>
-            </h1>
-            <p style={{ fontSize: "clamp(1rem, 2vw, 1.2rem)", color: "rgba(255,255,255,0.6)", marginBottom: "20px", lineHeight: 1.7, maxWidth: "560px" }}>
-              Your AI answers every inbound in your name &mdash; 24/7 &mdash; and calls every new CRM lead back in{" "}
-              <span style={{ color: "white", fontWeight: 600 }}>under 30 seconds</span>. Qualified. Booked. Synced. Before your competitor even sees the notification.
-            </p>
-            <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.45)", marginBottom: "32px", maxWidth: "560px", lineHeight: 1.6 }}>
-              Built for real estate investors first &mdash; used by agents, lenders, title companies, property managers, and any RE operator doing volume.
-            </p>
-
-            {/* Audience chips */}
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", marginBottom: "32px" }}>
-              {AUDIENCE_TAGS.map((a) => (
-                <div key={a.label} style={{ display: "flex", alignItems: "center", gap: "6px", padding: "5px 12px", borderRadius: "999px", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)", fontSize: "12px", color: "rgba(255,255,255,0.55)" }}>
-                  <span>{a.icon}</span> {a.label}
-                </div>
-              ))}
-            </div>
-
-            {/* Live call demo card */}
-            <div style={{ position: "relative", marginBottom: "32px", maxWidth: "400px" }}>
-              <div style={{
-                position: "absolute", top: "50%", left: "50%",
-                transform: "translate(-50%, -50%)",
-                width: "300px", height: "200px", borderRadius: "50%",
-                background: "radial-gradient(circle, rgba(124,58,237,0.25) 0%, rgba(6,182,212,0.1) 50%, transparent 70%)",
-                filter: "blur(40px)", pointerEvents: "none",
-              }} />
-              <div className="glass-card" style={{ borderRadius: "16px", padding: "16px", position: "relative" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "12px" }}>
-                  <div style={{
-                    width: "8px", height: "8px", borderRadius: "50%", background: "#4ade80",
-                    animation: "pulse-dot 2s ease-in-out infinite",
-                  }} />
-                  <span style={{ fontSize: "12px", color: "rgba(255,255,255,0.5)", fontWeight: 500 }}>Outbound in progress</span>
-                  <span style={{ marginLeft: "auto", fontSize: "12px", color: "rgba(255,255,255,0.3)" }}>New lead &middot; 00:12</span>
-                </div>
-                <WaveformBars />
-                <p style={{ fontSize: "12px", color: "rgba(255,255,255,0.4)", marginTop: "8px", fontStyle: "italic" }}>&ldquo;Hi, I&apos;m calling about the property you just inquired about &mdash; is this a good time?&rdquo;</p>
-              </div>
-            </div>
-
-            <div className="flex flex-col sm:flex-row gap-4 mb-6">
-              <Link href={CHECKOUT_URL} className="btn-glow w-full sm:w-auto" style={{ color: "white", fontWeight: 700, fontSize: "16px", padding: "16px 32px", borderRadius: "12px", textDecoration: "none", textAlign: "center" }}>
-                Get Started &mdash; {PRICE_DISPLAY}
-              </Link>
-              <a href={DEMO_PHONE_HREF} className="btn-ghost w-full sm:w-auto" style={{ fontWeight: 600, fontSize: "16px", padding: "16px 32px", borderRadius: "12px", textDecoration: "none", textAlign: "center" }}>
-                {"\u{1F4DE}"} Hear It Live &rarr;
-              </a>
-            </div>
-            <p style={{ fontSize: "12px", color: "rgba(255,255,255,0.3)" }}>One plan &middot; No contracts &middot; 14-day money-back guarantee</p>
-          </div>
-        </div>
-      </section>
-
-      {/* STATS */}
-      <div style={{ borderTop: "1px solid rgba(255,255,255,0.05)", borderBottom: "1px solid rgba(255,255,255,0.05)", background: "rgba(255,255,255,0.02)", padding: "40px 1rem" }}>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8" style={{ maxWidth: "1024px", margin: "0 auto" }}>
-          {stats.map((s) => <StatItem key={s.label} stat={s} />)}
-        </div>
-      </div>
-
-      {/* WHO IT'S FOR (REI segments) */}
-      <section style={{ padding: "6rem 1rem", position: "relative" }}>
-        <div style={{ maxWidth: "960px", margin: "0 auto" }}>
-          <div className="fade-in" style={{ textAlign: "center", marginBottom: "48px" }}>
-            <p style={{ color: "#a78bfa", fontSize: "13px", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "12px" }}>Who It&apos;s For</p>
-            <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(1.75rem, 4vw, 2.75rem)", fontWeight: 700, color: "white", marginBottom: "12px" }}>
-              Built where <span className="gradient-text">speed wins deals</span>
-            </h2>
-            <p style={{ color: "rgba(255,255,255,0.5)", fontSize: "17px", maxWidth: "640px", margin: "0 auto", lineHeight: 1.6 }}>
-              Real estate investors get the most out of AllTheCalls &mdash; but any operator running PPL, PPC, direct mail, or a real estate pipeline wins the same way. If a missed call or slow callback costs you a deal, this is for you.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {[
-              { title: "Investors & Wholesalers", desc: "Every motivated seller call picked up. Every Zillow / PropStream / PPL lead called back in 30 seconds. Your pipeline stops leaking." },
-              { title: "Fix & Flip", desc: "You&apos;re on a walkthrough, at the contractor meeting, or on vacation. The AI captures every inbound and qualifies for condition, timeline, and price." },
-              { title: "Agents & Brokers", desc: "Showing a house? Closing a deal? The AI answers every buyer / listing inquiry, qualifies the lead, and books the appointment on your calendar." },
-              { title: "Lenders & Title", desc: "Every loan inquiry, every closing question, every pre-qual &mdash; handled 24/7 in your name. Booked into your calendar, logged in your CRM." },
-              { title: "Property Managers & Buy-and-Hold", desc: "Tenant calls, inquiry calls, maintenance escalations &mdash; triaged and routed. Urgent hits your phone, everything else lives in your CRM." },
-              { title: "Any RE Operator Doing Volume", desc: "Creative finance, novations, acquisitions teams, STR / Airbnb operators &mdash; if speed-to-lead moves the needle for you, this is the tool." },
-            ].map((item) => (
-              <div key={item.title} className="glass-card fade-in" style={{ borderRadius: "16px", padding: "24px" }}>
-                <h3 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, color: "white", fontSize: "16px", marginBottom: "8px" }}>{item.title}</h3>
-                <p style={{ color: "rgba(255,255,255,0.5)", fontSize: "13.5px", lineHeight: 1.65 }}>{item.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* HEAR IT LIVE */}
-      <section id="hear-it" style={{ padding: "7rem 1rem", position: "relative", overflow: "hidden" }}>
-        <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", width: "700px", height: "400px", borderRadius: "50%", background: "linear-gradient(135deg, #7c3aed, #06b6d4)", opacity: 0.08, filter: "blur(100px)", pointerEvents: "none" }} />
-        <div style={{ position: "relative", zIndex: 10, maxWidth: "800px", margin: "0 auto", textAlign: "center" }}>
-          <div className="fade-in">
-            <p style={{ color: "#4ade80", fontSize: "13px", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "16px" }}>
-              &#9679; Live Demo
-            </p>
-            <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(2rem, 5vw, 3.5rem)", fontWeight: 700, color: "white", marginBottom: "20px", lineHeight: 1.1 }}>
-              Call our AI right now.
-            </h2>
-            <p style={{ color: "rgba(255,255,255,0.5)", fontSize: "18px", marginBottom: "48px", maxWidth: "540px", margin: "0 auto 48px" }}>
-              Pretend you&apos;re a motivated seller. See what your callers actually hear &mdash; qualification, tone, pacing, the whole thing. 60 seconds.
-            </p>
-
-            <div style={{
+        {/* HERO */}
+        <section
+          ref={heroRef}
+          aria-label="Hero"
+          style={{
+            position: "relative",
+            minHeight: "100dvh",
+            display: "flex",
+            alignItems: "center",
+            overflow: "hidden",
+            paddingTop: "64px",
+          }}
+        >
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              backgroundImage: `url(${HERO_BG})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              opacity: 0.55,
+            }}
+          />
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              background: "linear-gradient(to right, rgba(8,9,15,0.97) 35%, rgba(8,9,15,0.5) 100%)",
+            }}
+          />
+          <div
+            style={{
+              position: "absolute",
+              bottom: 0,
+              left: 0,
+              right: 0,
+              height: "128px",
+              background: "linear-gradient(to bottom, transparent, #08090f)",
+            }}
+          />
+          <div
+            style={{
               position: "relative",
-              display: "inline-block",
-              padding: "2px",
-              borderRadius: "24px",
-              background: "conic-gradient(from var(--border-angle, 0deg), #7c3aed, #06b6d4, #7c3aed)",
-              animation: "border-spin 3s linear infinite",
-              marginBottom: "40px",
-            }}>
-              <div style={{
-                background: "rgba(8,9,15,0.95)",
-                borderRadius: "22px",
-                padding: "32px 48px",
-                backdropFilter: "blur(20px)",
-                position: "relative",
-              }}>
-                <div style={{ position: "relative", display: "inline-block", marginBottom: "16px" }}>
-                  <div style={{ position: "absolute", top: "50%", left: "50%", width: "48px", height: "48px", border: "2px solid rgba(124,58,237,0.3)", borderRadius: "50%", transform: "translate(-50%, -50%)", animation: "pulse-ring 2s ease-out infinite" }} />
-                  <div style={{ position: "absolute", top: "50%", left: "50%", width: "48px", height: "48px", border: "2px solid rgba(6,182,212,0.3)", borderRadius: "50%", transform: "translate(-50%, -50%)", animation: "pulse-ring 2s ease-out infinite 0.6s" }} />
-                  <div style={{ position: "absolute", top: "50%", left: "50%", width: "48px", height: "48px", border: "2px solid rgba(124,58,237,0.2)", borderRadius: "50%", transform: "translate(-50%, -50%)", animation: "pulse-ring 2s ease-out infinite 1.2s" }} />
-                  <div style={{ position: "relative", zIndex: 2 }}>
-                    <FeatureIcon iconKey="phone" size={32} />
-                  </div>
-                </div>
-
-                <div style={{ color: "rgba(255,255,255,0.5)", fontSize: "12px", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "8px" }}>Call our AI now</div>
-                <a
-                  href={DEMO_PHONE_HREF}
-                  className="gradient-text"
-                  style={{
-                    fontSize: "clamp(2rem, 5vw, 3rem)",
-                    fontWeight: 700,
-                    fontFamily: "'Space Grotesk', sans-serif",
-                    letterSpacing: "-0.02em",
-                    textDecoration: "none",
-                    display: "block",
-                  }}
-                >
-                  {DEMO_PHONE}
-                </a>
-              </div>
-            </div>
-
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "0", flexWrap: "wrap", marginBottom: "16px" }}>
-              {["It answers in your name", "Qualifies the seller", "Texts you the summary"].map((step, i) => (
-                <div key={step} style={{ display: "flex", alignItems: "center" }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: "8px", color: "rgba(255,255,255,0.6)", fontSize: "14px" }}>
-                    <span style={{
-                      width: "28px", height: "28px", borderRadius: "50%",
-                      background: "linear-gradient(135deg, #7c3aed, #06b6d4)",
-                      display: "inline-flex", alignItems: "center", justifyContent: "center",
-                      fontSize: "12px", fontWeight: 700, color: "white", flexShrink: 0,
-                    }}>{i + 1}</span>
-                    <span>{step}</span>
-                  </div>
-                  {i < 2 && (
-                    <div style={{
-                      width: "32px", height: "2px",
-                      background: "linear-gradient(90deg, #7c3aed, #06b6d4)",
-                      margin: "0 12px",
-                      opacity: 0.4,
-                      flexShrink: 0,
-                    }} />
-                  )}
-                </div>
-              ))}
-            </div>
-            <p style={{ color: "rgba(255,255,255,0.35)", fontSize: "13px" }}>Takes 60 seconds &middot; No signup required</p>
-          </div>
-        </div>
-      </section>
-
-      {/* HOW IT WORKS */}
-      <section id="how-it-works" style={{ padding: "7rem 1rem" }}>
-        <div style={{ maxWidth: "1024px", margin: "0 auto" }}>
-          <div className="fade-in" style={{ textAlign: "center", marginBottom: "64px" }}>
-            <p style={{ color: "#a78bfa", fontSize: "13px", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "12px" }}>How It Works</p>
-            <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 700, color: "white", marginBottom: "16px" }}>
-              We build it. <span className="gradient-text">You lock up deals.</span>
-            </h2>
-            <p style={{ color: "rgba(255,255,255,0.5)", fontSize: "18px", maxWidth: "520px", margin: "0 auto" }}>
-              Live in 24-48 hours. Our team handles every piece &mdash; AI, phone, CRM, calendar, website.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {steps.map((step, i) => (
-              <div key={step.num} className="glass-card fade-in" style={{ borderRadius: "20px", padding: "32px", position: "relative", overflow: "hidden", transitionDelay: `${i * 0.15}s` }}>
-                <div style={{ position: "absolute", top: 0, left: 0, width: "128px", height: "128px", borderRadius: "50%", background: "radial-gradient(circle, rgba(124,58,237,0.15), transparent)", transform: "translate(-50%, -50%)" }} />
-                <div style={{ fontSize: "2.5rem", marginBottom: "16px" }}>{step.icon}</div>
-                <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "3rem", fontWeight: 700, opacity: 0.08, marginBottom: "8px", lineHeight: 1, color: "white" }}>{step.num}</div>
-                <h3 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "20px", fontWeight: 700, color: "white", marginBottom: "12px" }}>{step.title}</h3>
-                <p style={{ color: "rgba(255,255,255,0.5)", lineHeight: 1.7, fontSize: "14px" }}>{step.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* FEATURES */}
-      <section id="features" style={{ padding: "7rem 1rem", position: "relative", overflow: "hidden", backgroundImage: `url(${FEATURES_BG})`, backgroundSize: "cover", backgroundPosition: "center" }}>
-        <div style={{ position: "absolute", inset: 0, background: "rgba(8,9,15,0.88)" }} />
-        <div style={{ position: "relative", zIndex: 10, maxWidth: "1024px", margin: "0 auto" }}>
-          <div className="fade-in" style={{ textAlign: "center", marginBottom: "64px" }}>
-            <p style={{ color: "#22d3ee", fontSize: "13px", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "12px" }}>What You Get</p>
-            <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 700, color: "white", marginBottom: "16px" }}>
-              Everything a 24/7 acquisitions team does,{" "}
-              <span className="gradient-text">for a fraction of one VA.</span>
-            </h2>
-            <p style={{ color: "rgba(255,255,255,0.5)", fontSize: "18px" }}>Your first month covers years of service. And your AI never takes a weekend off.</p>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {features.map((f, i) => <FeatureCard key={f.title} f={f} index={i} />)}
-          </div>
-        </div>
-      </section>
-
-      {/* TESTIMONIALS */}
-      <section style={{ padding: "7rem 1rem" }}>
-        <div style={{ maxWidth: "1024px", margin: "0 auto" }}>
-          <div className="fade-in" style={{ textAlign: "center", marginBottom: "64px" }}>
-            <p style={{ color: "#a78bfa", fontSize: "13px", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "12px" }}>Investors Using AllTheCalls</p>
-            <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 700, color: "white" }}>
-              Deals locked up. <span className="gradient-text">Leads captured.</span>
-            </h2>
-          </div>
-          <div className="testimonials-scroll" style={{ display: "grid", gap: "24px" }}>
-            <style dangerouslySetInnerHTML={{ __html: `
-              .testimonials-scroll {
-                grid-template-columns: repeat(3, 1fr);
-              }
-              @media (max-width: 767px) {
-                .testimonials-scroll {
-                  display: flex !important;
-                  overflow-x: auto;
-                  scroll-snap-type: x mandatory;
-                  -webkit-overflow-scrolling: touch;
-                  padding-bottom: 16px;
-                  gap: 16px !important;
-                }
-                .testimonials-scroll > div {
-                  min-width: 85vw;
-                  scroll-snap-align: center;
-                  flex-shrink: 0;
-                }
-                .testimonials-scroll::-webkit-scrollbar { display: none; }
-              }
-            `}} />
-            {testimonials.map((t, i) => (
+              zIndex: 10,
+              maxWidth: "1152px",
+              margin: "0 auto",
+              padding: "6rem 1rem 5rem",
+              width: "100%",
+              animation: "hero-entrance 0.8s ease-out both",
+            }}
+          >
+            <div style={{ maxWidth: "680px" }}>
               <div
-                key={t.name}
-                className="glass-card fade-in"
                 style={{
-                  borderRadius: "20px", padding: "32px", position: "relative", overflow: "hidden",
-                  transitionDelay: `${i * 0.15}s`,
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "8px",
+                  padding: "8px 16px",
+                  borderRadius: "999px",
+                  fontSize: "12px",
+                  fontWeight: 600,
+                  marginBottom: "32px",
+                  border: "1px solid rgba(124,58,237,0.3)",
+                  background: "rgba(124,58,237,0.1)",
+                  color: "#c4b5fd",
                 }}
               >
-                <span style={{
-                  position: "absolute", top: "12px", right: "20px",
-                  fontSize: "120px", fontFamily: "Georgia, serif",
-                  color: "white", opacity: 0.04, lineHeight: 1, pointerEvents: "none",
-                  userSelect: "none",
-                }}>&ldquo;</span>
+                <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#4ade80" }} />
+                24/7 AI Receptionist &mdash; Real Estate Pros &amp; Any Business
+              </div>
+              <h1
+                style={{
+                  fontFamily: "'Space Grotesk', sans-serif",
+                  fontSize: "clamp(2.5rem, 6vw, 4.75rem)",
+                  fontWeight: 700,
+                  color: "white",
+                  marginBottom: "24px",
+                  lineHeight: 1.02,
+                  letterSpacing: "-0.03em",
+                }}
+              >
+                Every missed call is{" "}
+                <span className="gradient-text">money walking out the door.</span>
+              </h1>
+              <p
+                style={{
+                  fontSize: "clamp(1rem, 2vw, 1.25rem)",
+                  color: "rgba(255,255,255,0.65)",
+                  marginBottom: "14px",
+                  lineHeight: 1.6,
+                  maxWidth: "580px",
+                }}
+              >
+                AllTheCalls is your 24/7 AI receptionist &mdash; it answers every inbound
+                in your business name, qualifies the caller, books the meeting, and texts
+                you the summary. So you never lose another lead to voicemail.
+              </p>
+              <p
+                style={{
+                  fontSize: "13.5px",
+                  color: "rgba(255,255,255,0.45)",
+                  marginBottom: "28px",
+                  maxWidth: "580px",
+                  lineHeight: 1.55,
+                }}
+              >
+                Built for real estate pros. Works for any business that can&apos;t afford to miss a call.
+              </p>
 
-                <div style={{ display: "flex", gap: "4px", marginBottom: "16px", position: "relative", zIndex: 1 }}>
-                  {[...Array(5)].map((_, j) => <span key={j} style={{ color: "#facc15", fontSize: "14px" }}>{"\u2605"}</span>)}
-                </div>
-                <p style={{ color: "rgba(255,255,255,0.7)", lineHeight: 1.7, marginBottom: "24px", fontStyle: "italic", fontSize: "14px", position: "relative", zIndex: 1 }}>
-                  &ldquo;{t.quote.split(t.boldPart)[0]}<span className="gradient-text" style={{ fontStyle: "normal" }}>{t.boldPart}</span>{t.rest}&rdquo;
-                </p>
-                <div style={{ display: "flex", alignItems: "center", gap: "12px", position: "relative", zIndex: 1 }}>
-                  <div style={{
-                    width: "44px", height: "44px", borderRadius: "50%",
-                    background: "linear-gradient(135deg, #7c3aed, #06b6d4)",
-                    padding: "2px", flexShrink: 0,
-                  }}>
-                    <div style={{
-                      width: "100%", height: "100%", borderRadius: "50%",
-                      background: "#12131a",
-                      display: "flex", alignItems: "center", justifyContent: "center",
-                      color: "white", fontSize: "12px", fontWeight: 700,
-                    }}>{t.initials}</div>
+              {/* Audience chips */}
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", marginBottom: "36px" }}>
+                {AUDIENCE_TAGS.map((a) => (
+                  <div
+                    key={a.label}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "6px",
+                      padding: "5px 12px",
+                      borderRadius: "999px",
+                      background: "rgba(255,255,255,0.05)",
+                      border: "1px solid rgba(255,255,255,0.08)",
+                      fontSize: "12px",
+                      color: "rgba(255,255,255,0.55)",
+                    }}
+                  >
+                    <span>{a.icon}</span> {a.label}
                   </div>
-                  <div>
-                    <p style={{ fontWeight: 700, color: "white", fontSize: "14px" }}>{t.name}</p>
-                    <p style={{ color: "rgba(255,255,255,0.4)", fontSize: "12px" }}>{t.role} &middot; {t.location}</p>
+                ))}
+              </div>
+
+              {/* PRIMARY CTAs — phone first, huge, green */}
+              <div className="flex flex-col sm:flex-row gap-3 mb-4">
+                <a
+                  href={DEMO_PHONE_HREF}
+                  className="w-full sm:w-auto"
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: "10px",
+                    background: "linear-gradient(135deg, #10b981, #059669)",
+                    color: "white",
+                    fontWeight: 800,
+                    fontSize: "17px",
+                    padding: "18px 28px",
+                    borderRadius: "14px",
+                    textDecoration: "none",
+                    boxShadow: "0 10px 30px rgba(16,185,129,0.35)",
+                  }}
+                >
+                  <span style={{ fontSize: "20px" }}>{"\u{1F4DE}"}</span>
+                  Call Our AI &mdash; {DEMO_PHONE}
+                </a>
+                <Link
+                  href={PRIMARY_CTA}
+                  className="w-full sm:w-auto btn-glow"
+                  style={{
+                    color: "white",
+                    fontWeight: 700,
+                    fontSize: "16px",
+                    padding: "18px 28px",
+                    borderRadius: "14px",
+                    textDecoration: "none",
+                    textAlign: "center",
+                  }}
+                >
+                  See Pricing &rarr;
+                </Link>
+              </div>
+              <p style={{ fontSize: "12px", color: "rgba(255,255,255,0.35)" }}>
+                60 seconds, no signup &middot; Or see pricing in one click &middot; 14-day money-back guarantee
+              </p>
+
+              {/* Live call demo card */}
+              <div style={{ position: "relative", marginTop: "32px", maxWidth: "400px" }}>
+                <div
+                  style={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                    width: "300px",
+                    height: "200px",
+                    borderRadius: "50%",
+                    background:
+                      "radial-gradient(circle, rgba(124,58,237,0.25) 0%, rgba(6,182,212,0.1) 50%, transparent 70%)",
+                    filter: "blur(40px)",
+                    pointerEvents: "none",
+                  }}
+                />
+                <div className="glass-card" style={{ borderRadius: "16px", padding: "16px", position: "relative" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "12px" }}>
+                    <div
+                      style={{
+                        width: "8px",
+                        height: "8px",
+                        borderRadius: "50%",
+                        background: "#4ade80",
+                        animation: "pulse-dot 2s ease-in-out infinite",
+                      }}
+                    />
+                    <span style={{ fontSize: "12px", color: "rgba(255,255,255,0.5)", fontWeight: 500 }}>
+                      Live Now
+                    </span>
+                    <span style={{ marginLeft: "auto", fontSize: "12px", color: "rgba(255,255,255,0.3)" }}>
+                      AI Receptionist
+                    </span>
                   </div>
+                  <WaveformBars />
+                  <p
+                    style={{
+                      fontSize: "12px",
+                      color: "rgba(255,255,255,0.4)",
+                      marginTop: "8px",
+                      fontStyle: "italic",
+                    }}
+                  >
+                    &ldquo;Thanks for calling &mdash; I&apos;m their assistant, how can I help you?&rdquo;
+                  </p>
                 </div>
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* STATS */}
+        <div
+          style={{
+            borderTop: "1px solid rgba(255,255,255,0.05)",
+            borderBottom: "1px solid rgba(255,255,255,0.05)",
+            background: "rgba(255,255,255,0.02)",
+            padding: "40px 1rem",
+          }}
+        >
+          <div
+            className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8"
+            style={{ maxWidth: "1024px", margin: "0 auto" }}
+          >
+            {stats.map((s) => (
+              <StatItem key={s.label} stat={s} />
             ))}
           </div>
         </div>
-      </section>
 
-      {/* FAQ */}
-      <section id="faq" style={{ padding: "7rem 1rem" }}>
-        <div style={{ maxWidth: "768px", margin: "0 auto" }}>
-          <div className="fade-in" style={{ textAlign: "center", marginBottom: "64px" }}>
-            <p style={{ color: "#22d3ee", fontSize: "13px", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "12px" }}>FAQ</p>
-            <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 700, color: "white" }}>
-              Questions <span className="gradient-text">investors ask</span>
-            </h2>
+        {/* WHO IT'S FOR */}
+        <section style={{ padding: "6rem 1rem", position: "relative" }}>
+          <div style={{ maxWidth: "960px", margin: "0 auto" }}>
+            <div className="fade-in" style={{ textAlign: "center", marginBottom: "48px" }}>
+              <p
+                style={{
+                  color: "#a78bfa",
+                  fontSize: "13px",
+                  fontWeight: 600,
+                  textTransform: "uppercase",
+                  letterSpacing: "0.1em",
+                  marginBottom: "12px",
+                }}
+              >
+                Who It&apos;s For
+              </p>
+              <h2
+                style={{
+                  fontFamily: "'Space Grotesk', sans-serif",
+                  fontSize: "clamp(1.75rem, 4vw, 2.75rem)",
+                  fontWeight: 700,
+                  color: "white",
+                  marginBottom: "12px",
+                }}
+              >
+                Built for businesses that{" "}
+                <span className="gradient-text">can&apos;t afford to miss a call</span>
+              </h2>
+              <p
+                style={{
+                  color: "rgba(255,255,255,0.5)",
+                  fontSize: "17px",
+                  maxWidth: "640px",
+                  margin: "0 auto",
+                  lineHeight: 1.6,
+                }}
+              >
+                Real estate pros are our sweet spot &mdash; but any business where a missed
+                call is a lost customer wins the same way.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {[
+                {
+                  title: "Agents & Brokers",
+                  desc:
+                    "Every buyer lead, listing inquiry, and showing request answered instantly. Qualified and booked on your calendar while you're closing the last one.",
+                },
+                {
+                  title: "Real Estate Investors",
+                  desc:
+                    "Every motivated-seller call answered 24/7. Every new CRM lead called back in under 30 seconds. Your pipeline stops leaking.",
+                },
+                {
+                  title: "Lenders & Title",
+                  desc:
+                    "Every loan inquiry, every closing question, every pre-qual answered in your name. Booked into your calendar, logged in your CRM.",
+                },
+                {
+                  title: "Property Managers",
+                  desc:
+                    "Tenant calls, inquiry calls, maintenance escalations — triaged and routed. Urgent hits your phone, everything else lives in your CRM.",
+                },
+                {
+                  title: "Home Services & Trades",
+                  desc:
+                    "HVAC, plumbing, electrical, roofing, contractors. Your AI dispatches by urgency, captures the job details, books the quote.",
+                },
+                {
+                  title: "Any Business Owner",
+                  desc:
+                    "If you&apos;re losing money to voicemail, we fix that. One plan, done-for-you setup, live in 24-48 hours.",
+                },
+              ].map((item) => (
+                <div key={item.title} className="glass-card fade-in" style={{ borderRadius: "16px", padding: "24px" }}>
+                  <h3
+                    style={{
+                      fontFamily: "'Space Grotesk', sans-serif",
+                      fontWeight: 700,
+                      color: "white",
+                      fontSize: "16px",
+                      marginBottom: "8px",
+                    }}
+                  >
+                    {item.title}
+                  </h3>
+                  <p style={{ color: "rgba(255,255,255,0.5)", fontSize: "13.5px", lineHeight: 1.65 }}>
+                    {item.desc}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
-          <div className="fade-in" style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-            {faqs.map((faq, i) => <FAQItem key={faq.q} q={faq.q} a={faq.a} index={i} />)}
-          </div>
-        </div>
-      </section>
+        </section>
 
-      {/* FINAL CTA */}
-      <section style={{ padding: "7rem 1rem", position: "relative", overflow: "hidden" }}>
-        <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", width: "600px", height: "300px", borderRadius: "50%", background: "linear-gradient(135deg, #7c3aed, #06b6d4)", opacity: 0.12, filter: "blur(80px)", pointerEvents: "none" }} />
-        <div className="fade-in" style={{ position: "relative", zIndex: 10, maxWidth: "768px", margin: "0 auto", textAlign: "center" }}>
-          <p style={{ color: "#a78bfa", fontSize: "13px", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "16px" }}>Lock Up More Deals</p>
-          <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(2rem, 5vw, 3.75rem)", fontWeight: 700, color: "white", marginBottom: "24px", lineHeight: 1.1 }}>
-            Every missed call is{" "}<span className="gradient-text">a deal going to someone else.</span>
-          </h2>
-          <p style={{ color: "rgba(255,255,255,0.5)", fontSize: "18px", marginBottom: "40px", maxWidth: "520px", margin: "0 auto 40px" }}>
-            $497/mo. One plan. No contracts. Live in 24-48 hours.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
-            <Link href={CHECKOUT_URL} className="btn-glow w-full sm:w-auto" style={{ color: "white", fontWeight: 700, fontSize: "18px", padding: "16px 40px", borderRadius: "12px", textDecoration: "none", textAlign: "center" }}>
-              Get Started &mdash; {PRICE_DISPLAY} &rarr;
-            </Link>
-            <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer" className="btn-ghost w-full sm:w-auto" style={{ fontWeight: 600, fontSize: "18px", padding: "16px 40px", borderRadius: "12px", textDecoration: "none", textAlign: "center" }}>
-              {"\u{1F4C5}"} Book a Call First
-            </a>
-          </div>
-          <p style={{ color: "rgba(255,255,255,0.3)", fontSize: "14px" }}>14-day money-back guarantee &middot; Custom available for larger operations</p>
-        </div>
-      </section>
+        {/* HEAR IT LIVE */}
+        <section id="hear-it" style={{ padding: "7rem 1rem", position: "relative", overflow: "hidden" }}>
+          <div
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: "700px",
+              height: "400px",
+              borderRadius: "50%",
+              background: "linear-gradient(135deg, #7c3aed, #06b6d4)",
+              opacity: 0.08,
+              filter: "blur(100px)",
+              pointerEvents: "none",
+            }}
+          />
+          <div style={{ position: "relative", zIndex: 10, maxWidth: "800px", margin: "0 auto", textAlign: "center" }}>
+            <div className="fade-in">
+              <p
+                style={{
+                  color: "#4ade80",
+                  fontSize: "13px",
+                  fontWeight: 600,
+                  textTransform: "uppercase",
+                  letterSpacing: "0.1em",
+                  marginBottom: "16px",
+                }}
+              >
+                &#9679; Live Demo &mdash; No signup, no form
+              </p>
+              <h2
+                style={{
+                  fontFamily: "'Space Grotesk', sans-serif",
+                  fontSize: "clamp(2rem, 5vw, 3.5rem)",
+                  fontWeight: 700,
+                  color: "white",
+                  marginBottom: "20px",
+                  lineHeight: 1.1,
+                }}
+              >
+                Call our AI right now.
+              </h2>
+              <p
+                style={{
+                  color: "rgba(255,255,255,0.55)",
+                  fontSize: "18px",
+                  marginBottom: "48px",
+                  maxWidth: "540px",
+                  margin: "0 auto 48px",
+                }}
+              >
+                Pretend you&apos;re a caller. Hear exactly what your customers would hear &mdash;
+                tone, pacing, qualification. Takes 60 seconds.
+              </p>
 
-      {/* FOOTER */}
-      <footer style={{ borderTop: "1px solid rgba(255,255,255,0.05)", padding: "64px 1rem 96px" }}>
-        <div style={{ maxWidth: "1024px", margin: "0 auto" }}>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-            <div>
-              <div style={{ marginBottom: "16px" }}>
-                <img src="/logo.svg" alt="AllTheCalls" style={{ height: "32px", width: "auto" }} />
+              <div
+                style={{
+                  position: "relative",
+                  display: "inline-block",
+                  padding: "2px",
+                  borderRadius: "24px",
+                  background: "conic-gradient(from var(--border-angle, 0deg), #7c3aed, #06b6d4, #7c3aed)",
+                  animation: "border-spin 3s linear infinite",
+                  marginBottom: "40px",
+                }}
+              >
+                <div
+                  style={{
+                    background: "rgba(8,9,15,0.95)",
+                    borderRadius: "22px",
+                    padding: "32px 48px",
+                    backdropFilter: "blur(20px)",
+                    position: "relative",
+                  }}
+                >
+                  <div style={{ position: "relative", display: "inline-block", marginBottom: "16px" }}>
+                    <div
+                      style={{
+                        position: "absolute",
+                        top: "50%",
+                        left: "50%",
+                        width: "48px",
+                        height: "48px",
+                        border: "2px solid rgba(124,58,237,0.3)",
+                        borderRadius: "50%",
+                        transform: "translate(-50%, -50%)",
+                        animation: "pulse-ring 2s ease-out infinite",
+                      }}
+                    />
+                    <div
+                      style={{
+                        position: "absolute",
+                        top: "50%",
+                        left: "50%",
+                        width: "48px",
+                        height: "48px",
+                        border: "2px solid rgba(6,182,212,0.3)",
+                        borderRadius: "50%",
+                        transform: "translate(-50%, -50%)",
+                        animation: "pulse-ring 2s ease-out infinite 0.6s",
+                      }}
+                    />
+                    <div style={{ position: "relative", zIndex: 2 }}>
+                      <FeatureIcon iconKey="phone" size={32} />
+                    </div>
+                  </div>
+
+                  <div
+                    style={{
+                      color: "rgba(255,255,255,0.5)",
+                      fontSize: "12px",
+                      fontWeight: 600,
+                      textTransform: "uppercase",
+                      letterSpacing: "0.1em",
+                      marginBottom: "8px",
+                    }}
+                  >
+                    Tap to call
+                  </div>
+                  <a
+                    href={DEMO_PHONE_HREF}
+                    className="gradient-text"
+                    style={{
+                      fontSize: "clamp(2rem, 5vw, 3rem)",
+                      fontWeight: 700,
+                      fontFamily: "'Space Grotesk', sans-serif",
+                      letterSpacing: "-0.02em",
+                      textDecoration: "none",
+                      display: "block",
+                    }}
+                  >
+                    {DEMO_PHONE}
+                  </a>
+                </div>
               </div>
-              <p style={{ color: "rgba(255,255,255,0.4)", fontSize: "14px", lineHeight: 1.7, maxWidth: "280px" }}>The AI acquisitions manager for real estate investors. 24/7 inbound. &lt;30s outbound on every new lead. Synced to your CRM.</p>
-              <p style={{ color: "rgba(255,255,255,0.2)", fontSize: "12px", marginTop: "16px" }}>Secured by Stripe &middot; 256-bit SSL</p>
-            </div>
-            <div>
-              <p style={{ color: "rgba(255,255,255,0.7)", fontWeight: 600, fontSize: "14px", marginBottom: "16px" }}>Product</p>
-              {[["#features", "Features"], ["/pricing", "Pricing"], ["#how-it-works", "How It Works"], ["#hear-it", "Hear It Live"]].map(([href, label]) => (
-                <a key={label} href={href} style={{ display: "block", color: "rgba(255,255,255,0.4)", fontSize: "14px", textDecoration: "none", marginBottom: "12px" }}>{label}</a>
-              ))}
-            </div>
-            <div>
-              <p style={{ color: "rgba(255,255,255,0.7)", fontWeight: 600, fontSize: "14px", marginBottom: "16px" }}>Company</p>
-              {[["/contact", "Contact"], ["/privacy", "Privacy Policy"], ["/terms", "Terms of Service"]].map(([href, label]) => (
-                <Link key={label} href={href} style={{ display: "block", color: "rgba(255,255,255,0.4)", fontSize: "14px", textDecoration: "none", marginBottom: "12px" }}>{label}</Link>
-              ))}
-              <a href={DEMO_PHONE_HREF} style={{ display: "block", color: "#a78bfa", fontSize: "14px", fontWeight: 600, textDecoration: "none", marginBottom: "8px" }}>{"\u{1F4DE}"} {DEMO_PHONE}</a>
-              <Link href={CHECKOUT_URL} className="btn-glow" style={{ display: "inline-block", color: "white", fontSize: "14px", fontWeight: 600, padding: "10px 20px", borderRadius: "12px", textDecoration: "none", marginTop: "8px" }}>Get Started &rarr;</Link>
+
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "0",
+                  flexWrap: "wrap",
+                  marginBottom: "16px",
+                }}
+              >
+                {["It answers in your name", "Qualifies the caller", "Texts you the summary"].map((step, i) => (
+                  <div key={step} style={{ display: "flex", alignItems: "center" }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "8px",
+                        color: "rgba(255,255,255,0.6)",
+                        fontSize: "14px",
+                      }}
+                    >
+                      <span
+                        style={{
+                          width: "28px",
+                          height: "28px",
+                          borderRadius: "50%",
+                          background: "linear-gradient(135deg, #7c3aed, #06b6d4)",
+                          display: "inline-flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          fontSize: "12px",
+                          fontWeight: 700,
+                          color: "white",
+                          flexShrink: 0,
+                        }}
+                      >
+                        {i + 1}
+                      </span>
+                      <span>{step}</span>
+                    </div>
+                    {i < 2 && (
+                      <div
+                        style={{
+                          width: "32px",
+                          height: "2px",
+                          background: "linear-gradient(90deg, #7c3aed, #06b6d4)",
+                          margin: "0 12px",
+                          opacity: 0.4,
+                          flexShrink: 0,
+                        }}
+                      />
+                    )}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
-          <div style={{ borderTop: "1px solid rgba(255,255,255,0.05)", paddingTop: "32px", display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: "16px" }}>
-            <p style={{ color: "rgba(255,255,255,0.25)", fontSize: "14px" }}>&copy; 2026 AllTheCalls. Built for real estate investors.</p>
-            <p style={{ color: "rgba(255,255,255,0.15)", fontSize: "12px" }}>AllTheCalls is an AI-powered voice agent service. Results may vary by market and usage.</p>
+        </section>
+
+        {/* HOW IT WORKS */}
+        <section id="how-it-works" style={{ padding: "7rem 1rem" }}>
+          <div style={{ maxWidth: "1024px", margin: "0 auto" }}>
+            <div className="fade-in" style={{ textAlign: "center", marginBottom: "64px" }}>
+              <p
+                style={{
+                  color: "#a78bfa",
+                  fontSize: "13px",
+                  fontWeight: 600,
+                  textTransform: "uppercase",
+                  letterSpacing: "0.1em",
+                  marginBottom: "12px",
+                }}
+              >
+                How It Works
+              </p>
+              <h2
+                style={{
+                  fontFamily: "'Space Grotesk', sans-serif",
+                  fontSize: "clamp(2rem, 4vw, 3rem)",
+                  fontWeight: 700,
+                  color: "white",
+                  marginBottom: "16px",
+                }}
+              >
+                Live in 48 hours. <span className="gradient-text">Done-for-you.</span>
+              </h2>
+              <p
+                style={{
+                  color: "rgba(255,255,255,0.5)",
+                  fontSize: "18px",
+                  maxWidth: "520px",
+                  margin: "0 auto",
+                }}
+              >
+                No tech skills needed. Our team handles the full setup &mdash; you just forward your number.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {steps.map((step, i) => (
+                <div
+                  key={step.num}
+                  className="glass-card fade-in"
+                  style={{
+                    borderRadius: "20px",
+                    padding: "32px",
+                    position: "relative",
+                    overflow: "hidden",
+                    transitionDelay: `${i * 0.15}s`,
+                  }}
+                >
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      width: "128px",
+                      height: "128px",
+                      borderRadius: "50%",
+                      background: "radial-gradient(circle, rgba(124,58,237,0.15), transparent)",
+                      transform: "translate(-50%, -50%)",
+                    }}
+                  />
+                  <div style={{ fontSize: "2.5rem", marginBottom: "16px" }}>{step.icon}</div>
+                  <div
+                    style={{
+                      fontFamily: "'Space Grotesk', sans-serif",
+                      fontSize: "3rem",
+                      fontWeight: 700,
+                      opacity: 0.08,
+                      marginBottom: "8px",
+                      lineHeight: 1,
+                      color: "white",
+                    }}
+                  >
+                    {step.num}
+                  </div>
+                  <h3
+                    style={{
+                      fontFamily: "'Space Grotesk', sans-serif",
+                      fontSize: "20px",
+                      fontWeight: 700,
+                      color: "white",
+                      marginBottom: "12px",
+                    }}
+                  >
+                    {step.title}
+                  </h3>
+                  <p style={{ color: "rgba(255,255,255,0.5)", lineHeight: 1.7, fontSize: "14px" }}>{step.desc}</p>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-      </footer>
+        </section>
+
+        {/* FEATURES */}
+        <section
+          id="features"
+          style={{
+            padding: "7rem 1rem",
+            position: "relative",
+            overflow: "hidden",
+            backgroundImage: `url(${FEATURES_BG})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        >
+          <div style={{ position: "absolute", inset: 0, background: "rgba(8,9,15,0.88)" }} />
+          <div style={{ position: "relative", zIndex: 10, maxWidth: "1024px", margin: "0 auto" }}>
+            <div className="fade-in" style={{ textAlign: "center", marginBottom: "64px" }}>
+              <p
+                style={{
+                  color: "#22d3ee",
+                  fontSize: "13px",
+                  fontWeight: 600,
+                  textTransform: "uppercase",
+                  letterSpacing: "0.1em",
+                  marginBottom: "12px",
+                }}
+              >
+                What You Get
+              </p>
+              <h2
+                style={{
+                  fontFamily: "'Space Grotesk', sans-serif",
+                  fontSize: "clamp(2rem, 4vw, 3rem)",
+                  fontWeight: 700,
+                  color: "white",
+                  marginBottom: "16px",
+                }}
+              >
+                Everything a top-tier receptionist does,{" "}
+                <span className="gradient-text">at a fraction of the cost.</span>
+              </h2>
+              <p style={{ color: "rgba(255,255,255,0.5)", fontSize: "18px" }}>
+                One month covers years of service. And your AI never calls in sick.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {features.map((f, i) => (
+                <FeatureCard key={f.title} f={f} index={i} />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* TESTIMONIALS */}
+        <section style={{ padding: "7rem 1rem" }}>
+          <div style={{ maxWidth: "1024px", margin: "0 auto" }}>
+            <div className="fade-in" style={{ textAlign: "center", marginBottom: "64px" }}>
+              <p
+                style={{
+                  color: "#a78bfa",
+                  fontSize: "13px",
+                  fontWeight: 600,
+                  textTransform: "uppercase",
+                  letterSpacing: "0.1em",
+                  marginBottom: "12px",
+                }}
+              >
+                Businesses Using AllTheCalls
+              </p>
+              <h2
+                style={{
+                  fontFamily: "'Space Grotesk', sans-serif",
+                  fontSize: "clamp(2rem, 4vw, 3rem)",
+                  fontWeight: 700,
+                  color: "white",
+                }}
+              >
+                Leads captured. <span className="gradient-text">Deals closed.</span>
+              </h2>
+            </div>
+            <div className="testimonials-scroll" style={{ display: "grid", gap: "24px" }}>
+              <style
+                dangerouslySetInnerHTML={{
+                  __html: `
+                    .testimonials-scroll {
+                      grid-template-columns: repeat(3, 1fr);
+                    }
+                    @media (max-width: 767px) {
+                      .testimonials-scroll {
+                        display: flex !important;
+                        overflow-x: auto;
+                        scroll-snap-type: x mandatory;
+                        -webkit-overflow-scrolling: touch;
+                        padding-bottom: 16px;
+                        gap: 16px !important;
+                      }
+                      .testimonials-scroll > div {
+                        min-width: 85vw;
+                        scroll-snap-align: center;
+                        flex-shrink: 0;
+                      }
+                      .testimonials-scroll::-webkit-scrollbar { display: none; }
+                    }
+                  `,
+                }}
+              />
+              {testimonials.map((t, i) => (
+                <div
+                  key={t.name}
+                  className="glass-card fade-in"
+                  style={{
+                    borderRadius: "20px",
+                    padding: "32px",
+                    position: "relative",
+                    overflow: "hidden",
+                    transitionDelay: `${i * 0.15}s`,
+                  }}
+                >
+                  <span
+                    style={{
+                      position: "absolute",
+                      top: "12px",
+                      right: "20px",
+                      fontSize: "120px",
+                      fontFamily: "Georgia, serif",
+                      color: "white",
+                      opacity: 0.04,
+                      lineHeight: 1,
+                      pointerEvents: "none",
+                      userSelect: "none",
+                    }}
+                  >
+                    &ldquo;
+                  </span>
+
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "4px",
+                      marginBottom: "16px",
+                      position: "relative",
+                      zIndex: 1,
+                    }}
+                  >
+                    {[...Array(5)].map((_, j) => (
+                      <span key={j} style={{ color: "#facc15", fontSize: "14px" }}>
+                        {"\u2605"}
+                      </span>
+                    ))}
+                  </div>
+                  <p
+                    style={{
+                      color: "rgba(255,255,255,0.7)",
+                      lineHeight: 1.7,
+                      marginBottom: "24px",
+                      fontStyle: "italic",
+                      fontSize: "14px",
+                      position: "relative",
+                      zIndex: 1,
+                    }}
+                  >
+                    &ldquo;{t.quote.split(t.boldPart)[0]}
+                    <span className="gradient-text" style={{ fontStyle: "normal" }}>
+                      {t.boldPart}
+                    </span>
+                    {t.rest}&rdquo;
+                  </p>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "12px",
+                      position: "relative",
+                      zIndex: 1,
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: "44px",
+                        height: "44px",
+                        borderRadius: "50%",
+                        background: "linear-gradient(135deg, #7c3aed, #06b6d4)",
+                        padding: "2px",
+                        flexShrink: 0,
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          borderRadius: "50%",
+                          background: "#12131a",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          color: "white",
+                          fontSize: "12px",
+                          fontWeight: 700,
+                        }}
+                      >
+                        {t.initials}
+                      </div>
+                    </div>
+                    <div>
+                      <p style={{ fontWeight: 700, color: "white", fontSize: "14px" }}>{t.name}</p>
+                      <p style={{ color: "rgba(255,255,255,0.4)", fontSize: "12px" }}>
+                        {t.role} &middot; {t.location}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* FAQ */}
+        <section id="faq" style={{ padding: "7rem 1rem" }}>
+          <div style={{ maxWidth: "768px", margin: "0 auto" }}>
+            <div className="fade-in" style={{ textAlign: "center", marginBottom: "64px" }}>
+              <p
+                style={{
+                  color: "#22d3ee",
+                  fontSize: "13px",
+                  fontWeight: 600,
+                  textTransform: "uppercase",
+                  letterSpacing: "0.1em",
+                  marginBottom: "12px",
+                }}
+              >
+                FAQ
+              </p>
+              <h2
+                style={{
+                  fontFamily: "'Space Grotesk', sans-serif",
+                  fontSize: "clamp(2rem, 4vw, 3rem)",
+                  fontWeight: 700,
+                  color: "white",
+                }}
+              >
+                Questions <span className="gradient-text">business owners ask</span>
+              </h2>
+            </div>
+            <div className="fade-in" style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+              {faqs.map((faq, i) => (
+                <FAQItem key={faq.q} q={faq.q} a={faq.a} index={i} />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* FINAL CTA */}
+        <section style={{ padding: "7rem 1rem", position: "relative", overflow: "hidden" }}>
+          <div
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: "600px",
+              height: "300px",
+              borderRadius: "50%",
+              background: "linear-gradient(135deg, #7c3aed, #06b6d4)",
+              opacity: 0.12,
+              filter: "blur(80px)",
+              pointerEvents: "none",
+            }}
+          />
+          <div
+            className="fade-in"
+            style={{
+              position: "relative",
+              zIndex: 10,
+              maxWidth: "768px",
+              margin: "0 auto",
+              textAlign: "center",
+            }}
+          >
+            <p
+              style={{
+                color: "#a78bfa",
+                fontSize: "13px",
+                fontWeight: 600,
+                textTransform: "uppercase",
+                letterSpacing: "0.1em",
+                marginBottom: "16px",
+              }}
+            >
+              Stop losing leads to voicemail
+            </p>
+            <h2
+              style={{
+                fontFamily: "'Space Grotesk', sans-serif",
+                fontSize: "clamp(2rem, 5vw, 3.75rem)",
+                fontWeight: 700,
+                color: "white",
+                marginBottom: "24px",
+                lineHeight: 1.1,
+              }}
+            >
+              Every missed call is{" "}
+              <span className="gradient-text">a customer going to someone else.</span>
+            </h2>
+            <p
+              style={{
+                color: "rgba(255,255,255,0.55)",
+                fontSize: "18px",
+                marginBottom: "40px",
+                maxWidth: "520px",
+                margin: "0 auto 40px",
+              }}
+            >
+              Live in 24-48 hours. No contracts. 14-day money-back guarantee.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
+              <a
+                href={DEMO_PHONE_HREF}
+                className="w-full sm:w-auto"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "10px",
+                  background: "linear-gradient(135deg, #10b981, #059669)",
+                  color: "white",
+                  fontWeight: 800,
+                  fontSize: "18px",
+                  padding: "18px 36px",
+                  borderRadius: "14px",
+                  textDecoration: "none",
+                  boxShadow: "0 12px 30px rgba(16,185,129,0.4)",
+                }}
+              >
+                {"\u{1F4DE}"} Call Our AI &mdash; {DEMO_PHONE}
+              </a>
+              <Link
+                href={PRIMARY_CTA}
+                className="w-full sm:w-auto btn-glow"
+                style={{
+                  color: "white",
+                  fontWeight: 700,
+                  fontSize: "18px",
+                  padding: "18px 40px",
+                  borderRadius: "14px",
+                  textDecoration: "none",
+                  textAlign: "center",
+                }}
+              >
+                See Pricing &rarr;
+              </Link>
+            </div>
+            <p style={{ color: "rgba(255,255,255,0.3)", fontSize: "14px" }}>
+              No contracts &middot; No tech skills needed &middot; 14-day money-back guarantee
+            </p>
+          </div>
+        </section>
+
+        {/* FOOTER */}
+        <footer style={{ borderTop: "1px solid rgba(255,255,255,0.05)", padding: "64px 1rem 96px" }}>
+          <div style={{ maxWidth: "1024px", margin: "0 auto" }}>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+              <div>
+                <div style={{ marginBottom: "16px" }}>
+                  <img src="/logo.svg" alt="AllTheCalls" style={{ height: "32px", width: "auto" }} />
+                </div>
+                <p
+                  style={{
+                    color: "rgba(255,255,255,0.4)",
+                    fontSize: "14px",
+                    lineHeight: 1.7,
+                    maxWidth: "280px",
+                  }}
+                >
+                  The AI voice receptionist for real estate pros and any business that
+                  can&apos;t afford to miss a call.
+                </p>
+                <p style={{ color: "rgba(255,255,255,0.2)", fontSize: "12px", marginTop: "16px" }}>
+                  Secured by Stripe &middot; 256-bit SSL
+                </p>
+              </div>
+              <div>
+                <p style={{ color: "rgba(255,255,255,0.7)", fontWeight: 600, fontSize: "14px", marginBottom: "16px" }}>
+                  Product
+                </p>
+                {[
+                  ["#features", "Features"],
+                  ["/pricing", "Pricing"],
+                  ["#how-it-works", "How It Works"],
+                  ["#hear-it", "Hear It Live"],
+                ].map(([href, label]) => (
+                  <a
+                    key={label}
+                    href={href}
+                    style={{
+                      display: "block",
+                      color: "rgba(255,255,255,0.4)",
+                      fontSize: "14px",
+                      textDecoration: "none",
+                      marginBottom: "12px",
+                    }}
+                  >
+                    {label}
+                  </a>
+                ))}
+              </div>
+              <div>
+                <p style={{ color: "rgba(255,255,255,0.7)", fontWeight: 600, fontSize: "14px", marginBottom: "16px" }}>
+                  Company
+                </p>
+                {[
+                  ["/contact", "Contact"],
+                  ["/privacy", "Privacy Policy"],
+                  ["/terms", "Terms of Service"],
+                ].map(([href, label]) => (
+                  <Link
+                    key={label}
+                    href={href}
+                    style={{
+                      display: "block",
+                      color: "rgba(255,255,255,0.4)",
+                      fontSize: "14px",
+                      textDecoration: "none",
+                      marginBottom: "12px",
+                    }}
+                  >
+                    {label}
+                  </Link>
+                ))}
+                <a
+                  href={DEMO_PHONE_HREF}
+                  style={{
+                    display: "block",
+                    color: "#86efac",
+                    fontSize: "14px",
+                    fontWeight: 600,
+                    textDecoration: "none",
+                    marginBottom: "8px",
+                  }}
+                >
+                  {"\u{1F4DE}"} {DEMO_PHONE}
+                </a>
+                <Link
+                  href={PRIMARY_CTA}
+                  className="btn-glow"
+                  style={{
+                    display: "inline-block",
+                    color: "white",
+                    fontSize: "14px",
+                    fontWeight: 600,
+                    padding: "10px 20px",
+                    borderRadius: "12px",
+                    textDecoration: "none",
+                    marginTop: "8px",
+                  }}
+                >
+                  See Pricing &rarr;
+                </Link>
+              </div>
+            </div>
+            <div
+              style={{
+                borderTop: "1px solid rgba(255,255,255,0.05)",
+                paddingTop: "32px",
+                display: "flex",
+                flexWrap: "wrap",
+                alignItems: "center",
+                justifyContent: "space-between",
+                gap: "16px",
+              }}
+            >
+              <p style={{ color: "rgba(255,255,255,0.25)", fontSize: "14px" }}>
+                &copy; 2026 AllTheCalls. Never miss another call.
+              </p>
+              <p style={{ color: "rgba(255,255,255,0.15)", fontSize: "12px" }}>
+                Results may vary by market and usage.
+              </p>
+            </div>
+          </div>
+        </footer>
       </main>
 
-      {/* FLOATING MOBILE CTA */}
+      {/* FLOATING MOBILE CTA — phone first (higher intent than scroll-to-form) */}
       <div
         className="md:hidden"
         style={{
-          position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 100,
+          position: "fixed",
+          bottom: 0,
+          left: 0,
+          right: 0,
+          zIndex: 100,
           padding: "12px 16px",
           paddingBottom: "max(12px, env(safe-area-inset-bottom))",
           opacity: pastHero ? 1 : 0,
           transform: pastHero ? "translateY(0)" : "translateY(100%)",
           transition: "opacity 0.35s ease, transform 0.35s ease",
           pointerEvents: pastHero ? "auto" : "none",
+          display: "flex",
+          gap: "8px",
         }}
       >
-        <Link
-          href={CHECKOUT_URL}
+        <a
+          href={DEMO_PHONE_HREF}
           style={{
-            display: "block",
-            width: "100%",
-            background: "linear-gradient(135deg, #7c3aed, #06b6d4)",
+            flex: "2 1 60%",
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "8px",
+            background: "linear-gradient(135deg, #10b981, #059669)",
             color: "white",
             fontWeight: 700,
-            fontSize: "16px",
-            padding: "16px 24px",
+            fontSize: "15px",
+            padding: "14px 16px",
             borderRadius: "999px",
             textDecoration: "none",
-            textAlign: "center",
             animation: "float-glow 2s ease-in-out infinite",
           }}
         >
-          Get Started &mdash; {PRICE_DISPLAY}
+          {"\u{1F4DE}"} Call Our AI
+        </a>
+        <Link
+          href={PRIMARY_CTA}
+          style={{
+            flex: "1 1 40%",
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "center",
+            background: "linear-gradient(135deg, #7c3aed, #06b6d4)",
+            color: "white",
+            fontWeight: 700,
+            fontSize: "15px",
+            padding: "14px 16px",
+            borderRadius: "999px",
+            textDecoration: "none",
+          }}
+        >
+          See Pricing
         </Link>
       </div>
 
@@ -878,13 +1937,17 @@ export default function Home() {
         }}
       />
 
-      <style dangerouslySetInnerHTML={{ __html: `
-        @property --border-angle {
-          syntax: '<angle>';
-          initial-value: 0deg;
-          inherits: false;
-        }
-      `}} />
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
+            @property --border-angle {
+              syntax: '<angle>';
+              initial-value: 0deg;
+              inherits: false;
+            }
+          `,
+        }}
+      />
     </div>
   );
 }

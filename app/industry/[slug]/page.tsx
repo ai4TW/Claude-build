@@ -1,32 +1,32 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import PricingSection from "@/components/PricingSection";
+import PricingGate from "@/components/PricingGate";
 
 const DEMO_PHONE = process.env.NEXT_PUBLIC_DEMO_PHONE || "(316) 232-4777";
 const DEMO_PHONE_HREF = process.env.NEXT_PUBLIC_DEMO_PHONE_HREF || "tel:+13162324777";
 
-// Single supported industry — real estate investors.
-// Keep slug "real-estate" for SEO continuity with any existing inbound links.
+// One supported industry slug — real estate. Covers agents, brokers, investors,
+// lenders, title, property managers. Non-RE businesses land on the homepage.
 const INDUSTRY_DATA = {
   "real-estate": {
-    title: "Real Estate Investors",
-    keyword: "Real Estate Investors",
-    emoji: "\u{1F3D7}\uFE0F",
-    headline: "Never lose another motivated seller to voicemail.",
+    title: "Real Estate Professionals",
+    keyword: "Real Estate",
+    emoji: "\u{1F3E0}",
+    headline: "Never miss another lead while you're out on a showing.",
     description:
-      "Your AI acquisitions manager answers every inbound call 24/7 — and calls every new lead back in under 30 seconds. Qualifies for motivation, timeline, condition, and price. Syncs the deal straight into your CRM.",
+      "Your AI answers every call in your name — 24/7 — qualifies the caller, books the appointment, and texts you the details. Built for agents, brokers, investors, lenders, title, and property managers. Live in 24-48 hours.",
     bullets: [
-      "Answers every motivated seller call in your name — 24/7",
+      "Answers every inbound call in your name — 24/7",
+      "Qualifies buyer vs seller, loan type, property condition, timeline",
+      "Books appointments on your Google / Outlook calendar, no password sharing",
       "Calls every new CRM lead back in under 30 seconds",
-      "Qualifies condition, timeline, motivation, price, and mortgage status",
-      "Books acquisitions calls on your calendar (Google / Outlook)",
-      "Sends the full transcript + deal summary to your phone instantly",
-      "Works with your CRM — Podio, REISift, GoHighLevel, and more",
+      "SMS follow-up and full transcript sent the moment each call ends",
+      "Works with Podio, REISift, GoHighLevel, HubSpot, Close, and any CRM via webhook",
     ],
-    metaTitle: "AI Acquisitions Manager for Real Estate Investors | AllTheCalls",
+    metaTitle: "AI Receptionist for Real Estate Pros | AllTheCalls",
     metaDesc:
-      "Never miss a motivated seller. AllTheCalls answers 24/7, calls every new lead back in under 30 seconds, and qualifies the deal before you pick up. $497/mo.",
+      "Never miss a real estate lead again. AllTheCalls answers every inbound in your name 24/7, qualifies the caller, books the appointment, and texts you the summary. Built for agents, brokers, investors, lenders, and title.",
   },
 } as const;
 
@@ -73,9 +73,9 @@ export default async function IndustryPage({
           <Link href="/" style={{ display: "flex", alignItems: "center", textDecoration: "none" }}>
             <img src="/logo.svg" alt="AllTheCalls" style={{ height: "40px", width: "auto" }} />
           </Link>
-          <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-            <a href={DEMO_PHONE_HREF} style={{ fontSize: "14px", color: "rgba(255,255,255,0.6)", textDecoration: "none" }}>{"\u{1F4DE}"} {DEMO_PHONE}</a>
-            <Link href="/pricing" className="btn-glow" style={{ color: "white", fontSize: "14px", fontWeight: 600, padding: "10px 20px", borderRadius: "12px", textDecoration: "none" }}>Get Started — $497/mo</Link>
+          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            <a href={DEMO_PHONE_HREF} style={{ display: "inline-flex", alignItems: "center", gap: "6px", fontSize: "13px", color: "#86efac", fontWeight: 600, textDecoration: "none", padding: "8px 14px", borderRadius: "10px", border: "1px solid rgba(74,222,128,0.3)", background: "rgba(34,197,94,0.08)" }}>{"\u{1F4DE}"} {DEMO_PHONE}</a>
+            <Link href="/pricing" className="btn-glow" style={{ color: "white", fontSize: "14px", fontWeight: 600, padding: "10px 20px", borderRadius: "12px", textDecoration: "none" }}>See Pricing</Link>
           </div>
         </div>
       </nav>
@@ -96,13 +96,14 @@ export default async function IndustryPage({
               {data.description}
             </p>
 
-            <div style={{ display: "flex", gap: "16px", justifyContent: "center", flexWrap: "wrap", marginBottom: "48px" }}>
-              <Link href="/pricing" className="btn-glow" style={{ color: "white", fontWeight: 700, fontSize: "16px", padding: "16px 32px", borderRadius: "12px", textDecoration: "none" }}>
-                Get Started — $497/mo &rarr;
-              </Link>
-              <a href={DEMO_PHONE_HREF} className="btn-ghost" style={{ fontWeight: 600, fontSize: "16px", padding: "16px 32px", borderRadius: "12px", textDecoration: "none" }}>
-                {"\u{1F4DE}"} Call Our AI Now
+            <div style={{ display: "flex", gap: "14px", justifyContent: "center", flexWrap: "wrap", marginBottom: "48px" }}>
+              <a href={DEMO_PHONE_HREF} style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", gap: "10px", background: "linear-gradient(135deg, #10b981, #059669)", color: "white", fontWeight: 800, fontSize: "17px", padding: "18px 30px", borderRadius: "14px", textDecoration: "none", boxShadow: "0 10px 30px rgba(16,185,129,0.35)" }}>
+                <span style={{ fontSize: "20px" }}>{"\u{1F4DE}"}</span>
+                Call Our AI &mdash; {DEMO_PHONE}
               </a>
+              <Link href="/pricing" className="btn-glow" style={{ color: "white", fontWeight: 700, fontSize: "16px", padding: "18px 30px", borderRadius: "14px", textDecoration: "none" }}>
+                See Pricing &rarr;
+              </Link>
             </div>
 
             <div style={{ display: "inline-flex", flexDirection: "column", gap: "12px", textAlign: "left", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: "16px", padding: "24px 32px" }}>
@@ -122,14 +123,14 @@ export default async function IndustryPage({
             <div style={{ textAlign: "center", marginBottom: "48px" }}>
               <p style={{ color: "#a78bfa", fontSize: "13px", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "12px" }}>How It Works</p>
               <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(1.75rem, 4vw, 2.5rem)", fontWeight: 700, color: "white" }}>
-                We build it. You start locking up deals.
+                We build it. You start closing more.
               </h2>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "24px" }}>
               {[
-                { icon: "\u26A1", step: "01", title: "We Build Your AI", desc: "We configure your AI acquisitions manager with your name, buy box, and qualification criteria — then plug it into your CRM and lead sources." },
-                { icon: "\u{1F4DE}", step: "02", title: "Forward + Connect", desc: "Forward your marketing number to your new AI line. Connect your CRM so every new lead triggers a 30-second outbound call-back." },
-                { icon: "\u{1F3C6}", step: "03", title: "Deals Show Up in Your Calendar", desc: "Qualified acquisitions calls hit your calendar automatically. You walk in already knowing the condition, motivation, and price." },
+                { icon: "\u26A1", step: "01", title: "We Build Your AI", desc: "We configure your AI receptionist with your business name and the exact qualification questions you want asked — then connect it to your CRM and calendar." },
+                { icon: "\u{1F4DE}", step: "02", title: "Forward + Connect", desc: "Forward your existing business line to your new AI number. Connect your CRM so every new lead also gets a <30-second outbound callback." },
+                { icon: "\u{1F3C6}", step: "03", title: "Appointments Hit Your Calendar", desc: "Qualified callers get booked straight onto your Google or Outlook calendar. You walk into every meeting already knowing what they want." },
               ].map((item) => (
                 <div key={item.step} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: "16px", padding: "28px", position: "relative" }}>
                   <div style={{ fontSize: "28px", marginBottom: "12px" }}>{item.icon}</div>
@@ -142,8 +143,8 @@ export default async function IndustryPage({
           </div>
         </section>
 
-        {/* PRICING */}
-        <PricingSection />
+        {/* PRICING — gated behind lead form */}
+        <PricingGate />
       </main>
 
       <footer style={{ borderTop: "1px solid rgba(255,255,255,0.05)", padding: "48px 1.5rem", textAlign: "center" }}>

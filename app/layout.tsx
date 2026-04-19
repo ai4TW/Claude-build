@@ -29,11 +29,11 @@ export const metadata: Metadata = {
     apple: "/favicon.svg",
   },
   title: {
-    default: "AllTheCalls — The AI Acquisitions Manager for Real Estate Investors",
+    default: "AllTheCalls — Never Miss Another Call | AI Receptionist for Real Estate Pros",
     template: "%s | AllTheCalls",
   },
   description:
-    "Built for real estate investors — and used by agents, lenders, title, and any RE operator doing volume. AllTheCalls answers every inbound 24/7 and calls every new CRM lead back in under 30 seconds. $497/mo.",
+    "Every missed call is money walking out the door. AllTheCalls is your 24/7 AI receptionist — built for real estate pros (agents, brokers, investors, lenders, title, property managers) and any business that can't afford to miss a call.",
   keywords: [
     "AI acquisitions manager",
     "AI for real estate investors",
@@ -62,9 +62,9 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: APP_URL,
     siteName: "AllTheCalls",
-    title: "AllTheCalls — The AI Acquisitions Manager for Real Estate Investors",
+    title: "AllTheCalls — Never Miss Another Call",
     description:
-      "Every inbound motivated seller answered. Every new lead called back in under 30 seconds. Synced to your CRM. $497/mo.",
+      "Your 24/7 AI receptionist. Answers every inbound in your business name, qualifies the caller, books the meeting, texts you the summary. Built for real estate pros and any business that can't miss a call.",
     images: [
       {
         url: "/og-image.png",
