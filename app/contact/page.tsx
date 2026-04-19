@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 const DEMO_PHONE = process.env.NEXT_PUBLIC_DEMO_PHONE || "(316) 232-4777";
 const DEMO_PHONE_HREF =
   process.env.NEXT_PUBLIC_DEMO_PHONE_HREF || "tel:+13162324777";
-const CALENDLY_URL = "https://calendly.com/brayden-allthecalls/new-meeting";
+const BOOK_URL = "/book";
 
 export default function ContactPage() {
   return (
@@ -182,10 +182,9 @@ export default function ContactPage() {
             label="Book a Call"
             value="15 minutes with our team"
             caption="We&rsquo;ll build a demo in your business name live on the call"
-            href={CALENDLY_URL}
+            href={BOOK_URL}
             accent="cyan"
             icon="\u{1F4C5}"
-            external
           />
           <ContactCard
             label="See Pricing"

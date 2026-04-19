@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 const DEMO_PHONE = process.env.NEXT_PUBLIC_DEMO_PHONE || "(316) 232-4777";
 const DEMO_PHONE_HREF =
   process.env.NEXT_PUBLIC_DEMO_PHONE_HREF || "tel:+13162324777";
-const CALENDLY_URL = "https://calendly.com/brayden-allthecalls/new-meeting";
+const BOOK_URL = "/book";
 
 const FAQ: Array<{ q: string; a: string }> = [
   {
@@ -58,14 +58,12 @@ export default function PricingPage() {
               <span className="hidden sm:inline">Call </span>
               {DEMO_PHONE}
             </a>
-            <a
-              href={CALENDLY_URL}
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              href={BOOK_URL}
               className="hidden rounded-xl border border-white/15 bg-white/[0.04] px-4 py-2 text-sm font-semibold text-slate-200 hover:border-white/25 sm:inline-flex items-center gap-2"
             >
               {"\u{1F4C5}"} Book a Call
-            </a>
+            </Link>
           </div>
         </div>
       </nav>
@@ -119,14 +117,12 @@ export default function PricingPage() {
               15-minute call. We&apos;ll run the AI against a sample caller from your business.
             </p>
           </div>
-          <a
-            href={CALENDLY_URL}
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            href={BOOK_URL}
             className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/[0.06] px-6 py-3 text-sm font-bold text-white hover:border-white/25 hover:bg-white/[0.1] transition"
           >
             {"\u{1F4C5}"} Book a 15-min Call
-          </a>
+          </Link>
         </div>
       </section>
 
@@ -188,14 +184,12 @@ export default function PricingPage() {
             >
               {"\u{1F4DE}"} Call Our AI: {DEMO_PHONE}
             </a>
-            <a
-              href={CALENDLY_URL}
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              href={BOOK_URL}
               className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/[0.04] px-6 py-4 text-base font-semibold text-slate-200 backdrop-blur-sm hover:border-white/25"
             >
               {"\u{1F4C5}"} Book a 15-min Call
-            </a>
+            </Link>
           </div>
         </div>
       </section>

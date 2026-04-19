@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 
-const CALENDLY_URL = "https://calendly.com/brayden-allthecalls/new-meeting";
+const BOOK_URL = "/book";
 
 const FEATURES: { text: string; highlight: boolean }[] = [
   { text: "Your AI receptionist — answers every call in your business name", highlight: true },
@@ -165,9 +165,7 @@ export default function PricingSection() {
             </p>
           </div>
           <a
-            href={CALENDLY_URL}
-            target="_blank"
-            rel="noopener noreferrer"
+            href={BOOK_URL}
             style={{
               padding: "12px 22px",
               borderRadius: "12px",

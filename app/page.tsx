@@ -24,7 +24,7 @@ const DEMO_PHONE_HREF = process.env.NEXT_PUBLIC_DEMO_PHONE_HREF || "tel:+1316232
 // All primary CTAs route to /pricing — which is gated behind a lead form.
 // Phone CTAs always bypass the gate for highest-intent visitors.
 const PRIMARY_CTA = "/pricing";
-const CALENDLY_URL = "https://calendly.com/brayden-allthecalls/new-meeting";
+const BOOK_URL = "/book";
 
 /* ------------------------------------------------------------------ */
 /*  DATA                                                               */
@@ -576,6 +576,9 @@ export default function Home() {
             <Link href="/pricing" style={{ color: "rgba(255,255,255,0.6)", textDecoration: "none" }}>
               Pricing
             </Link>
+            <Link href={BOOK_URL} style={{ color: "rgba(255,255,255,0.6)", textDecoration: "none" }}>
+              Book a Call
+            </Link>
             <a href="#hear-it" style={{ color: "rgba(255,255,255,0.6)", textDecoration: "none" }}>
               Hear It Live
             </a>
@@ -692,6 +695,7 @@ export default function Home() {
                 ["#how-it-works", "How It Works"],
                 ["#features", "Features"],
                 ["/pricing", "Pricing"],
+                ["/book", "Book a Call"],
                 ["#hear-it", "Hear It Live"],
               ].map(([href, label]) => (
                 <a
@@ -1768,6 +1772,7 @@ export default function Home() {
                 {[
                   ["#features", "Features"],
                   ["/pricing", "Pricing"],
+                  ["/book", "Book a Call"],
                   ["#how-it-works", "How It Works"],
                   ["#hear-it", "Hear It Live"],
                 ].map(([href, label]) => (

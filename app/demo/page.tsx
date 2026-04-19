@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 
 const DEMO_PHONE = "(316) 232-4777";
 const DEMO_PHONE_HREF = "tel:+13162324777";
-const CALENDLY_URL = "https://calendly.com/brayden-allthecalls/new-meeting";
+const BOOK_URL = "/book";
 
 /* ------------------------------------------------------------------ */
 /*  MULTI-STEP FORM — the star of this page                           */
@@ -88,9 +88,7 @@ function MultiStepForm() {
 
         {/* PRIMARY: Book the call */}
         <a
-          href={CALENDLY_URL}
-          target="_blank"
-          rel="noopener noreferrer"
+          href={BOOK_URL}
           className="btn-glow"
           style={{
             display: "block", width: "100%", color: "white", fontWeight: 700,
@@ -522,9 +520,7 @@ export default function DemoPage() {
               15 minutes. Free. We build your AI on the call.
             </p>
             <a
-              href={CALENDLY_URL}
-              target="_blank"
-              rel="noopener noreferrer"
+              href={BOOK_URL}
               className="btn-glow"
               style={{
                 display: "inline-block", color: "white", fontWeight: 700,
@@ -556,9 +552,7 @@ export default function DemoPage() {
         }}
       >
         <a
-          href={CALENDLY_URL}
-          target="_blank"
-          rel="noopener noreferrer"
+          href={BOOK_URL}
           style={{
             display: "block", width: "100%",
             background: "linear-gradient(135deg, #7c3aed, #06b6d4)",

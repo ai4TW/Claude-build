@@ -3,9 +3,9 @@ import Link from "next/link";
 import Script from "next/script";
 
 export const metadata: Metadata = {
-  title: "Book a Call — AllTheCalls.ai",
+  title: "Book a Call — AllTheCalls",
   description:
-    "Book a 15-minute call with the AllTheCalls.ai team to see how we can answer every call for your business 24/7.",
+    "Book a 15-minute call with the AllTheCalls team. We&rsquo;ll build a live AI demo in your business name so you can hear exactly what your callers would hear.",
 };
 
 const DEMO_PHONE = process.env.NEXT_PUBLIC_DEMO_PHONE || "(316) 232-4777";
@@ -56,13 +56,14 @@ export default function BookPage() {
               style={{ height: "40px", width: "auto" }}
             />
           </Link>
-          <div style={{ display: "flex", gap: "16px", alignItems: "center" }}>
+          <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
             <Link
               href="/pricing"
               style={{
                 fontSize: "14px",
                 color: "rgba(255,255,255,0.6)",
                 textDecoration: "none",
+                padding: "8px 12px",
               }}
             >
               Pricing
@@ -70,13 +71,20 @@ export default function BookPage() {
             <a
               href={DEMO_PHONE_HREF}
               style={{
-                fontSize: "14px",
-                color: "rgba(255,255,255,0.6)",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "6px",
+                fontSize: "13px",
+                color: "#86efac",
+                fontWeight: 600,
                 textDecoration: "none",
-                padding: "8px 16px",
+                padding: "8px 14px",
+                borderRadius: "10px",
+                border: "1px solid rgba(74,222,128,0.3)",
+                background: "rgba(34,197,94,0.08)",
               }}
             >
-              📞 {DEMO_PHONE}
+              {"\u{1F4DE}"} {DEMO_PHONE}
             </a>
           </div>
         </div>
@@ -130,18 +138,8 @@ export default function BookPage() {
               color: "#ffffff",
             }}
           >
-            Talk to{" "}
-            <span
-              style={{
-                background:
-                  "linear-gradient(135deg,#4cd7f6,#a78bfa,#d2bbff)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-              }}
-            >
-              our team
-            </span>
+            Pick a time to{" "}
+            <span className="gradient-text">talk to our team</span>
           </h1>
           <p
             style={{
@@ -152,9 +150,9 @@ export default function BookPage() {
               lineHeight: 1.6,
             }}
           >
-            We&rsquo;ll walk you through exactly how your AI receptionist will
-            answer calls for your business, set expectations, and get you live
-            the same day. Pick any time that works.
+            15 minutes. We&rsquo;ll build a live AI demo in your business name
+            so you can hear exactly what your callers would hear &mdash; then
+            answer any questions before you sign up.
           </p>
         </div>
       </section>
@@ -176,8 +174,8 @@ export default function BookPage() {
           {/* Calendly inline widget */}
           <div
             className="calendly-inline-widget"
-            data-url="https://calendly.com/brayden-allthecalls?hide_landing_page_details=1&primary_color=b000ff&background_color=0f1119&text_color=e2e8f0"
-            style={{ minWidth: "320px", height: "720px" }}
+            data-url="https://calendly.com/brayden-allthecalls/new-meeting?hide_event_type_details=1&hide_gdpr_banner=1&primary_color=8300ff&background_color=0f1119&text_color=e2e8f0"
+            style={{ minWidth: "320px", height: "700px" }}
           />
         </div>
       </section>
