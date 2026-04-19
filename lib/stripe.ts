@@ -14,12 +14,12 @@ export function getStripe() {
  */
 export const PLANS = {
   pro: {
-    name: "AllTheCalls for Investors",
+    name: "AllTheCalls — All-In-One",
     priceId: "price_1TKOpP42X4XVjhD9P2VH0xgn",
     displayPrice: "$497",
     monthlyAmount: 497,
     description:
-      "Your 24/7 AI acquisitions manager — answers every inbound motivated seller, calls every new lead back in under 30 seconds, and syncs with your CRM.",
+      "Your 24/7 AI receptionist — answers every call in your business name, calls every new lead back in under 30 seconds, and syncs with your CRM.",
   },
 } as const;
 

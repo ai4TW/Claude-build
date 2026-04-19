@@ -5,14 +5,14 @@ import { useRouter } from "next/navigation";
 const CALENDLY_URL = "https://calendly.com/brayden-allthecalls/new-meeting";
 
 const FEATURES: { text: string; highlight: boolean }[] = [
-  { text: "Your AI acquisitions manager — in your name, your market, your buy box", highlight: true },
-  { text: "24/7 inbound answering — every motivated seller gets picked up", highlight: true },
-  { text: "<30-second outbound on every new CRM lead", highlight: true },
-  { text: "Motivated seller qualification: condition, timeline, motivation, price, mortgage", highlight: true },
-  { text: "Native calendar booking — Google & Outlook, no password sharing", highlight: true },
-  { text: "CRM auto-sync — Podio, REISift, GoHighLevel, and more via webhook", highlight: true },
+  { text: "Your AI receptionist — answers every call in your business name", highlight: true },
+  { text: "24/7 inbound answering — every call picked up, morning, night, weekend", highlight: true },
+  { text: "<30-second outbound callback on every new CRM lead", highlight: true },
+  { text: "Lead qualification tuned to your business — the right questions, every time", highlight: true },
+  { text: "Native calendar booking — Google & Outlook OAuth, no password sharing", highlight: true },
+  { text: "CRM auto-sync — GoHighLevel, HubSpot, Close, and more via webhook", highlight: true },
   { text: "SMS follow-up automatically sent after every call", highlight: false },
-  { text: "Full call transcripts + AI deal summary on your phone", highlight: false },
+  { text: "Full call transcripts + AI summary on your phone", highlight: false },
   { text: "DFY marketing website — built and hosted for you", highlight: false },
   { text: "Business phone number + texting included", highlight: false },
   { text: "Live client app — call history, recordings & transcripts on iOS/Android", highlight: false },
@@ -39,10 +39,10 @@ export default function PricingSection() {
         <div style={{ textAlign: "center", marginBottom: "40px" }}>
           <p style={{ color: "#a78bfa", fontSize: "13px", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "12px" }}>Pricing</p>
           <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(2rem, 4.5vw, 3rem)", fontWeight: 700, color: "white", marginBottom: "12px", letterSpacing: "-0.02em" }}>
-            One plan. Built for the <span style={{ background: "linear-gradient(135deg, #a78bfa, #22d3ee)", WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" }}>serious investor.</span>
+            One plan. <span style={{ background: "linear-gradient(135deg, #a78bfa, #22d3ee)", WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent" }}>Everything included.</span>
           </h2>
           <p style={{ color: "rgba(255,255,255,0.55)", fontSize: "16px", maxWidth: "520px", margin: "0 auto", lineHeight: 1.6 }}>
-            Everything you need to never lose another motivated seller — done-for-you, loaded into your account on day one.
+            Everything you need to stop losing leads to voicemail &mdash; done-for-you, loaded into your account on day one.
           </p>
         </div>
 
@@ -75,7 +75,7 @@ export default function PricingSection() {
               whiteSpace: "nowrap",
             }}
           >
-            ALLTHECALLS FOR INVESTORS
+            ALLTHECALLS &mdash; ALL-IN-ONE PLAN
           </div>
 
           <div style={{ textAlign: "center", marginTop: "8px", marginBottom: "28px" }}>
@@ -161,7 +161,7 @@ export default function PricingSection() {
               Running serious volume? Go Custom.
             </p>
             <p style={{ color: "rgba(255,255,255,0.5)", fontSize: "13px", lineHeight: 1.55 }}>
-              Multi-line teams, high-volume wholesalers, funds, and brokerages — we&apos;ll build a custom AI stack matched to your lead sources, CRM, and playbook.
+              Multi-line teams, high-volume operations, agencies, franchises, and enterprises &mdash; we&apos;ll build a custom AI stack matched to your call flow, CRM, and playbook.
             </p>
           </div>
           <a

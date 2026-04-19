@@ -2,7 +2,7 @@
  * POST /api/webhooks/trillet
  *
  * Call-completion webhook from Trillet. Handles BOTH:
- *   - Inbound calls (motivated seller dials the AI)
+ *   - Inbound calls (a caller dials the AI)
  *   - Outbound calls fired by /api/outbound on the webhook-bridge
  *     (metadata.ghl_contact_id threads the GHL contact through)
  *
