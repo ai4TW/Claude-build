@@ -1,14 +1,16 @@
 "use client";
 
 /**
- * AllTheCalls.ai — Main Landing Page
+ * AllTheCalls.ai — Main Landing Page (Ad-Funnel / Direct-Response version)
+ * Built to receive paid Meta/Instagram ad traffic and convert it, using the same
+ * Grand-Slam-Offer message as the ad creative: hook -> pain -> dream outcome ->
+ * mechanism -> offer/price/guarantee -> bonus stack -> FAQ -> lead capture.
  * Primary audience: real estate professionals (agents, brokers, investors, lenders,
- *   title, property managers). Copy explicitly welcomes any business that can't
- *   miss a call.
- * Primary hook: "Every missed call is money left on the table" — inbound receptionist.
- * <30s outbound remains a feature, not the hero.
- * Offer: $497/mo — gated behind lead-capture form on /pricing.
- * Design: Midnight Intelligence (dark premium tech)
+ *   title, property managers) and local service businesses generally.
+ * Offer: $997 one-time setup + $497/mo. Guarantee: 5 extra booked appointments in
+ *   30 days or the setup fee is fully refunded.
+ * Design: Midnight Intelligence (dark premium tech) — reuses existing design system
+ *   classes (.gradient-text, .glass-card, .btn-glow, .btn-ghost, .icon-glow, .fade-in).
  */
 
 import Link from "next/link";
@@ -21,9 +23,12 @@ const FEATURES_BG =
 
 const DEMO_PHONE = process.env.NEXT_PUBLIC_DEMO_PHONE || "(316) 232-4777";
 const DEMO_PHONE_HREF = process.env.NEXT_PUBLIC_DEMO_PHONE_HREF || "tel:+13162324777";
-// All primary CTAs route to /pricing — which is gated behind a lead form.
-// Phone CTAs always bypass the gate for highest-intent visitors.
-const PRIMARY_CTA = "/pricing";
+// Primary CTAs scroll to the on-page offer + lead-capture form instead of a
+// separate self-serve pricing page (that flow is retired/stale — this page is
+// the conversion point for paid ad traffic). Phone CTA always bypasses everything
+// for highest-intent visitors.
+const OFFER_ANCHOR = "#offer";
+const DEMO_FORM_ANCHOR = "#demo-form";
 const BOOK_URL = "/book";
 
 /* ------------------------------------------------------------------ */
@@ -49,6 +54,18 @@ const AUDIENCE_TAGS = [
   { icon: "\u{1F4DC}", label: "Title Companies" },
   { icon: "\u{1F511}", label: "Property Managers" },
   { icon: "\u2795", label: "& More" },
+];
+
+const DEMO_FORM_BUSINESS_TYPES = [
+  "Real Estate Agent / Broker",
+  "Real Estate Investor",
+  "Lender / Title Company",
+  "Property Manager",
+  "Home Services / Trades",
+  "Roofing / HVAC / Plumbing",
+  "Legal",
+  "Medical / Dental",
+  "Other",
 ];
 
 const steps = [
@@ -149,32 +166,40 @@ const testimonials = [
 
 const faqs = [
   {
+    q: "Does it sound robotic?",
+    a: "No. It's a custom voice built and trained on your business — your services, your pricing, your tone. Most callers never realize they're not talking to your front desk. And you can hear it for yourself before you pay a cent — call our live demo line or book the free 10-minute demo call above.",
+  },
+  {
+    q: "What if I already have a phone number?",
+    a: "You keep it. You forward your existing business line to your new AI number — takes about 30 seconds. Your callers dial the same number they always have; they just never hit voicemail again.",
+  },
+  {
+    q: "What's the contract?",
+    a: "No contracts. $997 one-time setup, then $497/month for unlimited calls answered and booked. Cancel anytime after month 1 — no cancellation fee, no long-term lock-in.",
+  },
+  {
     q: "Who is this built for?",
     a: "Real estate professionals first — agents, brokers, investors, lenders, title companies, property managers. But it works for any business that can't afford to miss a call: home services, trades, legal, medical, any service business that runs on inbound leads.",
   },
   {
-    q: "Does it really sound like my business?",
-    a: "Yes. You give us your business name and how you want the AI to answer. Callers hear your name — not 'AllTheCalls,' not a generic bot. Most callers never realize they're not talking to your front desk.",
-  },
-  {
     q: "How much revenue am I actually losing to missed calls?",
-    a: "Industry averages: businesses miss 20-30% of inbound calls, and a missed call converts to a booked appointment <1% of the time vs. ~50% when answered live. Do the math on your average deal size times lost leads — most business owners are leaving tens of thousands per year on voicemail.",
+    a: "Industry averages: businesses miss well over half their inbound calls, and a missed call converts to a booked appointment <1% of the time vs. ~50% when answered live. Do the math on your average deal size times lost leads — most business owners are leaving tens of thousands per year on voicemail.",
   },
   {
     q: "How fast can I go live?",
-    a: "Most businesses are answering calls within 24-48 hours. Our team handles the full setup — you just forward your existing number.",
+    a: "Most businesses are answering calls within 24-48 hours. Our team handles the full setup — script, voice, calendar/CRM wiring, phone number, go-live — you just forward your existing number.",
   },
   {
     q: "What if I want to take a call myself?",
-    a: "Don't forward during hours you want to handle yourself. You control when AllTheCalls is on — after-hours, weekends, when you're in meetings, or always. Your call, always.",
+    a: "Don't forward during hours you want to handle yourself. You control when your AI is on — after-hours, weekends, when you're in meetings, or always. Your call, always.",
   },
   {
     q: "What if I'm not happy with it?",
-    a: "14-day money-back guarantee. If you don't love it, let us know within 14 days and we'll refund every penny. No questions.",
+    a: "Book 5 extra qualified appointments in your first 30 days, or your setup fee is fully refunded — no questions asked. That's the guarantee.",
   },
   {
     q: "Can I hear it before I sign up?",
-    a: `Yes — call ${DEMO_PHONE} right now and hear a live AllTheCalls AI handle a call end-to-end. 60 seconds, no signup. Or fill in the form on our pricing page and we'll build a free custom demo in your business name.`,
+    a: `Yes — call ${DEMO_PHONE} right now and hear a live AllTheCalls AI handle a call end-to-end. 60 seconds, no signup. Or book the free 10-minute demo call above and we'll play you a live demo in your business name before you pay anything.`,
   },
 ];
 
@@ -495,6 +520,162 @@ function FeatureCard({ f, index }: { f: typeof features[0]; index: number }) {
   );
 }
 
+type DemoFormStatus = "idle" | "submitting" | "success" | "error";
+
+function DemoRequestForm() {
+  const [status, setStatus] = useState<DemoFormStatus>("idle");
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
+  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setErrorMsg(null);
+
+    const fd = new FormData(e.currentTarget);
+    const payload = {
+      name: String(fd.get("name") || "").trim(),
+      phone: String(fd.get("phone") || "").trim(),
+      businessName: String(fd.get("businessName") || "").trim(),
+      businessType: String(fd.get("businessType") || "").trim(),
+    };
+
+    if (!payload.name || !payload.phone) {
+      setErrorMsg("Please enter your name and phone number.");
+      return;
+    }
+
+    setStatus("submitting");
+    try {
+      const res = await fetch("/api/demo-request", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) {
+        throw new Error(`Request failed (${res.status})`);
+      }
+      setStatus("success");
+    } catch (err) {
+      console.error("[demo-form] submit failed:", err);
+      setStatus("error");
+      setErrorMsg("Something went wrong — please call us directly instead.");
+    }
+  }
+
+  if (status === "success") {
+    return (
+      <div
+        className="glass-card fade-in visible"
+        style={{ borderRadius: "20px", padding: "40px 32px", textAlign: "center" }}
+      >
+        <div style={{ fontSize: "40px", marginBottom: "12px" }}>{"✅"}</div>
+        <h3
+          style={{
+            fontFamily: "'Space Grotesk', sans-serif",
+            fontSize: "22px",
+            fontWeight: 700,
+            color: "white",
+            marginBottom: "8px",
+          }}
+        >
+          Thanks &mdash; we&apos;ll be in touch.
+        </h3>
+        <p style={{ color: "rgba(255,255,255,0.6)", fontSize: "14.5px", lineHeight: 1.6 }}>
+          We got your info and will reach out shortly to schedule your free 10-minute demo.
+          Want it faster? Call our AI live at{" "}
+          <a href={DEMO_PHONE_HREF} style={{ color: "#86efac", fontWeight: 600, textDecoration: "none" }}>
+            {DEMO_PHONE}
+          </a>
+          .
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <form
+      onSubmit={onSubmit}
+      className="glass-card"
+      style={{
+        borderRadius: "20px",
+        padding: "32px",
+        textAlign: "left",
+        display: "flex",
+        flexDirection: "column",
+        gap: "14px",
+      }}
+    >
+      <input
+        type="text"
+        name="name"
+        placeholder="Your name"
+        required
+        maxLength={120}
+        autoComplete="name"
+        className="rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm text-white placeholder:text-white/35 outline-none transition focus:border-violet-400/60 focus:bg-white/[0.06]"
+      />
+      <input
+        type="tel"
+        name="phone"
+        placeholder="Phone number"
+        required
+        maxLength={40}
+        autoComplete="tel"
+        className="rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm text-white placeholder:text-white/35 outline-none transition focus:border-violet-400/60 focus:bg-white/[0.06]"
+      />
+      <input
+        type="text"
+        name="businessName"
+        placeholder="Business name"
+        maxLength={160}
+        autoComplete="organization"
+        className="rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm text-white placeholder:text-white/35 outline-none transition focus:border-violet-400/60 focus:bg-white/[0.06]"
+      />
+      <select
+        name="businessType"
+        defaultValue=""
+        className="rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm text-white outline-none transition focus:border-violet-400/60 focus:bg-white/[0.06]"
+      >
+        <option value="" disabled>
+          What kind of business?
+        </option>
+        {DEMO_FORM_BUSINESS_TYPES.map((t) => (
+          <option key={t} value={t} className="bg-[#0f1119] text-white">
+            {t}
+          </option>
+        ))}
+      </select>
+
+      {errorMsg && (
+        <div className="rounded-lg border border-rose-500/30 bg-rose-500/10 px-3 py-2 text-xs text-rose-300">
+          {errorMsg}
+        </div>
+      )}
+
+      <button
+        type="submit"
+        disabled={status === "submitting"}
+        className="btn-glow"
+        style={{
+          marginTop: "4px",
+          color: "white",
+          fontWeight: 700,
+          fontSize: "16px",
+          padding: "16px 24px",
+          borderRadius: "14px",
+          border: "none",
+          cursor: status === "submitting" ? "wait" : "pointer",
+          opacity: status === "submitting" ? 0.7 : 1,
+        }}
+      >
+        {status === "submitting" ? "Submitting…" : "Book My Free Demo"}
+      </button>
+      <p style={{ textAlign: "center", color: "rgba(255,255,255,0.35)", fontSize: "11.5px" }}>
+        We&apos;ll never spam you. Unsubscribe anytime.
+      </p>
+    </form>
+  );
+}
+
 /* ------------------------------------------------------------------ */
 /*  MAIN PAGE                                                          */
 /* ------------------------------------------------------------------ */
@@ -573,9 +754,9 @@ export default function Home() {
             <a href="#features" style={{ color: "rgba(255,255,255,0.6)", textDecoration: "none" }}>
               Features
             </a>
-            <Link href="/pricing" style={{ color: "rgba(255,255,255,0.6)", textDecoration: "none" }}>
+            <a href={OFFER_ANCHOR} style={{ color: "rgba(255,255,255,0.6)", textDecoration: "none" }}>
               Pricing
-            </Link>
+            </a>
             <Link href={BOOK_URL} style={{ color: "rgba(255,255,255,0.6)", textDecoration: "none" }}>
               Book a Call
             </Link>
@@ -602,8 +783,8 @@ export default function Home() {
             >
               {"\u{1F4DE}"} {DEMO_PHONE}
             </a>
-            <Link
-              href={PRIMARY_CTA}
+            <a
+              href={DEMO_FORM_ANCHOR}
               className="btn-glow"
               style={{
                 color: "white",
@@ -616,7 +797,7 @@ export default function Home() {
                 overflow: "hidden",
               }}
             >
-              See Pricing
+              Book My Free Demo
               <span
                 style={{
                   position: "absolute",
@@ -629,7 +810,7 @@ export default function Home() {
                   pointerEvents: "none",
                 }}
               />
-            </Link>
+            </a>
           </div>
           <button
             className="md:hidden flex flex-col justify-center items-center w-10 h-10 gap-1.5"
@@ -694,7 +875,7 @@ export default function Home() {
               {[
                 ["#how-it-works", "How It Works"],
                 ["#features", "Features"],
-                ["/pricing", "Pricing"],
+                ["#offer", "Pricing"],
                 ["/book", "Book a Call"],
                 ["#hear-it", "Hear It Live"],
               ].map(([href, label]) => (
@@ -732,8 +913,8 @@ export default function Home() {
               >
                 {"\u{1F4DE}"} Call Our AI Now &mdash; {DEMO_PHONE}
               </a>
-              <Link
-                href={PRIMARY_CTA}
+              <a
+                href={DEMO_FORM_ANCHOR}
                 onClick={() => setMenuOpen(false)}
                 style={{
                   color: "white",
@@ -748,8 +929,8 @@ export default function Home() {
                   background: "linear-gradient(135deg, #7c3aed, #06b6d4)",
                 }}
               >
-                See Pricing
-              </Link>
+                Book My Free Demo
+              </a>
             </div>
           </div>
         </div>
@@ -833,12 +1014,12 @@ export default function Home() {
                   fontWeight: 700,
                   color: "white",
                   marginBottom: "24px",
-                  lineHeight: 1.02,
+                  lineHeight: 1.06,
                   letterSpacing: "-0.03em",
                 }}
               >
-                Every missed call is{" "}
-                <span className="gradient-text">money walking out the door.</span>
+                Every missed call is a job you just handed{" "}
+                <span className="gradient-text">to a competitor.</span>
               </h1>
               <p
                 style={{
@@ -849,9 +1030,9 @@ export default function Home() {
                   maxWidth: "580px",
                 }}
               >
-                AllTheCalls is your 24/7 AI receptionist &mdash; it answers every inbound
-                in your business name, qualifies the caller, books the meeting, and texts
-                you the summary. So you never lose another lead to voicemail.
+                We make sure you never miss another one. Your new AI employee answers every
+                call in 2 rings, 24/7/365, never calls in sick &mdash; and costs less than a
+                part-time receptionist.
               </p>
               <p
                 style={{
@@ -910,8 +1091,8 @@ export default function Home() {
                   <span style={{ fontSize: "20px" }}>{"\u{1F4DE}"}</span>
                   Call Our AI &mdash; {DEMO_PHONE}
                 </a>
-                <Link
-                  href={PRIMARY_CTA}
+                <a
+                  href={DEMO_FORM_ANCHOR}
                   className="w-full sm:w-auto btn-glow"
                   style={{
                     color: "white",
@@ -923,11 +1104,11 @@ export default function Home() {
                     textAlign: "center",
                   }}
                 >
-                  See Pricing &rarr;
-                </Link>
+                  Book My Free Demo &rarr;
+                </a>
               </div>
               <p style={{ fontSize: "12px", color: "rgba(255,255,255,0.35)" }}>
-                60 seconds, no signup &middot; Or see pricing in one click &middot; 14-day money-back guarantee
+                60 seconds, no signup &middot; We&apos;ll play you a live demo before you pay a cent
               </p>
 
               {/* Live call demo card */}
@@ -1000,6 +1181,79 @@ export default function Home() {
             ))}
           </div>
         </div>
+
+        {/* PAIN AGITATION */}
+        <section style={{ padding: "6rem 1rem" }}>
+          <div style={{ maxWidth: "880px", margin: "0 auto" }}>
+            <div className="fade-in" style={{ textAlign: "center", marginBottom: "40px" }}>
+              <p
+                style={{
+                  color: "#fca5a5",
+                  fontSize: "13px",
+                  fontWeight: 600,
+                  textTransform: "uppercase",
+                  letterSpacing: "0.1em",
+                  marginBottom: "12px",
+                }}
+              >
+                The Problem
+              </p>
+              <h2
+                style={{
+                  fontFamily: "'Space Grotesk', sans-serif",
+                  fontSize: "clamp(1.85rem, 4vw, 2.75rem)",
+                  fontWeight: 700,
+                  color: "white",
+                  marginBottom: "16px",
+                  lineHeight: 1.15,
+                }}
+              >
+                Most small businesses miss{" "}
+                <span className="gradient-text">well over half</span> their inbound calls.
+              </h2>
+              <p
+                style={{
+                  color: "rgba(255,255,255,0.55)",
+                  fontSize: "17px",
+                  maxWidth: "640px",
+                  margin: "0 auto",
+                  lineHeight: 1.65,
+                }}
+              >
+                Nights. Weekends. Lunch. Mid-job. The customer doesn&apos;t leave a voicemail
+                &mdash; they call the next name on Google. And a full-time receptionist costs
+                $2,500&ndash;$3,500/mo and still misses nights, weekends, and sick days.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              {[
+                {
+                  stat: "Nights & weekends",
+                  desc: "Your busiest lead-generation hours are exactly when nobody answers the phone.",
+                },
+                {
+                  stat: "No voicemail, no callback",
+                  desc: "Callers almost never leave a message. They just hang up and dial the next business.",
+                },
+                {
+                  stat: "$2,500–$3,500/mo",
+                  desc: "What a full-time human receptionist costs — and they still can't work 24/7.",
+                },
+              ].map((item) => (
+                <div
+                  key={item.stat}
+                  className="glass-card fade-in"
+                  style={{ borderRadius: "16px", padding: "24px", borderColor: "rgba(248,113,113,0.15)" }}
+                >
+                  <div style={{ fontWeight: 700, color: "#fca5a5", fontSize: "18px", marginBottom: "8px" }}>
+                    {item.stat}
+                  </div>
+                  <p style={{ color: "rgba(255,255,255,0.5)", fontSize: "13.5px", lineHeight: 1.6 }}>{item.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
 
         {/* WHO IT'S FOR */}
         <section style={{ padding: "6rem 1rem", position: "relative" }}>
@@ -1096,8 +1350,52 @@ export default function Home() {
           </div>
         </section>
 
+        {/* DREAM OUTCOME */}
+        <section style={{ padding: "6rem 1rem 2rem" }}>
+          <div className="fade-in" style={{ maxWidth: "800px", margin: "0 auto", textAlign: "center" }}>
+            <p
+              style={{
+                color: "#22d3ee",
+                fontSize: "13px",
+                fontWeight: 600,
+                textTransform: "uppercase",
+                letterSpacing: "0.1em",
+                marginBottom: "12px",
+              }}
+            >
+              The Dream Outcome
+            </p>
+            <h2
+              style={{
+                fontFamily: "'Space Grotesk', sans-serif",
+                fontSize: "clamp(1.85rem, 4vw, 2.75rem)",
+                fontWeight: 700,
+                color: "white",
+                marginBottom: "16px",
+                lineHeight: 1.15,
+              }}
+            >
+              What if your phone{" "}
+              <span className="gradient-text">never went to voicemail again?</span>
+            </h2>
+            <p
+              style={{
+                color: "rgba(255,255,255,0.55)",
+                fontSize: "17px",
+                maxWidth: "620px",
+                margin: "0 auto",
+                lineHeight: 1.65,
+              }}
+            >
+              Every call &mdash; day, night, weekend, holiday &mdash; answered in 2 seconds. It
+              sounds like a real person from your business. It books the appointment or
+              captures the lead. And it texts you the second it happens.
+            </p>
+          </div>
+        </section>
+
         {/* HEAR IT LIVE */}
-        <section id="hear-it" style={{ padding: "7rem 1rem", position: "relative", overflow: "hidden" }}>
+        <section id="hear-it" style={{ padding: "3rem 1rem 7rem", position: "relative", overflow: "hidden" }}>
           <div
             style={{
               position: "absolute",
@@ -1387,6 +1685,251 @@ export default function Home() {
           </div>
         </section>
 
+        {/* OFFER + PRICE + GUARANTEE */}
+        <section id="offer" style={{ padding: "5rem 1rem", position: "relative" }}>
+          <div style={{ maxWidth: "720px", margin: "0 auto" }}>
+            <div className="fade-in" style={{ textAlign: "center", marginBottom: "40px" }}>
+              <p
+                style={{
+                  color: "#a78bfa",
+                  fontSize: "13px",
+                  fontWeight: 600,
+                  textTransform: "uppercase",
+                  letterSpacing: "0.1em",
+                  marginBottom: "12px",
+                }}
+              >
+                The Offer
+              </p>
+              <h2
+                style={{
+                  fontFamily: "'Space Grotesk', sans-serif",
+                  fontSize: "clamp(1.85rem, 4vw, 2.75rem)",
+                  fontWeight: 700,
+                  color: "white",
+                  marginBottom: "12px",
+                }}
+              >
+                One plan. <span className="gradient-text">No surprises.</span>
+              </h2>
+              <p style={{ color: "rgba(255,255,255,0.5)", fontSize: "16px" }}>
+                Done-for-you setup, then one flat monthly rate.
+              </p>
+            </div>
+
+            <div
+              className="glass-card pricing-popular fade-in"
+              style={{ borderRadius: "24px", padding: "40px 32px", position: "relative", overflow: "hidden" }}
+            >
+              <div
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: "50%",
+                  transform: "translateX(-50%)",
+                  width: "80%",
+                  height: "3px",
+                  background: "linear-gradient(90deg, transparent, #7c3aed, #06b6d4, transparent)",
+                }}
+              />
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6" style={{ marginBottom: "28px" }}>
+                <div style={{ textAlign: "center" }}>
+                  <div style={{ color: "rgba(255,255,255,0.5)", fontSize: "13px", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "8px" }}>
+                    Setup (one-time)
+                  </div>
+                  <div className="gradient-text" style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(2rem, 5vw, 2.75rem)", fontWeight: 700 }}>
+                    $997
+                  </div>
+                  <div style={{ color: "rgba(255,255,255,0.4)", fontSize: "12.5px", marginTop: "4px" }}>
+                    Script, voice, calendar/CRM wiring, phone number, go-live
+                  </div>
+                </div>
+                <div style={{ textAlign: "center" }}>
+                  <div style={{ color: "rgba(255,255,255,0.5)", fontSize: "13px", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "8px" }}>
+                    Then, per month
+                  </div>
+                  <div className="gradient-text" style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(2rem, 5vw, 2.75rem)", fontWeight: 700 }}>
+                    $497
+                  </div>
+                  <div style={{ color: "rgba(255,255,255,0.4)", fontSize: "12.5px", marginTop: "4px" }}>
+                    Unlimited calls answered &amp; booked, live dashboard
+                  </div>
+                </div>
+              </div>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: "10px", marginBottom: "28px" }}>
+                {[
+                  "Custom AI receptionist built and trained on your business",
+                  "Answers in under 2 seconds, every single call",
+                  "Books straight into your calendar / CRM",
+                  "Texts you the transcript + recording live",
+                  "No contracts — cancel anytime after month 1",
+                ].map((line) => (
+                  <div key={line} style={{ display: "flex", alignItems: "flex-start", gap: "10px" }}>
+                    <span style={{ color: "#4ade80", fontSize: "15px", lineHeight: 1.4, flexShrink: 0 }}>&#10003;</span>
+                    <span style={{ color: "rgba(255,255,255,0.75)", fontSize: "14.5px", lineHeight: 1.5 }}>{line}</span>
+                  </div>
+                ))}
+              </div>
+
+              {/* Guarantee callout */}
+              <div
+                style={{
+                  borderRadius: "16px",
+                  padding: "20px 24px",
+                  background: "rgba(74,222,128,0.06)",
+                  border: "1px solid rgba(74,222,128,0.25)",
+                  marginBottom: "28px",
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "8px" }}>
+                  <span style={{ fontSize: "18px" }}>&#128737;&#65039;</span>
+                  <span style={{ color: "#86efac", fontWeight: 700, fontSize: "14px", textTransform: "uppercase", letterSpacing: "0.06em" }}>
+                    Our Guarantee
+                  </span>
+                </div>
+                <p style={{ color: "rgba(255,255,255,0.8)", fontSize: "14.5px", lineHeight: 1.6 }}>
+                  Book <strong>5 extra qualified appointments</strong> in your first 30 days, or
+                  your setup fee is <strong>fully refunded</strong> &mdash; no questions asked.
+                </p>
+              </div>
+
+              <a
+                href={DEMO_FORM_ANCHOR}
+                className="btn-glow"
+                style={{
+                  display: "block",
+                  textAlign: "center",
+                  color: "white",
+                  fontWeight: 700,
+                  fontSize: "17px",
+                  padding: "18px 28px",
+                  borderRadius: "14px",
+                  textDecoration: "none",
+                }}
+              >
+                Book My Free Demo &rarr;
+              </a>
+              <p style={{ textAlign: "center", color: "rgba(255,255,255,0.35)", fontSize: "12px", marginTop: "12px" }}>
+                We&apos;ll play you a live demo of your AI receptionist handling a real call before you pay a cent.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* BONUS STACK */}
+        <section style={{ padding: "5rem 1rem" }}>
+          <div style={{ maxWidth: "720px", margin: "0 auto" }}>
+            <div className="fade-in" style={{ textAlign: "center", marginBottom: "40px" }}>
+              <p
+                style={{
+                  color: "#facc15",
+                  fontSize: "13px",
+                  fontWeight: 600,
+                  textTransform: "uppercase",
+                  letterSpacing: "0.1em",
+                  marginBottom: "12px",
+                }}
+              >
+                Sign Up Today, Get These Free
+              </p>
+              <h2
+                style={{
+                  fontFamily: "'Space Grotesk', sans-serif",
+                  fontSize: "clamp(1.85rem, 4vw, 2.75rem)",
+                  fontWeight: 700,
+                  color: "white",
+                }}
+              >
+                The <span className="gradient-text">bonus stack.</span>
+              </h2>
+            </div>
+
+            <div className="glass-card fade-in" style={{ borderRadius: "20px", padding: "8px", overflow: "hidden" }}>
+              {[
+                {
+                  title: "Missed-call text-back on your existing number",
+                  value: "$297",
+                },
+                {
+                  title: "5-star review autopilot after every completed job",
+                  value: "$197",
+                },
+                {
+                  title: "Call recording + transcript dashboard, free forever",
+                  value: "$97/mo",
+                },
+                {
+                  title: "Founding-client rate locked for life (launch window only)",
+                  value: "Priceless",
+                },
+              ].map((bonus, i, arr) => (
+                <div
+                  key={bonus.title}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    gap: "16px",
+                    padding: "18px 20px",
+                    borderBottom: i < arr.length - 1 ? "1px solid rgba(255,255,255,0.06)" : "none",
+                  }}
+                >
+                  <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                    <span
+                      className="icon-glow"
+                      style={{
+                        width: "28px",
+                        height: "28px",
+                        borderRadius: "8px",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        fontSize: "13px",
+                        fontWeight: 700,
+                        color: "#c4b5fd",
+                        flexShrink: 0,
+                      }}
+                    >
+                      {i + 1}
+                    </span>
+                    <span style={{ color: "rgba(255,255,255,0.8)", fontSize: "14px", lineHeight: 1.5 }}>
+                      {bonus.title}
+                    </span>
+                  </div>
+                  <div style={{ textAlign: "right", flexShrink: 0 }}>
+                    <span style={{ color: "rgba(255,255,255,0.35)", fontSize: "13px", textDecoration: "line-through" }}>
+                      {bonus.value}
+                    </span>{" "}
+                    <span style={{ color: "#4ade80", fontSize: "12px", fontWeight: 700 }}>FREE</span>
+                  </div>
+                </div>
+              ))}
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  padding: "20px",
+                  background: "rgba(124,58,237,0.08)",
+                  borderRadius: "14px",
+                  margin: "8px",
+                }}
+              >
+                <span style={{ color: "white", fontWeight: 700, fontSize: "15px" }}>Total bonus value</span>
+                <span style={{ textAlign: "right" }}>
+                  <span style={{ color: "rgba(255,255,255,0.4)", fontSize: "14px", textDecoration: "line-through", marginRight: "8px" }}>
+                    $591+
+                  </span>
+                  <span className="gradient-text" style={{ fontSize: "20px", fontWeight: 700 }}>
+                    $0
+                  </span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* FEATURES */}
         <section
           id="features"
@@ -1636,8 +2179,8 @@ export default function Home() {
           </div>
         </section>
 
-        {/* FINAL CTA */}
-        <section style={{ padding: "7rem 1rem", position: "relative", overflow: "hidden" }}>
+        {/* LEAD CAPTURE / FINAL CTA */}
+        <section id="demo-form" style={{ padding: "7rem 1rem", position: "relative", overflow: "hidden" }}>
           <div
             style={{
               position: "absolute",
@@ -1658,7 +2201,7 @@ export default function Home() {
             style={{
               position: "relative",
               zIndex: 10,
-              maxWidth: "768px",
+              maxWidth: "560px",
               margin: "0 auto",
               textAlign: "center",
             }}
@@ -1678,66 +2221,38 @@ export default function Home() {
             <h2
               style={{
                 fontFamily: "'Space Grotesk', sans-serif",
-                fontSize: "clamp(2rem, 5vw, 3.75rem)",
+                fontSize: "clamp(2rem, 5vw, 3.25rem)",
                 fontWeight: 700,
                 color: "white",
-                marginBottom: "24px",
+                marginBottom: "16px",
                 lineHeight: 1.1,
               }}
             >
-              Every missed call is{" "}
-              <span className="gradient-text">a customer going to someone else.</span>
+              Book your <span className="gradient-text">free 10-minute demo.</span>
             </h2>
             <p
               style={{
                 color: "rgba(255,255,255,0.55)",
-                fontSize: "18px",
+                fontSize: "17px",
                 marginBottom: "40px",
-                maxWidth: "520px",
+                maxWidth: "480px",
                 margin: "0 auto 40px",
               }}
             >
-              Live in 24-48 hours. No contracts. 14-day money-back guarantee.
+              We&apos;ll play you a live demo of your AI receptionist handling a real call
+              &mdash; before you pay a cent.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
-              <a
-                href={DEMO_PHONE_HREF}
-                className="w-full sm:w-auto"
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: "10px",
-                  background: "linear-gradient(135deg, #10b981, #059669)",
-                  color: "white",
-                  fontWeight: 800,
-                  fontSize: "18px",
-                  padding: "18px 36px",
-                  borderRadius: "14px",
-                  textDecoration: "none",
-                  boxShadow: "0 12px 30px rgba(16,185,129,0.4)",
-                }}
-              >
-                {"\u{1F4DE}"} Call Our AI &mdash; {DEMO_PHONE}
+
+            <DemoRequestForm />
+
+            <p style={{ color: "rgba(255,255,255,0.3)", fontSize: "13px", marginTop: "24px" }}>
+              Or call our AI live right now &mdash;{" "}
+              <a href={DEMO_PHONE_HREF} style={{ color: "#86efac", fontWeight: 600, textDecoration: "none" }}>
+                {DEMO_PHONE}
               </a>
-              <Link
-                href={PRIMARY_CTA}
-                className="w-full sm:w-auto btn-glow"
-                style={{
-                  color: "white",
-                  fontWeight: 700,
-                  fontSize: "18px",
-                  padding: "18px 40px",
-                  borderRadius: "14px",
-                  textDecoration: "none",
-                  textAlign: "center",
-                }}
-              >
-                See Pricing &rarr;
-              </Link>
-            </div>
-            <p style={{ color: "rgba(255,255,255,0.3)", fontSize: "14px" }}>
-              No contracts &middot; No tech skills needed &middot; 14-day money-back guarantee
+            </p>
+            <p style={{ color: "rgba(255,255,255,0.25)", fontSize: "13px", marginTop: "8px" }}>
+              No contracts &middot; No tech skills needed &middot; 30-day appointment guarantee
             </p>
           </div>
         </section>
@@ -1771,7 +2286,7 @@ export default function Home() {
                 </p>
                 {[
                   ["#features", "Features"],
-                  ["/pricing", "Pricing"],
+                  ["#offer", "Pricing"],
                   ["/book", "Book a Call"],
                   ["#how-it-works", "How It Works"],
                   ["#hear-it", "Hear It Live"],
@@ -1827,8 +2342,8 @@ export default function Home() {
                 >
                   {"\u{1F4DE}"} {DEMO_PHONE}
                 </a>
-                <Link
-                  href={PRIMARY_CTA}
+                <a
+                  href={DEMO_FORM_ANCHOR}
                   className="btn-glow"
                   style={{
                     display: "inline-block",
@@ -1841,8 +2356,8 @@ export default function Home() {
                     marginTop: "8px",
                   }}
                 >
-                  See Pricing &rarr;
-                </Link>
+                  Book My Free Demo &rarr;
+                </a>
               </div>
             </div>
             <div
@@ -1906,8 +2421,8 @@ export default function Home() {
         >
           {"\u{1F4DE}"} Call Our AI
         </a>
-        <Link
-          href={PRIMARY_CTA}
+        <a
+          href={DEMO_FORM_ANCHOR}
           style={{
             flex: "1 1 40%",
             display: "inline-flex",
@@ -1922,8 +2437,8 @@ export default function Home() {
             textDecoration: "none",
           }}
         >
-          See Pricing
-        </Link>
+          Free Demo
+        </a>
       </div>
 
       {/* FAQPage structured data */}
