@@ -29,16 +29,17 @@ export const metadata: Metadata = {
     apple: "/favicon.svg",
   },
   title: {
-    default: "AllTheCalls — Never Miss Another Call | AI Receptionist for Real Estate Pros",
+    default: "AllTheCalls — AI Call-Answering, CRM & Local SEO for Local Businesses",
     template: "%s | AllTheCalls",
   },
   description:
-    "Every missed call is money walking out the door. AllTheCalls is your 24/7 AI receptionist — built for real estate pros (agents, brokers, investors, lenders, title, property managers) and any business that can't afford to miss a call.",
+    "Every missed call is money walking out the door. AllTheCalls is a done-for-you system — 24/7 AI call-answering with missed-call text-back, a branded CRM app, and local SEO — built for real estate pros and any local business that can't afford to miss a call.",
   keywords: [
     "AI receptionist",
     "AI phone answering service",
     "24/7 AI receptionist",
     "never miss a call",
+    "missed call text back",
     "AI receptionist for small business",
     "AI receptionist for real estate agents",
     "AI receptionist for real estate investors",
@@ -46,6 +47,10 @@ export const metadata: Metadata = {
     "AI for title companies",
     "AI for property managers",
     "AI receptionist home services",
+    "AI receptionist for plumbers",
+    "AI receptionist for HVAC companies",
+    "branded CRM app for local business",
+    "local SEO for service businesses",
     "AI lead response",
     "speed to lead",
     "automated answering service",
@@ -64,7 +69,7 @@ export const metadata: Metadata = {
     siteName: "AllTheCalls",
     title: "AllTheCalls — Never Miss Another Call",
     description:
-      "Your 24/7 AI receptionist. Answers every inbound in your business name, qualifies the caller, books the meeting, texts you the summary. Built for real estate pros and any business that can't miss a call.",
+      "24/7 AI call-answering with missed-call text-back, a done-for-you website, your own branded CRM app, and local SEO — one system, built for real estate pros and any business that can't miss a call.",
     images: [
       {
         url: "/og-image.png",
@@ -78,7 +83,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "AllTheCalls — Never Miss Another Call",
     description:
-      "Your 24/7 AI receptionist. Every call answered in your business name, qualified, booked, and texted to you. Built for real estate pros and any business that can't miss a call. $497/mo.",
+      "24/7 AI call-answering + missed-call text-back, a branded CRM app, and local SEO. Built for real estate pros and any business that can't miss a call. $1,997 setup + $497/mo.",
     images: ["/og-image.png"],
   },
   robots: {
@@ -99,7 +104,7 @@ const structuredData = {
       name: "AllTheCalls",
       url: APP_URL,
       description:
-        "24/7 AI receptionist that answers every call in your business name. Built for real estate professionals and any business that can't afford to miss a call.",
+        "Done-for-you AI call-answering, missed-call text-back, branded CRM app, and local SEO for real estate professionals and any local business that can't afford to miss a call.",
       contactPoint: {
         "@type": "ContactPoint",
         contactType: "customer service",
@@ -113,10 +118,10 @@ const structuredData = {
     },
     {
       "@type": "Service",
-      name: "AI Receptionist for Business",
+      name: "AllTheCalls — AI Call-Answering, CRM & Local SEO",
       provider: { "@type": "Organization", name: "AllTheCalls" },
       description:
-        "24/7 AI phone receptionist that answers every call in your business name, qualifies the caller, books the appointment, and syncs with your CRM. Built for real estate pros and any business.",
+        "24/7 AI phone answering with instant missed-call text-back, a done-for-you website, a branded CRM app, and ongoing local SEO. Built for real estate pros and any local business.",
       offers: [
         {
           "@type": "Offer",
@@ -124,6 +129,7 @@ const structuredData = {
           price: "497",
           priceCurrency: "USD",
           billingIncrement: "P1M",
+          description: "Monthly fee. A separate one-time $1,997 setup fee applies.",
         },
       ],
     },

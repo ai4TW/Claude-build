@@ -6,8 +6,7 @@ import PricingGate from "@/components/PricingGate";
 const DEMO_PHONE = process.env.NEXT_PUBLIC_DEMO_PHONE || "(316) 232-4777";
 const DEMO_PHONE_HREF = process.env.NEXT_PUBLIC_DEMO_PHONE_HREF || "tel:+13162324777";
 
-// One supported industry slug — real estate. Covers agents, brokers, investors,
-// lenders, title, property managers. Non-RE businesses land on the homepage.
+// Supported industry slugs. Non-matching businesses land on the homepage.
 const INDUSTRY_DATA = {
   "real-estate": {
     title: "Real Estate Professionals",
@@ -20,13 +19,32 @@ const INDUSTRY_DATA = {
       "Answers every inbound call in your name — 24/7",
       "Qualifies buyer vs seller, loan type, property condition, timeline",
       "Books appointments on your Google / Outlook calendar, no password sharing",
-      "Calls every new CRM lead back in under 30 seconds",
-      "SMS follow-up and full transcript sent the moment each call ends",
-      "Works with Podio, REISift, GoHighLevel, HubSpot, Close, and any CRM via webhook",
+      "Calls every new lead back in under 30 seconds",
+      "Missed-call text-back and a full transcript sent the moment each call ends",
+      "Your own branded CRM app — every call, text, and lead in one pipeline",
     ],
     metaTitle: "AI Receptionist for Real Estate Pros | AllTheCalls",
     metaDesc:
       "Never miss a real estate lead again. AllTheCalls answers every inbound in your name 24/7, qualifies the caller, books the appointment, and texts you the summary. Built for agents, brokers, investors, lenders, and title.",
+  },
+  "home-services": {
+    title: "Home Services & Trades",
+    keyword: "Home Services",
+    emoji: "\u{1F527}",
+    headline: "Stop losing jobs to voicemail while you're on a call.",
+    description:
+      "Plumbers, HVAC, electricians, roofers, and other trades lose real jobs to missed calls every week. Your AI answers in your name, texts back anyone you miss, and books the job on your calendar — live in 24-48 hours.",
+    bullets: [
+      "Answers every inbound call in your name — 24/7, including after-hours and weekends",
+      "Instant missed-call text-back so the job doesn't go to the next company in the search results",
+      "Captures service type, address, and urgency before you call back",
+      "Books estimates and service calls straight onto your calendar",
+      "Your own branded CRM app — every call, text, and job in one pipeline",
+      "A done-for-you website built for local SEO in your service area",
+    ],
+    metaTitle: "AI Call-Answering for Plumbers, HVAC & Home Services | AllTheCalls",
+    metaDesc:
+      "Never miss another service call. AllTheCalls answers every inbound in your name 24/7, text-backs missed calls, books the job, and runs it all through your own branded CRM app. Built for plumbers, HVAC, electricians, and trades.",
   },
 } as const;
 

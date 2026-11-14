@@ -3,11 +3,13 @@
 /**
  * AllTheCalls.ai — Main Landing Page
  * Primary audience: real estate professionals (agents, brokers, investors, lenders,
- *   title, property managers). Copy explicitly welcomes any business that can't
- *   miss a call.
- * Primary hook: "Every missed call is money left on the table" — inbound receptionist.
- * <30s outbound remains a feature, not the hero.
- * Offer: $497/mo — gated behind lead-capture form on /pricing.
+ *   title, property managers) and local service businesses (home services, trades).
+ *   Copy explicitly welcomes any business that can't miss a call.
+ * Primary hook: "Every missed call is money left on the table" — inbound answering
+ *   + missed-call text-back, backed by a done-for-you website, branded CRM app,
+ *   and local SEO.
+ * Offer: $1,997 setup + $497/mo — full price shown on /pricing, gated behind a
+ *   lead-capture form so every visitor lands in GHL for follow-up.
  * Design: Midnight Intelligence (dark premium tech)
  */
 
@@ -83,10 +85,10 @@ const features = [
     iconKey: "moon" as const,
   },
   {
-    title: "Answers In Your Business Name",
+    title: "Missed-Call Text-Back, Instantly",
     desc:
-      "Callers hear your business name and your assistant — not a generic bot. Most callers never realize it's AI.",
-    iconKey: "mic" as const,
+      "Can't get to a call in time? The caller gets a text within seconds — your name, a link to book, and a reason to stay on the line instead of dialing the next guy.",
+    iconKey: "message" as const,
   },
   {
     title: "Qualifies Every Lead",
@@ -95,10 +97,10 @@ const features = [
     iconKey: "crosshair" as const,
   },
   {
-    title: "SMS Follow-Up, Automatically",
+    title: "Your Own Branded CRM App",
     desc:
-      "Every caller gets a text with your contact info and next steps within seconds of hanging up. Keeps you top-of-mind before they call the next guy.",
-    iconKey: "message" as const,
+      "A client app under your own name — every call, text, and lead in one pipeline. The same system we run our own businesses on, built out for yours.",
+    iconKey: "grid" as const,
   },
   {
     title: "Native Calendar Booking",
@@ -107,43 +109,22 @@ const features = [
     iconKey: "calendar" as const,
   },
   {
+    title: "Local SEO, Built In",
+    desc:
+      "Your done-for-you website is structured and optimized to rank for your services and your service area — not just a brochure page nobody finds.",
+    iconKey: "chart" as const,
+  },
+  {
     title: "<30s Outbound on New Leads",
     desc:
       "New contact hits your CRM? The AI calls them back in under 30 seconds — before they start calling your competitors.",
     iconKey: "bolt" as const,
   },
-];
-
-const testimonials = [
   {
-    quote:
-      "I was losing deals because I couldn't answer calls during showings. AllTheCalls fixed that overnight. A seller called at 9 PM on a Friday — the AI qualified them and booked me on Monday. I closed it that week.",
-    boldPart: "AllTheCalls fixed that overnight.",
-    rest: "",
-    name: "Rachel M.",
-    role: "Real Estate Agent",
-    location: "Austin, TX",
-    initials: "RM",
-  },
-  {
-    quote:
-      "We were losing $20k deals because voicemails took us two days to call back. AllTheCalls hit every new PPL lead in under a minute. Locked up three wholesale contracts our first week.",
-    boldPart: "Locked up three wholesale contracts our first week.",
-    rest: "",
-    name: "Derek M.",
-    role: "Real Estate Investor",
-    location: "Dallas, TX",
-    initials: "DM",
-  },
-  {
-    quote:
-      "I run a 6-person HVAC company and it's like having a full-time dispatcher for less than I was spending on missed-call callbacks. Every lead captured, every call answered professionally.",
-    boldPart: "like having a full-time dispatcher",
-    rest: " for less than I was spending on missed-call callbacks.",
-    name: "Derek S.",
-    role: "HVAC & Plumbing",
-    location: "Phoenix, AZ",
-    initials: "DS",
+    title: "Done-For-You Setup",
+    desc:
+      "We build your site, your AI, and your CRM, and configure all of it around your business. You don't touch a line of code or config screen.",
+    iconKey: "phone" as const,
   },
 ];
 
@@ -261,6 +242,26 @@ function FeatureIcon({ iconKey, size = 24 }: { iconKey: string; size?: number })
         <svg {...common}>
           {gradientDefs(id)}
           <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
+        </svg>
+      );
+    case "grid":
+      return (
+        <svg {...common}>
+          {gradientDefs(id)}
+          <rect x="3" y="3" width="7" height="7" rx="1.5" />
+          <rect x="14" y="3" width="7" height="7" rx="1.5" />
+          <rect x="3" y="14" width="7" height="7" rx="1.5" />
+          <rect x="14" y="14" width="7" height="7" rx="1.5" />
+        </svg>
+      );
+    case "chart":
+      return (
+        <svg {...common}>
+          {gradientDefs(id)}
+          <line x1="3" y1="21" x2="21" y2="21" />
+          <rect x="6" y="13" width="3.5" height="8" rx="1" />
+          <rect x="12" y="8" width="3.5" height="13" rx="1" />
+          <rect x="18" y="3" width="3.5" height="18" rx="1" />
         </svg>
       );
     default:
@@ -862,7 +863,9 @@ export default function Home() {
                   lineHeight: 1.55,
                 }}
               >
-                Built for real estate pros. Works for any business that can&apos;t afford to miss a call.
+                Plus a done-for-you website, your own branded CRM app, and ongoing local
+                SEO &mdash; one system, built for real estate pros and any local business
+                that can&apos;t afford to miss a call.
               </p>
 
               {/* Audience chips */}
@@ -1438,10 +1441,10 @@ export default function Home() {
           </div>
         </section>
 
-        {/* TESTIMONIALS */}
+        {/* WHAT YOU'RE ACTUALLY GETTING \u2014 honest breakdown instead of quote cards */}
         <section style={{ padding: "7rem 1rem" }}>
           <div style={{ maxWidth: "1024px", margin: "0 auto" }}>
-            <div className="fade-in" style={{ textAlign: "center", marginBottom: "64px" }}>
+            <div className="fade-in" style={{ textAlign: "center", marginBottom: "56px" }}>
               <p
                 style={{
                   color: "#a78bfa",
@@ -1452,7 +1455,7 @@ export default function Home() {
                   marginBottom: "12px",
                 }}
               >
-                Businesses Using AllTheCalls
+                One System, Four Parts
               </p>
               <h2
                 style={{
@@ -1460,143 +1463,87 @@ export default function Home() {
                   fontSize: "clamp(2rem, 4vw, 3rem)",
                   fontWeight: 700,
                   color: "white",
+                  marginBottom: "12px",
                 }}
               >
-                Leads captured. <span className="gradient-text">Deals closed.</span>
+                Not just a bot. <span className="gradient-text">A whole front office.</span>
               </h2>
-            </div>
-            <div className="testimonials-scroll" style={{ display: "grid", gap: "24px" }}>
-              <style
-                dangerouslySetInnerHTML={{
-                  __html: `
-                    .testimonials-scroll {
-                      grid-template-columns: repeat(3, 1fr);
-                    }
-                    @media (max-width: 767px) {
-                      .testimonials-scroll {
-                        display: flex !important;
-                        overflow-x: auto;
-                        scroll-snap-type: x mandatory;
-                        -webkit-overflow-scrolling: touch;
-                        padding-bottom: 16px;
-                        gap: 16px !important;
-                      }
-                      .testimonials-scroll > div {
-                        min-width: 85vw;
-                        scroll-snap-align: center;
-                        flex-shrink: 0;
-                      }
-                      .testimonials-scroll::-webkit-scrollbar { display: none; }
-                    }
-                  `,
+              <p
+                style={{
+                  color: "rgba(255,255,255,0.5)",
+                  fontSize: "17px",
+                  maxWidth: "620px",
+                  margin: "0 auto",
+                  lineHeight: 1.6,
                 }}
-              />
-              {testimonials.map((t, i) => (
-                <div
-                  key={t.name}
-                  className="glass-card fade-in"
-                  style={{
-                    borderRadius: "20px",
-                    padding: "32px",
-                    position: "relative",
-                    overflow: "hidden",
-                    transitionDelay: `${i * 0.15}s`,
-                  }}
-                >
-                  <span
+              >
+                $1,997 setup + $497/mo gets you all four, built together so they actually
+                talk to each other &mdash; not four separate vendors you have to manage.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {[
+                {
+                  num: "01",
+                  title: "A Website Built to Rank",
+                  desc: "Done-for-you, hosted for you, and structured for local SEO from day one \u2014 not a brochure page nobody finds.",
+                },
+                {
+                  num: "02",
+                  title: "AI Call-Answering + Text-Back",
+                  desc: "Every call picked up 24/7 in your name. Every missed call gets an instant follow-up text so the lead doesn't call your competitor next.",
+                },
+                {
+                  num: "03",
+                  title: "Your Branded CRM App",
+                  desc: "Every call, text, and lead lands in one pipeline under your own brand \u2014 the same system we run our own businesses on.",
+                },
+                {
+                  num: "04",
+                  title: "Local SEO, Ongoing",
+                  desc: "We keep tuning the site and your local listings so you keep showing up for the searches that turn into jobs.",
+                },
+              ].map((item) => (
+                <div key={item.num} className="glass-card fade-in" style={{ borderRadius: "16px", padding: "24px" }}>
+                  <div
                     style={{
-                      position: "absolute",
-                      top: "12px",
-                      right: "20px",
-                      fontSize: "120px",
-                      fontFamily: "Georgia, serif",
+                      fontFamily: "'Space Grotesk', sans-serif",
+                      fontSize: "1.75rem",
+                      fontWeight: 700,
+                      opacity: 0.2,
+                      color: "#a78bfa",
+                      marginBottom: "10px",
+                    }}
+                  >
+                    {item.num}
+                  </div>
+                  <h3
+                    style={{
+                      fontFamily: "'Space Grotesk', sans-serif",
+                      fontWeight: 700,
                       color: "white",
-                      opacity: 0.04,
-                      lineHeight: 1,
-                      pointerEvents: "none",
-                      userSelect: "none",
+                      fontSize: "15px",
+                      marginBottom: "8px",
                     }}
                   >
-                    &ldquo;
-                  </span>
-
-                  <div
-                    style={{
-                      display: "flex",
-                      gap: "4px",
-                      marginBottom: "16px",
-                      position: "relative",
-                      zIndex: 1,
-                    }}
-                  >
-                    {[...Array(5)].map((_, j) => (
-                      <span key={j} style={{ color: "#facc15", fontSize: "14px" }}>
-                        {"\u2605"}
-                      </span>
-                    ))}
-                  </div>
-                  <p
-                    style={{
-                      color: "rgba(255,255,255,0.7)",
-                      lineHeight: 1.7,
-                      marginBottom: "24px",
-                      fontStyle: "italic",
-                      fontSize: "14px",
-                      position: "relative",
-                      zIndex: 1,
-                    }}
-                  >
-                    &ldquo;{t.quote.split(t.boldPart)[0]}
-                    <span className="gradient-text" style={{ fontStyle: "normal" }}>
-                      {t.boldPart}
-                    </span>
-                    {t.rest}&rdquo;
+                    {item.title}
+                  </h3>
+                  <p style={{ color: "rgba(255,255,255,0.5)", fontSize: "13px", lineHeight: 1.6 }}>
+                    {item.desc}
                   </p>
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "12px",
-                      position: "relative",
-                      zIndex: 1,
-                    }}
-                  >
-                    <div
-                      style={{
-                        width: "44px",
-                        height: "44px",
-                        borderRadius: "50%",
-                        background: "linear-gradient(135deg, #7c3aed, #06b6d4)",
-                        padding: "2px",
-                        flexShrink: 0,
-                      }}
-                    >
-                      <div
-                        style={{
-                          width: "100%",
-                          height: "100%",
-                          borderRadius: "50%",
-                          background: "#12131a",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          color: "white",
-                          fontSize: "12px",
-                          fontWeight: 700,
-                        }}
-                      >
-                        {t.initials}
-                      </div>
-                    </div>
-                    <div>
-                      <p style={{ fontWeight: 700, color: "white", fontSize: "14px" }}>{t.name}</p>
-                      <p style={{ color: "rgba(255,255,255,0.4)", fontSize: "12px" }}>
-                        {t.role} &middot; {t.location}
-                      </p>
-                    </div>
-                  </div>
                 </div>
               ))}
+            </div>
+            <div
+              className="fade-in"
+              style={{
+                marginTop: "32px",
+                textAlign: "center",
+                color: "rgba(255,255,255,0.4)",
+                fontSize: "13.5px",
+              }}
+            >
+              No contracts &middot; 14-day money-back guarantee &middot; one flat setup fee, no surprise add-ons
             </div>
           </div>
         </section>
@@ -1758,7 +1705,8 @@ export default function Home() {
                     maxWidth: "280px",
                   }}
                 >
-                  The AI voice receptionist for real estate pros and any business that
+                  The done-for-you website, AI call-answering, branded CRM app, and
+                  local SEO system for real estate pros and any local business that
                   can&apos;t afford to miss a call.
                 </p>
                 <p style={{ color: "rgba(255,255,255,0.2)", fontSize: "12px", marginTop: "16px" }}>

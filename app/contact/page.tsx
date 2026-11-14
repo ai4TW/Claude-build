@@ -188,7 +188,7 @@ export default function ContactPage() {
           />
           <ContactCard
             label="See Pricing"
-            value="$497/mo &mdash; one plan"
+            value="$1,997 setup + $497/mo"
             caption="14-day money-back guarantee"
             href="/pricing"
             accent="violet"

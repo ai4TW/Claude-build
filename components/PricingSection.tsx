@@ -1,22 +1,19 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-
 const BOOK_URL = "/book";
 
 const FEATURES: { text: string; highlight: boolean }[] = [
-  { text: "Your AI receptionist — answers every call in your business name", highlight: true },
-  { text: "24/7 inbound answering — every call picked up, morning, night, weekend", highlight: true },
-  { text: "<30-second outbound callback on every new CRM lead", highlight: true },
+  { text: "24/7 AI call-answering — every call picked up in your business name", highlight: true },
+  { text: "Instant missed-call text-back on every call you don't catch", highlight: true },
+  { text: "Done-for-you website, built and hosted for you, structured for local SEO", highlight: true },
+  { text: "Your own branded CRM app — every call, text, and lead in one pipeline", highlight: true },
+  { text: "<30-second outbound callback on every new lead", highlight: true },
   { text: "Lead qualification tuned to your business — the right questions, every time", highlight: true },
-  { text: "Native calendar booking — Google & Outlook OAuth, no password sharing", highlight: true },
-  { text: "CRM auto-sync — GoHighLevel, HubSpot, Close, and more via webhook", highlight: true },
-  { text: "SMS follow-up automatically sent after every call", highlight: false },
+  { text: "Native calendar booking — Google & Outlook OAuth, no password sharing", highlight: false },
+  { text: "Ongoing local SEO — we keep tuning the site and your local listings", highlight: false },
   { text: "Full call transcripts + AI summary on your phone", highlight: false },
-  { text: "DFY marketing website — built and hosted for you", highlight: false },
   { text: "Business phone number + texting included", highlight: false },
-  { text: "Live client app — call history, recordings & transcripts on iOS/Android", highlight: false },
-  { text: "Done-for-you setup by our team", highlight: false },
+  { text: "Done-for-you setup — our team builds and configures all of it", highlight: false },
 ];
 
 function CheckIcon() {
@@ -29,8 +26,6 @@ function CheckIcon() {
 }
 
 export default function PricingSection() {
-  const router = useRouter();
-
   return (
     <section id="pricing" style={{ padding: "96px 1.5rem", position: "relative", overflow: "hidden" }}>
       <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", width: "700px", height: "400px", borderRadius: "50%", background: "linear-gradient(135deg, #7c3aed, #06b6d4)", opacity: 0.08, filter: "blur(100px)", pointerEvents: "none" }} />
@@ -79,7 +74,23 @@ export default function PricingSection() {
           </div>
 
           <div style={{ textAlign: "center", marginTop: "8px", marginBottom: "28px" }}>
+            <div style={{ display: "inline-flex", alignItems: "baseline", gap: "4px", marginBottom: "4px" }}>
+              <span
+                style={{
+                  fontFamily: "'Space Grotesk', sans-serif",
+                  fontSize: "2.75rem",
+                  fontWeight: 700,
+                  color: "rgba(255,255,255,0.75)",
+                  lineHeight: 1,
+                  letterSpacing: "-0.03em",
+                }}
+              >
+                $1,997
+              </span>
+              <span style={{ color: "rgba(255,255,255,0.4)", fontSize: "14px" }}>setup</span>
+            </div>
             <div style={{ display: "inline-flex", alignItems: "baseline", gap: "4px", marginBottom: "8px" }}>
+              <span style={{ color: "rgba(255,255,255,0.3)", fontSize: "15px", margin: "0 4px" }}>+</span>
               <span
                 style={{
                   fontFamily: "'Space Grotesk', sans-serif",
@@ -122,23 +133,28 @@ export default function PricingSection() {
             ))}
           </ul>
 
-          <button
-            onClick={() => router.push("/checkout?plan=pro")}
+          <a
+            href={BOOK_URL}
             style={{
+              display: "block",
               width: "100%",
               padding: "17px",
               borderRadius: "14px",
               fontWeight: 700,
               fontSize: "16px",
               color: "white",
-              cursor: "pointer",
+              textAlign: "center",
+              textDecoration: "none",
               border: "none",
               background: "linear-gradient(135deg, #7c3aed, #06b6d4)",
               boxShadow: "0 10px 30px rgba(124,58,237,0.35)",
             }}
           >
-            Get Started — $497/mo &rarr;
-          </button>
+            Book Your Setup Call &rarr;
+          </a>
+          <p style={{ textAlign: "center", color: "rgba(255,255,255,0.35)", fontSize: "12px", marginTop: "12px" }}>
+            15 minutes &middot; We confirm your business details and get you on the build calendar
+          </p>
         </div>
 
         {/* Custom tier */}

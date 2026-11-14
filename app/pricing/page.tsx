@@ -15,12 +15,16 @@ const BOOK_URL = "/book";
 
 const FAQ: Array<{ q: string; a: string }> = [
   {
+    q: "What do I actually get for $1,997 + $497/mo?",
+    a: "A done-for-you website built and hosted for you and structured for local SEO, 24/7 AI call-answering with instant missed-call text-back, and your own branded CRM app where every call, text, and lead lands in one pipeline. The $1,997 covers the full build and setup; the $497/mo covers hosting, the AI, the CRM, and ongoing local SEO.",
+  },
+  {
     q: "Who is this actually built for?",
     a: "Real estate professionals first — agents, brokers, investors, lenders, title companies, property managers. But it works for any business owner who can't afford a missed call: home services, legal, medical, trades, you name it. If a missed call costs you money, this is for you.",
   },
   {
     q: "How does it actually work?",
-    a: "Your AI answers every inbound call in your business name, 24/7. It qualifies the caller, captures the info you need, books them on your calendar, and texts you a summary before they hang up. No missed calls, no voicemail, no lost leads.",
+    a: "Your AI answers every inbound call in your business name, 24/7, and texts back anyone you miss. It qualifies the caller, captures the info you need, books them on your calendar, and logs it in your CRM app before they hang up. No missed calls, no voicemail, no lost leads.",
   },
   {
     q: "Does the AI sound real?",
@@ -93,9 +97,10 @@ export default function PricingPage() {
             </span>
           </h1>
           <p className="mx-auto max-w-xl text-[clamp(15px,2vw,18px)] leading-relaxed text-white/60">
-            AllTheCalls is your 24/7 AI receptionist. It answers every call in your
-            business name, qualifies the caller, books the meeting, and texts you
-            the summary &mdash; so you never lose another lead to voicemail.
+            AllTheCalls answers every call in your business name 24/7, text-backs the
+            ones it misses, and runs it all through a website, branded CRM app, and
+            local SEO built just for your business &mdash; so you never lose another
+            lead to voicemail.
           </p>
         </div>
       </section>
