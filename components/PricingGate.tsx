@@ -145,8 +145,8 @@ export default function PricingGate() {
             </span>
           </h2>
           <p className="mx-auto max-w-md text-[15px] leading-relaxed text-white/60">
-            Drop your info and we&apos;ll show you the price — plus queue up a free
-            custom demo call so you can hear your AI answer in your business name.
+            Drop your info and we&apos;ll show you the price — our team will follow up
+            to offer a free custom demo so you can hear your AI answer in your business name.
           </p>
         </div>
 
@@ -210,7 +210,7 @@ export default function PricingGate() {
             </button>
 
             <p className="pt-2 text-center text-[11px] text-white/35">
-              No spam. We&apos;ll only reach out about setting up your AI. Unsubscribe anytime.
+              No spam. We&apos;ll only reach out about setting up your system. Unsubscribe anytime.
             </p>
           </form>
         </div>

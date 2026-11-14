@@ -869,7 +869,7 @@ export default function Home() {
               </p>
 
               {/* Audience chips */}
-              <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", marginBottom: "36px" }}>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", marginBottom: "12px" }}>
                 {AUDIENCE_TAGS.map((a) => (
                   <div
                     key={a.label}
@@ -889,6 +889,12 @@ export default function Home() {
                   </div>
                 ))}
               </div>
+              <p style={{ fontSize: "12.5px", color: "rgba(255,255,255,0.4)", marginBottom: "36px" }}>
+                Run a plumbing, HVAC, or trades business instead?{" "}
+                <Link href="/industry/home-services" style={{ color: "#a78bfa", textDecoration: "underline" }}>
+                  See the home services page &rarr;
+                </Link>
+              </p>
 
               {/* PRIMARY CTAs — phone first, huge, green */}
               <div className="flex flex-col sm:flex-row gap-3 mb-4">
@@ -1544,6 +1550,25 @@ export default function Home() {
               }}
             >
               No contracts &middot; 14-day money-back guarantee &middot; one flat setup fee, no surprise add-ons
+            </div>
+            <div
+              className="fade-in"
+              style={{
+                marginTop: "40px",
+                maxWidth: "640px",
+                margin: "40px auto 0",
+                textAlign: "center",
+                padding: "20px 28px",
+                borderRadius: "14px",
+                background: "rgba(255,255,255,0.02)",
+                border: "1px solid rgba(255,255,255,0.06)",
+              }}
+            >
+              <p style={{ color: "rgba(255,255,255,0.55)", fontSize: "14px", lineHeight: 1.65 }}>
+                We built this running our own real estate business first &mdash; it&apos;s the
+                same call-answering, CRM, and SEO stack behind our own lead flow, not a system
+                we built just to sell. Now other local businesses run on it too.
+              </p>
             </div>
           </div>
         </section>
