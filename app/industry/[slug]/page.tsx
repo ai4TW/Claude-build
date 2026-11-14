@@ -1,37 +1,27 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import PricingGate from "@/components/PricingGate";
+import { Check, Phone } from "lucide-react";
+import { SiteNav, MobileBar } from "@/components/site-nav";
+import { SiteFooter } from "@/components/site-footer";
+import { FaqSection, FinalCta, IndustryGrid, type Faq } from "@/components/sections";
+import HeroLeadForm from "@/components/hero-lead-form";
+import { PRICE, SITE } from "@/lib/site";
 
-const DEMO_PHONE = process.env.NEXT_PUBLIC_DEMO_PHONE || "(316) 232-4777";
-const DEMO_PHONE_HREF = process.env.NEXT_PUBLIC_DEMO_PHONE_HREF || "tel:+13162324777";
+interface IndustryContent {
+  title: string;
+  headline: string;
+  description: string;
+  bullets: string[];
+  faqs: Faq[];
+  metaTitle: string;
+  metaDesc: string;
+}
 
-// Supported industry slugs. Non-matching businesses land on the homepage.
-const INDUSTRY_DATA = {
-  "real-estate": {
-    title: "Real Estate Professionals",
-    keyword: "Real Estate",
-    emoji: "\u{1F3E0}",
-    headline: "Never miss another lead while you're out on a showing.",
-    description:
-      "Your AI answers every call in your name — 24/7 — qualifies the caller, books the appointment, and texts you the details. Built for agents, brokers, investors, lenders, title, and property managers. Live in 24-48 hours.",
-    bullets: [
-      "Answers every inbound call in your name — 24/7",
-      "Qualifies buyer vs seller, loan type, property condition, timeline",
-      "Books appointments on your Google / Outlook calendar, no password sharing",
-      "Calls every new lead back in under 30 seconds",
-      "Missed-call text-back and a full transcript sent the moment each call ends",
-      "Your own branded CRM app — every call, text, and lead in one pipeline",
-    ],
-    metaTitle: "AI Receptionist for Real Estate Pros | AllTheCalls",
-    metaDesc:
-      "Never miss a real estate lead again. AllTheCalls answers every inbound in your name 24/7, qualifies the caller, books the appointment, and texts you the summary. Built for agents, brokers, investors, lenders, and title.",
-  },
+const INDUSTRY_DATA: Record<string, IndustryContent> = {
   "home-services": {
     title: "Home Services & Trades",
-    keyword: "Home Services",
-    emoji: "\u{1F527}",
-    headline: "Stop losing jobs to voicemail while you're on a call.",
+    headline: "Stop losing jobs to voicemail while you're on a job.",
     description:
       "Plumbers, HVAC, electricians, roofers, and other trades lose real jobs to missed calls every week. Your AI answers in your name, texts back anyone you miss, and books the job on your calendar — live in 24-48 hours.",
     bullets: [
@@ -42,31 +32,83 @@ const INDUSTRY_DATA = {
       "Your own branded CRM app — every call, text, and job in one pipeline",
       "A done-for-you website built for local SEO in your service area",
     ],
+    faqs: [
+      { q: "Does it know the difference between an emergency and a routine call?", a: "Yes — you tell us what counts as urgent for your trade (a burst pipe vs. a slow drain, no heat vs. a filter change) and the AI triages accordingly, flagging urgent jobs to you immediately." },
+      { q: "Can it quote a price over the phone?", a: "It can share your stated service-call or diagnostic fee if you give us one, but it doesn't quote full job pricing on the spot — it captures the details and gets the job on your calendar or callback list instead." },
+    ],
     metaTitle: "AI Call-Answering for Plumbers, HVAC & Home Services | AllTheCalls",
-    metaDesc:
-      "Never miss another service call. AllTheCalls answers every inbound in your name 24/7, text-backs missed calls, books the job, and runs it all through your own branded CRM app. Built for plumbers, HVAC, electricians, and trades.",
+    metaDesc: "Never miss another service call. AllTheCalls answers every inbound in your name 24/7, texts back missed calls, books the job, and runs it through your own branded CRM app.",
   },
-} as const;
-
-type IndustrySlug = keyof typeof INDUSTRY_DATA;
+  "personal-care": {
+    title: "Personal Care",
+    headline: "Stop losing bookings to a phone nobody can answer mid-cut.",
+    description:
+      "Barbershops, salons, and spas lose walk-in-worthy bookings every day because the chair is busy and the phone just rings. Your AI answers in your name, books the appointment, and texts back anyone who called while you were with a client.",
+    bullets: [
+      "Answers every call in your shop's name while you're with a client",
+      "Books appointments straight onto your calendar — no more sticky notes",
+      "Instant text-back for any call you miss",
+      "Captures which service and which stylist/barber they want",
+      "Your own branded CRM app — every call, text, and booking in one place",
+      "A done-for-you website built for local SEO in your area",
+    ],
+    faqs: [
+      { q: "Can it book with a specific stylist or barber?", a: "Yes — tell us your team and their schedules, and the AI books the client with the person they ask for (or offers the next available if their first choice is full)." },
+      { q: "Can it handle cancellations and rescheduling?", a: "Yes — the AI can reschedule or cancel an existing booking and update your calendar in real time." },
+    ],
+    metaTitle: "AI Call-Answering for Barbershops & Salons | AllTheCalls",
+    metaDesc: "Never miss another booking. AllTheCalls answers every call in your shop's name, books the appointment, and texts back anyone you miss.",
+  },
+  "auto-repair": {
+    title: "Auto Repair",
+    headline: "Stop losing repair jobs to a phone that rings while you're under a car.",
+    description:
+      "Shops and mobile mechanics lose jobs to missed calls constantly — customers call the next shop on the list the moment voicemail picks up. Your AI answers in your name, captures the vehicle and the issue, and books the appointment.",
+    bullets: [
+      "Answers every call in your shop's name — 24/7, including after-hours",
+      "Captures the vehicle, the issue, and urgency before you call back",
+      "Instant text-back for any call you miss",
+      "Books drop-offs and estimates straight onto your calendar",
+      "Your own branded CRM app — every call, text, and job in one pipeline",
+      "A done-for-you website built for local SEO in your service area",
+    ],
+    faqs: [
+      { q: "Can it give a repair estimate?", a: "It doesn't diagnose or quote repairs — it captures the vehicle, the symptoms, and contact info, and gets the customer booked for a look or a callback from you." },
+      { q: "Does it work for mobile mechanics too?", a: "Yes — it captures the customer's location along with the vehicle and issue so you have everything you need before you drive out." },
+    ],
+    metaTitle: "AI Call-Answering for Auto Repair Shops | AllTheCalls",
+    metaDesc: "Never miss another repair job. AllTheCalls answers every inbound call in your shop's name, captures the vehicle and issue, and books the appointment.",
+  },
+  "real-estate": {
+    title: "Real Estate",
+    headline: "Never miss another lead while you're out on a showing.",
+    description:
+      "Your AI answers every call in your name — 24/7 — qualifies the caller, books the appointment, and texts you the details. Built for agents, brokers, investors, lenders, title, and property managers.",
+    bullets: [
+      "Answers every inbound call in your name — 24/7",
+      "Qualifies buyer vs seller, loan type, property condition, timeline",
+      "Books appointments on your calendar",
+      "Calls every new lead back in under 30 seconds",
+      "Missed-call text-back and a transcript sent the moment each call ends",
+      "Your own branded CRM app — every call, text, and lead in one pipeline",
+    ],
+    faqs: [
+      { q: "Can it qualify a motivated seller lead?", a: "Yes — it asks the questions you'd ask: condition, timeline, reason for selling, and whether they're open to a cash offer, then logs it straight into your CRM." },
+      { q: "Does it work for property management calls too?", a: "Yes — tenant calls, maintenance requests, and leasing inquiries get triaged by urgency, with emergencies routed straight to you." },
+    ],
+    metaTitle: "AI Receptionist for Real Estate Pros | AllTheCalls",
+    metaDesc: "Never miss a real estate lead again. AllTheCalls answers every inbound in your name 24/7, qualifies the caller, books the appointment, and texts you the summary.",
+  },
+};
 
 export async function generateStaticParams() {
   return Object.keys(INDUSTRY_DATA).map((slug) => ({ slug }));
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const data = INDUSTRY_DATA[slug as IndustrySlug];
-  if (!data) {
-    return {
-      title: "Not Found | AllTheCalls",
-      robots: { index: false, follow: false },
-    };
-  }
+  const data = INDUSTRY_DATA[slug];
+  if (!data) return { title: "Not found | AllTheCalls", robots: { index: false, follow: false } };
   return {
     title: data.metaTitle,
     description: data.metaDesc,
@@ -74,103 +116,58 @@ export async function generateMetadata({
   };
 }
 
-export default async function IndustryPage({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
+export default async function IndustryPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const data = INDUSTRY_DATA[slug as IndustrySlug];
+  const data = INDUSTRY_DATA[slug];
   if (!data) notFound();
 
   return (
-    <div style={{ minHeight: "100vh", background: "#08090f", color: "#e2e8f0", fontFamily: "'DM Sans', system-ui, sans-serif" }}>
-      {/* NAV */}
-      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, background: "rgba(8,9,15,0.85)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)", borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
-        <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 1.5rem", height: "64px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <Link href="/" style={{ display: "flex", alignItems: "center", textDecoration: "none" }}>
-            <img src="/logo.svg" alt="AllTheCalls" style={{ height: "40px", width: "auto" }} />
-          </Link>
-          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            <a href={DEMO_PHONE_HREF} style={{ display: "inline-flex", alignItems: "center", gap: "6px", fontSize: "13px", color: "#86efac", fontWeight: 600, textDecoration: "none", padding: "8px 14px", borderRadius: "10px", border: "1px solid rgba(74,222,128,0.3)", background: "rgba(34,197,94,0.08)" }}>{"\u{1F4DE}"} {DEMO_PHONE}</a>
-            <Link href="/pricing" className="btn-glow" style={{ color: "white", fontSize: "14px", fontWeight: 600, padding: "10px 20px", borderRadius: "12px", textDecoration: "none" }}>See Pricing</Link>
+    <>
+      <SiteNav />
+      <main>
+        <section className="bg-white">
+          <div className="wrap grid gap-8 py-14 sm:gap-10 sm:py-20 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:items-start lg:gap-14 lg:py-24">
+            <div>
+              <p className="text-[14px] font-bold tracking-[0.1em] text-brand">Built for {data.title.toLowerCase()}</p>
+              <h1 className="display heading-1 mt-4">{data.headline}</h1>
+              <p className="mt-5 max-w-xl text-[17px] leading-relaxed text-ink-soft sm:text-[19px]">{data.description}</p>
+              <ul className="mt-6 flex flex-col gap-2.5">
+                {data.bullets.map((b) => (
+                  <li key={b} className="flex items-start gap-2.5 text-[16px] text-ink">
+                    <Check size={18} strokeWidth={3} className="mt-0.5 shrink-0 text-brand" aria-hidden />
+                    {b}
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-6 max-w-xl text-[17px] font-semibold text-ink">
+                {PRICE.setup} setup + {PRICE.monthly}.{" "}
+                <a href={SITE.phone.href} className="font-semibold text-brand underline underline-offset-4">
+                  Call {SITE.phone.display}
+                </a>{" "}
+                to hear it live.
+              </p>
+            </div>
+            <HeroLeadForm id="lead-form" />
           </div>
+        </section>
+
+        <div className="border-t border-line bg-mist">
+          <FaqSection
+            heading={`Questions ${data.title.toLowerCase()} businesses ask`}
+            faqs={[
+              ...data.faqs,
+              { q: "How fast can I go live?", a: "Most businesses are answering calls within 24-48 hours. We handle the full setup — you just forward your existing number." },
+              { q: "What if I'm not happy with it?", a: "14-day money-back guarantee. Let us know within 14 days and we refund every penny." },
+            ]}
+          />
         </div>
-      </nav>
 
-      <main style={{ paddingTop: "64px" }}>
-        {/* HERO */}
-        <section style={{ padding: "100px 1.5rem 80px", textAlign: "center", position: "relative", overflow: "hidden" }}>
-          <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", width: "600px", height: "400px", borderRadius: "50%", background: "linear-gradient(135deg, #7c3aed, #06b6d4)", opacity: 0.07, filter: "blur(100px)", pointerEvents: "none" }} />
-          <div style={{ position: "relative", zIndex: 10, maxWidth: "800px", margin: "0 auto" }}>
-            <div style={{ display: "inline-flex", alignItems: "center", padding: "6px 14px", borderRadius: "999px", fontSize: "13px", fontWeight: 600, marginBottom: "28px", border: "1px solid rgba(124,58,237,0.3)", background: "rgba(124,58,237,0.1)", color: "#c4b5fd" }}>
-              <span style={{ marginRight: "8px" }}>{data.emoji}</span>
-              Built for {data.title}
-            </div>
-            <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(2.5rem, 6vw, 4rem)", fontWeight: 700, color: "white", marginBottom: "20px", lineHeight: 1.1, letterSpacing: "-0.03em" }}>
-              {data.headline}
-            </h1>
-            <p style={{ fontSize: "clamp(1rem, 2vw, 1.2rem)", color: "rgba(255,255,255,0.6)", marginBottom: "40px", lineHeight: 1.7, maxWidth: "640px", margin: "0 auto 40px" }}>
-              {data.description}
-            </p>
-
-            <div style={{ display: "flex", gap: "14px", justifyContent: "center", flexWrap: "wrap", marginBottom: "48px" }}>
-              <a href={DEMO_PHONE_HREF} style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", gap: "10px", background: "linear-gradient(135deg, #10b981, #059669)", color: "white", fontWeight: 800, fontSize: "17px", padding: "18px 30px", borderRadius: "14px", textDecoration: "none", boxShadow: "0 10px 30px rgba(16,185,129,0.35)" }}>
-                <span style={{ fontSize: "20px" }}>{"\u{1F4DE}"}</span>
-                Call Our AI &mdash; {DEMO_PHONE}
-              </a>
-              <Link href="/pricing" className="btn-glow" style={{ color: "white", fontWeight: 700, fontSize: "16px", padding: "18px 30px", borderRadius: "14px", textDecoration: "none" }}>
-                See Pricing &rarr;
-              </Link>
-            </div>
-
-            <div style={{ display: "inline-flex", flexDirection: "column", gap: "12px", textAlign: "left", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: "16px", padding: "24px 32px" }}>
-              {data.bullets.map((bullet) => (
-                <div key={bullet} style={{ display: "flex", alignItems: "flex-start", gap: "12px", fontSize: "14px", color: "rgba(255,255,255,0.7)" }}>
-                  <span style={{ color: "#a78bfa", fontWeight: 700, flexShrink: 0 }}>{"\u2713"}</span>
-                  {bullet}
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* HOW IT WORKS */}
-        <section style={{ padding: "80px 1.5rem", borderTop: "1px solid rgba(255,255,255,0.05)" }}>
-          <div style={{ maxWidth: "900px", margin: "0 auto" }}>
-            <div style={{ textAlign: "center", marginBottom: "48px" }}>
-              <p style={{ color: "#a78bfa", fontSize: "13px", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "12px" }}>How It Works</p>
-              <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(1.75rem, 4vw, 2.5rem)", fontWeight: 700, color: "white" }}>
-                We build it. You start closing more.
-              </h2>
-            </div>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "24px" }}>
-              {[
-                { icon: "\u26A1", step: "01", title: "We Build Your AI", desc: "We configure your AI receptionist with your business name and the exact qualification questions you want asked — then connect it to your CRM and calendar." },
-                { icon: "\u{1F4DE}", step: "02", title: "Forward + Connect", desc: "Forward your existing business line to your new AI number. Connect your CRM so every new lead also gets a <30-second outbound callback." },
-                { icon: "\u{1F3C6}", step: "03", title: "Appointments Hit Your Calendar", desc: "Qualified callers get booked straight onto your Google or Outlook calendar. You walk into every meeting already knowing what they want." },
-              ].map((item) => (
-                <div key={item.step} style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: "16px", padding: "28px", position: "relative" }}>
-                  <div style={{ fontSize: "28px", marginBottom: "12px" }}>{item.icon}</div>
-                  <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "2.5rem", fontWeight: 700, opacity: 0.06, color: "white", marginBottom: "4px", lineHeight: 1 }}>{item.step}</div>
-                  <h3 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "17px", fontWeight: 700, color: "white", marginBottom: "8px" }}>{item.title}</h3>
-                  <p style={{ color: "rgba(255,255,255,0.5)", fontSize: "14px", lineHeight: 1.6 }}>{item.desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* PRICING — gated behind lead form */}
-        <PricingGate />
+        <IndustryGrid />
+        <FinalCta heading={data.headline} body={`${PRICE.setup} setup + ${PRICE.monthly}. Live in 24-48 hours. No contracts.`} />
       </main>
-
-      <footer style={{ borderTop: "1px solid rgba(255,255,255,0.05)", padding: "48px 1.5rem", textAlign: "center" }}>
-        <Link href="/" style={{ display: "inline-flex", alignItems: "center", textDecoration: "none", marginBottom: "20px" }}>
-          <img src="/logo.svg" alt="AllTheCalls" style={{ height: "32px", width: "auto" }} />
-        </Link>
-        <p style={{ color: "rgba(255,255,255,0.2)", fontSize: "13px" }}>&copy; 2026 AllTheCalls. Built for real estate investors.</p>
-      </footer>
-    </div>
+      <SiteFooter />
+      <MobileBar />
+      <div aria-hidden className="h-[76px] md:hidden" />
+    </>
   );
 }

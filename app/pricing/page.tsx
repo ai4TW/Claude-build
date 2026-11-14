@@ -1,208 +1,105 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Phone } from "lucide-react";
+import { SiteNav, MobileBar } from "@/components/site-nav";
+import { SiteFooter } from "@/components/site-footer";
+import { FaqSection, type Faq } from "@/components/sections";
 import PricingGate from "@/components/PricingGate";
+import { SITE } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Pricing — AllTheCalls",
   description:
-    "See what AllTheCalls costs — the AI receptionist built for real estate pros and any business that can't afford to miss a call. 14-day money-back guarantee.",
+    "See what AllTheCalls costs — the done-for-you AI call-answering, CRM, and local SEO system for any business that can't afford to miss a call. 14-day money-back guarantee.",
 };
 
-const DEMO_PHONE = process.env.NEXT_PUBLIC_DEMO_PHONE || "(316) 232-4777";
-const DEMO_PHONE_HREF =
-  process.env.NEXT_PUBLIC_DEMO_PHONE_HREF || "tel:+13162324777";
 const BOOK_URL = "/book";
 
-const FAQ: Array<{ q: string; a: string }> = [
+const FAQ: Faq[] = [
   {
     q: "What do I actually get for $1,997 + $497/mo?",
     a: "A done-for-you website built and hosted for you and structured for local SEO, 24/7 AI call-answering with instant missed-call text-back, and your own branded CRM app where every call, text, and lead lands in one pipeline. The $1,997 covers the full build and setup; the $497/mo covers hosting, the AI, the CRM, and ongoing local SEO.",
   },
   {
     q: "Who is this actually built for?",
-    a: "Real estate professionals first — agents, brokers, investors, lenders, title companies, property managers. But it works for any business owner who can't afford a missed call: home services, legal, medical, trades, you name it. If a missed call costs you money, this is for you.",
+    a: "Any business owner who can't afford a missed call: home services, personal care, auto repair, real estate, and more. If a missed call costs you money, this is for you.",
   },
   {
     q: "How does it actually work?",
-    a: "Your AI answers every inbound call in your business name, 24/7, and texts back anyone you miss. It qualifies the caller, captures the info you need, books them on your calendar, and logs it in your CRM app before they hang up. No missed calls, no voicemail, no lost leads.",
+    a: "Your AI answers every inbound call in your business name, 24/7, and texts back anyone you miss. It qualifies the caller, captures the info you need, books them on your calendar, and logs it in your CRM app before they hang up.",
   },
   {
     q: "Does the AI sound real?",
-    a: "Most callers don't realize they're talking to AI. It answers in your name, uses your exact qualification questions, and handles objections naturally. Call (316) 232-4777 right now and decide for yourself — that's a live AllTheCalls AI.",
+    a: `Most callers don't realize they're talking to AI. It answers in your name and uses your exact qualification questions. Call ${SITE.phone.display} right now and decide for yourself.`,
   },
   {
     q: "How fast can I go live?",
-    a: "Most clients are answering calls within 24-48 hours. Our team builds your AI, sets up the phone number, and walks you through forwarding your existing line. You just tell us about your business.",
+    a: "Most clients are answering calls within 24-48 hours. Our team builds your AI, sets up the phone number, and walks you through forwarding your existing line.",
   },
   {
     q: "What if it doesn't work out?",
     a: "14-day money-back guarantee. No questions, no friction. Email hello@allthecalls.ai and we refund you.",
   },
-  {
-    q: "Can I try it first?",
-    a: `Yes. Call ${DEMO_PHONE} right now and hear a live AllTheCalls AI handle a call end-to-end. Takes 60 seconds. Or fill in the form above and we'll build a free custom demo in your business name so you can hear exactly what your callers would hear.`,
-  },
 ];
 
 export default function PricingPage() {
   return (
-    <div className="min-h-screen bg-[#08090f] text-slate-200 font-sans antialiased">
-      {/* NAV */}
-      <nav className="sticky top-0 z-30 border-b border-white/5 bg-[#08090f]/85 backdrop-blur-xl">
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
-          <Link href="/" className="flex items-center">
-            <img src="/logo.svg" alt="AllTheCalls" className="h-10 w-auto" />
-          </Link>
-          <div className="flex items-center gap-2 sm:gap-3">
-            <a
-              href={DEMO_PHONE_HREF}
-              className="inline-flex items-center gap-1.5 rounded-xl border border-emerald-400/30 bg-emerald-500/10 px-3 py-2 text-[13px] font-semibold text-emerald-300 hover:border-emerald-400/50 sm:px-4 sm:text-sm"
-            >
-              <span>{"\u{1F4DE}"}</span>
-              <span className="hidden sm:inline">Call </span>
-              {DEMO_PHONE}
-            </a>
-            <Link
-              href={BOOK_URL}
-              className="hidden rounded-xl border border-white/15 bg-white/[0.04] px-4 py-2 text-sm font-semibold text-slate-200 hover:border-white/25 sm:inline-flex items-center gap-2"
-            >
-              {"\u{1F4C5}"} Book a Call
-            </Link>
-          </div>
-        </div>
-      </nav>
-
-      {/* HERO */}
-      <section className="relative overflow-hidden px-4 pt-14 pb-8 text-center md:pt-20 md:pb-10">
-        <div
-          className="pointer-events-none absolute inset-x-0 top-0 h-[420px] opacity-60"
-          style={{
-            background:
-              "radial-gradient(ellipse at top, rgba(124,58,237,0.25) 0%, transparent 60%)",
-          }}
-        />
-        <div className="relative mx-auto max-w-3xl">
-          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-violet-400/30 bg-violet-500/10 px-4 py-1.5">
-            <span className="text-[11px] font-bold uppercase tracking-[0.14em] text-violet-300">
-              Built for real estate pros &middot; Works for any business
-            </span>
-          </div>
-          <h1
-            className="mb-4 text-[clamp(2.25rem,5vw,3.5rem)] font-bold leading-[1.05] tracking-tight text-white"
-            style={{ fontFamily: "'Space Grotesk', sans-serif" }}
-          >
-            Every missed call is{" "}
-            <span className="bg-gradient-to-br from-[#4cd7f6] via-[#a78bfa] to-[#d2bbff] bg-clip-text text-transparent">
-              money walking out the door.
-            </span>
-          </h1>
-          <p className="mx-auto max-w-xl text-[clamp(15px,2vw,18px)] leading-relaxed text-white/60">
-            AllTheCalls answers every call in your business name 24/7, text-backs the
-            ones it misses, and runs it all through a website, branded CRM app, and
-            local SEO built just for your business &mdash; so you never lose another
-            lead to voicemail.
-          </p>
-        </div>
-      </section>
-
-      {/* GATED PRICING */}
-      <PricingGate />
-
-      {/* SECONDARY CTA — book a call */}
-      <section className="px-4 pb-10">
-        <div className="mx-auto max-w-4xl rounded-2xl border border-violet-500/20 bg-violet-500/[0.06] p-8 text-center md:flex md:items-center md:justify-between md:text-left">
-          <div className="mb-4 md:mb-0">
-            <h3
-              className="mb-1 text-lg font-bold text-white"
-              style={{ fontFamily: "'Space Grotesk', sans-serif" }}
-            >
-              Want to see it on YOUR actual call flow first?
-            </h3>
-            <p className="text-sm text-white/50">
-              15-minute call. We&apos;ll run the AI against a sample caller from your business.
+    <>
+      <SiteNav />
+      <main>
+        <section className="bg-white py-14 text-center sm:py-20">
+          <div className="wrap max-w-3xl">
+            <p className="text-[14px] font-bold tracking-[0.1em] text-brand">
+              Built for any local business
+            </p>
+            <h1 className="display heading-1 mt-4">Every missed call is money walking out the door.</h1>
+            <p className="mx-auto mt-5 max-w-xl text-[17px] leading-relaxed text-ink-soft sm:text-[19px]">
+              AllTheCalls answers every call in your business name 24/7, text-backs the ones it
+              misses, and runs it all through a website, branded CRM app, and local SEO built for
+              your business.
             </p>
           </div>
-          <Link
-            href={BOOK_URL}
-            className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/[0.06] px-6 py-3 text-sm font-bold text-white hover:border-white/25 hover:bg-white/[0.1] transition"
-          >
-            {"\u{1F4C5}"} Book a 15-min Call
-          </Link>
-        </div>
-      </section>
+        </section>
 
-      {/* FAQ */}
-      <section className="px-4 pb-10">
-        <div className="mx-auto max-w-3xl">
-          <h2
-            className="mb-6 text-center text-2xl font-bold text-white md:text-3xl"
-            style={{ fontFamily: "'Space Grotesk', sans-serif" }}
-          >
-            Quick answers
-          </h2>
-          <div className="space-y-3">
-            {FAQ.map((f) => (
-              <details
-                key={f.q}
-                className="group rounded-xl border border-white/8 bg-white/[0.02] p-5 open:bg-white/[0.04]"
-              >
-                <summary className="flex cursor-pointer list-none items-center justify-between font-semibold text-white">
-                  {f.q}
-                  <span className="ml-4 text-violet-300 transition group-open:rotate-45">+</span>
-                </summary>
-                <p className="mt-3 text-sm leading-relaxed text-white/60">{f.a}</p>
-              </details>
-            ))}
-          </div>
-        </div>
-      </section>
+        <PricingGate />
 
-      {/* FINAL CTA */}
-      <section className="relative overflow-hidden px-4 py-14 text-center">
-        <div
-          className="pointer-events-none absolute inset-0"
-          style={{
-            background:
-              "radial-gradient(ellipse at center, rgba(124,58,237,0.14) 0%, transparent 60%)",
-          }}
-        />
-        <div className="relative mx-auto max-w-2xl">
-          <div className="mb-5 inline-block rounded-full border border-violet-400/30 bg-violet-500/10 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-violet-300">
-            Stop losing leads to voicemail
+        <section className="pb-10">
+          <div className="wrap max-w-4xl">
+            <div className="flex flex-col items-center justify-between gap-4 rounded-[16px] border border-line bg-mist p-7 text-center md:flex-row md:text-left">
+              <div>
+                <h3 className="text-[17px] font-bold text-ink">Want to see it on your actual call flow first?</h3>
+                <p className="mt-1 text-[14px] text-ink-soft">15-minute call. We&rsquo;ll run the AI against a sample caller from your business.</p>
+              </div>
+              <Link href={BOOK_URL} className="btn-secondary h-12 px-5 text-[15px] whitespace-nowrap">
+                Book a 15-min call
+              </Link>
+            </div>
           </div>
-          <h2
-            className="mb-4 text-[clamp(1.75rem,4.5vw,3rem)] font-bold leading-[1.1] tracking-tight text-white"
-            style={{ fontFamily: "'Space Grotesk', sans-serif" }}
-          >
-            Every missed call is{" "}
-            <span className="bg-gradient-to-br from-[#4cd7f6] via-[#a78bfa] to-[#d2bbff] bg-clip-text text-transparent">
-              a lead going to someone else.
-            </span>
-          </h2>
-          <p className="mb-7 text-[15px] leading-relaxed text-white/65 md:text-base">
-            Live in 24-48 hours. No contracts. 14-day money-back guarantee.
-          </p>
-          <div className="flex flex-wrap justify-center gap-3">
-            <a
-              href={DEMO_PHONE_HREF}
-              className="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-700 px-7 py-4 text-base font-bold text-white shadow-xl shadow-emerald-500/40 transition hover:opacity-90"
-            >
-              {"\u{1F4DE}"} Call Our AI: {DEMO_PHONE}
-            </a>
-            <Link
-              href={BOOK_URL}
-              className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/[0.04] px-6 py-4 text-base font-semibold text-slate-200 backdrop-blur-sm hover:border-white/25"
-            >
-              {"\u{1F4C5}"} Book a 15-min Call
-            </Link>
-          </div>
-        </div>
-      </section>
+        </section>
 
-      {/* FOOTER */}
-      <footer className="border-t border-white/5 px-4 py-8 text-center text-xs text-white/25">
-        &copy; 2026 AllTheCalls. Built for real estate pros &mdash; and any business that can&apos;t miss a call.
-      </footer>
-    </div>
+        <div className="bg-mist">
+          <FaqSection faqs={FAQ} heading="Quick answers" />
+        </div>
+
+        <section className="on-dark bg-brand-deep py-16 text-center text-white">
+          <div className="wrap max-w-2xl">
+            <h2 className="display heading-2 text-white">Every missed call is a lead going to someone else.</h2>
+            <p className="mt-4 text-[17px] text-white/85">Live in 24-48 hours. No contracts. 14-day money-back guarantee.</p>
+            <div className="mt-7 flex flex-wrap justify-center gap-3">
+              <a href={SITE.phone.href} className="btn-accent h-14 px-7 text-[17px]">
+                <Phone size={18} aria-hidden />
+                {SITE.phone.display}
+              </a>
+              <Link href={BOOK_URL} className="btn-outline-light h-14 px-7 text-[17px]">
+                Book a 15-min call
+              </Link>
+            </div>
+          </div>
+        </section>
+      </main>
+      <SiteFooter />
+      <MobileBar />
+      <div aria-hidden className="h-[76px] md:hidden" />
+    </>
   );
 }

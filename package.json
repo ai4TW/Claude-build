@@ -14,11 +14,15 @@
     "@supabase/supabase-js": "^2.101.1",
     "@tailwindcss/postcss": "^4.2.2",
     "@vercel/analytics": "^2.0.1",
+    "clsx": "^2.1.1",
     "dotenv": "^16.0.0",
     "jose": "^6.2.2",
     "js-yaml": "^4.1.1",
+    "lucide-react": "^1.33.0",
     "marked": "^17.0.6",
-    "stripe": "^17.7.0"
+    "motion": "^13.1.1",
+    "stripe": "^17.7.0",
+    "tailwind-merge": "^3.6.0"
   },
   "devDependencies": {
     "@types/marked": "^5.0.2",
