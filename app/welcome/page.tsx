@@ -21,7 +21,7 @@ const STEPS = [
   },
   {
     number: "02",
-    title: "We're building your AI receptionist",
+    title: "We're building your AI missed-call text-back",
     description: "Our team is configuring your AI with your business name, hours, and services. This takes us a few hours.",
     status: "active",
   },
@@ -34,7 +34,7 @@ const STEPS = [
   {
     number: "04",
     title: "Your AI goes live",
-    description: "Every call gets answered 24/7. You receive a text summary after each one.",
+    description: "Every missed call gets an instant text-back, 24/7. You receive a summary after each one.",
     status: "upcoming",
   },
   {
@@ -332,7 +332,7 @@ export default async function WelcomePage({
             {[
               "Your dedicated phone number to forward calls to",
               "Step-by-step forwarding instructions (takes 30 seconds)",
-              "A test call script so you can hear your AI in action",
+              "Instructions for testing a missed call so you can see your AI's text-back in action",
             ].map((item) => (
               <div key={item} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
                 <span style={{ color: "#a78bfa", flexShrink: 0, marginTop: 1 }}>→</span>

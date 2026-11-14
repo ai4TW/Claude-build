@@ -21,7 +21,7 @@ export const SEQUENCES: Record<string, EmailStep[]> = {
       subject: "quick question — what did you think?",
       body: `Hey {{name}},
 
-You just called (316) 232-4777 and talked to Richard.
+You just saw how AllTheCalls texts back a missed call.
 
 Quick question: what did you think?
 
@@ -36,17 +36,17 @@ The AllTheCalls Team`,
     {
       step: 2,
       delayHours: 48,
-      subject: "how Richard saves businesses 2+ hours a week",
+      subject: "how AllTheCalls saves businesses 2+ hours a week",
       body: `Hey {{name}},
 
-After you experienced Richard, here's what you're actually getting:
+After seeing the demo, here's what you're actually getting:
 
-- Every call picked up (no more missed leads)
+- Every missed call texted back instantly (no more missed leads)
 - Lead qualification happening while you're busy
 - Calendar bookings automatic
-- Follow-up SMS sent (no admin work)
+- Follow-up text sent (no admin work)
 
-Across a month, that's 8+ hours of time you get back. Time you spend closing deals, not answering phones.
+Across a month, that's 8+ hours of time you get back. Time you spend closing deals, not chasing missed calls.
 
 $397/month. First 7 days free. You'll know in 3 days if it's working.
 
@@ -60,7 +60,7 @@ The AllTheCalls Team`,
       subject: "let's get you live this week",
       body: `Hey {{name}},
 
-You have everything you need to know. Richard works. Answers calls, qualifies leads, books your calendar.
+You have everything you need to know. It works. Texts back every missed call, qualifies leads, books your calendar.
 
 The only question left is: are you doing this?
 
@@ -79,17 +79,17 @@ The AllTheCalls Team`,
     {
       step: 1,
       delayHours: 0,
-      subject: "Welcome to AllTheCalls — Your AI receptionist is almost ready",
+      subject: "Welcome to AllTheCalls — Your AI missed-call text-back is almost ready",
       body: `Hey {{name}},
 
-Welcome to AllTheCalls. You're about to set up an AI receptionist that handles inbound calls 24/7 for your business.
+Welcome to AllTheCalls. You're about to set up an AI that texts back every missed call, 24/7, for your business.
 
 Here's what happens now:
 
-1. Complete the onboarding wizard (takes ~5 min) — Add your business info, services, and AI personality
+1. Complete the onboarding wizard (takes ~5 min) — Add your business info, services, and how you want the AI to text back
 2. We'll activate your AI — It goes live automatically after you finish
-3. You'll get a phone number — I'll assign one and send you the details (might take a few hours)
-4. Your AI starts taking calls — From that moment, every inbound call is answered
+3. You'll get a phone number to forward — I'll assign one and send you the details (might take a few hours)
+4. Your AI starts texting back — From that moment, every missed call gets an instant text
 
 You've got 7 days free to test everything.
 
@@ -107,13 +107,13 @@ The AllTheCalls Team`,
       subject: "Your AI is live — here's what to do first",
       body: `Hey {{name}},
 
-Your AI receptionist is now answering calls. Congratulations.
+Your AI is now texting back every missed call. Congratulations.
 
 Here's what I'd do in the next 24 hours:
 
-1. Call your own number — Hear how your AI handles a call from a lead. Does the greeting sound professional? Is the information flow smooth?
-2. Forward 3-5 calls manually — Set the expectation with a few clients that their calls might be handled by your AI receptionist
-3. Check your dashboard — https://allthecalls.ai/my shows every call, transcript, and lead captured
+1. Miss a call to your own number on purpose — See the text-back your leads would get. Does it sound like your business? Is the information flow smooth?
+2. Let 3-5 calls go to text-back — Set the expectation with a few clients that a missed call gets an instant text, not a callback
+3. Check your dashboard — https://allthecalls.ai/my shows every call, text thread, and lead captured
 
 Pro tip: The first few calls are weird. Your AI learns your business as calls come in. By day 3-4, you'll notice it getting sharper.
 
@@ -131,9 +131,9 @@ Quick check-in. Have you started getting calls on your AllTheCalls number yet?
 
 A few things I'm curious about:
 
-- How many inbound calls? Even if it's zero — that tells me something
-- Is the AI greeting hitting right? Should it sound warmer? More formal?
-- Any calls the AI got wrong? Those are actually gold. They help you train it better
+- How many missed calls has it texted back? Even if it's zero — that tells me something
+- Is the AI's text hitting right? Should it sound warmer? More formal?
+- Any texts the AI got wrong? Those are actually gold. They help you train it better
 
 Don't overthink it. The magic happens when your AI has real calls to learn from.
 
@@ -151,7 +151,7 @@ Five days in. Good time to pause and think about what you're actually getting.
 
 What your AI does while you're busy:
 
-- Answers every call (no more missed leads)
+- Texts back every missed call (no more missed leads)
 - Captures buyer intent, timeline, and needs
 - Schedules meetings automatically
 - Qualifies leads before they hit your inbox
@@ -161,7 +161,7 @@ That's essentially a 24/7 assistant that costs a fraction of a real person.
 
 But here's the real number: If your AI captures just one extra deal this month due to never missing a call, it pays for itself 10x over.
 
-You still have 2 days left on your trial. This is the time to really stress-test it. Forward calls. Let it handle your voicemail. See what it can do.
+You still have 2 days left on your trial. This is the time to really stress-test it. Let a few calls go to the text-back instead of voicemail. See what it can do.
 
 The AllTheCalls Team`,
     },
@@ -174,13 +174,13 @@ The AllTheCalls Team`,
 Your free trial expires tomorrow.
 
 When it does:
-- Your AI stops answering calls
+- Your AI stops texting back missed calls
 - New leads stop coming in automatically
-- Your phone number goes silent
+- Your missed calls go to voicemail again, with no follow-up
 
 If you've gotten real value this week — even just one lead or one hour of your time back — it's worth keeping.
 
-No long-term contract. Cancel anytime. But losing this AI receptionist mid-stream usually means losing calls you could've captured.
+No long-term contract. Cancel anytime. But losing this missed-call text-back mid-stream usually means losing calls you could've captured.
 
 Ready to keep it running? Pick your plan: https://allthecalls.ai/my
 
@@ -198,7 +198,7 @@ The AllTheCalls Team`,
       subject: "Your AllTheCalls AI just went offline",
       body: `Hey {{name}},
 
-This morning, your trial expired and your AI receptionist went offline.
+This morning, your trial expired and your AI missed-call text-back went offline.
 
 I'm not sure why you didn't convert. Maybe:
 - Timing wasn't right
@@ -246,7 +246,7 @@ If you get 10 inbound calls a week, and you're missing 40% of them to voicemail,
 
 At even one closing per 10 contacts, that's 1-2 deals per month you're not seeing.
 
-An AI receptionist costs less than one lost deal per year. The math is brutal.
+AI missed-call text-back costs less than one lost deal per year. The math is brutal.
 
 If you change your mind — even in six months — just reach out. I'll help.
 
@@ -262,7 +262,7 @@ The AllTheCalls Team`,
       subject: "Your payment didn't go through",
       body: `Hey {{name}},
 
-Your payment failed this morning. Your subscription is paused, which means your AI stopped answering calls a few hours ago.
+Your payment failed this morning. Your subscription is paused, which means your AI stopped texting back missed calls a few hours ago.
 
 What to do:
 
@@ -283,7 +283,7 @@ The AllTheCalls Team`,
       subject: "Your service is still paused (update your card)",
       body: `Hey {{name}},
 
-Just checking in. Your payment still hasn't gone through. That means your AI is sitting idle while calls are coming in unanswered.
+Just checking in. Your payment still hasn't gone through. That means your AI is sitting idle while missed calls are going unanswered and untexted.
 
 This usually means:
 - The card is expired
@@ -305,8 +305,8 @@ The AllTheCalls Team`,
 Final heads-up. Your payment has been unsuccessful for 7 days.
 
 In 24 hours, I'm pausing your account. That means:
-- Your AI receptionist goes completely offline
-- Calls to your AllTheCalls number won't be answered
+- Your AI missed-call text-back goes completely offline
+- Missed calls to your AllTheCalls number won't get a text-back
 - You'll lose leads while this is unresolved
 
 Update your card right now: https://allthecalls.ai/my

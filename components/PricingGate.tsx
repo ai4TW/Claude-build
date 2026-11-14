@@ -111,7 +111,7 @@ export default function PricingGate() {
           <h2 className="display heading-2">Want to see exactly what this costs?</h2>
           <p className="mx-auto mt-3 max-w-md text-[15px] leading-relaxed text-ink-soft">
             Drop your info and we&rsquo;ll show you the price — our team will follow up to offer a free
-            custom demo so you can hear your AI answer in your business name.
+            custom demo so you can see exactly what your AI would text back in your business name.
           </p>
         </div>
 
@@ -173,9 +173,9 @@ export default function PricingGate() {
         </div>
 
         <div className="mt-6 text-center">
-          <p className="mb-2 text-[12px] text-muted">Rather just hear it?</p>
+          <p className="mb-2 text-[12px] text-muted">Rather just talk to a person?</p>
           <a href={SITE.phone.href} className="btn-secondary inline-flex h-12 px-5 text-[15px]">
-            Call our AI now — {SITE.phone.display}
+            Call us — {SITE.phone.display}
           </a>
         </div>
       </div>

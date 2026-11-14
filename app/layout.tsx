@@ -42,30 +42,30 @@ export const metadata: Metadata = {
     apple: "/favicon.svg",
   },
   title: {
-    default: "AllTheCalls — AI Call-Answering, CRM & Local SEO for Local Businesses",
+    default: "AllTheCalls — AI Missed-Call Text-Back, CRM & Local SEO for Local Businesses",
     template: "%s | AllTheCalls",
   },
   description:
-    "Every missed call is money walking out the door. AllTheCalls is a done-for-you system — 24/7 AI call-answering with missed-call text-back, a branded CRM app, and local SEO — built for any local business that can't afford to miss a call.",
+    "Every missed call is money walking out the door. AllTheCalls is a done-for-you system — 24/7 AI missed-call text-back, a branded CRM app, and local SEO — built for any local business that can't afford to miss a call.",
   keywords: [
-    "AI receptionist",
-    "AI phone answering service",
-    "24/7 AI receptionist",
+    "AI missed call text back",
+    "missed call text back service",
+    "24/7 missed call text back",
     "never miss a call",
     "missed call text back",
-    "AI receptionist for small business",
-    "AI receptionist for plumbers",
-    "AI receptionist for HVAC companies",
-    "AI receptionist for barbershops and salons",
-    "AI receptionist for auto repair shops",
-    "AI receptionist for real estate agents",
-    "AI receptionist for real estate investors",
+    "AI missed-call text-back for small business",
+    "AI missed-call text-back for plumbers",
+    "AI missed-call text-back for HVAC companies",
+    "AI missed-call text-back for barbershops and salons",
+    "AI missed-call text-back for auto repair shops",
+    "AI missed-call text-back for real estate agents",
+    "AI missed-call text-back for real estate investors",
     "branded CRM app for local business",
     "local SEO for service businesses",
     "AI lead response",
     "speed to lead",
-    "automated answering service",
-    "AI call answering",
+    "automated missed call text back",
+    "AI text back service",
     "missed call solution",
     "business phone AI",
   ],
@@ -78,13 +78,13 @@ export const metadata: Metadata = {
     siteName: "AllTheCalls",
     title: "AllTheCalls — Never Miss Another Call",
     description:
-      "24/7 AI call-answering with missed-call text-back, a done-for-you website, your own branded CRM app, and local SEO — one system, built for any local business that can't miss a call.",
+      "24/7 AI missed-call text-back, a done-for-you website, your own branded CRM app, and local SEO — one system, built for any local business that can't miss a call.",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "AllTheCalls — 24/7 AI call-answering. Never miss another call.",
+        alt: "AllTheCalls — 24/7 AI missed-call text-back. Never miss another call.",
       },
     ],
   },
@@ -92,7 +92,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "AllTheCalls — Never Miss Another Call",
     description:
-      "24/7 AI call-answering + missed-call text-back, a branded CRM app, and local SEO. $1,997 setup + $497/mo.",
+      "24/7 AI missed-call text-back, a branded CRM app, and local SEO. $1,997 setup + $497/mo.",
     images: ["/og-image.png"],
   },
   robots: {
@@ -113,7 +113,7 @@ const structuredData = {
       name: "AllTheCalls",
       url: APP_URL,
       description:
-        "Done-for-you AI call-answering, missed-call text-back, branded CRM app, and local SEO for any local business that can't afford to miss a call.",
+        "Done-for-you AI missed-call text-back, branded CRM app, and local SEO for any local business that can't afford to miss a call.",
       contactPoint: {
         "@type": "ContactPoint",
         contactType: "customer service",
@@ -123,10 +123,10 @@ const structuredData = {
     { "@type": "WebSite", name: "AllTheCalls", url: APP_URL },
     {
       "@type": "Service",
-      name: "AllTheCalls — AI Call-Answering, CRM & Local SEO",
+      name: "AllTheCalls — AI Missed-Call Text-Back, CRM & Local SEO",
       provider: { "@type": "Organization", name: "AllTheCalls" },
       description:
-        "24/7 AI phone answering with instant missed-call text-back, a done-for-you website, a branded CRM app, and ongoing local SEO. Built for any local business.",
+        "24/7 instant AI missed-call text-back, a done-for-you website, a branded CRM app, and ongoing local SEO. Built for any local business.",
       offers: [
         {
           "@type": "Offer",

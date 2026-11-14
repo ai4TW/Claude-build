@@ -161,7 +161,7 @@ export async function GET(req: Request) {
         body: JSON.stringify({
           from: "AllTheCalls <hello@allthecalls.ai>",
           to: client.email,
-          subject: `Your weekly AI receptionist report — ${weekLabel}`,
+          subject: `Your weekly AI missed-call text-back report — ${weekLabel}`,
           html,
         }),
       });

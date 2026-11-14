@@ -87,7 +87,7 @@ export default function BlogIndex() {
             Ready to secure every booking?
           </h2>
           <div className="flex justify-center mt-6">
-            <Link href="/onboarding" className="btn-primary" style={{ padding: "14px 32px", borderRadius: "8px", fontWeight: 600, textDecoration: "none" }}>Set up your AI receptionist</Link>
+            <Link href="/onboarding" className="btn-primary" style={{ padding: "14px 32px", borderRadius: "8px", fontWeight: 600, textDecoration: "none" }}>Set up your AI missed-call text-back</Link>
           </div>
         </div>
       </section>

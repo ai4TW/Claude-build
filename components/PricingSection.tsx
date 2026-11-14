@@ -7,8 +7,7 @@ import { PRICE } from "@/lib/site";
 const BOOK_URL = "/book";
 
 const FEATURES = [
-  "24/7 AI call-answering — every call picked up in your business name",
-  "Instant missed-call text-back on every call you don't catch",
+  "24/7 instant AI missed-call text-back, in your business name",
   "Done-for-you website, built and hosted for you, structured for local SEO",
   "Your own branded CRM app — every call, text, and lead in one pipeline",
   "Lead qualification tuned to your business — the right questions, every time",

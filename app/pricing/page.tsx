@@ -10,7 +10,7 @@ import { SITE } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Pricing — AllTheCalls",
   description:
-    "See what AllTheCalls costs — the done-for-you AI call-answering, CRM, and local SEO system for any business that can't afford to miss a call. 14-day money-back guarantee.",
+    "See what AllTheCalls costs — the done-for-you AI missed-call text-back, CRM, and local SEO system for any business that can't afford to miss a call. 14-day money-back guarantee.",
 };
 
 const BOOK_URL = "/book";
@@ -18,7 +18,7 @@ const BOOK_URL = "/book";
 const FAQ: Faq[] = [
   {
     q: "What do I actually get for $1,997 + $497/mo?",
-    a: "A done-for-you website built and hosted for you and structured for local SEO, 24/7 AI call-answering with instant missed-call text-back, and your own branded CRM app where every call, text, and lead lands in one pipeline. The $1,997 covers the full build and setup; the $497/mo covers hosting, the AI, the CRM, and ongoing local SEO.",
+    a: "A done-for-you website built and hosted for you and structured for local SEO, 24/7 instant AI missed-call text-back, and your own branded CRM app where every call, text, and lead lands in one pipeline. The $1,997 covers the full build and setup; the $497/mo covers hosting, the AI, the CRM, and ongoing local SEO.",
   },
   {
     q: "Who is this actually built for?",
@@ -26,15 +26,15 @@ const FAQ: Faq[] = [
   },
   {
     q: "How does it actually work?",
-    a: "Your AI answers every inbound call in your business name, 24/7, and texts back anyone you miss. It qualifies the caller, captures the info you need, books them on your calendar, and logs it in your CRM app before they hang up.",
+    a: "The moment a call to your business goes missed, your AI texts that caller back in your business name — it qualifies them, captures the info you need, books them on your calendar, and logs it in your CRM app, all over text.",
   },
   {
-    q: "Does the AI sound real?",
-    a: `Most callers don't realize they're talking to AI. It answers in your name and uses your exact qualification questions. Call ${SITE.phone.display} right now and decide for yourself.`,
+    q: "Does the text sound like me, not a bot?",
+    a: `Yes. There's no AI voice involved — your callers never talk to anything, missed or not. You give us your business name and the exact questions you'd ask, and that's what the AI texts in your name. Most people texting back never realize it's not someone from your business typing.`,
   },
   {
     q: "How fast can I go live?",
-    a: "Most clients are answering calls within 24-48 hours. Our team builds your AI, sets up the phone number, and walks you through forwarding your existing line.",
+    a: "Most clients are texting back missed calls within 24-48 hours. Our team builds your AI, sets up the phone number, and walks you through forwarding your existing line.",
   },
   {
     q: "What if it doesn't work out?",
@@ -54,9 +54,8 @@ export default function PricingPage() {
             </p>
             <h1 className="display heading-1 mt-4">Every missed call is money walking out the door.</h1>
             <p className="mx-auto mt-5 max-w-xl text-[17px] leading-relaxed text-ink-soft sm:text-[19px]">
-              AllTheCalls answers every call in your business name 24/7, text-backs the ones it
-              misses, and runs it all through a website, branded CRM app, and local SEO built for
-              your business.
+              AllTheCalls texts back every missed call in your business name, 24/7, and runs it
+              all through a website, branded CRM app, and local SEO built for your business.
             </p>
           </div>
         </section>
@@ -67,8 +66,8 @@ export default function PricingPage() {
           <div className="wrap max-w-4xl">
             <div className="flex flex-col items-center justify-between gap-4 rounded-[16px] border border-line bg-mist p-7 text-center md:flex-row md:text-left">
               <div>
-                <h3 className="text-[17px] font-bold text-ink">Want to see it on your actual call flow first?</h3>
-                <p className="mt-1 text-[14px] text-ink-soft">15-minute call. We&rsquo;ll run the AI against a sample caller from your business.</p>
+                <h3 className="text-[17px] font-bold text-ink">Want to see how it'd actually work for your business first?</h3>
+                <p className="mt-1 text-[14px] text-ink-soft">15-minute call. We&rsquo;ll walk through a sample missed call from your business and what the text-back would say.</p>
               </div>
               <Link href={BOOK_URL} className="btn-secondary h-12 px-5 text-[15px] whitespace-nowrap">
                 Book a 15-min call

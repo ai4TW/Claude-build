@@ -21,15 +21,15 @@ const FAQS: Faq[] = [
   },
   {
     q: "Does it really sound like my business?",
-    a: "Yes. You give us your business name and how you want the AI to answer. Callers hear your name, not a generic bot or \"AllTheCalls.\" Most callers never realize they're not talking to your front desk.",
+    a: "Yes. You give us your business name and how you want the AI to text back missed callers. Callers get a text in your business's name, not a generic bot or \"AllTheCalls.\" Most callers never realize it's not someone from your front desk texting them.",
   },
   {
     q: "What am I actually losing to missed calls?",
-    a: "A missed call that goes to voicemail converts far less often than one answered live — most owners never see the lost job because it just shows up as a call to a competitor instead. Think through your last few missed calls and what each one was probably worth.",
+    a: "A missed call that goes to voicemail converts far less often than one that gets an instant text-back — most owners never see the lost job because it just shows up as a call to a competitor instead. Think through your last few missed calls and what each one was probably worth.",
   },
   {
     q: "How fast can I go live?",
-    a: "Most businesses are answering calls within 24-48 hours. We handle the full setup — you just forward your existing number.",
+    a: "Most businesses are texting back missed calls within 24-48 hours. We handle the full setup — you just forward your existing number.",
   },
   {
     q: "What if I want to take a call myself?",
@@ -40,8 +40,8 @@ const FAQS: Faq[] = [
     a: "14-day money-back guarantee. Let us know within 14 days and we refund every penny. No questions.",
   },
   {
-    q: "Can I hear it before I sign up?",
-    a: `Yes — call ${SITE.phone.display} right now and hear a live AllTheCalls AI handle a call end-to-end. 60 seconds, no signup.`,
+    q: "Can I see it before I sign up?",
+    a: `There's nothing to call and listen to — AllTheCalls never talks to your callers, it texts them. Call ${SITE.phone.display} and we'll walk you through exactly what a missed caller of yours would see, using your own business details. No signup required.`,
   },
 ];
 
@@ -62,16 +62,16 @@ export default function Home() {
           <div className="wrap grid gap-8 py-14 sm:gap-10 sm:py-20 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:items-start lg:gap-14 lg:py-24">
             <div>
               <p className="text-[14px] font-bold tracking-[0.1em] text-brand">
-                24/7 AI call-answering for local businesses
+                24/7 AI missed-call text-back for local businesses
               </p>
               <h1 className="display heading-1 mt-4">Every missed call is money walking out the door.</h1>
               <p className="mt-5 max-w-xl text-[17px] leading-relaxed text-ink-soft sm:mt-6 sm:text-[19px]">
-                AllTheCalls answers every inbound call in your business name, 24/7, qualifies the
-                caller, books the appointment, and texts you the summary. Any missed call gets an
-                instant text-back so the lead doesn&rsquo;t call the next business in line.
+                AllTheCalls watches every inbound call to your business and, the moment one goes
+                missed, instantly texts that caller back in your business name — qualifies them
+                and books the appointment, all over text. You get the summary.
               </p>
               <ul className="mt-6 grid max-w-lg gap-x-6 gap-y-2 sm:grid-cols-2">
-                {["Done-for-you website", "AI call-answering + text-back", "Your own branded CRM app", "Ongoing local SEO"].map((b) => (
+                {["Done-for-you website", "Instant missed-call text-back", "Your own branded CRM app", "Ongoing local SEO"].map((b) => (
                   <li key={b} className="flex items-center gap-2.5 text-[16px] text-ink">
                     <Check size={18} strokeWidth={3} className="shrink-0 text-brand" aria-hidden />
                     {b}
@@ -86,7 +86,7 @@ export default function Home() {
                 <a href={SITE.phone.href} className="font-semibold text-brand underline underline-offset-4">
                   Call {SITE.phone.display}
                 </a>{" "}
-                and hear a live AllTheCalls AI handle a call end to end.
+                and we&rsquo;ll walk you through exactly how it works for your business.
               </p>
             </div>
             <HeroLeadForm />
@@ -111,7 +111,7 @@ export default function Home() {
             <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
               {[
                 { n: "01", t: "A website built to rank", d: "Done-for-you, hosted for you, structured for local SEO from day one." },
-                { n: "02", t: "AI call-answering + text-back", d: "Every call picked up 24/7 in your name. Every missed call gets an instant follow-up text." },
+                { n: "02", t: "Instant missed-call text-back", d: "Every missed call gets an instant follow-up text that qualifies the caller and books the job — no voice AI, just a fast text." },
                 { n: "03", t: "Your branded CRM app", d: "Every call, text, and lead lands in one pipeline under your own brand." },
                 { n: "04", t: "Local SEO, ongoing", d: "We keep tuning the site and your local listings so you keep showing up." },
               ].map((item, i) => (

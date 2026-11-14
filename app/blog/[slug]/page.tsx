@@ -56,7 +56,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
               Ready to automate your calls?
             </h3>
             <p style={{ color: "#52525b", marginBottom: "24px", fontSize: "16px" }}>
-              Don't just rely on software to type. Deploy an AI receptionist that talks, books, and closes for you.
+              Don't just rely on software to type. Deploy an AI that texts back every missed call, books, and closes for you.
             </p>
             <Link href="/onboarding" className="btn-primary" style={{ display: "inline-block", padding: "14px 32px", borderRadius: "8px", fontWeight: 600, textDecoration: "none" }}>
               Get Started Free

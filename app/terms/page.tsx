@@ -4,7 +4,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "Terms of Service",
   description:
-    "AllTheCalls terms of service — the agreement governing your use of our AI receptionist service.",
+    "AllTheCalls terms of service — the agreement governing your use of our AI missed-call text-back service.",
   alternates: { canonical: "https://allthecalls.ai/terms" },
   robots: { index: false },
 };
@@ -90,8 +90,8 @@ export default function TermsPage() {
 
           <div style={{ display: "flex", flexDirection: "column", gap: "32px" }}>
             <Section title="Service">
-              AllTheCalls provides an AI-powered phone answering service &mdash; built for real estate
-              professionals and available to any business. By signing up, you agree to these terms. We
+              AllTheCalls provides an AI-powered missed-call text-back service &mdash; available to any
+              local business. By signing up, you agree to these terms. We
               reserve the right to update these terms with 30 days notice.
             </Section>
 
@@ -104,8 +104,8 @@ export default function TermsPage() {
 
             <Section title="Your Responsibilities">
               You are responsible for configuring call forwarding correctly, complying with call-recording
-              laws in your jurisdiction, ensuring your AI receptionist is not used for illegal purposes,
-              and maintaining the security of your account credentials.
+              and texting laws in your jurisdiction, ensuring your AI missed-call text-back is not used for
+              illegal purposes, and maintaining the security of your account credentials.
             </Section>
 
             <Section title="Acceptable Use">
@@ -116,14 +116,14 @@ export default function TermsPage() {
 
             <Section title="Limitation of Liability">
               AllTheCalls is not liable for missed calls, lost leads, or revenue loss due to service
-              interruptions. Our AI receptionist performs best-effort call handling. We do not guarantee
-              100% uptime or 100% accuracy in call transcription or qualification.
+              interruptions. Our AI missed-call text-back performs best-effort text handling. We do not
+              guarantee 100% uptime or 100% accuracy in call transcription or lead qualification.
             </Section>
 
             <Section title="Termination">
               We may suspend or terminate accounts that violate these terms. You may cancel at any time.
-              Upon termination, your AI receptionist is deactivated and call forwarding should be removed
-              from your phone.
+              Upon termination, your AI missed-call text-back is deactivated and call forwarding should be
+              removed from your phone.
             </Section>
 
             <Section title="Contact">

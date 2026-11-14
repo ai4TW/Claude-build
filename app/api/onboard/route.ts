@@ -45,7 +45,7 @@ async function sendWelcomeEmail(client: OnboardInput, password: string): Promise
     body: JSON.stringify({
       from: "AllTheCalls <hello@allthecalls.ai>",
       to: client.email,
-      subject: `${firstName}, one quick step to activate your AI receptionist`,
+      subject: `${firstName}, one quick step to activate your AI missed-call text-back`,
       html: `
         <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 40px 20px; background: #08090f; color: #e2e8f0;">
           <div style="margin-bottom: 32px;">

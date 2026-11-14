@@ -15,15 +15,15 @@ export interface Faq {
 const STEPS = [
   {
     title: "Tell us about your business",
-    body: "Your name, how you want the AI to answer, and the questions you want asked on every call. About five minutes.",
+    body: "Your name, how you want the AI to text back missed callers, and the questions you want asked. About five minutes.",
   },
   {
     title: "Forward your number",
-    body: "Forward your existing business line to your new AI number. Your callers dial the same number they always have.",
+    body: "We set up call-forwarding so a missed call is detected the instant it happens — nothing changes about how your phone rings or who answers.",
   },
   {
     title: "Never miss another call",
-    body: "Every caller gets answered, qualified, and captured — and texted back instantly if you miss them. You get the summary.",
+    body: "Every missed call gets an instant text back — qualified, captured, and booked over text. Answered calls just come to you, like always.",
   },
 ];
 
@@ -47,12 +47,12 @@ export function HowItWorks({ heading = "How it works" }: { heading?: string }) {
 }
 
 const COMPARISON = [
-  { label: "Nights & weekends", ours: "Answered live, every time", theirs: "Voicemail" },
+  { label: "Nights & weekends", ours: "Texted back the instant it's missed", theirs: "Voicemail" },
   { label: "Missed call follow-up", ours: "Instant text-back", theirs: "Nothing, until they call back" },
-  { label: "New lead callback", ours: "Under 30 seconds", theirs: "Whenever you get to it" },
+  { label: "New lead text-back", ours: "Under 30 seconds", theirs: "Whenever you get to it" },
   { label: "Where leads live", ours: "One CRM, every call & text logged", theirs: "Sticky notes, a notebook, your memory" },
   { label: "Local search presence", ours: "Built-in, ongoing SEO", theirs: "Whatever your old site happens to do" },
-  { label: "Cost of a missed job", ours: "$0 — it's answered", theirs: "The whole job, to a competitor" },
+  { label: "Cost of a missed job", ours: "$0 — they get a text back in seconds", theirs: "The whole job, to a competitor" },
 ];
 
 export function ComparisonSection() {
@@ -214,7 +214,7 @@ export function FounderSection() {
         <div>
           <h2 className="display heading-2">We run this on our own business first</h2>
           <p className="mt-4 text-[18px] text-ink-soft">
-            I built AllTheCalls on the same call-answering, CRM, and SEO stack running my own real
+            I built AllTheCalls on the same missed-call text-back, CRM, and SEO stack running my own real
             estate business — it wasn&rsquo;t built as a product first and tested on customers later.
             Drainiacs Plumbing of Wichita is our first outside client, live now.
           </p>

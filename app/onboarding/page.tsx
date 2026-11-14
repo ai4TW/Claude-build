@@ -81,7 +81,7 @@ export default function Onboarding() {
           {step === 1 && (
             <div>
               <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "24px", fontWeight: 700, color: "white", marginBottom: "8px" }}>Tell us about your business</h1>
-              <p style={{ color: "rgba(255,255,255,0.45)", fontSize: "15px", marginBottom: "32px" }}>We&apos;ll customize your AI receptionist based on your industry.</p>
+              <p style={{ color: "rgba(255,255,255,0.45)", fontSize: "15px", marginBottom: "32px" }}>We&apos;ll customize your AI missed-call text-back based on your industry.</p>
 
               <div style={{ marginBottom: "20px" }}>
                 <label style={labelStyle}>Business Name</label>

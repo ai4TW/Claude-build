@@ -83,7 +83,7 @@ function MultiStepForm() {
           You&apos;re All Set, {form.name.split(" ")[0]}!
         </h3>
         <p style={{ color: "rgba(255,255,255,0.55)", fontSize: "16px", marginBottom: "28px", lineHeight: 1.6 }}>
-          Now let&apos;s get you on a quick call so we can build your AI receptionist live.
+          Now let&apos;s get you on a quick call so we can set up your AI missed-call text-back live.
         </p>
 
         {/* PRIMARY: Book the call */}
@@ -106,7 +106,7 @@ function MultiStepForm() {
 
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)", paddingTop: "20px" }}>
           <p style={{ color: "rgba(255,255,255,0.4)", fontSize: "13px", marginBottom: "12px" }}>
-            Want to hear it first?
+            Want to talk it through first?
           </p>
           <a
             href={DEMO_PHONE_HREF}
@@ -117,7 +117,7 @@ function MultiStepForm() {
               fontFamily: "'Space Grotesk', sans-serif",
             }}
           >
-            {"\u{1F4DE}"} Call Gia: {DEMO_PHONE}
+            {"\u{1F4DE}"} Call us: {DEMO_PHONE}
           </a>
         </div>
       </div>
@@ -215,7 +215,7 @@ function MultiStepForm() {
             Almost done! Where should we send your demo?
           </h3>
           <p style={{ color: "rgba(255,255,255,0.4)", fontSize: "14px", marginBottom: "20px" }}>
-            We&apos;ll build a custom AI receptionist tuned for your {form.industry.toLowerCase()} business.
+            We&apos;ll build a custom AI missed-call text-back tuned for your {form.industry.toLowerCase()} business.
           </p>
           <form onSubmit={(e) => { e.preventDefault(); handleFinalSubmit(); }} style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
             <input
@@ -319,7 +319,7 @@ export default function DemoPage() {
             <img src="/logo.svg" alt="AllTheCalls.ai" style={{ height: "32px", width: "auto" }} />
           </Link>
           <a href={DEMO_PHONE_HREF} style={{ fontSize: "13px", color: "#a78bfa", fontWeight: 600, textDecoration: "none" }}>
-            {"\u{1F4DE}"} Try Gia Live
+            {"\u{1F4DE}"} Talk to Us
           </a>
         </div>
       </nav>
@@ -347,7 +347,7 @@ export default function DemoPage() {
               </h1>
 
               <p style={{ color: "rgba(255,255,255,0.55)", fontSize: "17px", lineHeight: 1.7, marginBottom: "28px", maxWidth: "480px" }}>
-                Get a custom AI receptionist that answers every call in your business name, qualifies the caller, books the meeting, and texts you the summary &mdash; while you focus on the work.
+                Get a custom AI that texts back every missed call in your business name, qualifies the caller, books the meeting, and texts you the summary &mdash; while you focus on the work.
               </p>
 
               {/* Revenue loss callout */}
@@ -429,7 +429,7 @@ export default function DemoPage() {
                       {"\u26A1"} Free Custom Demo
                     </div>
                     <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, color: "white", fontSize: "22px", marginBottom: "6px" }}>
-                      See Your AI Receptionist Live
+                      See Your AI Missed-Call Text-Back Live
                     </h2>
                     <p style={{ color: "rgba(255,255,255,0.4)", fontSize: "14px" }}>
                       Takes 2 minutes. Built for your business.
@@ -456,19 +456,19 @@ export default function DemoPage() {
                 {
                   num: "1",
                   title: "We Build Your AI",
-                  desc: "Tell us your business name, industry, and how you want the AI to sound. We configure your AI receptionist right on the call.",
+                  desc: "Tell us your business name, industry, and how you want the AI to text back missed callers. We configure it right on the call.",
                   icon: "\u26A1",
                 },
                 {
                   num: "2",
-                  title: "You Hear It Live",
-                  desc: "We call your number and you hear your AI answer exactly as your clients would. Real call, real time.",
-                  icon: "\u{1F399}\uFE0F",
+                  title: "You See It Live",
+                  desc: "We walk through a sample missed call from your business and you see the exact text your callers would get. Real example, real time.",
+                  icon: "\u{1F4AC}",
                 },
                 {
                   num: "3",
                   title: "You Go Live",
-                  desc: "Love it? You leave the call with a working AI receptionist. Don't love it? No charge, no commitment.",
+                  desc: "Love it? You leave the call with a working AI missed-call text-back. Don't love it? No charge, no commitment.",
                   icon: "\u{1F680}",
                 },
               ].map((s) => (
@@ -531,7 +531,7 @@ export default function DemoPage() {
             </a>
             <div style={{ marginTop: "20px", display: "flex", gap: "6px", alignItems: "center", justifyContent: "center" }}>
               <a href={DEMO_PHONE_HREF} style={{ color: "rgba(255,255,255,0.4)", fontSize: "14px", textDecoration: "none" }}>
-                or call Gia right now: <span style={{ color: "#c4b5fd", fontWeight: 600 }}>{DEMO_PHONE}</span>
+                or call us right now: <span style={{ color: "#c4b5fd", fontWeight: 600 }}>{DEMO_PHONE}</span>
               </a>
             </div>
           </div>

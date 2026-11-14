@@ -9,7 +9,7 @@ export function SiteFooter() {
         <div>
           <Logo tone="dark" />
           <p className="mt-6 max-w-xs text-[15px] leading-relaxed">
-            A done-for-you AI call-answering, branded CRM app, and local SEO system for any
+            A done-for-you AI missed-call text-back, branded CRM app, and local SEO system for any
             local business that can&rsquo;t afford to miss a call.
           </p>
           <a href={SITE.phone.href} className="mt-4 inline-block text-[18px] font-semibold text-white hover:underline">
@@ -39,7 +39,7 @@ export function SiteFooter() {
       <div className="border-t border-white/10">
         <div className="wrap flex flex-col gap-3 py-6 text-[13.5px] text-white/60 lg:flex-row lg:items-center lg:justify-between">
           <p className="max-w-2xl">
-            AllTheCalls sells a done-for-you AI call-answering, CRM, and SEO system to local
+            AllTheCalls sells a done-for-you AI missed-call text-back, CRM, and SEO system to local
             businesses. Results depend on your market and how you use it.
           </p>
           <p className="flex gap-5">

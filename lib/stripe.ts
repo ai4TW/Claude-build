@@ -19,7 +19,7 @@ export const PLANS = {
     displayPrice: "$497",
     monthlyAmount: 497,
     description:
-      "Your 24/7 AI receptionist — answers every call in your business name, calls every new lead back in under 30 seconds, and syncs with your CRM.",
+      "Your 24/7 AI missed-call text-back — texts back every call you miss in your business name, texts every new lead back in under 30 seconds, and syncs with your CRM.",
   },
 } as const;
 
