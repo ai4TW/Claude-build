@@ -4,7 +4,6 @@ import { SiteNav, MobileBar } from "@/components/site-nav";
 import { SiteFooter } from "@/components/site-footer";
 import { ComparisonSection, FaqSection, FinalCta, FounderSection, HowItWorks, IndustryGrid, type Faq } from "@/components/sections";
 import HeroLeadForm from "@/components/hero-lead-form";
-import Hero3D from "@/components/hero-3d";
 import Reveal from "@/components/reveal";
 import { PRICE, SITE } from "@/lib/site";
 
@@ -59,9 +58,8 @@ export default function Home() {
       <SiteNav />
       <main>
         {/* HERO */}
-        <section className="relative overflow-hidden bg-white">
-          <Hero3D />
-          <div className="wrap relative z-10 grid gap-8 py-14 sm:gap-10 sm:py-20 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:items-start lg:gap-14 lg:py-24">
+        <section className="bg-white">
+          <div className="wrap grid gap-8 py-14 sm:gap-10 sm:py-20 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:items-start lg:gap-14 lg:py-24">
             <div>
               <p className="text-[14px] font-bold tracking-[0.1em] text-brand">
                 24/7 AI call-answering for local businesses
