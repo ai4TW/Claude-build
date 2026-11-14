@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.54.0",
+    "@react-three/fiber": "^8.18.0",
     "@stripe/react-stripe-js": "^6.1.0",
     "@stripe/stripe-js": "^9.0.1",
     "@supabase/supabase-js": "^2.101.1",
@@ -22,13 +23,15 @@
     "marked": "^17.0.6",
     "motion": "^13.1.1",
     "stripe": "^17.7.0",
-    "tailwind-merge": "^3.6.0"
+    "tailwind-merge": "^3.6.0",
+    "three": "^0.169.0"
   },
   "devDependencies": {
     "@types/marked": "^5.0.2",
     "@types/node": "^25.5.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
+    "@types/three": "^0.187.0",
     "@vercel/node": "^5.7.0",
     "autoprefixer": "^10.4.27",
     "next": "^15.0.0",

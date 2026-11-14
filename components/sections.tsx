@@ -3,8 +3,25 @@
 import Link from "next/link";
 import Image from "next/image";
 import { ChevronRight, Phone, Plus } from "lucide-react";
+import { motion, useReducedMotion } from "motion/react";
 import { INDUSTRIES, SITE } from "@/lib/site";
 import Reveal from "@/components/reveal";
+
+// One orchestrated sequence for How It Works: a single parent trigger drives
+// each step's top line drawing in, then its text rising, in order — not
+// three independently-triggered fades (the generic default elsewhere).
+const stepsContainer = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.22, delayChildren: 0.05 } },
+};
+const stepItem = {
+  hidden: { opacity: 0, y: 18 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.23, 1, 0.32, 1] as const } },
+};
+const stepLine = {
+  hidden: { scaleX: 0 },
+  show: { scaleX: 1, transition: { duration: 0.45, ease: [0.23, 1, 0.32, 1] as const } },
+};
 
 export interface Faq {
   q: string;
@@ -27,19 +44,52 @@ const STEPS = [
 ];
 
 export function HowItWorks({ heading = "How it works" }: { heading?: string }) {
+  const reduced = useReducedMotion();
+
+  if (reduced) {
+    return (
+      <section id="how-it-works" className="scroll-mt-20 py-20 lg:py-28">
+        <div className="wrap">
+          <h2 className="display heading-2 max-w-2xl">{heading}</h2>
+          <ol className="mt-12 grid gap-10 md:grid-cols-3">
+            {STEPS.map((s, i) => (
+              <li key={s.title} className="border-t-2 border-ink pt-6">
+                <span className="display block text-[64px] leading-none text-brand">{i + 1}</span>
+                <h3 className="mt-5 text-[21px] leading-snug font-bold">{s.title}</h3>
+                <p className="mt-2 max-w-[38ch] text-ink-soft">{s.body}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section id="how-it-works" className="scroll-mt-20 py-20 lg:py-28">
       <div className="wrap">
         <h2 className="display heading-2 max-w-2xl">{heading}</h2>
-        <ol className="mt-12 grid gap-10 md:grid-cols-3">
+        <motion.ol
+          className="mt-12 grid gap-10 md:grid-cols-3"
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "0px 0px -80px 0px" }}
+          variants={stepsContainer}
+        >
           {STEPS.map((s, i) => (
-            <Reveal as="li" key={s.title} delay={i * 0.08} className="border-t-2 border-ink pt-6">
+            <motion.li key={s.title} variants={stepItem} className="relative pt-6">
+              <motion.span
+                aria-hidden
+                variants={stepLine}
+                style={{ transformOrigin: "left" }}
+                className="absolute inset-x-0 top-0 h-[2px] bg-ink"
+              />
               <span className="display block text-[64px] leading-none text-brand">{i + 1}</span>
               <h3 className="mt-5 text-[21px] leading-snug font-bold">{s.title}</h3>
               <p className="mt-2 max-w-[38ch] text-ink-soft">{s.body}</p>
-            </Reveal>
+            </motion.li>
           ))}
-        </ol>
+        </motion.ol>
       </div>
     </section>
   );
