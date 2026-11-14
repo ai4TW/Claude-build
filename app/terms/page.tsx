@@ -96,10 +96,10 @@ export default function TermsPage() {
             </Section>
 
             <Section title="Subscription & Billing">
-              Subscriptions are billed monthly at $497. Your 14-day money-back guarantee begins at signup
-              &mdash; if you&rsquo;re not satisfied, email us within 14 days for a full refund. You may
-              cancel anytime from your dashboard; cancellation takes effect at the end of your current
-              billing period.
+              Setup is a one-time fee of $1,997, billed when you sign up. Subscriptions are then billed
+              monthly at $497. Your 14-day money-back guarantee begins at signup &mdash; if you&rsquo;re
+              not satisfied, email us within 14 days for a full refund. You may cancel anytime from your
+              dashboard; cancellation takes effect at the end of your current billing period.
             </Section>
 
             <Section title="Your Responsibilities">

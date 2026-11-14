@@ -69,7 +69,11 @@ export default async function CheckoutPage({ searchParams }: Props) {
           <TrackInitiateCheckout plan={validPlan} />
         </div>
 
-        <p style={{ textAlign: "center", color: "rgba(255,255,255,0.2)", fontSize: "12px", marginTop: "16px" }}>
+        <p style={{ textAlign: "center", color: "rgba(255,255,255,0.35)", fontSize: "12.5px", marginTop: "16px", maxWidth: "480px", marginLeft: "auto", marginRight: "auto", lineHeight: 1.5 }}>
+          This charges the {selectedPlan.displayPrice}/mo subscription. The one-time $1,997 setup fee
+          is billed separately once our team confirms your build details — we&apos;ll reach out after checkout.
+        </p>
+        <p style={{ textAlign: "center", color: "rgba(255,255,255,0.2)", fontSize: "12px", marginTop: "8px" }}>
           Secured by Stripe · 256-bit SSL · 14-day money-back guarantee
         </p>
       </div>

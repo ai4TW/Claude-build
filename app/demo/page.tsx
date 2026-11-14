@@ -484,24 +484,22 @@ export default function DemoPage() {
         </section>
 
         {/* ============================================================ */}
-        {/*  TESTIMONIALS                                                 */}
+        {/*  WHAT'S INCLUDED                                              */}
         {/* ============================================================ */}
         <section style={{ padding: "3rem 1rem 4rem" }}>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5" style={{ maxWidth: "960px", margin: "0 auto" }}>
             {[
-              { quote: "All The Calls fixed my missed-call problem overnight. A new client called at 9 PM on a Friday \u2014 the AI booked the consult and I signed them the next week.", name: "Rachel M.", role: "Attorney, Austin TX" },
-              { quote: "My AI receptionist sounds so natural that patients think they talked to my front desk. The transcripts are incredibly detailed.", name: "Dr. James K.", role: "Family Practice, Denver CO" },
-              { quote: "It\u2019s like having a full-time dispatcher for less than I was spending on missed-call callbacks. Every lead gets captured.", name: "Derek S.", role: "HVAC Owner, Phoenix AZ" },
+              { title: "24/7 Call-Answering", desc: "Every call picked up in your business name, day or night, qualified and logged automatically." },
+              { title: "Missed-Call Text-Back", desc: "Can't get to a call? The caller gets a text within seconds so the lead doesn't go to the next business." },
+              { title: "Your Branded CRM App", desc: "Every call, text, and lead lands in one pipeline under your own brand, backed by a done-for-you website and local SEO." },
             ].map((t) => (
-              <div key={t.name} className="glass-card" style={{ borderRadius: "16px", padding: "24px" }}>
-                <div style={{ display: "flex", gap: "3px", marginBottom: "12px" }}>
-                  {[...Array(5)].map((_, j) => <span key={j} style={{ color: "#facc15", fontSize: "12px" }}>{"\u2605"}</span>)}
-                </div>
-                <p style={{ color: "rgba(255,255,255,0.6)", fontSize: "14px", lineHeight: 1.7, fontStyle: "italic", marginBottom: "16px" }}>
-                  &ldquo;{t.quote}&rdquo;
+              <div key={t.title} className="glass-card" style={{ borderRadius: "16px", padding: "24px" }}>
+                <h3 style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 700, color: "white", fontSize: "15px", marginBottom: "10px" }}>
+                  {t.title}
+                </h3>
+                <p style={{ color: "rgba(255,255,255,0.55)", fontSize: "14px", lineHeight: 1.7 }}>
+                  {t.desc}
                 </p>
-                <p style={{ fontWeight: 700, color: "white", fontSize: "13px" }}>{t.name}</p>
-                <p style={{ color: "rgba(255,255,255,0.35)", fontSize: "12px" }}>{t.role}</p>
               </div>
             ))}
           </div>

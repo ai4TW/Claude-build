@@ -281,7 +281,7 @@ export default function JustHappenedPage() {
           Your business.<br />This AI. Every call.
         </h2>
         <p style={{ fontSize: 18, color: "rgba(255,255,255,0.45)", marginBottom: 40, lineHeight: 1.6 }}>
-          Built for real estate pros &mdash; and any business that can&apos;t afford to miss a call.<br />$497/month. Live in 24-48 hours.
+          Built for real estate pros &mdash; and any business that can&apos;t afford to miss a call.<br />$1,997 setup + $497/month. Live in 24-48 hours.
         </p>
         <a
           href="/pricing"
