@@ -1,5 +1,6 @@
 "use client";
 
+import type { ReactNode } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ChevronRight, Phone, Plus } from "lucide-react";
@@ -157,21 +158,29 @@ export function FaqSection({ faqs, heading = "Questions business owners ask" }: 
 }
 
 export function FinalCta({
-  heading = "Every missed call is a customer calling someone else.",
+  prelude = "The next missed call is already on its way.",
+  heading = (
+    <>
+      Every missed call is a customer calling{" "}
+      <span className="accent-chip">someone else</span>.
+    </>
+  ),
   body = "Live in 24-48 hours. No contracts. 14-day money-back guarantee.",
 }: {
-  heading?: string;
+  prelude?: string;
+  heading?: ReactNode;
   body?: string;
 }) {
   return (
-    <section className="on-dark bg-brand-deep py-20 text-white lg:py-24">
-      <div className="wrap flex flex-col items-start gap-8 lg:flex-row lg:items-end lg:justify-between">
-        <div className="max-w-2xl">
-          <h2 className="display heading-2 text-white">{heading}</h2>
-          <p className="mt-4 text-[18px] text-white/85">{body}</p>
-        </div>
-        <div className="flex flex-wrap gap-3">
-          <Link href="/pricing" className="btn-accent h-14 px-7 text-[17px]">See pricing</Link>
+    <section className="on-dark bg-brand-deep border-t border-white/10 pb-20 pt-20 text-center text-white lg:pb-24 lg:pt-28">
+      <div className="wrap flex flex-col items-center">
+        <p className="text-[15px] font-semibold text-white/70">{prelude}</p>
+        <h2 className="display heading-close mt-5 max-w-3xl text-white">{heading}</h2>
+        <p className="mt-6 max-w-md text-[17px] text-white/85">{body}</p>
+        <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
+          <Link href="/pricing" className="btn-accent h-14 px-7 text-[17px] shadow-[0_18px_40px_-20px_rgba(0,0,0,0.6)]">
+            See pricing
+          </Link>
           <a href={SITE.phone.href} className="btn-outline-light h-14 px-6 text-[17px]">
             <Phone size={18} aria-hidden />
             {SITE.phone.display}

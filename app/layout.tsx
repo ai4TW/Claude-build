@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
-import { Archivo, Montserrat } from "next/font/google";
+import { Archivo, Fraunces, Montserrat } from "next/font/google";
 import MetaPixel from "@/components/MetaPixel";
 import "./globals.css";
 
@@ -17,6 +17,18 @@ const montserrat = Montserrat({
   subsets: ["latin"],
   weight: ["700", "800"],
   variable: "--font-montserrat",
+  display: "swap",
+});
+
+// One deliberate accent face, used only for the single emphasized phrase in
+// the closing section — not a site-wide type change. Grounded in a real
+// reference (an editorial display serif reserved for one emphasis moment
+// per page), adapted with AllTheCalls' own palette, not that site's.
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  weight: ["500"],
+  style: ["italic"],
+  variable: "--font-accent-serif",
   display: "swap",
 });
 
@@ -131,7 +143,7 @@ const structuredData = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${archivo.variable} ${montserrat.variable}`}>
+    <html lang="en" className={`${archivo.variable} ${montserrat.variable} ${fraunces.variable}`}>
       <head>
         <script
           type="application/ld+json"

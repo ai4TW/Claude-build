@@ -105,6 +105,28 @@
   .heading-1 { font-size: clamp(2.3rem, 1.3rem + 3.4vw, 3.9rem); }
   .heading-2 { font-size: clamp(1.9rem, 1.4rem + 2vw, 2.7rem); line-height: 1.07; }
 
+  /* Monumental close: one large centered line per page, used only in
+     FinalCta. The resolving phrase sits on its own white chip, serif
+     italic, signal-red text — the single bold move on the page. */
+  .heading-close {
+    font-size: clamp(2.6rem, 1.3rem + 5.4vw, 5.5rem);
+    line-height: 1.04;
+    text-wrap: balance;
+  }
+  .accent-chip {
+    display: inline-flex;
+    align-items: baseline;
+    background: #ffffff;
+    color: var(--color-brand);
+    font-family: var(--font-accent-serif), Georgia, serif;
+    font-style: italic;
+    font-weight: 500;
+    letter-spacing: 0.005em;
+    padding: 0.08em 0.3em;
+    border-radius: 0.3em;
+    transform: translateY(0.02em);
+  }
+
   .field {
     width: 100%;
     border-radius: 10px;
