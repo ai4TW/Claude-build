@@ -1,27 +1,32 @@
 "use client";
 
-import { useCallback, useState } from "react";
-import { loadStripe } from "@stripe/stripe-js";
-import { EmbeddedCheckout, EmbeddedCheckoutProvider } from "@stripe/react-stripe-js";
+import { useState } from "react";
 
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
-
-export default function CheckoutForm({ plan }: { plan: string }) {
+export default function CheckoutForm() {
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
-  const fetchClientSecret = useCallback(async () => {
-    const res = await fetch("/api/checkout", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ plan }),
-    });
-    const data = await res.json();
-    if (!res.ok) {
-      setError(data.error || "Something went wrong.");
-      return "";
+  const startCheckout = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({}),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.url) {
+        setError(data.error || "Something went wrong.");
+        setLoading(false);
+        return;
+      }
+      window.location.href = data.url as string;
+    } catch {
+      setError("Something went wrong. Please try again.");
+      setLoading(false);
     }
-    return data.clientSecret as string;
-  }, [plan]);
+  };
 
   if (error) {
     return (
@@ -33,8 +38,18 @@ export default function CheckoutForm({ plan }: { plan: string }) {
   }
 
   return (
-    <EmbeddedCheckoutProvider stripe={stripePromise} options={{ fetchClientSecret }}>
-      <EmbeddedCheckout />
-    </EmbeddedCheckoutProvider>
+    <div style={{ textAlign: "center", padding: "48px 24px" }}>
+      <button
+        onClick={startCheckout}
+        disabled={loading}
+        className="btn-glow"
+        style={{ fontWeight: 700, padding: "16px 32px", borderRadius: "12px", fontSize: "16px", border: "none", cursor: loading ? "default" : "pointer", opacity: loading ? 0.7 : 1 }}
+      >
+        {loading ? "Redirecting to secure checkout…" : "Continue to secure checkout →"}
+      </button>
+      <p style={{ color: "rgba(255,255,255,0.35)", fontSize: "12.5px", marginTop: "16px" }}>
+        You&apos;ll complete payment on Stripe&apos;s secure page, then come straight back here to tell us about your business.
+      </p>
+    </div>
   );
 }

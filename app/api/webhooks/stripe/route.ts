@@ -67,58 +67,26 @@ async function verifyStripeSignature(
 }
 
 async function handleCheckoutCompleted(session: Record<string, unknown>) {
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://allthecalls.ai";
-  const internalSecret = process.env.INTERNAL_SECRET;
-
-  if (!internalSecret) {
-    console.error("[webhook] INTERNAL_SECRET not set — cannot call /api/onboard");
-    return;
-  }
-
-  // Extract client info from Stripe session metadata
-  const metadata = (session.metadata as Record<string, string>) || {};
-  const customerEmail = (session.customer_email as string) || metadata.email || "";
-  const name = metadata.name || customerEmail.split("@")[0] || "New Agent";
-  const brokerage = metadata.brokerage || "";
-  const phone = metadata.phone || "";
-  const plan = metadata.plan || "starter";
-  const stripeCustomerId = (session.customer as string) || "";
-  const stripeSubscriptionId = (session.subscription as string) || "";
-
-  if (!customerEmail) {
-    console.error("[webhook] No customer email in Stripe session — cannot onboard");
-    return;
-  }
-
-  console.log(`[webhook] Provisioning account for ${customerEmail} (${plan} plan)`);
-
-  // /api/onboard creates the Supabase account + sends setup email.
-  // Trillet agent creation happens when the client completes the setup wizard.
-  const res = await fetch(`${appUrl}/api/onboard`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "x-internal-secret": internalSecret,
-    },
-    body: JSON.stringify({
-      name,
-      brokerage,
-      email: customerEmail,
-      phone,
-      plan,
-      stripeCustomerId,
-      stripeSubscriptionId,
-    }),
-  });
-
-  const result = await res.json();
-
-  if (!res.ok) {
-    console.error("[webhook] Account provision failed:", result.error);
-    return;
-  }
-
-  console.log(`[webhook] Account provisioned for ${customerEmail}`);
+  // The real provisioning kickoff happens when the customer lands on
+  // /setup/{session_id} — lib/provisioning.ts's verifySession() checks this
+  // exact session directly against Stripe's API before accepting any
+  // business details, and submitIntake() is what actually writes the
+  // provisioning_jobs row. That path doesn't depend on this webhook firing
+  // at all, so there is nothing left for this handler to kick off.
+  //
+  // This replaces the old call to the retired /api/onboard route (plaintext
+  // temp password, pre-dates the provisioning_jobs pipeline).
+  //
+  // Known gap, not fixed here: if a customer pays and never returns to
+  // /setup/{session_id}, there's no record of that until they do — no
+  // "paid but didn't finish onboarding" visibility yet. A fast-follow could
+  // have this handler write a `pending_intake` row (the schema already
+  // supports that status) so submitIntake() upserts instead of inserting,
+  // but that changes provisioning.ts's insert path and wasn't done as part
+  // of today's MVP checkout wiring.
+  const customerEmail = (session.customer_email as string) || "";
+  const sessionId = (session.id as string) || "";
+  console.log(`[webhook] Checkout completed for ${customerEmail || "unknown email"} (session ${sessionId}) — awaiting intake at /setup/${sessionId}`);
 }
 
 async function handleSubscriptionDeleted(subscription: Record<string, unknown>) {

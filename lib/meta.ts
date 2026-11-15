@@ -52,7 +52,7 @@ export function trackVideoView() {
 
 /** Fire when someone lands on the Stripe embedded checkout page. */
 export function trackInitiateCheckout(params?: {
-  plan?: "starter" | "pro" | "agency";
+  plan?: "starter" | "pro" | "agency" | "growth";
   value?: number;
 }) {
   const planPrice = params?.value ?? planToPrice(params?.plan);
@@ -86,6 +86,7 @@ export function trackContact(method: "call" | "book") {
 }
 
 function planToPrice(plan: string | undefined): number {
+  if (plan === "growth") return 1997; // the real $1,997 setup fee — the one offer sold today
   if (plan === "starter") return 199;
   if (plan === "pro") return 349;
   if (plan === "agency") return 599;
