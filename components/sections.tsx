@@ -5,27 +5,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { ChevronRight, Phone, Plus } from "lucide-react";
 import { INDUSTRIES, SITE } from "@/lib/site";
+import { HOW_IT_WORKS_STEPS as STEPS, COMPARISON_ROWS as COMPARISON, type Faq } from "@/lib/content";
 import Reveal from "@/components/reveal";
 
-export interface Faq {
-  q: string;
-  a: string;
-}
-
-const STEPS = [
-  {
-    title: "Tell us about your business",
-    body: "Your name, how you want the AI to text back missed callers, and the questions you want asked. About five minutes.",
-  },
-  {
-    title: "Forward your number",
-    body: "We set up call-forwarding so a missed call is detected the instant it happens — nothing changes about how your phone rings or who answers.",
-  },
-  {
-    title: "Never miss another call",
-    body: "Every missed call gets an instant text back — qualified, captured, and booked over text. Answered calls just come to you, like always.",
-  },
-];
+export type { Faq };
 
 export function HowItWorks({ heading = "How it works" }: { heading?: string }) {
   return (
@@ -45,15 +28,6 @@ export function HowItWorks({ heading = "How it works" }: { heading?: string }) {
     </section>
   );
 }
-
-const COMPARISON = [
-  { label: "Nights & weekends", ours: "Texted back the instant it's missed", theirs: "Voicemail" },
-  { label: "Missed call follow-up", ours: "Instant text-back", theirs: "Nothing, until they call back" },
-  { label: "New lead text-back", ours: "Under 30 seconds", theirs: "Whenever you get to it" },
-  { label: "Where leads live", ours: "One CRM, every call & text logged", theirs: "Sticky notes, a notebook, your memory" },
-  { label: "Local search presence", ours: "Built-in, ongoing SEO", theirs: "Whatever your old site happens to do" },
-  { label: "Cost of a missed job", ours: "$0 — they get a text back in seconds", theirs: "The whole job, to a competitor" },
-];
 
 export function ComparisonSection() {
   return (

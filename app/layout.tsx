@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
-import { Archivo, Fraunces, Montserrat } from "next/font/google";
+import { Archivo, Fraunces, Montserrat, Space_Grotesk } from "next/font/google";
 import MetaPixel from "@/components/MetaPixel";
 import "./globals.css";
 
@@ -29,6 +29,15 @@ const fraunces = Fraunces({
   weight: ["500"],
   style: ["italic"],
   variable: "--font-accent-serif",
+  display: "swap",
+});
+
+// Only used by the dark "Midnight Intelligence" brand A/B variant
+// (components/dark-sections.tsx) — Variant A never references this font.
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  weight: ["500", "700"],
+  variable: "--font-space-grotesk",
   display: "swap",
 });
 
@@ -143,7 +152,7 @@ const structuredData = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${archivo.variable} ${montserrat.variable} ${fraunces.variable}`}>
+    <html lang="en" className={`${archivo.variable} ${montserrat.variable} ${fraunces.variable} ${spaceGrotesk.variable}`}>
       <head>
         <script
           type="application/ld+json"
