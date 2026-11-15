@@ -6,7 +6,7 @@ import { trackInitiateCheckout } from "@/lib/meta";
 export default function TrackInitiateCheckout({
   plan,
 }: {
-  plan: "starter" | "pro" | "agency";
+  plan: "growth";
 }) {
   useEffect(() => {
     trackInitiateCheckout({ plan });

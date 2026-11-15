@@ -92,6 +92,22 @@ export default function SetupWizard({ sessionId }: { sessionId: string }) {
           We&apos;ve already got your business details. We&apos;ll email you the moment your site
           and CRM are ready.
         </p>
+        <div className="mt-6 rounded-xl border border-ink/10 bg-paper p-5">
+          <p className="font-semibold text-ink">One thing to do in the meantime: get a business phone number.</p>
+          <p className="mt-2 text-ink-soft">
+            We route your missed-call text-back through a number from{" "}
+            <a
+              href={process.env.NEXT_PUBLIC_QUO_AFFILIATE_URL || "#"}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-brand underline underline-offset-2"
+            >
+              Quo
+            </a>
+            {" "}— grab one now (or forward/port your existing number once you have it) and we&apos;ll connect
+            it the moment your CRM goes live.
+          </p>
+        </div>
       </div>
     );
   }

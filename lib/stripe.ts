@@ -7,20 +7,27 @@ export function getStripe() {
 }
 
 /**
- * Single-plan catalog.
- * The `pro` key is kept so existing `/checkout?plan=pro` links continue to work.
- * Price is $497/mo — Stripe priceId unchanged from previous config.
- * Custom buildouts for larger teams are handled via Calendly / sales call, not self-serve.
+ * The one offer AllTheCalls sells today: a one-time setup fee plus a
+ * recurring monthly fee, billed together on the same Stripe subscription
+ * Checkout Session (Stripe supports mixing a one-time Price into a
+ * `mode: "subscription"` session — it's invoiced once, upfront, alongside
+ * the first recurring invoice).
+ *
+ * Both price IDs must exist in Stripe before this can run:
+ *   1. Stripe Dashboard → Product catalog → Add product → "AllTheCalls — Growth"
+ *   2. Add a one-time Price: $1,997 USD → copy its id into STRIPE_PRICE_SETUP_ID
+ *   3. Add a recurring Price on the same product: $497 USD / month → copy its id into STRIPE_PRICE_MONTHLY_ID
+ *   4. Set STRIPE_SECRET_KEY (Stripe Dashboard → Developers → API keys)
+ *   5. Set STRIPE_WEBHOOK_SECRET (Stripe Dashboard → Developers → Webhooks → add endpoint
+ *      at https://allthecalls.ai/api/webhooks/stripe, event: checkout.session.completed
+ *      at minimum) — paste these directly into Vercel env vars yourself; never hand a
+ *      live secret key to anyone else to type in for you.
+ *
+ * No free trial — the real offer is a flat setup fee + monthly fee, not a trial period.
  */
-export const PLANS = {
-  pro: {
-    name: "AllTheCalls — All-In-One",
-    priceId: "price_1TKOpP42X4XVjhD9P2VH0xgn",
-    displayPrice: "$497",
-    monthlyAmount: 497,
-    description:
-      "Your 24/7 AI missed-call text-back — texts back every call you miss in your business name, texts every new lead back in under 30 seconds, and syncs with your CRM.",
-  },
-} as const;
-
-export type PlanId = keyof typeof PLANS;
+export const GROWTH_OFFER = {
+  name: "AllTheCalls — Growth",
+  setupPriceId: process.env.STRIPE_PRICE_SETUP_ID,
+  monthlyPriceId: process.env.STRIPE_PRICE_MONTHLY_ID,
+  tier: "growth" as const,
+};

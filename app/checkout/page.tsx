@@ -1,39 +1,16 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { PLANS, PlanId } from "@/lib/stripe";
+import { PRICE } from "@/lib/site";
 import CheckoutForm from "./CheckoutForm";
 import TrackInitiateCheckout from "@/components/TrackInitiateCheckout";
 
 export const metadata: Metadata = {
   title: "Complete Your Order",
-  description: "Get started with All The Calls. 14-day money-back guarantee.",
+  description: "Get started with AllTheCalls. 14-day money-back guarantee.",
   robots: { index: false },
 };
 
-interface Props {
-  searchParams: Promise<{ plan?: string }>;
-}
-
-export default async function CheckoutPage({ searchParams }: Props) {
-  const { plan } = await searchParams;
-  const validPlan = plan && plan in PLANS ? (plan as PlanId) : null;
-
-  if (!validPlan) {
-    return (
-      <div style={{ minHeight: "100vh", background: "#08090f", display: "flex", alignItems: "center", justifyContent: "center", padding: "1rem", fontFamily: "'DM Sans', system-ui, sans-serif" }}>
-        <div style={{ textAlign: "center" }}>
-          <h1 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "24px", fontWeight: 700, color: "white", marginBottom: "12px" }}>Invalid Plan</h1>
-          <p style={{ color: "rgba(255,255,255,0.5)", marginBottom: "24px" }}>Please select a plan from our pricing page.</p>
-          <Link href="/pricing" className="btn-glow" style={{ color: "white", fontWeight: 700, padding: "12px 24px", borderRadius: "12px", textDecoration: "none", fontSize: "15px" }}>
-            View Plans →
-          </Link>
-        </div>
-      </div>
-    );
-  }
-
-  const selectedPlan = PLANS[validPlan];
-
+export default function CheckoutPage() {
   return (
     <div style={{ minHeight: "100vh", background: "#08090f", fontFamily: "'DM Sans', system-ui, sans-serif" }}>
       {/* Header */}
@@ -43,9 +20,9 @@ export default async function CheckoutPage({ searchParams }: Props) {
             <img src="/logo.svg" alt="AllTheCalls.ai" style={{ height: "36px", width: "auto" }} />
           </Link>
           <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap", justifyContent: "flex-end" }}>
-            <span style={{ fontWeight: 700, color: "white", fontSize: "14px" }}>{selectedPlan.name}</span>
+            <span style={{ fontWeight: 700, color: "white", fontSize: "14px" }}>AllTheCalls — Growth</span>
             <span style={{ color: "rgba(255,255,255,0.4)", fontSize: "14px" }}>·</span>
-            <span style={{ color: "rgba(255,255,255,0.6)", fontSize: "14px" }}>{selectedPlan.displayPrice}</span>
+            <span style={{ color: "rgba(255,255,255,0.6)", fontSize: "14px" }}>{PRICE.setup} setup + {PRICE.monthly}</span>
             <span style={{ background: "rgba(34,197,94,0.15)", border: "1px solid rgba(34,197,94,0.35)", color: "#86efac", fontSize: "11px", fontWeight: 700, padding: "3px 10px", borderRadius: "999px" }}>
               14-day money-back guarantee
             </span>
@@ -65,13 +42,12 @@ export default async function CheckoutPage({ searchParams }: Props) {
         </div>
 
         <div className="glass-card" style={{ borderRadius: "20px", overflow: "hidden" }}>
-          <CheckoutForm plan={validPlan} />
-          <TrackInitiateCheckout plan={validPlan} />
+          <CheckoutForm />
+          <TrackInitiateCheckout plan="growth" />
         </div>
 
         <p style={{ textAlign: "center", color: "rgba(255,255,255,0.35)", fontSize: "12.5px", marginTop: "16px", maxWidth: "480px", marginLeft: "auto", marginRight: "auto", lineHeight: 1.5 }}>
-          This charges the {selectedPlan.displayPrice}/mo subscription. The one-time $1,997 setup fee
-          is billed separately once our team confirms your build details — we&apos;ll reach out after checkout.
+          {PRICE.setup} setup + {PRICE.monthly} — charged together today, no separate invoice, no free trial.
         </p>
         <p style={{ textAlign: "center", color: "rgba(255,255,255,0.2)", fontSize: "12px", marginTop: "8px" }}>
           Secured by Stripe · 256-bit SSL · 14-day money-back guarantee

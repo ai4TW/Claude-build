@@ -63,6 +63,11 @@ export default function PricingSection() {
           <p className="mt-3 text-center text-[12.5px] text-muted">
             15 minutes · We confirm your business details and get you on the build calendar
           </p>
+          <p className="mt-2 text-center text-[13px]">
+            <Link href="/checkout" className="text-brand underline underline-offset-2">
+              Already know you want in? Skip the call and check out now →
+            </Link>
+          </p>
         </div>
 
         <div className="mt-6 flex flex-wrap items-center justify-between gap-4 rounded-[16px] border border-line bg-mist p-6">
