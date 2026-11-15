@@ -1,10 +1,8 @@
-import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Check, Phone } from "lucide-react";
-import { SiteNav, MobileBar } from "@/components/site-nav";
-import { SiteFooter } from "@/components/site-footer";
-import { FaqSection, FinalCta, IndustryGrid, type Faq } from "@/components/sections";
+import { Check } from "lucide-react";
+import { DarkNav, DarkMobileBar, DarkFooter, DarkFaqSection, DarkFinalCta, DarkIndustryGrid } from "@/components/dark-sections";
+import type { Faq } from "@/lib/content";
 import HeroLeadForm from "@/components/hero-lead-form";
 import { PRICE, SITE } from "@/lib/site";
 
@@ -122,52 +120,54 @@ export default async function IndustryPage({ params }: { params: Promise<{ slug:
   if (!data) notFound();
 
   return (
-    <>
-      <SiteNav />
+    <div className="bg-[#08090f]">
+      <DarkNav />
       <main>
-        <section className="bg-white">
+        <section>
           <div className="wrap grid gap-8 py-14 sm:gap-10 sm:py-20 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:items-start lg:gap-14 lg:py-24">
             <div>
-              <p className="text-[14px] font-bold tracking-[0.1em] text-brand">Built for {data.title.toLowerCase()}</p>
-              <h1 className="display heading-1 mt-4">{data.headline}</h1>
-              <p className="mt-5 max-w-xl text-[17px] leading-relaxed text-ink-soft sm:text-[19px]">{data.description}</p>
+              <p className="text-[14px] font-bold tracking-[0.1em] bg-gradient-to-r from-[#4cd7f6] to-[#d2bbff] bg-clip-text text-transparent">
+                Built for {data.title.toLowerCase()}
+              </p>
+              <h1 style={{ fontFamily: "var(--font-space-grotesk)" }} className="mt-4 text-[clamp(2.1rem,1.3rem+3vw,3.3rem)] font-bold leading-[1.08] text-white">
+                {data.headline}
+              </h1>
+              <p className="mt-5 max-w-xl text-[17px] leading-relaxed text-white/60 sm:text-[19px]">{data.description}</p>
               <ul className="mt-6 flex flex-col gap-2.5">
                 {data.bullets.map((b) => (
-                  <li key={b} className="flex items-start gap-2.5 text-[16px] text-ink">
-                    <Check size={18} strokeWidth={3} className="mt-0.5 shrink-0 text-brand" aria-hidden />
+                  <li key={b} className="flex items-start gap-2.5 text-[16px] text-white/85">
+                    <Check size={18} strokeWidth={3} className="mt-0.5 shrink-0 text-[#4cd7f6]" aria-hidden />
                     {b}
                   </li>
                 ))}
               </ul>
-              <p className="mt-6 max-w-xl text-[17px] font-semibold text-ink">
+              <p className="mt-6 max-w-xl text-[17px] font-semibold text-white">
                 {PRICE.setup} setup + {PRICE.monthly}.{" "}
-                <a href={SITE.phone.href} className="font-semibold text-brand underline underline-offset-4">
+                <a href={SITE.phone.href} className="font-semibold text-[#4cd7f6] underline underline-offset-4">
                   Call {SITE.phone.display}
                 </a>{" "}
                 and we&rsquo;ll walk you through it.
               </p>
             </div>
-            <HeroLeadForm id="lead-form" />
+            <HeroLeadForm id="lead-form" theme="dark" />
           </div>
         </section>
 
-        <div className="border-t border-line bg-mist">
-          <FaqSection
-            heading={`Questions ${data.title.toLowerCase()} businesses ask`}
-            faqs={[
-              ...data.faqs,
-              { q: "How fast can I go live?", a: "Most businesses are texting back missed calls within 24-48 hours. We handle the full setup — you just forward your existing number." },
-              { q: "What if I'm not happy with it?", a: "14-day money-back guarantee. Let us know within 14 days and we refund every penny." },
-            ]}
-          />
-        </div>
+        <DarkFaqSection
+          heading={`Questions ${data.title.toLowerCase()} businesses ask`}
+          faqs={[
+            ...data.faqs,
+            { q: "How fast can I go live?", a: "Most businesses are texting back missed calls within 24-48 hours. We handle the full setup — you just forward your existing number." },
+            { q: "What if I'm not happy with it?", a: "14-day money-back guarantee. Let us know within 14 days and we refund every penny." },
+          ]}
+        />
 
-        <IndustryGrid />
-        <FinalCta heading={data.headline} body={`${PRICE.setup} setup + ${PRICE.monthly}. Live in 24-48 hours. No contracts.`} />
+        <DarkIndustryGrid />
+        <DarkFinalCta heading={data.headline} body={`${PRICE.setup} setup + ${PRICE.monthly}. Live in 24-48 hours. No contracts.`} />
       </main>
-      <SiteFooter />
-      <MobileBar />
+      <DarkFooter />
+      <DarkMobileBar />
       <div aria-hidden className="h-[76px] md:hidden" />
-    </>
+    </div>
   );
 }

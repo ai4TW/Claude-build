@@ -1,5 +1,6 @@
 "use client";
 
+import type { ReactNode } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ChevronRight, Phone, Plus } from "lucide-react";
@@ -21,10 +22,10 @@ const space = { fontFamily: "var(--font-space-grotesk)" };
 
 export function DarkNav() {
   const LINKS = [
-    { href: "/#how-it-works", label: "How it works" },
-    { href: "/#industries", label: "Industries" },
+    { href: "/how-it-works", label: "How it works" },
+    { href: "/industries", label: "Industries" },
     { href: "/pricing", label: "Pricing" },
-    { href: "/#faq", label: "FAQ" },
+    { href: "/faq", label: "FAQ" },
   ];
   return (
     <header className="sticky top-0 z-40 border-b border-white/10 bg-[#08090f]/90 backdrop-blur-md">
@@ -84,7 +85,7 @@ export function DarkMobileBar() {
 
 export function DarkHowItWorks() {
   return (
-    <section id="how-it-works" className="scroll-mt-20 py-20 lg:py-28">
+    <section className="py-20 lg:py-28">
       <div className="wrap">
         <h2 style={space} className="text-[clamp(1.9rem,1.4rem+2vw,2.7rem)] font-bold leading-[1.07] text-white">
           How it works
@@ -107,7 +108,7 @@ export function DarkHowItWorks() {
 
 export function DarkIndustryGrid() {
   return (
-    <section id="industries" className="scroll-mt-20 border-t border-white/10 py-20 lg:py-28">
+    <section className="border-t border-white/10 py-20 lg:py-28">
       <div className="wrap">
         <div className="max-w-2xl">
           <h2 style={space} className="text-[clamp(1.9rem,1.4rem+2vw,2.7rem)] font-bold leading-[1.07] text-white">
@@ -243,26 +244,45 @@ export function DarkFaqList({ faqs }: { faqs: Faq[] }) {
   );
 }
 
-export function DarkFaqSection() {
+export function DarkFaqSection({
+  faqs = FAQS,
+  heading = "Questions business owners ask",
+}: {
+  faqs?: Faq[];
+  heading?: string;
+}) {
   return (
-    <section id="faq" className="scroll-mt-20 border-t border-white/10 py-20 lg:py-28">
+    <section className="border-t border-white/10 py-20 lg:py-28">
       <div className="wrap grid gap-10 lg:grid-cols-[minmax(0,4fr)_minmax(0,7fr)] lg:gap-16">
         <div>
           <h2 style={space} className="text-[clamp(1.9rem,1.4rem+2vw,2.7rem)] font-bold leading-[1.07] text-white">
-            Questions business owners ask
+            {heading}
           </h2>
           <p className="mt-4 text-white/60">
             Something else on your mind? Call{" "}
             <a href={SITE.phone.href} className="font-semibold text-[#4cd7f6] underline underline-offset-4">{SITE.phone.display}</a>.
           </p>
         </div>
-        <DarkFaqList faqs={FAQS} />
+        <DarkFaqList faqs={faqs} />
       </div>
     </section>
   );
 }
 
-export function DarkFinalCta() {
+export function DarkFinalCta({
+  prelude = "The next missed call is already on its way.",
+  heading = (
+    <>
+      Every missed call is a customer calling{" "}
+      <span className="bg-gradient-to-r from-[#4cd7f6] to-[#d2bbff] bg-clip-text text-transparent">someone else</span>.
+    </>
+  ),
+  body = "Live in 24-48 hours. No contracts. 14-day money-back guarantee.",
+}: {
+  prelude?: string;
+  heading?: ReactNode;
+  body?: string;
+}) {
   return (
     <section className="relative overflow-hidden border-t border-white/10 bg-[#08090f] pt-20 pb-20 text-center lg:pt-28 lg:pb-24">
       <div
@@ -271,12 +291,11 @@ export function DarkFinalCta() {
         style={{ background: "radial-gradient(closest-side, #4cd7f6, #d2bbff, transparent)" }}
       />
       <div className="wrap relative flex flex-col items-center">
-        <p className="text-[15px] font-semibold text-white/50">The next missed call is already on its way.</p>
+        <p className="text-[15px] font-semibold text-white/50">{prelude}</p>
         <h2 style={space} className="mt-5 max-w-3xl text-[clamp(2.6rem,1.3rem+5.4vw,5.5rem)] font-bold leading-[1.04] text-white">
-          Every missed call is a customer calling{" "}
-          <span className="bg-gradient-to-r from-[#4cd7f6] to-[#d2bbff] bg-clip-text text-transparent">someone else</span>.
+          {heading}
         </h2>
-        <p className="mt-6 max-w-md text-[17px] text-white/70">Live in 24-48 hours. No contracts. 14-day money-back guarantee.</p>
+        <p className="mt-6 max-w-md text-[17px] text-white/70">{body}</p>
         <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
           <Link
             href="/pricing"
@@ -315,7 +334,8 @@ export function DarkFooter() {
           title="AllTheCalls"
           links={[
             { href: "/pricing", label: "Pricing" },
-            { href: "/#how-it-works", label: "How it works" },
+            { href: "/how-it-works", label: "How it works" },
+            { href: "/faq", label: "FAQ" },
             { href: "/contact", label: "Contact" },
             { href: "/privacy", label: "Privacy" },
             { href: "/terms", label: "Terms" },
