@@ -1,96 +1,83 @@
 import Link from "next/link";
 import { getAllPosts } from "@/lib/blog";
+import { DarkNav, DarkMobileBar, DarkFooter } from "@/components/dark-sections";
 
 export const metadata = {
   title: "Blog | AllTheCalls",
   description: "Insights, guides, and tools to automate your business and scale faster.",
 };
 
-const DEMO_PHONE = process.env.NEXT_PUBLIC_DEMO_PHONE || "(888) 555-0100";
-const DEMO_PHONE_HREF = process.env.NEXT_PUBLIC_DEMO_PHONE_HREF || "tel:+18885550100";
-
 export default function BlogIndex() {
   const posts = getAllPosts();
 
   return (
-    <div style={{ minHeight: "100vh", backgroundColor: "#fafafa" }}>
-      {/* NAV */}
-      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, background: "rgba(255,255,255,0.9)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", borderBottom: "1px solid #e4e4e7" }}>
-        <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 1.5rem", height: "64px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <Link href="/" style={{ display: "flex", alignItems: "center", textDecoration: "none" }}>
-            <span style={{ fontSize: "20px", fontWeight: 700, color: "#09090b", letterSpacing: "-0.5px" }}>AllTheCalls</span>
-          </Link>
-          <div className="hidden md:flex items-center gap-8 text-sm">
-            <Link href="/blog" style={{ color: "#09090b", textDecoration: "none", fontWeight: 600 }}>Blog</Link>
-            <Link href="/#how-it-works" style={{ color: "#52525b", textDecoration: "none", fontWeight: 500 }}>How it works</Link>
-            <Link href="/#pricing" style={{ color: "#52525b", textDecoration: "none", fontWeight: 500 }}>Pricing</Link>
-          </div>
-          <div className="hidden md:flex items-center gap-4">
-            <a href={DEMO_PHONE_HREF} style={{ fontSize: "14px", color: "#52525b", textDecoration: "none", fontWeight: 500 }}>Call {DEMO_PHONE}</a>
-            <Link href="/onboarding" className="btn-primary" style={{ fontSize: "14px", fontWeight: 600, padding: "8px 16px", borderRadius: "8px", textDecoration: "none" }}>Get Started</Link>
-          </div>
-        </div>
-      </nav>
-
-      <main style={{ paddingTop: "120px", paddingBottom: "120px" }}>
-        <div style={{ maxWidth: "1000px", margin: "0 auto", padding: "0 1.5rem" }}>
-          <div style={{ marginBottom: "64px", textAlign: "center" }}>
-            <h1 style={{ fontSize: "clamp(2.5rem, 5vw, 3.5rem)", fontWeight: 700, color: "#09090b", marginBottom: "16px", letterSpacing: "-0.04em" }}>
+    <div className="bg-[#08090f]">
+      <DarkNav />
+      <main>
+        <section className="py-20 text-center sm:py-24">
+          <div className="wrap max-w-2xl">
+            <h1 style={{ fontFamily: "var(--font-space-grotesk)" }} className="text-[clamp(2.1rem,1.3rem+3vw,3.3rem)] font-bold leading-[1.08] text-white">
               The Automation Playbook
             </h1>
-            <p style={{ color: "#52525b", fontSize: "18px", maxWidth: "600px", margin: "0 auto" }}>
+            <p className="mx-auto mt-4 max-w-xl text-[17px] leading-relaxed text-white/60">
               Actionable guides on AI, automating lead flow, and building a business that runs itself.
             </p>
           </div>
+        </section>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: "32px" }}>
-            {posts.map(post => (
-              <Link href={`/blog/${post.slug}`} key={post.slug} style={{ display: "block", textDecoration: "none", borderRadius: "16px", border: "1px solid #e4e4e7", background: "white", overflow: "hidden", transition: "box-shadow 0.2s" }} className="blog-card">
-                <style>{`
-                  .blog-card:hover {
-                    box-shadow: 0 12px 32px -12px rgba(0,0,0,0.08);
-                  }
-                `}</style>
-                <div style={{ height: "180px", background: "#f4f4f5", display: "flex", alignItems: "center", justifyContent: "center", borderBottom: "1px solid #e4e4e7" }}>
-                   <span style={{ fontSize: "40px" }}>🤖</span>
+        <section className="pb-24">
+          <div className="wrap grid max-w-5xl gap-8" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))" }}>
+            {posts.map((post) => (
+              <Link
+                key={post.slug}
+                href={`/blog/${post.slug}`}
+                className="group block overflow-hidden rounded-[16px] border border-white/10 bg-white/[0.03] transition-colors hover:border-[#4cd7f6]/40"
+              >
+                <div className="flex h-[180px] items-center justify-center border-b border-white/10 bg-white/[0.02]">
+                  <span className="text-[40px]">🤖</span>
                 </div>
-                <div style={{ padding: "24px" }}>
-                  <div style={{ display: "flex", gap: "12px", fontSize: "13px", color: "#71717a", marginBottom: "12px", fontWeight: 500 }}>
+                <div className="p-6">
+                  <div className="mb-3 flex gap-3 text-[13px] font-medium text-white/40">
                     <span>{post.date}</span>
                     <span>•</span>
                     <span>{post.readTime} read</span>
                   </div>
-                  <h2 style={{ fontSize: "20px", fontWeight: 600, color: "#09090b", marginBottom: "12px", lineHeight: 1.3 }}>{post.title}</h2>
-                  <p style={{ color: "#52525b", fontSize: "14px", lineHeight: 1.6, marginBottom: "24px", display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
-                    {post.excerpt}
-                  </p>
-                  <div style={{ fontSize: "14px", fontWeight: 500, color: "#09090b", display: "flex", alignItems: "center" }}>
-                    Read Article <span style={{ marginLeft: "4px" }}>→</span>
+                  <h2 className="mb-3 text-[20px] font-semibold leading-snug text-white">{post.title}</h2>
+                  <p className="mb-6 line-clamp-3 text-[14px] leading-relaxed text-white/60">{post.excerpt}</p>
+                  <div className="flex items-center text-[14px] font-medium text-[#4cd7f6]">
+                    Read Article <span className="ml-1 transition-transform group-hover:translate-x-1">→</span>
                   </div>
                 </div>
               </Link>
             ))}
-            
+
             {posts.length === 0 && (
-              <div style={{ gridColumn: "1 / -1", textAlign: "center", padding: "64px", background: "white", borderRadius: "16px", border: "1px dashed #e4e4e7" }}>
-                <p style={{ color: "#71717a" }}>No articles published yet.</p>
+              <div className="col-span-full rounded-[16px] border border-dashed border-white/15 bg-white/[0.02] p-16 text-center">
+                <p className="text-white/50">No articles published yet.</p>
               </div>
             )}
           </div>
-        </div>
-      </main>
+        </section>
 
-      {/* FOOTER CTA */}
-      <section style={{ padding: "80px 1.5rem", borderTop: "1px solid #e4e4e7", background: "#ffffff", textAlign: "center" }}>
-        <div style={{ maxWidth: "600px", margin: "0 auto" }}>
-          <h2 style={{ fontSize: "2rem", fontWeight: 700, color: "#09090b", marginBottom: "16px" }}>
-            Ready to secure every booking?
-          </h2>
-          <div className="flex justify-center mt-6">
-            <Link href="/onboarding" className="btn-primary" style={{ padding: "14px 32px", borderRadius: "8px", fontWeight: 600, textDecoration: "none" }}>Set up your AI missed-call text-back</Link>
+        <section className="border-t border-white/10 py-20 text-center">
+          <div className="wrap max-w-xl">
+            <h2 style={{ fontFamily: "var(--font-space-grotesk)" }} className="text-[clamp(1.7rem,1.3rem+1.6vw,2.2rem)] font-bold text-white">
+              Ready to secure every booking?
+            </h2>
+            <div className="mt-6 flex justify-center">
+              <Link
+                href="/book"
+                className="flex h-14 items-center rounded-[10px] bg-gradient-to-r from-[#4cd7f6] to-[#d2bbff] px-7 text-[16px] font-bold text-[#08090f] transition-opacity hover:opacity-90"
+              >
+                Set up your AI missed-call text-back
+              </Link>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </main>
+      <DarkFooter />
+      <DarkMobileBar />
+      <div aria-hidden className="h-[76px] md:hidden" />
     </div>
   );
 }

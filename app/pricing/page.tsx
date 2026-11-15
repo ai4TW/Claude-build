@@ -1,11 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Phone } from "lucide-react";
-import { SiteNav, MobileBar } from "@/components/site-nav";
-import { SiteFooter } from "@/components/site-footer";
-import { FaqSection, type Faq } from "@/components/sections";
-import PricingGate from "@/components/PricingGate";
-import { SITE } from "@/lib/site";
+import { DarkNav, DarkMobileBar, DarkFooter, DarkFaqSection, DarkFinalCta } from "@/components/dark-sections";
+import { DarkPricingGate } from "@/components/dark-pricing";
+import type { Faq } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Pricing — AllTheCalls",
@@ -44,61 +41,49 @@ const FAQ: Faq[] = [
 
 export default function PricingPage() {
   return (
-    <>
-      <SiteNav />
+    <div className="bg-[#08090f]">
+      <DarkNav />
       <main>
-        <section className="bg-white py-14 text-center sm:py-20">
+        <section className="py-14 text-center sm:py-20">
           <div className="wrap max-w-3xl">
-            <p className="text-[14px] font-bold tracking-[0.1em] text-brand">
+            <p className="text-[14px] font-bold tracking-[0.1em] bg-gradient-to-r from-[#4cd7f6] to-[#d2bbff] bg-clip-text text-transparent">
               Built for any local business
             </p>
-            <h1 className="display heading-1 mt-4">Every missed call is money walking out the door.</h1>
-            <p className="mx-auto mt-5 max-w-xl text-[17px] leading-relaxed text-ink-soft sm:text-[19px]">
+            <h1 style={{ fontFamily: "var(--font-space-grotesk)" }} className="mt-4 text-[clamp(2.1rem,1.3rem+3vw,3.3rem)] font-bold leading-[1.08] text-white">
+              Every missed call is money walking out the door.
+            </h1>
+            <p className="mx-auto mt-5 max-w-xl text-[17px] leading-relaxed text-white/60 sm:text-[19px]">
               AllTheCalls texts back every missed call in your business name, 24/7, and runs it
               all through a website, branded CRM app, and local SEO built for your business.
             </p>
           </div>
         </section>
 
-        <PricingGate />
+        <DarkPricingGate />
 
         <section className="pb-10">
           <div className="wrap max-w-4xl">
-            <div className="flex flex-col items-center justify-between gap-4 rounded-[16px] border border-line bg-mist p-7 text-center md:flex-row md:text-left">
+            <div className="flex flex-col items-center justify-between gap-4 rounded-[16px] border border-white/10 bg-white/[0.02] p-7 text-center md:flex-row md:text-left">
               <div>
-                <h3 className="text-[17px] font-bold text-ink">Want to see how it'd actually work for your business first?</h3>
-                <p className="mt-1 text-[14px] text-ink-soft">15-minute call. We&rsquo;ll walk through a sample missed call from your business and what the text-back would say.</p>
+                <h3 className="text-[17px] font-bold text-white">Want to see how it&rsquo;d actually work for your business first?</h3>
+                <p className="mt-1 text-[14px] text-white/60">15-minute call. We&rsquo;ll walk through a sample missed call from your business and what the text-back would say.</p>
               </div>
-              <Link href={BOOK_URL} className="btn-secondary h-12 px-5 text-[15px] whitespace-nowrap">
+              <Link
+                href={BOOK_URL}
+                className="flex h-12 items-center whitespace-nowrap rounded-[10px] border border-white/20 px-5 text-[15px] font-semibold text-white hover:border-white/40"
+              >
                 Book a 15-min call
               </Link>
             </div>
           </div>
         </section>
 
-        <div className="bg-mist">
-          <FaqSection faqs={FAQ} heading="Quick answers" />
-        </div>
-
-        <section className="on-dark bg-brand-deep py-16 text-center text-white">
-          <div className="wrap max-w-2xl">
-            <h2 className="display heading-2 text-white">Every missed call is a lead going to someone else.</h2>
-            <p className="mt-4 text-[17px] text-white/85">Live in 24-48 hours. No contracts. 14-day money-back guarantee.</p>
-            <div className="mt-7 flex flex-wrap justify-center gap-3">
-              <a href={SITE.phone.href} className="btn-accent h-14 px-7 text-[17px]">
-                <Phone size={18} aria-hidden />
-                {SITE.phone.display}
-              </a>
-              <Link href={BOOK_URL} className="btn-outline-light h-14 px-7 text-[17px]">
-                Book a 15-min call
-              </Link>
-            </div>
-          </div>
-        </section>
+        <DarkFaqSection faqs={FAQ} heading="Quick answers" />
+        <DarkFinalCta />
       </main>
-      <SiteFooter />
-      <MobileBar />
+      <DarkFooter />
+      <DarkMobileBar />
       <div aria-hidden className="h-[76px] md:hidden" />
-    </>
+    </div>
   );
 }
