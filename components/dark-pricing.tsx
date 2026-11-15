@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Check } from "lucide-react";
+import { Check, ArrowRight } from "lucide-react";
 import { PRICE, SITE } from "@/lib/site";
 
 /**
@@ -69,9 +69,12 @@ export function DarkPricingSection() {
 
           <Link
             href={BOOK_URL}
-            className="flex h-14 w-full items-center justify-center rounded-[10px] bg-gradient-to-r from-[#4cd7f6] to-[#d2bbff] text-[16px] font-bold text-[#08090f] transition-opacity hover:opacity-90"
+            className="flex h-14 w-full items-center justify-center gap-2.5 rounded-full bg-gradient-to-r from-[#4cd7f6] to-[#d2bbff] text-[16px] font-bold text-[#08090f] transition-opacity hover:opacity-90"
           >
             Book your setup call
+            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#08090f]">
+              <ArrowRight size={16} strokeWidth={2.5} className="text-white" aria-hidden />
+            </span>
           </Link>
           <p className="mt-3 text-center text-[12.5px] text-white/50">
             15 minutes · We confirm your business details and get you on the build calendar

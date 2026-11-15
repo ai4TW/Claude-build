@@ -3,7 +3,7 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ChevronRight, Phone, Plus } from "lucide-react";
+import { ArrowRight, ChevronRight, Phone, Plus } from "lucide-react";
 import { INDUSTRIES, SITE } from "@/lib/site";
 import { HOW_IT_WORKS_STEPS, COMPARISON_ROWS, FAQS, type Faq } from "@/lib/content";
 import Reveal from "@/components/reveal";
@@ -299,9 +299,12 @@ export function DarkFinalCta({
         <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
           <Link
             href="/pricing"
-            className="flex h-14 items-center justify-center rounded-[10px] bg-gradient-to-r from-[#4cd7f6] to-[#d2bbff] px-7 text-[17px] font-bold text-[#08090f] shadow-[0_18px_40px_-20px_rgba(76,215,246,0.5)]"
+            className="flex h-14 items-center justify-center gap-2.5 rounded-full bg-gradient-to-r from-[#4cd7f6] to-[#d2bbff] px-7 text-[17px] font-bold text-[#08090f] shadow-[0_18px_40px_-20px_rgba(76,215,246,0.5)]"
           >
             See pricing
+            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#08090f]">
+              <ArrowRight size={17} strokeWidth={2.5} className="text-white" aria-hidden />
+            </span>
           </Link>
           <a href={SITE.phone.href} className="flex h-14 items-center gap-2 rounded-[10px] border border-white/25 px-6 text-[17px] font-semibold text-white">
             <Phone size={18} aria-hidden />

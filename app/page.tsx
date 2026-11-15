@@ -8,6 +8,7 @@ import {
   DarkFooter,
 } from "@/components/dark-sections";
 import Hero3DPhone from "@/components/dark-hero-3d";
+import LiquidLightStage from "@/components/liquid-light-stage";
 import HeroLeadForm from "@/components/hero-lead-form";
 import Reveal from "@/components/reveal";
 import { PRICE, SITE } from "@/lib/site";
@@ -41,11 +42,7 @@ export default function Home() {
       <main>
         {/* HERO */}
         <section className="relative overflow-hidden">
-          <div
-            aria-hidden
-            className="atc-hero-glow pointer-events-none absolute left-1/2 top-[-120px] h-[520px] w-[1000px] -translate-x-1/2 rounded-full opacity-20 blur-3xl"
-            style={{ background: "radial-gradient(closest-side, #4cd7f6, #d2bbff, transparent)" }}
-          />
+          <LiquidLightStage />
           <div className="wrap relative grid gap-8 py-14 sm:gap-10 sm:py-20 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:items-start lg:gap-14 lg:py-24">
             <div className="relative">
               <Hero3DPhone />
@@ -54,9 +51,10 @@ export default function Home() {
               </p>
               <h1
                 style={{ fontFamily: "var(--font-space-grotesk)" }}
-                className="mt-4 text-[clamp(2.3rem,1.3rem+3.4vw,3.9rem)] font-bold leading-[1.08] text-white"
+                className="mt-4 text-[clamp(2.3rem,1.3rem+3.4vw,3.9rem)] leading-[1.08] text-white"
               >
-                Every missed call is money walking out the door.
+                <span className="font-bold">Every missed call</span>{" "}
+                <span className="font-light text-white/70">is money walking out the door.</span>
               </h1>
               <p className="mt-5 max-w-xl text-[17px] leading-relaxed text-white/60 sm:mt-6 sm:text-[19px]">
                 AllTheCalls watches every inbound call to your business and, the moment one goes
@@ -121,17 +119,6 @@ export default function Home() {
       <DarkFooter />
       <DarkMobileBar />
       <div aria-hidden className="h-[76px] md:hidden" />
-
-      <style>{`
-        @keyframes atc-hero-glow-drift {
-          0%, 100% { transform: translate(-50%, 0) scale(1); }
-          50% { transform: translate(-46%, 3%) scale(1.08); }
-        }
-        .atc-hero-glow { animation: atc-hero-glow-drift 14s ease-in-out infinite; }
-        @media (prefers-reduced-motion: reduce) {
-          .atc-hero-glow { animation: none; }
-        }
-      `}</style>
     </div>
   );
 }
