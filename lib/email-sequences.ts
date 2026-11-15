@@ -29,7 +29,7 @@ This isn't a sales pitch. I genuinely want to know what landed for you and what 
 
 If you loved it, let's get you started. If you had a concern, I want to hear it. Maybe we address it in 5 minutes.
 
-Reply to this email. Or start your free trial: https://allthecalls.ai/#pricing
+Reply to this email. Or book your setup call: https://allthecalls.ai/book
 
 The AllTheCalls Team`,
     },
@@ -48,9 +48,9 @@ After seeing the demo, here's what you're actually getting:
 
 Across a month, that's 8+ hours of time you get back. Time you spend closing deals, not chasing missed calls.
 
-$397/month. First 7 days free. You'll know in 3 days if it's working.
+$1,997 setup + $497/mo. No contracts, 14-day money-back guarantee.
 
-Start your free trial: https://allthecalls.ai/#pricing
+Book your setup call: https://allthecalls.ai/book
 
 The AllTheCalls Team`,
     },
@@ -64,11 +64,11 @@ You have everything you need to know. It works. Texts back every missed call, qu
 
 The only question left is: are you doing this?
 
-If yes: 7-day free trial, no credit card. You'll be live by tomorrow.
+If yes: book your setup call and you'll be live this week.
 
 If no: totally fine. But one of your competitors will be live by next week. Thought you should know.
 
-https://allthecalls.ai/#pricing
+https://allthecalls.ai/book
 
 The AllTheCalls Team`,
     },
